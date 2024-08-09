@@ -1,37 +1,11 @@
 # Created by https://www.gitignore.io
 activate.bat
 .idea/
-media
 
 
-celerybeat.pid
-celerybeat-schedule.bak
-celerybeat-schedule.dat
-celerybeat-schedule.dir
-celerybeat-schedule.db
-
-### OSX ###
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must end with two \r
-Icon
 
 
-# Thumbnails
-._*
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
 
 
 ### Python ###
@@ -98,8 +72,7 @@ __pycache__/
 pros_env
 venv
 .env
-db.sqlite3
-filter_prospects/db_connection.py
-/celerybeat-schedule
+
+
 
 .vscode
