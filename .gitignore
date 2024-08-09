@@ -2,7 +2,7 @@
 activate.bat
 .idea/
 media
-prospectx_new/settings.py
+
 
 celerybeat.pid
 celerybeat-schedule.bak
@@ -94,7 +94,6 @@ target/
 *.pot
 *.pyc
 __pycache__/
-local_settings.py
 
 pros_env
 venv
