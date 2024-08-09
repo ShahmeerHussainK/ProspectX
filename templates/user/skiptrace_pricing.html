@@ -1,0 +1,87 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">User</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Skip Trace Pricing</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12 offset-lg-3 col-lg-6">
+                <!-- Nav tabs -->
+                <!-- Tab panes start -->
+                <div class="tab-content">
+                    <!-- Manage Lists tab start-->
+                    <div class="tab-pane active" id="manage-list" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="my_form" action="{% url 'skip_trace_price' data.user.id %}" method="post">{% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Single Skip Trace Price</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">$</div>
+                                                    </div>
+                                                    <input min="0.01" class="form-control" step="any" id="price" name="price" required type="number" value="{{ data.skiptrace_price }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Bulk Skip Trace Price</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">$</div>
+                                                    </div>
+                                                    <input min="0.01" class="form-control" step="any" id="bulk_price" name="bulk_price" required type="number" value="{{ data.bulk_skiptrace_price }}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 text-center">
+                                            <button id="sub_btn" class="btn w-md btn-primary waves-effect waves-light" type="submit">
+                                                Update
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    </div>
+    <!-- content -->
+
+{% block extrajs %}
+
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+
+{% endblock %}

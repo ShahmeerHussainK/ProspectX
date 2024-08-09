@@ -1,0 +1,208 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Manage Emails</h4>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <script>
+                var msg = "";
+            </script>
+            {% if messages %}
+                {% for message in messages %}
+                    <script>
+                        var msg = "{{ message }}";
+                    </script>
+                {% endfor %}
+            {% endif %}
+            <!-- end page-title -->
+            <div class="row">
+                <div class="col-lg-2"></div><!-- end col -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                <script>
+                                    var cont = "{{ email_content }}";
+                                    var cont2 = "{{ email_content2 }}";
+                                </script>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="email_from" class=" col-form-label">Email From</label>
+                                            <input class="form-control" required type="email" placeholder="Email From"
+                                                   id="email_from" name="email_from" value="{{ email_from }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="my-summernote" class=" col-form-label">Email Content</label>
+                                            <textarea class="summernote" id="my-summernote" name="email_content"
+                                                      required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Notes:</label>
+                                            Add Following text in email content for send email with user details. <br/>
+
+                                            (1) %first_name% : For user first name.<br/>
+
+                                            (2) %last_name% : For user last name.<br/>
+
+                                            (3) %email% : For user email.<br/>
+
+                                            (4) %password% : For user password.<br/>
+
+                                            (5) %phone% : For user phone number.<br/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn  btn-primary waves-effect waves-light">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2"></div><!-- end col -->
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" action="send_email">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="email_from" class=" col-form-label">Email From</label>
+                                            <input class="form-control" required type="email" placeholder="Email From"
+                                                   id="email_from" name="email_from">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <label for="email_to" class=" col-form-label">Email To</label>
+                                            <select id="email_to"
+                                                    name="email_to" class="select2 form-control select2-multiple" required
+                                                    multiple="multiple" data-placeholder="Choose ...">
+                                                {% for user in users %}
+                                                    <option value="{{ user.email }}">{{ user.email }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="admin_user_filter" class=" col-form-label">Filter</label>
+                                            <select id="admin_user_filter"
+                                                    name="admin_user_filter"
+                                                    class="select2 form-control admin_user_filter"
+                                                    data-placeholder="Choose ...">
+                                                <option value="all">All Admin Users</option>
+                                                <option value="paid">Paid Users</option>
+                                                <option value="unpaid">Unpaid Users</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="my-summernote2" class=" col-form-label">Email Content</label>
+                                            <textarea class="summernote" id="my-summernote2" name="email_content"
+                                                      required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn  btn-primary waves-effect waves-light">
+                                            Send Email
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extrajs %}
+    <script>
+        $(document).ready(function () {
+            var encodedStr = cont;
+            var parser = new DOMParser;
+            var dom = parser.parseFromString(encodedStr, 'text/html');
+            var decodedString = dom.body.textContent;
+            $("#my-summernote").summernote('code', decodedString);
+
+            encodedStr = cont2;
+            parser = new DOMParser;
+            dom = parser.parseFromString(encodedStr, 'text/html');
+            decodedString = dom.body.textContent;
+            $("#my-summernote2").summernote('code', decodedString);
+
+            $("#admin_user_filter").change(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "/get_admin_users/" + $(this).val() + "/",
+                    success: function (data) { // on success..
+                        console.log(data['users']);
+                        $('#email_to')
+                            .find('option')
+                            .remove();
+                        data['users'].forEach(function (item, index) {
+                            var new_options = "<option value=\"" + item['email'] + "\">" + item['email'] + "</option>";
+                            $('#email_to').append(new_options)
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) { // on error..
+                        var err = JSON.parse(xhr.responseText);
+                        toastr.error(err.message);
+                    },
+                    statusCode: {
+                        404:
+                            function () {
+                                alert("page not found");
+                            }
+                    }
+                });
+            });
+        });
+
+        if (msg === "Email sent successfully!" || msg === "Email content updated successfully!") {
+            toastr.success(msg);
+        } else if (msg) {
+            toastr.error(msg);
+        }
+
+
+    </script>
+
+{% endblock %}
+

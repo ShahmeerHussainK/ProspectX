@@ -1,0 +1,461 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Add Sales</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Add Sales</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="my_form" enctype="multipart/form-data" action="add_sales" method="post">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Deals</label>
+                                    <div class="form-group">
+                                        <select name="deals"  class="form-control select2">
+                                            <option value="" selected>Lead Manager</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Disposition Manager</label>
+                                    <div class="form-group">
+                                        <select name="deals"  class="form-control select2">
+                                            <option value="" selected>Disposition Manager</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Status</label>
+                                    <div class="form-group">
+                                        <select name="status"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="">Pending</option>
+                                            <option value="">Marketing</option>
+                                            <option value="">Schedule and Showing</option>
+                                            <option value="">Follow Up/Offer</option>
+                                            <option value="">Offer Accepted</option>
+                                            <option value="">Assigned</option>
+                                            <option value="">$$$CLOSED$$$</option>
+                                            <option value="">Dead</option>
+                                            <option value="">Renegotiate</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Deadline To ASSIGN!</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="deadline_to_assign" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                <label>Marketing Checklist</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="1_Email_Blast" name="marketing_checklist" value="1-EmailBlast"
+                                                class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="1_Email_Blast">1-Email Blast </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="2_facebook_group" name="marketing_checklist" value="2-facebookgroup"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="2_facebook_group">2-Facebook Groups</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="3_vip_calls" name="marketing_checklist" value="3vipcalls="
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="3_vip_calls">3-Call-VIPs</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="4_mls_cash_buyer/realtor" name="marketing_checklist" value="4-Mls-Cash-Buyer/Realtor"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="4_mls_cash_buyer/realtor">4-Mls-Cash-Buyer/Realtor</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="text_vip_buyers" name="marketing_checklist" value="TextVipBuyers"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="text_vip_buyers">Text VIP Buyers</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Marketing Price</label>
+                                        <div>
+                                            <input placeholder="Enter Marketing Price" required class="form-control"  name="marketing_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Buy NOW Price</label>
+                                        <div>
+                                            <input placeholder="Enter Buy Now Price" required class="form-control"  name="buy_now_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>MLS Price</label>
+                                        <div>
+                                            <input placeholder="Enter MLS Price" required class="form-control"  name="mls_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>COMPS</label>
+                                        <textarea required="" placeholder="Add COMPS" class="form-control summernote" name="comps"> </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>ARV</label>
+                                        <div>
+                                            <input placeholder="Enter ARV" required class="form-control"  name="arv" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Lockbox/Access Info</label>
+                                        <textarea required="" placeholder="Add Lockbox/Access Info" class="form-control summernote" name="lockbox/access_info"> </textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Website / Pictures</label>
+                                        <div>
+                                            <input placeholder="Type Or Paste Web Address" required class="form-control"  name="Website/picture" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Currently Interested</label>
+                                    <div class="form-group">
+                                        <select name="status"  class="form-control select2">
+                                            <option value="" selected>Cash Buyers</option>
+                                            <option value=""></option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>showing Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="showing_date" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="showing_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Set Showing</label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-toggle="toggle" name="set_showing">
+                                            SET
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Notes</label>
+                                        <textarea required="" placeholder="Add Note" class="form-control summernote" name="note"> </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Attending Showing</label>
+                                    <div class="form-group">
+                                        <select name="attending_showing"  class="form-control select2">
+                                            <option value="" selected>Cash Buyers</option>
+                                            <option value=""></option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-6">
+                                    <label>Wait For Refund</label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-toggle="toggle">
+                                            Showing Completed
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-toggle="toggle">
+                                            No Showing Needed
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Accepted Buyer</label>
+                                    <div class="form-group">
+                                        <select name="accepted_buyer"  class="form-control select2">
+                                            <option value="" selected>Cash Buyer</option>
+                                            <option value=""></option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Final Gross Sales Price</label>
+                                        <div>
+                                            <input placeholder="Enter Final Gross Sales Price" required class="form-control"  name="final_gross_sales_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Buyer Entity Name</label>
+                                        <div>
+                                            <input placeholder="Enter Buyer Entity Name" required class="form-control"  name="buyer_entity_name" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Closing Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="closing_date" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="closing_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Finder's Fee</label>
+                                        <div>
+                                            <input placeholder="Enter Finder's Fee" required class="form-control"  name="finder_fee" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Assigned!</label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-toggle="toggle" name="assigned">
+                                            Offer Accepted(Back To Transaction)
+                                        </label>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Email Subject</label>
+                                        <div>
+                                            <input placeholder="Enter Email Subject" required class="form-control"  name="email subject" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Email Content</label>
+                                        <textarea required="" placeholder="Add Note" class="form-control summernote" name="email content"> </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Submitted Offers</label>
+                                    <div class="form-group">
+                                        <select name="submitted offers"  class="form-control select2">
+                                            <option value="no value" selected>no value</option>
+                                            <option value="">Send Email Content Above</option>
+                                            <option value="">Best And Highest</option>
+                                            <option value="">Pending  Property</option>
+                                            <option value="">Sold Property</option>
+
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                <label>Marketing Done</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="marketing_done" name="send_via" value="Marketing Done"
+                                                class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="marketing_done"> Marketing Done </label>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group" style="padding-left: 20px;">
+                                            <label>File</label><br>
+                                            <input id="image" name="image" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <input id="update_btn" class="btn btn-outline-primary waves-effect waves-light" type="submit">
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'm/d/y H:m',
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+  </script>
+
+
+
+<script type="text/javascript">
+$('#my_form').on('submit', function(){
+       $("#sub_btn").hide();
+       $('#sub_btn').delay(2000).show(0);
+});
+
+$(document).ready(function() {
+    $("#hsh_off").hide();
+    $('#resp').hide();
+    $('#tl_units').hide();
+    $('#tch').hide();
+});
+
+$('#planer').on('change', function(){
+    let plan = $('#planer').val();
+    if (plan !== "") {
+        $("#hsh_off").show();
+        $('#resp').show();
+        $('#tl_units').show();
+        $('#tch').show();
+    } else {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    }
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'layouts/basefile/base.html' %}
+<!-- Start content -->
+{% block content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+
+                    <h4 class="page-title">Tasks</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Tasks {{ role }}</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-primary waves-effect waves-light float-right"
+                            onclick="location.href='{% url 'all_tasks_calendar' %}'" type="button">
+                        Calendar View
+                    </button>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+
+                            <table class="table table-border mb-0 custom_sidbar">
+                                <tbody class="custom_task_table">
+                                <tr class="task_custom_title">
+                                    <th class="custom_sidbar_heading">Daily Task <span class="float-right">0</span>
+                                    </th>
+                                </tr>
+                                {% for task in daily_due_tasks %}
+                                <tr>
+                                    {# <img src="" alt="user" #}
+                                            {# class="rounded-circle">#}
+                                    <td>{{ task.assign_to__user__first_name }} <span
+                                            class="float-right">{{ task.task_count }}</span></td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="task_custom_title">
+                                    <th class="custom_sidbar_heading">Past Due Task <span
+                                            class="float-right">{{ past_due_tasks.count }}</span></th>
+                                </tr>
+                                {% for task in past_due_tasks %}
+                                <tr>
+                                    {# <img src="" alt="user" #}
+                                            {# class="rounded-circle">#}
+                                    <td>{{ task.assign_to__user__first_name }} <span
+                                            class="float-right">{{ task.task_count }}</span></td>
+                                </tr>
+                                {% endfor %}
+                                <!-- Next TITLE section -->
+                                <tr class="task_custom_title">
+                                    <th class="custom_sidbar_heading">Future Pending Task <span
+                                            class="float-right">{{ future_pending_tasks|length }}</span>
+                                    </th>
+                                </tr>
+                                {% for task in future_pending_tasks %}
+                                <tr>
+                                    {# <img src="" alt="user" #}
+                                            {# class="rounded-circle">#}
+                                    <td>{{ task.assign_to__user__first_name }} <span
+                                            class="float-right">{{ task.task_count }}</span></td>
+                                </tr>
+                                {% endfor %}
+                                <tr class="task_custom_title">
+                                    <th class="custom_sidbar_heading">Completed Task <span
+                                            class="float-right">{{ completed_tasks|length }}</span></th>
+                                </tr>
+                                {% for task in completed_tasks %}
+                                <tr>
+                                    {# <img src="" alt="user" #}
+                                            {# class="rounded-circle">#}
+                                    <td>{{ task.assign_to__user__first_name }} <span
+                                            class="float-right">{{ task.task_count }}</span></td>
+                                </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <table id="datatable-buttons"
+                               class="task-list-table table table-hover dt-responsive nowrap"
+                               style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Temprature</th>
+                                <th>Is Completed ?</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for task in tasks %}
+                            <tr>
+                                <td class="task-id">{{ task.id }}</td>
+                                <td class="task-title"><a href="#">{{ task.title }}</a></td>
+                                <td>
+                                    <!-- For Cold use below code -->
+                                    {% if task.temperature.temperature_name == "cold" %}
+                                    <span class="text-primary font-12"><i
+                                            class="mdi mdi-checkbox-blank-circle mr-1"></i> Cold</span>
+                                    <!-- For Hot use below code -->
+                                    {% elif task.temperature.temperature_name == "hot" %}
+                                    <span class="text-danger font-12"><i
+                                            class="mdi mdi-checkbox-blank-circle mr-1"></i> Hot</span>
+                                    <!-- For Warm use below code -->
+                                    {% elif task.temperature.temperature_name == "warm" %}
+                                    <span class="text-warm font-12"><i
+                                            class="mdi mdi-checkbox-blank-circle mr-1"></i> Warm</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <!-- For Active use below code -->
+                                    {# {{ task.is_completed }}#}
+                                    {% if task.is_completed == True %}
+                                    <span class="text-success font-12"><i
+                                            class="mdi mdi-checkbox-blank-circle mr-1"></i> Completed</span>
+                                    {% elif task.is_completed == False %}
+                                    <!-- For inactive use below code -->
+                                    <span class="text-danger font-12"><i
+                                            class="mdi mdi-checkbox-blank-circle mr-1"></i> Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ task.start_date_time }}</td>
+                                <td>{{ task.end_date_time }}</td>
+                                <td>
+                                    <div class="" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                data-placement="top" title="" data-original-title="Edit"><i
+                                                class="mdi mdi-grease-pencil"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm"><i
+                                                class="mdi mdi-trash-can-outline"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+</div>
+{% endblock %}

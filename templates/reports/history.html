@@ -1,0 +1,133 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Import History Details</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Import History Details</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+
+                <div class="col-sm-12 col-md-12">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <!-- Import History tab link -->
+                        {% if permissions.access_import_log %}
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#Import-history" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-file-import"></i></span>
+                                    <span class="d-none d-sm-block">Import History</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        <!-- Export History tab link -->
+                        {% if permissions.access_export_log %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if not permissions.access_import_log %} active {% endif %}"
+                                   data-toggle="tab" href="#export-history" role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-file-export"></i></span>
+                                    <span class="d-none d-sm-block">Export History</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <!-- Tab panes start -->
+                    <div class="tab-content">
+                        <!-- Import History tab start-->
+                        {% if permissions.access_import_log %}
+                            <div class="tab-pane active" id="Import-history" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <div class="table-responsive">
+                                            <table id="import_history_datatable"
+                                                   class="import_table table table-hover dt-responsive nowrap"
+                                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Campagin</th>
+                                                    <th>Imported</th>
+                                                    <th>Tagged/Updated</th>
+                                                    <th>Skip Traced</th>
+                                                    <th>Skipped</th>
+                                                    <th>Status</th>
+                                                    <th>Import Option</th>
+                                                    <th>Fail Reason</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="import_data">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        {% endif %}
+                        <!-- Manage Tags tab starts-->
+                        {% if permissions.access_export_log %}
+                            <div class="tab-pane {% if not permissions.access_import_log %} active {% endif %}"
+                                 id="export-history" role="tabpanel">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-sm-12">
+                                                <div class="table-responsive">
+                                                    <table id="export_history_datatable"
+                                                           class="export_table table table-striped dt-responsive nowrap w-100"
+                                                           style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>File Name</th>
+                                                            <th>Status</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                       
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div> <!-- end row -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div> <!-- end col -->
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- content -->
+    </div>
+    <script src="{% static 'assets/js/prospectx/reports.js' %}"></script>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        let conf = {};
+        oreports = new Reports(conf);
+    </script>
+{% endblock %}

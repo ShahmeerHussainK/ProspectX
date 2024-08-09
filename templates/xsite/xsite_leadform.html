@@ -1,0 +1,432 @@
+{% extends 'xsite/base/xsite_base_1.html' %}
+{% load static %}
+{% block content %}
+<!-- Full Page Image Header with Vertically Centered Content -->
+<section class="xsite_lead_form_slider">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-sm-12">
+                <div class=" xsite_lead_form_bg shadow border-custom">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 class="text-center mb-1">Thanks! You're almost done. </h2>
+                            <h2 class="text-center  mb-1">Please tell us a little more about yourself so we can
+                                better assist you. </h2>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="border p-3">
+                                <form class="nobottommargin" name="template-contactform"
+                                      action="{% url 'extra_property_information' site %}"
+                                      method="post">
+                                    {% csrf_token %}
+                                    <h3 class="mb-1">First, tell us a little bit about the property you are
+                                        looking for:</h3>
+                                    <div class="form-process"></div>
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-1">Property Type</label>
+                                        <select name="property_type" class="sm-form-control">
+                                            <option value="Single Family" {% if form.instance.property_type == 'Single Family' %} selected {% endif %}>Single Family</option>
+                                            <option value="Condo" {% if form.instance.property_type == 'Condo' %} selected {% endif %}>Condo</option>
+                                            <option value="Townhouse" {% if form.instance.property_type == 'Townhouse' %} selected {% endif %}>Townhouse</option>
+                                            <option value="Duplex" {% if form.instance.property_type == 'Duplex' %} selected {% endif %}>Duplex</option>
+                                            <option value="Triplex" {% if form.instance.property_type == 'Triplex' %} selected {% endif %}>Triplex</option>
+                                            <option value="Quad" {% if form.instance.property_type == 'Fourplex' %} selected {% endif %}>Fourplex</option>
+                                            <option value="5+ Apartments" {% if form.instance.property_type == '5+ Apartments' %} selected {% endif %}>5+ Apartments</option>
+                                            <option value="Mobile in Park" {% if form.instance.property_type == 'Mobile in Park' %} selected {% endif %}>Mobile in Park</option>
+                                            <option value="Mobile W/ Land" {% if form.instance.property_type == 'Mobile with Land' %} selected {% endif %}>Mobile with Land</option>
+                                            <option value="Modular" {% if form.instance.property_type == 'Modular' %} selected {% endif %}>Modular</option>
+                                            <option value="Commercial" {% if form.instance.property_type == 'Commercial' %} selected {% endif %}>Commercial</option>
+                                            <option value="Land" {% if form.instance.property_type == 'Land' %} selected {% endif %}>Land</option>
+                                            <option value="Other" {% if form.instance.property_type == 'Other' %} selected {% endif %}>Other</option>
+                                        </select>
+                                        {% if form.property_type.errors %}
+                                        <div class="text-danger">
+                                            {{ form.property_type.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_one_fourth mb-1">
+                                        <label class="mb-1 mt-1">Min. Bedrooms:</label>
+                                        <select name="min_bedrooms" class="sm-form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                        </select>
+                                        {% if form.min_bedrooms.errors %}
+                                        <div class="text-danger">
+                                            {{ form.min_bedrooms.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_one_fourth col_last mb-1">
+                                        <label class="mb-1 mt-1">Max. Bedrooms:</label>
+                                        <select name="max_bedrooms" class="sm-form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                        </select>
+                                        {% if form.max_bedrooms.errors %}
+                                        <div class="text-danger">
+                                            {{ form.max_bedrooms.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-1">Style of Property:</label>
+                                        <select name="style_of_property" class="sm-form-control">
+                                            <option>Colonial</option>
+                                            <option>Split Level</option>
+                                            <option>Bungalow</option>
+                                            <option>Cape Cod</option>
+                                            <option>Colonial</option>
+                                            <option>Craftsman</option>
+                                            <option>Contemporary</option>
+                                            <option>Tudor</option>
+                                            <option>Townhouse</option>
+                                            <option>Victorian</option>
+                                        </select>
+                                        {% if form.style_of_property.errors %}
+                                        <div class="text-danger">
+                                            {{ form.style_of_property.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_one_fourth mb-1">
+                                        <label class="mb-1 mt-1">Min. Bathrooms:</label>
+                                        <select name="min_bathrooms" class="sm-form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                        </select>
+                                        {% if form.min_bathrooms.errors %}
+                                        <div class="text-danger">
+                                            {{ form.min_bathrooms.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_one_fourth col_last mb-1">
+                                        <label class="mb-1 mt-1">Max. Bathrooms:</label>
+                                        <select name="max_bathrooms" class="sm-form-control">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
+                                        </select>
+                                        {% if form.max_bathrooms.errors %}
+                                        <div class="text-danger">
+                                            {{ form.max_bathrooms.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="clear"></div>
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-1">Min. Price:</label>
+                                        <input name="min_price" min="0"  type="number" value="{{ form.instance.min_price | default_if_none:'' }}"
+                                               class="sm-form-control required"/>
+                                        {% if form.min_price.errors %}
+                                        <div class="text-danger">
+                                            {{ form.min_price.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_half col_last mb-1">
+                                        <label class="mb-1 mt-1">Max. Price:</label>
+                                        <input type="number" min="0"  name="max_price" value="{{ form.instance.max_price | default_if_none:'' }}"
+                                               class="required sm-form-control"/>
+                                        {% if form.max_price.errors %}
+                                        <div class="text-danger">
+                                            {{ form.max_price.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+<script>
+    var desc ="{{ form.instance.max_price | default_if_none:'' }}";
+</script>
+                                    <div class="col_full col_last mb-1">
+                                        <label class="mb-1 mt-1">Anything else you'd like us to know about your
+                                            ideal home?</label>
+                                        <textarea
+                                                class="required sm-form-control input-block-level short-textarea"
+                                                name="description" rows="4" cols="30"
+                                                placeholder="Descriptions"></textarea>
+                                        {% if form.description.errors %}
+                                        <div class="text-danger">
+                                            {{ form.description.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div class="clear"></div>
+                                    <h3 class="mb-1 mt-1">Next, tell us which areas you are interested in:</h3>
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-1">State</label>
+                                        <input type="text" name="state" value="{{ form.instance.state | default_if_none:'' }}" class="sm-form-control"/>
+                                        {% if form.state.errors %}
+                                        <div class="text-danger">
+                                            {{ form.state.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_half col_last mb-1">
+                                        <label class="mb-1 mt-1"> Zip</label>
+                                        <input type="text" id="zip" name="zip" value="{{ form.instance.zip | default_if_none:'' }}" class="sm-form-control"/>
+                                        {% if form.zip.errors %}
+                                        <div class="text-danger">
+                                            {{ form.zip.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="clear"></div>
+                                    <h3 class="mb-1 mt-1">Would you like notifications?</h3>
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-1">Phone</label>
+                                        <input type="text" id="phone" name="phone" value="{{ form.instance.phone | default_if_none:'' }}" class="sm-form-control"/>
+                                        {% if form.phone.errors %}
+                                        <div class="text-danger">
+                                            {{ form.phone.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+
+                                        <div class="xsite_notifications mt-2">
+                                            <div class="form-check form-check-inline">
+                                                <input name="sms_notifications" class="form-check-input" type="checkbox"
+                                                       id="inlineCheckbox1" value="option1">
+                                                {% if form.sms_notifications.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.sms_notifications.errors | striptags }}
+                                                </div>
+                                                {% endif %}
+                                                <label class="form-check-label" for="inlineCheckbox1">Recieve
+                                                    SMS notifications</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input name="voice_notifications" class="form-check-input"
+                                                       type="checkbox"
+                                                       id="inlineCheckbox2" value="option2">
+                                                {% if form.voice_notifications.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.voice_notifications.errors | striptags }}
+                                                </div>
+                                                {% endif %}
+                                                <label class="form-check-label" for="inlineCheckbox2">Recieve
+                                                    Voice notifications</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="clear"></div>
+                                    <h3 class="mb-1 mt-1">You're almost there! Please tell us a little more
+                                        about your current property search situation:</h3>
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-2">You are planning on buying:</label>
+                                        <select class="form-control" id="TimeFrame" name="buying_plan">
+                                            <option selected="selected">Immediately</option>
+                                            <option>Within 90 days</option>
+                                            <option>3-6 months</option>
+                                            <option>6-12 months</option>
+                                        </select>
+                                        {% if form.buying_plan.errors %}
+                                        <div class="text-danger">
+                                            {{ form.buying_plan.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_half col_last mb-1">
+                                        <label class="mb-1 mt-2">Reason you're buying:</label>
+                                        <select class="form-control" id="ReasonForSelling"
+                                                name="buying_reason">
+                                            <option selected="selected">Current home needs too much work
+                                            </option>
+                                            <option>Work-Income Related</option>
+                                            <option>Looking for Something Smaller</option>
+                                            <option>Looking for Something Bigger</option>
+                                            <option>Looking for Something Newer</option>
+                                            <option>Relationship Change - Married</option>
+                                            <option>Relationship Change - Divorce</option>
+                                            <option>In Foreclosure</option>
+                                            <option>Death in the Family</option>
+                                            <option>Retirement</option>
+                                            <option>Job Relocation</option>
+                                            <option>Lease is Expiring</option>
+                                        </select>
+                                        {% if form.buying_reason.errors %}
+                                        <div class="text-danger">
+                                            {{ form.buying_reason.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-2">You currently (choose one):</label>
+                                        <select class="form-control" id="CurrentRentOwn" name="rent_or_own">
+                                            <option>Rent</option>
+                                            <option>Own</option>
+                                        </select>
+                                        {% if form.rent_or_own.errors %}
+                                        <div class="text-danger">
+                                            {{ form.rent_or_own.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_half col_last mb-1">
+                                        <label class="mb-1 mt-2">You need to sell your current home before you
+                                            can move:</label>
+                                        <select class="form-control" id="NeedToSellOwnHome"
+                                                name="sell_before_moving">
+                                            <option value="yes">Yes</option>
+                                            <option selected="selected" value="no">No</option>
+                                        </select>
+                                        {% if form.sell_before_moving.errors %}
+                                        <div class="text-danger">
+                                            {{ form.sell_before_moving.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-2">How did you hear about us?:</label>
+                                        <select class="form-control" id="Source" name="source">
+                                            <option>Television</option>
+                                            <option>Radio</option>
+                                            <option>Newspaper</option>
+                                            <option>Magazine</option>
+                                            <option>Postcard</option>
+                                            <option>Google</option>
+                                            <option>Yahoo</option>
+                                            <option>Friend</option>
+                                            <option>Other</option>
+                                        </select>
+                                        {% if form.source.errors %}
+                                        <div class="text-danger">
+                                            {{ form.source.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_half col_last mb-1">
+                                        <label class="mb-1 mt-2">How will you finance?:</label>
+                                        <select class="form-control" id="Finance" name="finance">
+                                            <option>Blended Sources</option>
+                                            <option>Cash</option>
+                                            <option>Conventional</option>
+                                            <option>Conventional - Jumbo</option>
+                                            <option>Credit Line</option>
+                                            <option>FHA</option>
+                                            <option>Lease Option</option>
+                                            <option>Hard Money</option>
+                                            <option>Home Equity Line</option>
+                                            <option>Private Lender</option>
+                                            <option>VA</option>
+                                        </select>
+                                        {% if form.finance.errors %}
+                                        <div class="text-danger">
+                                            {{ form.finance.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_half mb-1">
+                                        <label class="mb-1 mt-2">Are you pre-qualified?:</label>
+                                        <select class="form-control" id="PreApproved" name="pre_qualified">
+                                            <option>Pre-Approved</option>
+                                            <option>Pre-Qualified</option>
+                                            <option>Just started the process</option>
+                                            <option>Have not started the process</option>
+                                        </select>
+                                        {% if form.pre_qualified.errors %}
+                                        <div class="text-danger">
+                                            {{ form.pre_qualified.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_half col_last mb-1">
+                                        <label class="mb-1 mt-2">Amount Qualified up to:</label>
+                                        <input type="number" min="0"  name="amount" value="{{ form.instance.amount | default_if_none:'' }}"  class="sm-form-control"/>
+                                        {% if form.amount.errors %}
+                                        <div class="text-danger">
+                                            {{ form.amount.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col_full mb-1">
+                                        <label class="mb-1 mt-2">Down payment available:</label>
+                                        <input type="number" min="0" name="down_payment" value="{{ form.instance.down_payment | default_if_none:'' }}" class="sm-form-control"/>
+                                        {% if form.down_payment.errors %}
+                                        <div class="text-danger">
+                                            {{ form.down_payment.errors | striptags }}
+                                        </div>
+                                        {% endif %}
+
+                                    </div>
+                                    <div class="col_full mb-1 pt-2">
+                                        <button class="button btn-block button-3d nomargin" type="submit"
+                                                id="template-contactform-submit" name="template-contactform-submit"
+                                                value="submit">Get Assistance
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+{% block extrajs %}
+    <script src="{% static 'assets/js/jquery.inputmask.bundle.js' %}"></script>
+    <script>
+     $(document).ready(function () {
+        $('#phone').focus(function () {
+            var mask = "999-999-9999";
+            $(this).inputmask(mask, {"placeholder": ""});
+        });
+
+        $('#zip').focus(function () {
+            var mask = "99999";
+            $(this).inputmask(mask, {"placeholder": ""});
+        });
+    });
+
+    </script>
+{% endblock %}

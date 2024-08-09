@@ -1,0 +1,1860 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/ion-rangeslider/css/ion.rangeSlider.css' %}">
+
+
+<!-- <link href="assets/libs/ion-rangeslider/css/ion.rangeSlider.min.css" rel="stylesheet" type="text/css"/> -->
+
+<!-- <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" /> -->
+
+<!-- <link href="assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" /> -->
+{% endblock %}
+<!-- Start content -->
+{% block content %}
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Prospects Management</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item">Prospects</li>
+                        <!--<li class="breadcrumb-item active">Manage</li>-->
+                    </ol>
+                </div>
+
+                <!--<i class="ion ion-md-list"></i>-->
+
+                <div class="col-sm-6">
+                    <a target="_blank"
+                        class="btn btn-primary waves-effect waves-light float-right ml-1 add_single_prospect_media"
+                        href="http://app.listiva.com/">
+                        <i class="ion ion-md-cash"></i> &nbsp; Purchase List
+                    </a>
+                    <a class="btn btn-primary waves-effect waves-light float-right ml-1 add_single_prospect_media"
+                        href="{% url 'prospects' %}">
+                        <i class="ion ion-md-cloud-upload"></i>&nbsp; Import Prospects
+                    </a>
+                    <a class="btn btn-primary waves-effect waves-light float-right add_single_prospect_media"
+                        href="{% url 'add_new_prospect' %}">
+                        <i class="ion ion-md-add"></i> &nbsp; Add Single Prospect
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+
+        <script>
+            var msg = "{{ message }}";
+            var error_type = "{{ error_type }}";
+        </script>
+        <form action="{% url 'apply_filter' %}" method="post" id="filter-form" autocomplete="off">
+            {% csrf_token %}
+            <div class="row">
+
+                <div class="col-sm-12 col-md-12">
+
+                    <!-- Nav tabs -->
+                    <!--<ul class="nav nav-tabs" role="tablist">-->
+                    <!--<li class="nav-item">-->
+                    <!--<a class="nav-link active"  href="{% url 'filter_page' %}">-->
+                    <!--<span class="d-block d-sm-none"><i class="far fa-pennant"></i></span>-->
+                    <!--<span class="d-none d-sm-block">Filter Prospect</span>-->
+                    <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="nav-item">-->
+                    <!--<a class="nav-link "  href="{% url 'prospects' %}">-->
+                    <!--<span class="d-block d-sm-none"><i class="far fa-calendar-alt"></i></span>-->
+                    <!--<span class="d-none d-sm-block">Import Prospect</span>-->
+                    <!--</a>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                    <div class="card mb-1">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Search Filter Start-->
+                                <div class="col-sm-6 mb-2">
+                                    <!-- Search Filter Button -->
+                                    <!-- Form Start -->
+
+                                    <div class="input-group">
+                                        <input id="input-search" name="search_query" type="text"
+                                            class="form-control lower_input_fields" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button
+                                                class="btn btn-secondary btn-apply-filter serch_filer_icon_color lower_input_fields"
+                                                type="button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+
+                                        <button id="filter-toggle-button"
+                                            class="btn btn-outline-secondary waves-effect waves-light  ml-2 fillter_button_color lower_input_fields"
+                                            type="button">
+                                            Filter
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <!-- Search Filter div to hide and show Starts-->
+                                <div class="col-sm-12 m-2">
+
+                                    <div id="filters-div">
+                                        <!-- <h4 class="mt-0 header-title">Search Lists</h4> -->
+                                        <div class="row">
+                                            <div class="col-sm-2 mt-4">
+                                                <label class="control-label header-title">Search Lists</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mb-0 inputfield_chk">
+                                                            <label class="control-label">Lists:</label>
+
+                                                            <select id="list1" name="list1"
+                                                                class="select2 form-control select2-multiple filtter_page_box_shadow"
+                                                                multiple="multiple" data-placeholder="Choose ...">
+
+                                                                {% for list in com_lists %}
+                                                                <option value="{{ list.id }}">{{ list.list_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <!-- Search Filter radio- btns -->
+                                                        <div class="filter-radio-btns mt-1">
+                                                            <div class="form-check-inline ">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="customRadio1"
+                                                                        name="customRadio-list"
+                                                                        class="custom-control-input " value="in">
+                                                                    <label class="custom-control-label"
+                                                                        for="customRadio1">Included
+                                                                        In</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-check-inline">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="customRadio2"
+                                                                        name="customRadio-list"
+                                                                        class="custom-control-input" checked=""
+                                                                        value="on">
+                                                                    <label class="custom-control-label"
+                                                                        for="customRadio2">Only
+                                                                        On</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mb-0 inputfield_chk">
+                                                            <label class="control-label">Lists:</label>
+                                                            <select id="list2" name="list2"
+                                                                class="select2 form-control select2-multiple"
+                                                                multiple="multiple" data-placeholder="Choose ...">
+                                                                {% for list in com_lists %}
+                                                                <option value="{{ list.id }}">{{ list.list_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <!-- Search Filter radio- btns -->
+                                                        <div class="filter-radio-btns mt-1">
+                                                            <div class="form-check-inline">
+                                                                <div class="custom-control custom-radio ">
+                                                                    <input type="radio" id="customRadio3"
+                                                                        name="customRadio3-exc-list" checked
+                                                                        class="custom-control-input"
+                                                                        value="list-exclude-on">
+                                                                    <label class="custom-control-label"
+                                                                        for="customRadio3">Excluded
+                                                                        If
+                                                                        On</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label">List Count:</label>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mb-1">
+                                                                    <input name="list-count"
+                                                                        class="form-control form-control-lg lower_input_fields"
+                                                                        type="number" value="" placeholder="From">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mb-0">
+                                                                    <input readonly
+                                                                        class="form-control form-control-lg total_result_box_color lower_input_fields"
+                                                                        id="list_count" name="list-count-total"
+                                                                        type="text" value="{{ com_lists.count }}">
+                                                                </div>
+                                                            </div>
+<!--                                                            <div class="col-md-12">-->
+<!--                                                                    <input type="text" id="range_03">-->
+<!--                                                            </div>-->
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border mt-3 mb-3"></div>
+                                        <!-- <h4 class="mt-0 header-title">Search Tags</h4> -->
+                                        <div class="row">
+                                            <div class="col-sm-2 mt-4">
+                                                <label class="control-label header-title">Search Tags</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mb-0 inputfield_chk">
+                                                            <label class="control-label">Tags:</label>
+                                                            <select id="tag1" name="tag1"
+                                                                class="select2 form-control select2-multiple"
+                                                                multiple="multiple" data-placeholder="Choose ...">
+                                                                {% for tag in com_tags %}
+                                                                <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- Search Filter radio- btns -->
+
+                                                        <div class="filter-radio-btns mt-1">
+                                                            <div class="form-check-inline">
+                                                                <div class="custom-control custom-radio ">
+                                                                    <input type="radio" id="customRadio4"
+                                                                        name="customRadio-tag"
+                                                                        class="custom-control-input" value="in">
+                                                                    <label class="custom-control-label"
+                                                                        for="customRadio4">Included
+                                                                        In</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-check-inline">
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="customRadio6"
+                                                                        name="customRadio-tag"
+                                                                        class="custom-control-input" value="on"
+                                                                        checked="">
+                                                                    <label class="custom-control-label"
+                                                                        for="customRadio6">Only
+                                                                        On</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group mb-0 inputfield_chk">
+                                                            <label class="control-label">Tags:</label>
+                                                            <select id="tag2" name="tag2"
+                                                                class="select2 form-control select2-multiple"
+                                                                multiple="multiple" data-placeholder="Choose ...">
+                                                                {% for tag in com_tags %}
+                                                                <option value="{{ tag.id }}">{{ tag.tag_name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <!-- Search Filter radio- btns -->
+                                                        <div class="filter-radio-btns mt-1">
+                                                            <div class="form-check-inline">
+                                                                <div class="custom-control custom-radio ">
+                                                                    <input type="radio" id="customRadio5"
+                                                                        name="customRadio5-exc-tag" checked
+                                                                        class="custom-control-input"
+                                                                        value="tag-exclude-on">
+                                                                    <label class="custom-control-label"
+                                                                        for="customRadio5">Excluded
+                                                                        If
+                                                                        On</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="control-label">Tags Count:</label>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mb-1">
+                                                                    <input name="tag-count"
+                                                                        class="form-control form-control-lg lower_input_fields"
+                                                                        type="number" value="" placeholder="From">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mb-0">
+                                                                    <input
+                                                                        class="form-control form-control-lg total_result_box_color lower_input_fields"
+                                                                        id="tag_count" name="tag-count-total"
+                                                                        type="text" readonly
+                                                                        value="{{ com_tags.count }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+<!--                                                                <input type="text" id="range_04">-->
+                                                        </div>
+                                                        </div>
+                                                        
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border mt-3 mb-3"></div>
+                                        <!-- <h4 class="mt-0 header-title">Filters</h4> -->
+                                        <div class="row">
+                                            <div class="col-sm-2 mt-4">
+                                                <label class="control-label header-title">Filters</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="control-label">Absentee:</label>
+                                                        <select name="absentee"
+                                                            class="form-control custom-select lower_input_fields">
+                                                            <option selected value="">Select</option>
+                                                            <option value="true">Yes</option>
+                                                            <option value="false">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="control-label">Vacancy:</label>
+                                                        <select name="vacant"
+                                                            class="form-control custom-select lower_input_fields">
+                                                            <option selected value="">Select</option>
+                                                            <option value="true">Yes</option>
+                                                            <option value="false">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="control-label">Not Verified address:</label>
+                                                        <select name="skipped"
+                                                            class="form-control custom-select lower_input_fields">
+                                                            <option selected value="">Select</option>
+                                                            <option value="true">Yes</option>
+                                                            <option value="false">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="control-label">Opted Out:</label>
+                                                        <select name="opt-out"
+                                                            class="form-control custom-select lower_input_fields">
+                                                            <option value="Both">Both</option>
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+                                                        </select>
+                                                    </div>
+                                                     <div class="col-md-3">
+                                                        <label class="control-label">Skipped Traced:</label>
+                                                        <select name="skip_traced"
+                                                            class="form-control custom-select lower_input_fields">
+                                                            <option value="Both">Both</option>
+                                                            <option value="yes">Yes</option>
+                                                            <option value="no">No</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="control-label">Use Saved Filters:</label>
+                                                        <select id="page-select-existing-filter"
+                                                            class="form-control custom-select select-existing-filter lower_input_fields">
+                                                            <option value="-1" selected="">Select Existing Filter
+                                                            </option>
+                                                            {% for obj in save_filters %}
+                                                            <option value="{{ obj.id }}">{{ obj.filter_name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border mt-3 mb-3"></div>
+                                        <!-- Optional Field Filters div changed start -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card border border-primary mb-1">
+                                                    <div
+                                                        class="card-header bg-lighten-info text-dark border-info filter_box_search ">
+                                                        <h4 class="mb-0 mt-1 header-title float-left text-white">
+                                                            Optional Field
+                                                            Filters:
+                                                        </h4>
+                                                        <button
+                                                            class="btn btn-sm btn-primary waves-effect waves-light float-right add-filter fillter_butten-color"
+                                                            type="button">
+                                                            <i class="mdi mdi-plus mr-2"></i>Add Filter
+                                                        </button>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="hori-timeline" id="inner_color_bg">
+                                                            <ul name="optional-filter-ul"
+                                                                class="list-inline events optional-ul">
+                                                                <li class="list-inline-item event-list "
+                                                                    id="next_add_filtter">
+                                                                    <div class="event-date">
+
+                                                                        <div class="btn-group optional-filter-radio-btn-circles"
+                                                                            role="group" data-toggle="buttons">
+                                                                            <label id="label-and" for="option-and"
+                                                                                class="btn btn-primary waves-effect optional-filter-button waves-light w-xs active option_and_btn ">
+                                                                                <input type="radio"
+                                                                                    name="options-filter-cond"
+                                                                                    id="option-and" value="and" checked>
+                                                                                AND
+                                                                            </label>
+
+                                                                            <label id="label-or" for="option-or"
+                                                                                class="btn btn-primary waves-effect optional-filter-button waves-light w-xs option_or_button">
+                                                                                <input type="radio"
+                                                                                    name="options-filter-cond"
+                                                                                    id="option-or" value="or"> OR
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="p-2 border border-primary bg-lighten-primary"
+                                                                        id="inner_dessign_box">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <select name="select-key"
+                                                                                    class="form-control custom-select lower_input_fields">
+                                                                                    <option value="-1">Select Field
+                                                                                        to
+                                                                                        Filter
+                                                                                    </option>
+                                                                                    <option value="fullname">
+                                                                                        Full Name
+                                                                                    </option>
+                                                                                    <option value="firstname">
+                                                                                        First Name
+                                                                                    </option>
+                                                                                    <option value="lastname">
+                                                                                        Last Name
+                                                                                    </option>
+                                                                                    <option value="mailingaddress">
+                                                                                        Mailing Address
+                                                                                    </option>
+                                                                                    <option value="mailingaddress2">
+                                                                                        Mailing Address 2
+                                                                                    </option>
+                                                                                    <option value="mailingcity">
+                                                                                        Mailing
+                                                                                        City
+                                                                                    </option>
+                                                                                    <option value="mailingstate">
+                                                                                        Mailing State
+                                                                                    </option>
+                                                                                    <option value="mailingzip">
+                                                                                        Mailing
+                                                                                        Zip
+                                                                                    </option>
+                                                                                    <option value="propertyaddress">
+                                                                                        Property Address
+                                                                                    </option>
+                                                                                    <option value="propertyaddress2">
+                                                                                        Property Address 2
+                                                                                    </option>
+                                                                                    <option value="propertycity">
+                                                                                        Property City
+                                                                                    </option>
+                                                                                    <option value="propertystate">
+                                                                                        Property State
+                                                                                    </option>
+                                                                                    <option value="propertyzip">
+                                                                                        Property Zip
+                                                                                    </option>
+                                                                                    <option value="email">Email
+                                                                                    </option>
+                                                                                    <option value="email2">Email2
+                                                                                    </option>
+                                                                                    <option value="phonelandline">
+                                                                                        Phone Landline
+                                                                                    </option>
+                                                                                    <option value="phonecell">Phone
+                                                                                        Cell
+                                                                                    </option>
+                                                                                    <option value="phoneother">
+                                                                                        Phone Other
+                                                                                    </option>
+                                                                                    <option value="phone1">
+                                                                                        phone1
+                                                                                    </option>
+                                                                                    <option value="phone2">
+                                                                                        phone2
+                                                                                    </option>
+                                                                                    <option value="phone3">
+                                                                                        phone3
+                                                                                    </option>
+                                                                                    <option value="phone4">
+                                                                                        phone4
+                                                                                    </option>
+                                                                                    <option value="phone5">
+                                                                                        phone5
+                                                                                    </option>
+                                                                                    <option value="phone6">
+                                                                                        phone6
+                                                                                    </option>
+                                                                                    <option value="phone7">
+                                                                                        phone7
+                                                                                    </option>
+                                                                                    <option value="phone8">
+                                                                                        phone8
+                                                                                    </option>
+                                                                                    <option value="phone9">
+                                                                                        phone9
+                                                                                    </option>
+                                                                                    <option value="phone10">
+                                                                                        phone10
+                                                                                    </option>
+                                                                                    <option value="custome1">
+                                                                                        {{ custom1 }}
+                                                                                    </option>
+                                                                                    <option value="custome2">
+                                                                                        {{ custom2 }}
+                                                                                    </option>
+                                                                                    <option value="custome3">
+                                                                                        {{ custom3 }}
+                                                                                    </option>
+                                                                                    <option value="custome4">
+                                                                                        {{ custom4 }}
+                                                                                    </option>
+                                                                                    <option value="custome5">
+                                                                                        {{ custom5 }}
+                                                                                    </option>
+                                                                                    <option value="custome6">
+                                                                                        {{ custom6 }}
+                                                                                    </option>
+                                                                                    <option value="custome7">
+                                                                                        {{ custom7 }}
+                                                                                    </option>
+                                                                                    <option value="custome8">
+                                                                                        {{ custom8 }}
+                                                                                    </option>
+                                                                                    <option value="custome9">
+                                                                                        {{ custom9 }}
+                                                                                    </option>
+                                                                                    <option value="custome10">
+                                                                                        {{ custom10 }}
+                                                                                    </option>
+                                                                                    <option value="notes">Notes
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <select name="select-con"
+                                                                                    class="form-control custom-select lower_input_fields">
+                                                                                    <option value="contains">
+                                                                                        contains
+                                                                                    </option>
+                                                                                    <option value="not_contains">
+                                                                                        doesn't
+                                                                                        contain
+                                                                                    </option>
+                                                                                    <option value="is_empty">is
+                                                                                        empty
+                                                                                    </option>
+                                                                                    <option value="is_not_empty">is
+                                                                                        not
+                                                                                        empty
+                                                                                    </option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <div class="form-group mb-0">
+                                                                                    <input name="select-val"
+                                                                                        class="form-control form-control-md lower_input_fields"
+                                                                                        type="text">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Optional Field Filters div changed end-->
+                                        <div class="row">
+                                            <div class="col-md-12 mt-2">
+                                                <button
+                                                    class="btn btn-primary waves-effect waves-light float-right clear-all-filters"
+                                                    type="button">
+                                                    Clear All Filter
+                                                </button>
+                                                <button id="btn-apply-filter"
+                                                    class="btn btn-primary waves-effect waves-light float-right mr-2 btn-apply-filter"
+                                                    type="button">
+                                                    Filter
+                                                </button>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- Search Filter div to hide and show End-->
+                            </div><!-- end row -->
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Select Options Buttons Start-->
+                                <div class="col-sm-9  col-md-8 mb-2">
+                                    <div class="select-option-btn btn-group filters-select-action">
+                                        <button type="button"
+                                            class="btn btn-primary waves-effect waves-light dropdown-toggle btn-select-action"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Select Options
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item select-type" value="select_visible"
+                                                style="cursor: pointer;">Select Visible</a>
+                                            <a class="dropdown-item select-type" value="select_all"
+                                                style="cursor: pointer;">Select All</a>
+                                            <a class="dropdown-item select-type" value="deselect_all"
+                                                style="cursor: pointer;">Deselect All</a>
+                                        </div>
+
+                                    </div>
+                                    <span class="select-option-btn-results mt-2 ml-4 mr-4">
+                                        0 Selected Records
+                                    </span>
+                                    <div class="select-option-btn btn-group ">
+                                        <button type="button"
+                                            class="btn btn-outline-info d-none  waves-effect waves-light dropdown-toggle action-btn"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Action
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" data-toggle="modal" data-target=".bs-modal-list"
+                                                style="cursor: pointer;">Create List</a>
+                                            <a class="dropdown-item" data-toggle="modal" data-target=".bs-modal-tag"
+                                                action="add_tags" style="cursor: pointer;">Add
+                                                Tags</a>
+                                            <a class="dropdown-item selected-action" action="export_to_excel"
+                                                style="cursor: pointer;">Export To Excel</a>
+                                            <a class="dropdown-item selected-action" action="opt_out"
+                                                style="cursor: pointer;">Opt Out</a>
+                                            <a class="dropdown-item selected-action" action="delete"
+                                                style="cursor: pointer;">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Select Options Buttons End-->
+                                <div class="col-sm-3 col-md-4 mb-2">
+                                    <button class="btn btn-primary waves-effect waves-light float-right " type="button"
+                                        data-toggle="modal" data-target=".bs-example-modal-save-filter">
+                                        Save Filter
+                                    </button>
+                                </div>
+                            </div><!-- end row -->
+                            <!-- Filter datatable Start-->
+                            {#                            <table id="filterdatatable-buttons">#}
+
+
+                            <table id="filters-result-table" class="table table-hover dt-responsive nowrap mytable"
+                                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Mailing Full Address</th>
+                                        <th>Property Full Address</th>
+                                        <th>List Count</th>
+                                        <th>Tags</th>
+                                        <th>Sequence</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                            </table>
+                            <!-- search-formFilter datatable End-->
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+                {% include 'filter_prospects/_save_filter_partial.html' %}
+
+                {% include 'filter_prospects/_save_list_partial.html' %}
+
+
+                {% include 'filter_prospects/_save_tag_partial.html' %}
+
+            </div>
+        </form>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+</div>
+<!-- Delete Prospect Modal Popup -->
+<div class="modal fade" id="delete_prospect_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm
+                    Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this prospect permanently?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+                <button id="btn_delete_prospect" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PROSPECT INFORMATION Modal Popup -->
+<div id="view_deatils_modal" class="modal fade prospect-information-modal" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">PROSPECT INFORMATION </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="view_details_modal_form" method="post" action="#">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card border border-secondary">
+                                <div class="card-header border-primary ">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h6 class="mb-0 mt-2">
+                                                Details</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button id="personal_info_btn"
+                                                class="btn btn-sm w-md btn-primary waves-effect waves-light float-right personal_info_btn"
+                                                type="submit">
+                                                Submit
+                                            </button>
+                                            <button id="personal_info_edit_btn"
+                                                class="btn w-md btn-sm btn-primary waves-effect waves-light float-right personal_info_edit_btn"
+                                                type="button">
+                                                Edit
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- VIEW PERSONAL INFO DIV END DIV START -->
+                                    <div id="personal_info_div" class="row personal_info_div">
+
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Name:</label>
+                                                <small class="text-muted view_details_name"> </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Mailing
+                                                    Address:</label>
+                                                <small class="text-muted view_details_mailing_address">
+                                                    604 W 14th St
+                                                    Florence, AZ
+                                                    85132-9522 </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Property
+                                                    Address:</label>
+                                                <small class="text-muted view_details_property_address">
+                                                    509 S Avenue D
+                                                    San Manuel, AZ
+                                                    85631-1303 </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>Email:</label>
+                                                <small class="text-muted view_details_email">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>Email2:</label>
+                                                <small class="text-muted view_details_email2">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>Phone
+                                                    Landline:</label>
+                                                <small class="text-muted view_details_phone_landline">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Cell Phone
+                                                    Number:</label>
+                                                <small class="text-muted view_details_phone_cell">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Other Phone
+                                                    Number:</label>
+                                                <small class="text-muted view_details_phone_other">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 1:</label>
+                                                <small class="text-muted view_details_phone_1">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 2:</label>
+                                                <small class="text-muted view_details_phone_2">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 3:</label>
+                                                <small class="text-muted view_details_phone_3">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 4:</label>
+                                                <small class="text-muted view_details_phone_4">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 5:</label>
+                                                <small class="text-muted view_details_phone_5">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 6:</label>
+                                                <small class="text-muted view_details_phone_6">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 7:</label>
+                                                <small class="text-muted view_details_phone_7">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 8:</label>
+                                                <small class="text-muted view_details_phone_8">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 9:</label>
+                                                <small class="text-muted view_details_phone_9">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Phone 10:</label>
+                                                <small class="text-muted view_details_phone_10">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom1 }}:</label>
+                                                <small class="text-muted view_details_custom1">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom2 }}:</label>
+                                                <small class="text-muted view_details_custom2">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom3 }}:</label>
+                                                <small class="text-muted view_details_custom3">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom4 }}:</label>
+                                                <small class="text-muted view_details_custom4">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom5 }}:</label>
+                                                <small class="text-muted view_details_custom5">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom6 }}:</label>
+                                                <small class="text-muted view_details_custom6">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom7 }}:</label>
+                                                <small class="text-muted view_details_custom7">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom8 }}:</label>
+                                                <small class="text-muted view_details_custom8">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom9 }}:</label>
+                                                <small class="text-muted view_details_custom9">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>{{ customfields.custom10 }}:</label>
+                                                <small class="text-muted view_details_custom10">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="control-value">
+                                                <label>Vacancy:</label>
+                                                <small class="text-muted view_details_vacancy">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="control-value">
+                                                <label>Notes:</label>
+                                                <small class="text-muted view_details_notes">
+                                                    EMPTY </small>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox"
+                                                        class="custom-control-input view_details_optout"
+                                                        id="customCheck3" disabled readonly>
+                                                    <label class="custom-control-label" for="customCheck3">Opt
+                                                        Out</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input view_details_dnc"
+                                                        id="customCheck2" disabled readonly>
+                                                    <label class="custom-control-label" for="customCheck2">Dnc</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!--  VIEW PERSONAL INFO DIV END -->
+                                    <!-- FORM EDIT DIV START -->
+                                    <div id="personal_info_edit_div" class="row personal_info_edit_div">
+                                        {#                                            <div class="col-sm-6">#}
+                                        {#                                                <div class="form-group">#}
+                                        {#                                                    <label class="control-label">Select#}
+                                        {#                                                        List</label>#}
+                                        {#                                                    <select name="list_obj"#}
+                                        {#                                                            class="form-control listss"#}
+                                        {#                                                            required>#}
+                                        {#                                                        <option value="">Select List</option>#}
+                                        {#                                                        {% for list in lists %}#}
+                                        {#                                                            <option value="{{ list.pk }}">{{ list }}</option>#}
+                                        {#                                                        {% endfor %}#}
+                                        {#                                                    </select>#}
+                                        {#                                                </div>#}
+                                        {#                                            </div>#}
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Full Name</label>
+                                                <div>
+                                                    <input name="fullname" type="text"
+                                                        class="form-control edit_fullname"
+                                                        placeholder="Enter your full name" autocomplete="on">
+                                                    {% if form.fullname.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.fullname.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>First Name</label>
+                                                <div>
+                                                    <input name="firstname" type="text"
+                                                        class="form-control edit_firstname"
+                                                        placeholder="Enter your first  name" autocomplete="on">
+                                                    {% if form.firstname.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.firstname.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Last Name</label>
+                                                <div>
+                                                    <input name="lastname" type="text"
+                                                        class="form-control edit_lastname"
+                                                        placeholder="Enter your last name" autocomplete="on">
+                                                    {% if form.lastname.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.lastname.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label> Mailing
+                                                    Address </label>
+                                                <div>
+                                                    <input name="mailingaddress" type="text"
+                                                        class="form-control edit_mailingaddress"
+                                                        placeholder="Enter address" autocomplete="on">
+                                                    {% if form.mailingaddress.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingaddress.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Mailing Address
+                                                    2</label>
+                                                <div>
+                                                    <input name="mailingaddress2" type="text"
+                                                        class="form-control edit_mailingaddress2"
+                                                        placeholder="Enter address" autocomplete="on">
+                                                    {% if form.mailingaddress2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingaddress2.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Mailing City</label>
+                                                <div>
+                                                    <input name="mailingcity" type="text"
+                                                        class="form-control edit_mailingcity" placeholder="Enter city"
+                                                        autocomplete="on">
+                                                    {% if form.mailingcity.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingcity.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Mailing State</label>
+                                                <div>
+                                                    <input name="mailingstate" type="text"
+                                                        class="form-control edit_mailingstate" placeholder="Enter state"
+                                                        autocomplete="on">
+                                                    {% if form.mailingstate.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingstate.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Mailing Zip</label>
+                                                <div>
+                                                    <input id="mailingzip" name="mailingzip" type="text"
+                                                        class="form-control edit_mailingzip" placeholder="Enter zip"
+                                                        autocomplete="on">
+                                                    {% if form.mailingzip.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingzip.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label> Property
+                                                    Address </label>
+                                                <div>
+                                                    <input name="propertyaddress" type="text"
+                                                        class="form-control edit_propertyaddress" required=""
+                                                        placeholder="Enter property address" autocomplete="on" readonly>
+                                                    {% if form.propertyaddress.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertyaddress.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Property Address
+                                                    2</label>
+                                                <div>
+                                                    <input name="propertyaddress2" type="text"
+                                                        class="form-control edit_propertyaddress2"
+                                                        placeholder="Enter property address" autocomplete="on">
+                                                    {% if form.propertyaddress2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertyaddress2.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Property City</label>
+                                                <div>
+                                                    <input name="propertycity" type="text"
+                                                        class="form-control edit_propertycity" required=""
+                                                        placeholder="Enter property city" autocomplete="on">
+                                                    {% if form.propertycity.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertycity.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Property
+                                                    State</label>
+                                                <div>
+                                                    <input name="propertystate" type="text"
+                                                        class="form-control edit_propertystate" required=""
+                                                        placeholder="Enter property state" autocomplete="on">
+                                                    {% if form.propertystate.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertystate.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Property Zip</label>
+                                                <div>
+                                                    <input id="propertyzip" name="propertyzip" type="text"
+                                                        class="form-control edit_propertyzip" required=""
+                                                        placeholder="Enter property zip" autocomplete="on">
+                                                    {% if form.propertyzip.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertyzip.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <div>
+                                                    <input name="email" type="text" class="form-control edit_email"
+                                                        placeholder="Enter email" autocomplete="on">
+                                                    {% if form.email.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.email.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Email 2</label>
+                                                <div>
+                                                    <input name="email2" type="text" class="form-control edit_email2"
+                                                        placeholder="Enter email" autocomplete="on">
+                                                    {% if form.email2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.email2.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone
+                                                    Landline</label>
+                                                <div>
+                                                    <input id="phonelandline" name="phonelandline" type="text"
+                                                        class="form-control edit_phonelandline"
+                                                        placeholder="Enter phone landline" autocomplete="on">
+                                                    {% if form.phonelandline.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phonelandline.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Cell Phone
+                                                    Number</label>
+                                                <div>
+                                                    <input class="form-control edit_phone" type="tel" placeholder=""
+                                                        id="phone" name="phone">
+                                                    <input type="hidden" placeholder="" id="phonecell"
+                                                        class="edit_phonecell" name="phonecell">
+                                                    <input type="hidden" placeholder="" id="is_validated"
+                                                        class="edit_is_validated" name="is_validated" value="valid">
+                                                    {% if form.phonecell.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phonecell.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Other Phone
+                                                    Number</label>
+                                                <div>
+                                                    <input id="phoneother" name="phoneother" type="text"
+                                                        class="form-control edit_phoneother"
+                                                        placeholder="Enter other phone number" autocomplete="on">
+                                                    {% if form.phoneother.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phoneother.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 1:</label>
+                                                <div>
+                                                    <input id="phone1" name="phone1" type="text"
+                                                        class="form-control edit_phone1" placeholder="Enter phone1"
+                                                        autocomplete="on">
+                                                    {% if form.phone1.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone1.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 2:</label>
+                                                <div>
+                                                    <input id="phone2" name="phone2" type="text"
+                                                        class="form-control edit_phone2" placeholder="Enter phone2"
+                                                        autocomplete="on">
+                                                    {% if form.phone2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone2.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 3:</label>
+                                                <div>
+                                                    <input id="phone3" name="phone3" type="text"
+                                                        class="form-control edit_phone3" placeholder="Enter phone3"
+                                                        autocomplete="on">
+                                                    {% if form.phone3.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone3.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 4:</label>
+                                                <div>
+                                                    <input id="phone4" name="phone4" type="text"
+                                                        class="form-control edit_phone4" placeholder="Enter phone4"
+                                                        autocomplete="on">
+                                                    {% if form.phone4.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone4.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 5:</label>
+                                                <div>
+                                                    <input id="phone5" name="phone5" type="text"
+                                                        class="form-control edit_phone5" placeholder="Enter phone5"
+                                                        autocomplete="on">
+                                                    {% if form.phone5.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone5.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 6:</label>
+                                                <div>
+                                                    <input id="phone6" name="phone6" type="text"
+                                                        class="form-control edit_phone6" placeholder="Enter phone6"
+                                                        autocomplete="on">
+                                                    {% if form.phone6.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone6.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 7:</label>
+                                                <div>
+                                                    <input id="phone7" name="phone7" type="text"
+                                                        class="form-control edit_phone7" placeholder="Enter phone7"
+                                                        autocomplete="on">
+                                                    {% if form.phone7.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone7.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 8:</label>
+                                                <div>
+                                                    <input id="phone8" name="phone8" type="text"
+                                                        class="form-control edit_phone8" placeholder="Enter phone8"
+                                                        autocomplete="on">
+                                                    {% if form.phone8.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone8.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 9:</label>
+                                                <div>
+                                                    <input id="phone9" name="phone9" type="text"
+                                                        class="form-control edit_phone9" placeholder="Enter phone9"
+                                                        autocomplete="on">
+                                                    {% if form.phone9.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone9.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Phone 10:</label>
+                                                <div>
+                                                    <input id="phone10" name="phone10" type="text"
+                                                        class="form-control edit_phone10" placeholder="Enter phone10"
+                                                        autocomplete="on">
+                                                    {% if form.phone10.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone10.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom1 }}</label>
+                                                <div>
+                                                    <input name="custome1" type="text"
+                                                        class="form-control edit_custome1" placeholder="Enter test1"
+                                                        autocomplete="on">
+                                                    {% if form.custome1.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome1.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom2 }}</label>
+                                                <div>
+                                                    <input name="custome2" type="text"
+                                                        class="form-control edit_custome2" placeholder="Enter custom 2"
+                                                        autocomplete="on">
+                                                    {% if form.custome2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome2.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom3 }}</label>
+                                                <div>
+                                                    <input name="custome3" type="text"
+                                                        class="form-control edit_custome3" placeholder="Enter custom 3"
+                                                        autocomplete="on">
+                                                    {% if form.custome3.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome3.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom4 }}</label>
+                                                <div>
+                                                    <input name="custome4" type="text"
+                                                        class="form-control edit_custome4" placeholder="Enter custom 4"
+                                                        autocomplete="on">
+                                                    {% if form.custome4.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome4.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom5 }}</label>
+                                                <div>
+                                                    <input name="custome5" type="text"
+                                                        class="form-control edit_custome5" placeholder="Enter custom 5"
+                                                        autocomplete="on">
+                                                    {% if form.custome5.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome5.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom6 }}</label>
+                                                <div>
+                                                    <input name="custome6" type="text"
+                                                        class="form-control edit_custome6" placeholder="Enter custom 6"
+                                                        autocomplete="on">
+                                                    {% if form.custome6.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome6.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom7 }}</label>
+                                                <div>
+                                                    <input name="custome7" type="text"
+                                                        class="form-control edit_custome7" placeholder="Enter custom 7"
+                                                        autocomplete="on">
+                                                    {% if form.custome7.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome7.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom8 }}</label>
+                                                <div>
+                                                    <input name="custome8" type="text"
+                                                        class="form-control edit_custome8" placeholder="Enter custom 8"
+                                                        autocomplete="on">
+                                                    {% if form.custome8.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome8.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom9 }}</label>
+                                                <div>
+                                                    <input name="custome9" type="text"
+                                                        class="form-control edit_custome9" placeholder="Enter custom 9"
+                                                        autocomplete="on">
+                                                    {% if form.custome9.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome9.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>{{ customfields.custom10 }}</label>
+                                                <div>
+                                                    <input name="custome10" type="text"
+                                                        class="form-control edit_custome10"
+                                                        placeholder="Enter custom 10" autocomplete="on">
+                                                    {% if form.custome10.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome10.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Vacancy</label>
+                                                <div>
+                                                    <input name="vacant" type="text" class="form-control edit_vacant"
+                                                        placeholder="Enter vacancy" autocomplete="on">
+                                                    {% if form.vacant.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.vacant.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>Notes</label>
+                                                <textarea id="notes" name="notes"
+                                                    class="form-control edit_notes"></textarea>
+                                                {% if form.notes.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.notes.errors | striptags }}
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input name="opt_out" type="checkbox"
+                                                        class="custom-control-input edit_opt_out" id="customCheck4">
+                                                    <label class="custom-control-label" for="customCheck4">Opt
+                                                        Out</label>
+                                                    {% if form.opt_out.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.opt_out.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input name="donotcall" type="checkbox"
+                                                        class="custom-control-input edit_donotcall" id="customCheck5">
+                                                    <label class="custom-control-label" for="customCheck5">Dnc</label>
+                                                    {% if form.donotcall.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.donotcall.errors | striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- FORM EDIT DIV END -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card border border-secondary">
+                                <div class="card-header border-primary ">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h6 class="mb-0 mt-2">List</h6>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group mb-0">
+                                                <select name="list_obj2"
+                                                    class="form-control custom-select prospect_info_list form-control-sm list_count"
+                                                    required>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table prospect_info_stats table-hover data-responsive nowrap"
+                                        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                        <tbody>
+                                            <tr>
+                                                <th><strong>Cold Call
+                                                        Pending: </strong> <small
+                                                        class="text-primary font-14 Cold_Call_Pending pull"> </small>
+                                                </th>
+                                                <th><strong>Cold Call
+                                                        Sent:</strong><small
+                                                        class="text-primary font-14 Cold_Call_Sent"> </small></th>
+                                            </tr>
+                                            <tr>
+                                                <th><strong>Direct Mail
+                                                        Pending:</strong><small
+                                                        class="text-primary font-14 Direct_Mail_Pending"> </small></th>
+                                                <th><strong>Direct Mail
+                                                        Sent:</strong><small
+                                                        class="text-primary font-14 Direct_Mail_Sent"> </small></th>
+                                            </tr>
+                                            <tr>
+                                                <th><strong>Voice Broadcast
+                                                        Pending:</strong><small
+                                                        class="text-primary font-14 Voice_Broadcast_Pending"> </small>
+                                                </th>
+                                                <th><strong>Voice Broadcast
+                                                        Sent:</strong><small
+                                                        class="text-primary font-14 Voice_Broadcast_Sent"> </small></th>
+                                            </tr>
+                                            <tr>
+                                                <th><strong>RVM
+                                                        Pending:</strong><small
+                                                        class="text-primary font-14 RVM_Pending"> </small></th>
+                                                <th><strong>RVM
+                                                        Sent:</strong><small class="text-primary font-14 RVM_Sent">
+                                                    </small></th>
+                                            </tr>
+                                            <tr>
+                                                <th><strong>SMS
+                                                        Pending:</strong><small
+                                                        class="text-primary font-14 SMS_Pending"> </small></th>
+                                                <th><strong>SMS
+                                                        Sent:</strong><small class="text-primary font-14 SMS_Sent">
+                                                    </small></th>
+                                            </tr>
+                                            <tr>
+                                                <th><strong>Email
+                                                        Pending:</strong><small
+                                                        class="text-primary font-14 Email_Pending"> </small></th>
+                                                <th><strong>Email Sent:</strong><small
+                                                        class="text-primary font-14 Email_Sent"> </small></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-sm table-hover data-responsive ">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list_data">
+                                        </tbody>
+                                    </table>
+
+                                    <h6 class="mb-1 mt-2">Tags</h6>
+                                    <table class="table table-sm table-hover data-responsive ">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tag_data">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </form>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<!-- PROSPECT INFORMATION Modal Popup -->
+
+
+<!-- Delete List Modal Popup -->
+<div class="modal hide fade" id="deletelistModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm
+                    Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove this list permanently?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+                <button id="modaldeletelist" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Tag Modal Popup -->
+<div class="modal hide fade" id="deletetagModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm
+                    Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to remove this tag permanently?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                </button>
+                <button id="modaldeletetag" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'filter_prospects/_partial_show_sequences.html' %}
+{% endblock %}
+
+{% block extrajs %}
+<!-- <script src="{% static 'assets/js/jquery.min.js' %}"></script> -->
+
+<script>
+//        $(document).ready(function () {
+//     $("#range_01").ionRangeSlider({
+//         skin: "modern"
+//     });
+// });
+ 
+    let conf = {
+        custom_fields: {
+            custome1: "{{ custom1 }}",
+            custome2: "{{ custom2 }}",
+            custome3: "{{ custom3 }}",
+        },
+        csrf_token: '{{csrf_token}}'
+    };
+    // filters
+    ofilters = new Filters(conf);
+    ofilters_act = new Filters_Action(conf);
+
+    var intl = $('.edit_phone').intlTelInput(
+        {
+            // {#separateDialCode: true,#}
+            autoFormat: true,
+            defaultCountry: "auto",
+            utilsScript: "{% static 'assets/js/utils.js' %}"
+        });
+</script>
+{% endblock %}

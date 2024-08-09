@@ -1,0 +1,388 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Major Market</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Major Market</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <div class="row">
+
+            <!--settings partial sidebar-->
+            {% include 'partials/settings_sidebar.html' %}
+
+            <div class="col-sm-9 col-md-9 col-lg-10">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'campaign_settings' %}">
+                            <i class="fas fa-bullhorn non_selected_icon"></i> &nbsp;Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="{% url 'major_markets' %}">
+                            <i class="fas fa-people-carry selected_icon"></i> &nbsp;Major Markets
+                        </a>
+                    </li>
+                </ul>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div id="list__field_btn" class="col-sm-12">
+                                <a type="button" data-toggle="modal" data-target=".bs-example-modal-center" href="#" class="btn btn-primary btn-sm waves-effect waves-light float-right mb-2 mr-2">
+                                    <i class="mdi mdi-plus"></i> Add Market
+                                </a>
+
+                            </div>
+                        </div> <!-- end row -->
+                        <div id="list_table">
+                            <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th class="mrk">Market</th>
+                                        <th>State</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for lists in data %}
+                                        <tr>
+                                            <td>{{ lists.id }}</td>
+                                            <td><a href="#" class="btn btn-block btn-sm btn-primary btn_wrap_content">{{ lists.title }}</a></td>
+                                            <td class="mrk">{{ lists.market }}</td>
+                                            <td>{{ lists.state }}</td>
+                                            <td>{{ lists.created_at }}</td>
+                                            <td>
+                                                <div class=" " role="group"
+                                                    aria-label="Basic example">
+
+                                                    <a href="#" onclick="set_id('{{lists.id}}', '{{lists.title}}', '{{lists.market}}', '{{lists.state}}')" type="button" class="btn btn-primary btn-sm"
+                                                       data-toggle="modal" data-target=".bs-example-modal-center-custom"
+                                                    data-placement="top" title="" data-original-title="Edit"><i
+                                                        class="mdi mdi-grease-pencil"></i></a>
+                                                    <button type="button" list-id="{{ lists.id }}" class="btn btn-danger btn-sm list-delete"><i
+                                                            class="mdi mdi-trash-can-outline"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                   {% endfor %}
+                                </tbody>
+                            </table>
+
+                         </div>
+
+                    </div>
+
+                </div>
+                    </div>
+                  </div>
+        <!-- container-fluid -->
+
+        <div class="row">
+            <div id="major_modal" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0"> Market</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="major_market_form">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <div>
+                                            <input maxlength="50" id="mark_title" name="mark_title" type="text" class="form-control"
+                                                required="" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Market</label>
+                                        <div>
+                                            <input maxlength="45" value="" id="market" name="market" type="text" class="form-control"
+                                                required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label> State </label>
+                                        <div>
+                                            <input maxlength="2" id="state" name="state" type="text" class="form-control"
+                                                required="" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <button id="create_major_mark"
+                                        class="btn btn-primary waves-effect waves-light"
+                                        type="submit">
+                                        Create Market
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </form>
+                        </div><!-- /.modal-content -->
+
+
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+
+        <!-- update Modal Popup -->
+        <div class="row">
+            <div id="customModel" class="modal fade bs-example-modal-center-custom" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0">Update Market</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form onsubmit="custom_submit()" method="post">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <div>
+                                            <input maxlength="50" id="mark_title_edit" name="mark_title_edit" type="text" class="form-control"
+                                                required="" value="">
+                                            <input type="hidden" id="hid_id" name="hid_id">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>Market</label>
+                                        <div>
+                                            <input maxlength="45" value="" id="market_edit" name="market_edit" type="text" class="form-control"
+                                                required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label> State </label>
+                                        <div>
+                                            <input maxlength="2" id="state_edit" name="state_edit" type="text" class="form-control"
+                                                required="" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <button id="create_major_mark_edit"
+                                        class="btn btn-primary waves-effect waves-light"
+                                        type="submit">
+                                        Update Market
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </form>
+                        </div><!-- /.modal-content -->
+
+
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+
+        <!--delte market model-->
+        <div class="modal fade" id="deleteListModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Confirm!
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to delete this List?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-dark waves-effect waves-light"
+                                                    data-dismiss="modal">No</button>
+                                                <a id="delete-list" class="btn btn-outline-danger waves-effect waves-light btn-ok">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+    </div>
+    </div>
+    <!-- content -->
+
+{% block extrajs %}
+
+<script type="text/javascript">
+toastr.options = {
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+};
+$('#market_href').addClass('active');
+
+$(document).on('click', '.list-delete', function(){
+    selected_list = $(this).attr('list-id');
+    url = window.location.origin + '/marketing/del_market/' + selected_list;
+    $('#delete-list').attr("href", url);
+
+    $('#deleteListModal').modal('show');
+});
+
+$(window).on('load', function() {
+    let loc = window.location.href;
+    if (loc.indexOf("major_markets") >= 0) {
+        $('#market_href').addClass('active');
+        $('.mrk').width("20%");
+    }
+});
+
+function set_id(id, title, market, state){
+    $('#mark_title_edit').val(title),
+    $('#market_edit').val(market),
+    $('#state_edit').val(state),
+    $('#hid_id').val(id);
+}
+$(document).on('submit', '#major_market_form', function(e){
+    e.preventDefault();
+
+    var data = {
+          mark_title : $('#mark_title').val(),
+          market : $('#market').val(),
+          state : $('#state').val(),
+      };
+
+    $.ajax({
+         type: "POST",
+         url: window.location.origin+"/marketing/major_market",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+             if(result.status==200)
+             {
+                $('#major_modal').modal('toggle');
+                location.reload();
+             }
+             else {
+                toastr.error(result.message, 'Market Exists');
+             }
+         },
+         error: function ( result) {
+             toastr.error(result.message, 'There is some Error!');
+         }
+      });
+});
+
+
+function custom_submit (e) {
+    var data = {
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+      title : $("#mark_title_edit").val(),
+      market : $("#market_edit").val(),
+      state : $("#state_edit").val(),
+      id : $('#hid_id').val(),
+    };
+
+    $.ajax({
+         type: "POST",
+         url: window.location.origin+"/marketing/update_market",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+            if(result.status==200)
+             {
+                $('#customModel').modal('hide');
+                location.reload();
+             }
+             else {
+                toastr.error(result.message, 'Error');
+             }
+         },
+         error: function (result)
+         {
+            toastr.error(result.message, 'Error');
+         }
+    });
+}
+
+function show_details(id) {
+    console.log("id is: ",id)
+    var data = {
+      id : id,
+    };
+
+    $.ajax({
+         type: "POST",
+         url: window.location.origin+"/view_list",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+         if(result.status==200)
+         {
+            $("#heading_id").text(result.list_data.name)
+            $("#title").val(result.list_data.name)
+            $("#created_by").val(result.list_data.created_by)
+            $("#plan").val(result.list_data.list_status)
+            $("#hash_off").val(result.list_data.import_data)
+            $("#temperature").val(result.list_data.update_option)
+            $("#distribution_status").val(result.list_data.list_pull_everyday)
+            $("#approval").val(result.list_data.pulled_status)
+            $("#scheduled_plan_for").val(result.list_data.pull_date)
+            $('#viewModal').modal('show');
+         }
+         else
+         {
+            alert("There is some error")
+            $('#viewModal').modal('show');
+
+         }
+       }
+    });
+}
+
+
+</script>
+{% endblock %}
+
+
+{% endblock %}

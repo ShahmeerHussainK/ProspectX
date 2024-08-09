@@ -1,0 +1,107 @@
+<!-- Sve Filter Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade bs-example-modal-save-filter" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Add To Filter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btn-md mb-2" data-toggle="modal"
+                                    data-target=".existing-filter-modal">Select Existing
+                                Filter
+                            </button>
+                            <button type="button" class="btn btn-primary btn-md mb-2" data-toggle="modal"
+                                    data-target=".create-filter-modal"> Create New Filter
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+</div> <!-- end col -->
+<!-- Select Existing Filter Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade existing-filter-modal" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Select Filter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <select class="form-control custom-select save-filer-partial-select" id="select-existing-save-filter">
+                                <option value="-1" selected="">Select Existing Filter</option>
+                                {% for obj in save_filters %}
+                                    <option value="{{ obj.id }}">{{ obj.filter_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <button class="btn btn-primary waves-effect waves-light btn-save-filter"
+                                    id="btn-save-filter-old"
+                                    type="button">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+</div> <!-- end col -->
+
+<!-- Create New Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade create-filter-modal" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Create New Filter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="control-label">Filter Name</label>
+                            <input id="new-save-filter-name" class="form-control form-control-md"
+                                   type="text">
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <button class="btn btn-primary waves-effect waves-light btn-save-filter"
+                                    id="btn-save-filter-new"
+                                    type="button">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div> <!-- end col -->

@@ -1,0 +1,697 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+    {% load static %}
+
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-12"><a href="{% url 'seller_list' %}">
+                        <h4 class="page-title">Seller Lead</h4>
+                    </a>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">View Seller Lead</li>
+                        </ol>
+                    </div>
+
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="my_form" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Seller Name</label>
+                                            <div>
+                                                <input readonly value="{{ seller_name |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="seller_name"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lead Manager</label>
+                                            <div>
+                                                <input readonly value="{{ lead_manager |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="lead_manager"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Seller Phone</label>
+                                            <div>
+                                                <input readonly value="{{ seller_phone |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="seller_phone"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Seller Email</label>
+                                            <div>
+                                                <input readonly value="{{ seller_email |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="seller_email"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Property Address</label>
+                                            <div>
+                                                <input readonly value="{{ property_address_map |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="property_address_map" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Date</label>
+                                            <div>
+                                                <input readonly value="{{ date |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="date"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>stage Of Contact</label>
+                                            <div>
+                                                <input readonly value="{{ stage_of_contact |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="stage_of_contact" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lead Status</label>
+                                            <div>
+                                                <input readonly value="{{ lead_status |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="lead_status"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Temperature</label>
+                                            <div>
+                                                <input readonly value="{{ temperature |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="temperature"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Follow Up Specific Date</label>
+                                            <div>
+                                                <input readonly value="{{ follow_up_specific_date |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="follow_up_specific_date" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Follow Up In...</label>
+                                            <div>
+                                                <input readonly value="{{ follow_up_in |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="follow_up_in"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Set Specific Follow Up</label>
+                                            <div>
+                                                <input readonly value="{{ set_specific_follow_up |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="set_specific_follow_up" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Need Skip?</label>
+                                            <div>
+                                                <input readonly value="{{ need_skip |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="need_skip"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>INFO</label>
+                                            <div>
+                                                <input readonly value="{{ info |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="info"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Nurture Campaign</label>
+                                            <div>
+                                                <input readonly value="{{ nurture_campaign |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="nurture_campaign" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Nurture Campaign Action</label>
+                                            <div>
+                                                <input readonly value="{{ nurture_campaign_action |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="nurture_campaign_action" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Occupancy</label>
+                                            <div>
+                                                <input readonly value="{{ occupancy |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="occupancy"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Mortgage Amount</label>
+                                            <div>
+                                                <input readonly value="{{ mortgage_amount |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="mortgage_amount" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Asking Price</label>
+                                            <div>
+                                                <input readonly value="{{ asking_price |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="asking_price"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Best Call Back Time</label>
+                                            <div>
+                                                <input readonly value="{{ best_call_back_time |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="best_call_back_time" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Miscellaneous Notes</label>
+                                            <div>
+                                                <input readonly value="{{ miscellaneous_notes |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="miscellaneous_notes" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Details (Condition, Reason for Selling, How soon they want to
+                                                sell)</label>
+                                            <div>
+                                                <input readonly value="{{ details |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="details"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Get Data From Total View</label>
+                                            <div>
+                                                <input readonly value="{{ get_data_from_total_view |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="get_data_from_total_view" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>HOA?</label>
+                                            <div>
+                                                <input readonly value="{{ hoa |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="hoa"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>sqft</label>
+                                            <div>
+                                                <input readonly value="{{ sqft |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="sqft"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lot Size</label>
+                                            <div>
+                                                <input readonly value="{{ lot_size |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="lot_size"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Property Type</label>
+                                            <div>
+                                                <input readonly value="{{ property_type |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="property_type"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Year Built</label>
+                                            <div>
+                                                <input readonly value="{{ year_built |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="year_built"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Tax Assessment</label>
+                                            <div>
+                                                <input readonly value="{{ tax_assessment |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="tax_assessment" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Year Assessed</label>
+                                            <div>
+                                                <input readonly value="{{ year_assessed |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="year_assessed"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Property Value(Total View)</label>
+                                            <div>
+                                                <input readonly value="{{ property_value |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="property_value" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Potential Offer</label>
+                                            <div>
+                                                <input readonly value="{{ potential_offer |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="potential_offer" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>ARV</label>
+                                            <div>
+                                                <input readonly value="{{ arv |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="arv"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>MAO</label>
+                                            <div>
+                                                <input readonly value="{{ mao |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="mao"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>MAO Details</label>
+                                            <div>
+                                                <input readonly value="{{ mao_details |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="mao_details"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Offer Range</label>
+                                            <div>
+                                                <input readonly value="{{ offer_range |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="occupancy"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Made Offer</label>
+                                            <div>
+                                                <input readonly value="{{ made_offer |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="made_offer"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Offer Status</label>
+                                            <div>
+                                                <input readonly value="{{ offer_status |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="offer_status"
+                                                       type="text">
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Set Appointment</label>
+                                            <div>
+                                                <input readonly value="{{ set_appointment |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="set_appointment" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Canceled Appointment</label>
+                                            <div>
+                                                <input readonly value="{{ canceled_appointment |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="canceled_appointment" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Appointment date</label>
+                                            <div>
+                                                <input readonly value="{{ app_date |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="app_start"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Contract Offer Amount</label>
+                                            <div>
+                                                <input readonly value="{{ contract_offer_amt |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="contract_offer_amt" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Title Company</label>
+                                            <div>
+                                                <input readonly value="{{ title_company |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="title_company" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>EMD</label>
+                                            <div>
+                                                <input readonly value="{{ emd |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="emd"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Closing Cost</label>
+                                            <div>
+                                                <input readonly value="{{ closing_costs |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="closing_costs"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Closing (# Days)</label>
+                                            <div>
+                                                <input readonly value="{{ closing_no_day |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="closing_no_day"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>To Vacate On</label>
+                                            <div>
+                                                <input readonly value="{{ to_vacate_on |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="to_vacate_on"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Other Terms</label>
+                                            <div>
+                                                <input readonly value="{{ other_terms |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="other_terms"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Note For Agent</label>
+                                            <div>
+                                                <input readonly value="{{ note_for_agent |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="note_for_agent"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Deal Action</label>
+                                            <div>
+                                                <input readonly value="{{ deal_action |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="deal_action"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Contract Delivery</label>
+                                            <div>
+                                                <input readonly value="{{ contract_delivery |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="contract_delivery" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Contract Action</label>
+                                            <div>
+                                                <input readonly value="{{ contract_action |stringformat:'s' }}"
+                                                       placeholder="" class="form-control"
+                                                       name="contract_action" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lead By</label>
+                                            <div>
+                                                <input readonly value="{{ lead_by |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="lead_by"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lead Source</label>
+                                            <div>
+                                                <input readonly value="{{ lead_source |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="lead_source"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lead Status</label>
+                                            <div>
+                                                <input readonly value="{{ deal_status |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="deal_status"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Campaign</label>
+                                            <div>
+                                                <input readonly value="{{ campaign |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="campaign"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Major Market</label>
+                                            <div>
+                                                <input readonly value="{{ major_market |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="major_market"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Actions</label>
+                                            <div>
+                                                <input readonly value="{{ actions |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="actions"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Deal Details from Acq/Agent </label>
+                                            <div>
+                                                <input readonly value="{{ deal_details |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="deal_details"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Detailed Source</label>
+                                            <div>
+                                                <input readonly value="{{ detailed_source |stringformat:'s' }}"
+                                                       placeholder="" class="form-control" name="detailed_source"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+        <div class="col-md-2"></div>
+    </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+    <!-- content -->
+    <!--datetime picker css-->
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+
+    {% block extrajs %}
+        <!--//datetime picker new for market planer-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+                integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+        <script>
+            $(function () {
+                $(".datetimepicker").datetimepicker({
+                    format: 'm/d/y H:m',
+                });
+
+                $("#datepicker1").datetimepicker({
+                    format: 'm/d/y',
+                });
+            });
+        </script>
+
+
+
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="http://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900" rel="stylesheet"
+		type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/bootstrap.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/style.css' %}" type="text/css" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/css/dark.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/font-icons.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/animate.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/magnific-popup.css' %}" type="text/css" />
+
+	<!-- Bootstrap Switch CSS -->
+	<link rel="stylesheet" href="{% static 'xsite_template/css/components/bs-switches.css' %}" type="text/css" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/css/responsive.css' %}" type="text/css" />
+	<meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
+
+	<!-- Seo Demo Specific Stylesheet -->
+	<link rel="stylesheet" href="{% static 'xsite_template/css/colors.php?color=FE9603' %}" type="text/css" /> <!-- Theme Color -->
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_three/css/fonts.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_three/template_three.css' %}" type="text/css" />
+	<!-- / -->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158292791-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-158292791-1');
+      gtag('send', 'pageview', location.pathname);
+    </script>
+
+    {% block extracss %}
+	{% endblock %}
+
+	<!-- Document Title
+	============================================= -->
+	<title>Xsite</title>
+
+</head>
+
+<body class="stretched">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+        {% block content %}
+        {% endblock %}
+
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- External JavaScripts
+	============================================= -->
+	<script src="{% static 'xsite_template/js/jquery.js' %}"></script>
+	<script src="{% static 'xsite_template/js/plugins.js' %}"></script>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="{% static 'xsite_template/js/functions.js' %}"></script>
+
+	<script>
+
+		jQuery(document).ready(
+			function active_class_function(e) {
+				var elems = document.querySelector(".current");
+				if (elems !== null) {
+					elems.classList.remove("current");
+				}
+				e.target.className = "current	";
+			}
+		);
+
+	</script>
+
+	{% block extrajs %}
+	{% endblock %}
+
+</body>
+
+</html>

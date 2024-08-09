@@ -1,0 +1,285 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title"><a href="{% url 'buyerlist'%}">Cash Buyer</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">View Cash Buyer</li>
+                    </ol>
+                </div>
+
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="my_form" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                            <div class="row">
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Buyer Name</label>
+                                        <div>
+                                            <input readonly value="{{buyer_name|stringformat:'s'}}" placeholder="" required class="form-control"  name="buyer_name" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Entity Name</label>
+                                        <div>
+                                            <input readonly value="{{entity_name|stringformat:'s' }}" placeholder="" required class="form-control"  name="entity_name" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <div>
+                                            <input readonly value="{{phone_number|stringformat:'s' }}" placeholder="" required class="form-control"  name="phone_number" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Buyer Email </label>
+                                        <div>
+                                            <input readonly value="{{email|stringformat:'s' }}" placeholder="" required class="form-control"  name="buyer_email" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Realtor Name</label>
+                                        <div>
+                                            <input readonly value="{{realtor_name|stringformat:'s' }}" placeholder="" required class="form-control"  name="realtor_name" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>  VIP Buyer</label>
+                                        <div>
+                                            <input readonly value="{{VIP|stringformat:'s' }}" placeholder="" required class="form-control"  name="vip" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Needs Update</label>
+                                        <div>
+                                            <input readonly value="{{needs_updating|stringformat:'s' }}" placeholder="" required class="form-control"  name="need_updating" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Active</label>
+                                        <div>
+                                            <input readonly value="{{active|stringformat:'s' }}" placeholder="" required class="form-control"  name="active" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Target Area</label>
+                                        <div>
+                                            <input readonly value="{{target_area|stringformat:'s' }}" placeholder="" required class="form-control"  name="target_area" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Asset Class</label>
+                                        <div>
+                                            <input readonly value="{{asset_class|stringformat:'s' }}" placeholder="" required class="form-control"  name="asset_class" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Type Of Investor</label>
+                                        <div>
+                                            <input readonly value="{{type_of_investor|stringformat:'s' }}" placeholder="" required class="form-control"  name="type_of_investor" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Price Point</label>
+                                        <div>
+                                            <input readonly value="{{price_point|stringformat:'s' }}" placeholder="" required class="form-control"  name="price_point" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Minimum Return Requirement</label>
+                                        <div>
+                                            <input readonly value="{{minimum_return_requirement|stringformat:'s' }}" placeholder="" required class="form-control"  name="minimum_return_requirement" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Annual Volume</label>
+                                        <div>
+                                            <input readonly value="{{annual_volume|stringformat:'s' }}" placeholder="" required class="form-control"  name="annual_volume" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Financing Type</label>
+                                        <div>
+                                            <input readonly value="{{financing_type|stringformat:'s' }}" placeholder="" required class="form-control"  name="financingtype" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Office Address</label>
+                                        <div>
+                                            <input readonly value="{{office_address|stringformat:'s' }}" placeholder="" required class="form-control"  name="office_address" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Notes</label>
+                                        <div>
+
+                                            <input readonly class="form-control" value="{{notes|stringformat:'s' }}"  name="notes" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Additional Notes</label>
+                                        <div>
+                                            <input readonly value="{{additional_notes|stringformat:'s' }}" placeholder="" required class="form-control"  name="additional_notes" type="text">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                            <!--<div class="col-sm-12">-->
+                                <!--<div>-->
+                                    <!--<label>uploaded img </label><br>-->
+                                    <!--<image  id="file" name="file" src="{{file}}" width="300" height="300">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> <!-- end col -->
+    <div class="col-md-2"></div>
+</div> <!-- end row -->
+
+</div>
+<!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'm/d/y H:m',
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+  </script>
+
+
+
+<script type="text/javascript">
+$('#my_form').on('submit', function(){
+       $("#sub_btn").hide();
+       $('#sub_btn').delay(2000).show(0);
+});
+
+$(document).ready(function() {
+    $("#hsh_off").hide();
+    $('#resp').hide();
+    $('#tl_units').hide();
+    $('#tch').hide();
+});
+
+$('#planer').on('change', function(){
+    let plan = $('#planer').val();
+    if (plan !== "") {
+        $("#hsh_off").show();
+        $('#resp').show();
+        $('#tl_units').show();
+        $('#tch').show();
+    } else {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    }
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

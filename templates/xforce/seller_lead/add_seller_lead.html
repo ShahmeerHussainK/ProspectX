@@ -1,0 +1,1271 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content xforce_steps">
+    <div id="loader_id" class="loading"></div>
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <!-- <div class="row align-items-center">
+                <div class="col-md-12"><a href="{% url 'seller_list' %}">
+                    <h4 class="page-title">Seller Leads</h4></a>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href=""><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        {% if edit == 'yes' %}
+                            <li class="breadcrumb-item active">Edit Seller Leads</li>
+                        {% else %}
+                            <li class="breadcrumb-item active">Add Seller Leads</li>
+                        {%endif %}
+                    </ol>
+                </div>
+            </div>   -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body buyer_form">
+                        <div class="row">
+                            <div class="col-md-4">
+                               <div class="xforce_apps_headings">
+                                   <a href="{% url 'seller_list' %}" class="btn btn-primary w-md">
+                                       <!-- <i class="mdi mdi-chevron-left"></i>  -->
+                                    Back</a> 
+                                   </div> 
+                            </div>
+                            <div class="col-md-4">
+                                {% if is_edit %}
+                                <h3 class="xforce-title text-center">Edit Seller Leads</h3>
+                                <input type="hidden" value="yes" id="edit_handler" sid={{data.id}}>
+                                {% else %}
+                                <h3 class="xforce-title text-center">Add New Seller Leads</h3>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <form  id="seller_form" class="seller_leads_form_tabs seller_leads_form_adjust" method="post" action="" enctype="multipart/form-data" >
+                            {% csrf_token %}
+                            <!--<div  id="seller_form" class="form-horizontal form-wizard-wrapper">-->
+                                <h3>Seller Information</h3>
+                                <fieldset id="aqs">
+                                    <div class="row" id="elemdiv">
+                                       <!-- <div class="col-md-12">
+                                            <label class="required_info"><span class="text-danger font-16">*</span> These fields are required.</label>
+                                        </div> -->
+                                        <input hidden type="" name="" id="l_id" {% if attempt != None %} value="{{ attempt }}"{% endif %}>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Seller Name <span class="text-danger">*</span></label>
+                                                    <!-- <div class="form-label-group">
+                                                        <input type="email" id="inputEmail" class="form-control" placeholder="Email" required="" autofocus="">
+                                                        <label for="inputEmail">Email address</label>
+                                                    </div> -->
+                                                <div>
+                                                    <input placeholder="Name" class="form-control required" id="seller_name" name="seller_name" required type="text"
+                                                           {% if data.seller_name != None %}value="{{ data.seller_name|stringformat:'s' }}"{% endif %}>
+                                                     {% if errors %}
+                                                     <div id="seller_name_errors" class="text-danger">
+                                                         {{ errors.seller_name }}
+                                                     </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Seller Phone Number <span class="text-danger"> *</span></label>
+                                                <div>
+                                                    <input placeholder="Phone Number"  class="form-control required" id="seller_phone" name="seller_phone" required type="text"
+                                                           {% if data.seller_phone != None %}value="{{ data.seller_phone|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="seller_phone_errors" class="text-danger">
+                                                         {{ errors.seller_phone }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Seller Email <span class="text-danger">*</span></label>
+                                                <div>
+                                                    <input placeholder="Email"  class="form-control required" id="seller_email" name="seller_email" required type="text"
+                                                           {% if data.seller_email != None %}value="{{ data.seller_email|stringformat:'s' }}"{% endif %}>
+                                                    <!-- <label class="mb-0"><small
+                                                                    class="text-muted">(required)</small></label> -->
+                                                     {% if errors %}
+                                                     <div id="seller_email_errors" class="text-danger">
+                                                         {{ errors.seller_email }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if is_edit %}
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Lead Manager</label>
+                                            <div class="form-group">
+<!--                                                {% if lead_manager %}disabled {% endif %}-->
+                                                <select name="lead_manager"  id="lead_manager" class="form-control wizard_select2">
+                                                    <option value="" selected>Select</option>
+                                                    {% for user in users %}
+                                                    <option value="{{ user.id }}" {% if lead_manager == user %}selected {% endif %}>{{ user.first_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <!-- <label class="mb-0"><small
+                                                                    class="text-muted">(required)</small></label> -->
+                                                {% if errors %}
+                                                     <div id="lead_manager_errors" class="text-danger">
+                                                         {{ errors.lead_manager }}
+                                                     </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Property Address <span class="text-danger">*</span></label>
+                                                <div>
+                                                    <input placeholder="Address"  class="form-control required" id="property_address_map" name="property_address_map" required type="text"
+                                                           {% if data.property_address_map != None %}value="{{ data.property_address_map|stringformat:'s' }}"{% endif %}>
+                                                    <!-- <label class="mb-0"><small
+                                                                    class="text-muted">(required)</small></label> -->
+                                                    {% if errors %}
+                                                     <div id="property_address_map_errors" class="text-danger">
+                                                         {{ errors.property_address_map }}
+                                                     </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Mailing Address</label>
+                                                <div>
+                                                    <input placeholder="Address"  class="form-control" id="mailing_address" name="mailing_address" type="text"
+                                                          {% if data.mailing_address != None %}value="{{ data.mailing_address|stringformat:'s' }}"{% endif %}>
+                                                    <!-- <label class="mb-0"><small
+                                                                    class="text-muted">(required)</small></label> -->
+                                                    {% if errors %}
+                                                     <div id="mailing_address_errors" class="text-danger">
+                                                         {{ errors.mailing_address }}
+                                                     </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+<!--                                        <div class="col-md-12 mb-2">-->
+<!--                                            <button class="seller_details_btn btn-sm btn btn-primary waves-effect waves-light" type="button">Add More Details</button>-->
+<!--                                        </div>-->
+                                        <div class="col-md-12">
+                                            <div class="seller_details_div shadow-sm"></div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <h3>Lead Status</h3>
+                                <fieldset>
+                                    <div class="row">
+                                         
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Follow Up on Specific Date</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group date" data-target-input="nearest">
+                                                        <input  class="form-control datetimepicker_sellerlead"  name="follow_up_specific_date" id="follow_up_specific_date" type="text" autocomplete="off"
+                                                                {% if data.follow_up_specific_date   != None %}value="{{ data.follow_up_specific_date |stringformat:'s' }}"{% endif %}>
+                                                        {% if errors %}
+                                                            <div id="follow_up_specific_date_errors" class="text-danger">
+                                                                {{ errors.follow_up_specific_date }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="set_specific_follow_up" name="set_specific_follow_up"
+                                                            {% if data.set_specific_follow_up %}checked{% endif %}>
+                                                        Specific Follow Up
+                                                    </label>
+
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" data-toggle="toggle"  name="need_skip" id="need_skip"
+                                                            {% if data.need_skip %}checked{% endif %}>
+                                                        Need Skip?
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Follow up in...</label>
+                                            <div class="form-group">
+                                                <select name="follow_up_in" id="follow_up_in" class="form-control wizard_select2">
+                                                    {% for follow_up in follow_up_in %}
+                                                    <option value="{{ follow_up }}" {% if data.follow_up_in == follow_up %}selected{% endif %}>{{ follow_up }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Lead Status</label>
+                                            <div class="form-group">
+                                                <select name="lead_status" id="lead_status"  class="form-control wizard_select2">
+                                                    {% for status in lead_status %}
+                                                    <option value="{{ status }}" {% if data.lead_status == status %}selected{% endif %}>{{ status }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-xl-3 col-lg-4 col-md-4  ">
+                                            <label>Nurture Campaign</label>
+                                            <div class="form-group">
+                                                <select name="nurture_campaign" id="nurture_campaign" class="form-control wizard_select2">
+                                                    <option value="" selected>Select</option>
+                                                    {% for follow in follow_up %}
+                                                    <option value="{{ follow.id }}" {% if nurture_campaign == follow %}selected{% endif %}>{{ follow.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            
+
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row"> 
+                                        
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Temperature</label>
+                                            <div class="form-group xforce_seller_temprature">
+                                                <!-- <select name="temperature" id="temperature" class="form-control wizard_select2">
+                                                    {% for temp in temperature %}
+                                                    <option value="{{ temp }}" {% if data.temperature == temp %}selected{% endif %}>{{ temp }}</option>
+                                                    {% endfor %}
+                                                </select> -->
+                                                <div class=" optional-filter-radio-btn-circles" role="group" data-toggle="buttons">
+                                                    {% if tem == 'Cold' %}
+                                                    <label for="pending_approval" class="btn btn-sm btn-outline-primary waves-effect btn-circle active waves-light w-xs">
+                                                        <input type="radio" id="pending_approval" name="temperature" value="Cold" class="custom-control-input"
+                                                        {% if tem == Cold %}checked{% endif %}>Cold
+                                                    </label>
+                                                    {% else %}
+                                                    <label for="pending_approval" class="btn btn-sm btn-outline-primary waves-effect btn-circle waves-light w-xs">
+                                                        <input type="radio"  name="temperature" value="Cold" class="custom-control-input">Cold
+                                                    </label>
+                                                    {% endif %}
+                                                    {% if tem == 'Hot' %}
+                                                    <label for="untouched" class="btn btn-sm btn-outline-danger waves-effect active btn-circle waves-light w-xs">
+                                                        <input type="radio"  name="temperature" value="Hot" class="custom-control-input"
+                                                        {% if tem == Hot %}checked{% endif %}>Hot
+                                                    </label>
+                                                    {% else %}
+                                                    <label for="untouched" class="btn btn-sm btn-outline-danger waves-effect btn-circle waves-light w-xs">
+                                                        <input type="radio" id="untouched" name="temperature" value="Hot" class="custom-control-input">Hot
+                                                    </label>
+                                                    {% endif %}
+                                                    {% if tem == 'Warm' %}
+                                                    <label for="completed" class="btn btn-sm btn-outline-info active waves-effect btn-circle waves-light w-xs">
+                                                        <input type="radio"  name="temperature" value="Warm" class="custom-control-input"
+                                                        {% if tem == Warm %}checked{% endif %}>Warm
+                                                    </label>
+                                                    {% else %}
+                                                    <label for="completed" class="btn btn-sm btn-outline-info waves-effect btn-circle waves-light w-xs">
+                                                        <input type="radio" id="completed" name="temperature" value="Warm" class="custom-control-input">Warm
+                                                    </label>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+<!--                                        <div class="col-xl-3 col-lg-4 col-md-4 ">-->
+<!--                                            <label>Stage Of Contact updated</label>-->
+<!--                                             <div class="form-group"> -->
+<!--                                                <div class="input-group">-->
+<!--                                                    <span class="input-group-text bg-primary text-white">-->
+<!--                                                        Call Attempt-->
+<!--                                                    </span>-->
+<!--                                                    <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10">-->
+<!--                                                    <span class="input-group-btn">-->
+<!--                                                        <button type="button" class="btn btn-primary btn-number" data-type="plus" data-field="quant[1]">-->
+<!--                                                            <span class="fas fa-plus"></span>-->
+<!--                                                        </button>-->
+<!--                                                    </span>-->
+<!--                                                </div> -->
+<!--                                            </div>-->
+<!--                                        </div>-->
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Stage Of Contact</label>
+                                             <div class="form-group">   
+                                                <!-- <div class="form-check form-check-inline custom_checkbox_button">
+                                                    <input class="form-check-input" type="checkbox" id="call_attempt" name="call_attempt"
+                                                    {% if data.call_attempt %}checked{% endif %}>
+                                                    <label class="form-check-label" for="call_attempt">Call Attempt</label>
+                                                </div> -->
+                                                <div class="input-group">
+                                                    <div class="input-group-btn call_attempt_btn">
+                                                      <button type="button" class="btn btn-primary w-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                          {% if attempt == "Call Attempt 1" %} Call Attempt 2
+                                                          {% elif attempt == "Call Attempt 2" %}Call Attempt 3
+                                                          {% elif attempt == "Call Attempt 3" %}Call Attempt 4
+                                                          {% elif attempt == "Call Attempt 4" %}Final Attempt
+                                                          {% elif attempt == "Final Attempt" %} CONTACTED
+                                                          {% elif attempt == "CONTACTED" %} CONTACTED {% else %} Call Attempt 1 {% endif %}
+                                                      </button>
+                                                        <input hidden id="textbox" name="call" {% if data.stage_of_contact != None %} value="{{ data.stage_of_contact |stringformat:'s' }}" {% endif %}>
+                                                      <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="#">Call Attempt 1</a>
+                                                        <a class="dropdown-item" href="#">Call Attempt 2</a>
+                                                        <a class="dropdown-item" href="#">Call Attempt 3</a>
+                                                        <a class="dropdown-item" href="#">Call Attempt 4</a>
+                                                        <a class="dropdown-item" href="#">Final Attempt</a>
+                                                        <a class="dropdown-item" href="#">CONTACTED</a>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <select name="stage_of_contact" id="stage_of_contact"  class="form-control wizard_select2">
+                                                    {% for stage in stage_of_contract %}
+                                                    <option value="{{ stage }}" {% if data.stage_of_contact == stage %}selected{% endif %}>{{ stage }}</option>
+                                                    {% endfor %}
+                                                </select> -->
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+
+                                        <div class="row">
+                                            <div class="col-xl-3 col-lg-4 col-md-4  "> 
+                                                <div class="form-check form-check-inline custom_checkbox_button">
+    
+                                                    <input class="form-check-input" type="checkbox"  id="nurture_campaign_action" name="nurture_campaign_action"
+                                                            {% if data.nurture_campaign_action %}checked{% endif %}>
+                                                    <label class="form-check-label" for="nurture_campaign_action">Nurture Campaign Action </label>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-md-12">
+                                                <h5 class="mt-2 mb-4 ml-0 pl-2">Campaign</h5>
+                                            </div> -->
+
+
+                                            <!-- <div class="col-xl-3 col-lg-4 col-md-4  mt-3">
+                                                <div class="form-check-inline mt-3">
+                                                    <input type="checkbox" id="nurture_campaign_action" switch="primary" name="nurture_campaign_action" checked/>
+                                                        <label for="nurture_campaign_action" data-on-label="Active"
+                                                        data-off-label="Deactive" {% if data.nurture_campaign_action %}checked{% endif %}>
+                                                    </label>
+                                                        <span class="ml-2 mb-2 font_size_nuture">  Nurture Campaign Action</span>
+                                                </div>
+                                            </div> -->
+                                        </div>
+
+                                </fieldset>
+                                <h3>Qualifying Questions</h3>
+                                <fieldset>
+                                    <div class="row">
+                                         
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Occupancy</label>
+                                            <div class="form-group">
+                                                <select name="occupancy" id="occupancy"  class="form-control wizard_select2">
+                                                    {% for accu in occupancy %}
+                                                    <option value="{{ accu }}" {% if data.occupancy == accu %}selected{% endif %}>{{ accu }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div> 
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Mortgage Amount </label>
+                                                <div>
+                                                    <input placeholder="Enter Mortgage Amount"  class="form-control" id="mortgage_amount"  name="mortgage_amount" type="number"
+                                                           {% if data.mortgage_amount != None %}value="{{ data.mortgage_amount|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="mortgage_amount_errors" class="text-danger">
+                                                         {{ errors.mortgage_amount }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Asking Price</label>
+                                                <div>
+                                                    <input placeholder="Price"  class="form-control" id="asking_price" name="asking_price" type="number"
+                                                           {% if data.asking_price != None %}value="{{ data.asking_price|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="asking_price_errors" class="text-danger">
+                                                         {{ errors.asking_price }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Best Call Back Time</label>
+                                                <div>
+                                                    <input  class="form-control best_call_back_time"  name="best_call_back_time" id="best_call_back_time" type="text" autocomplete="off"
+                                                                {% if data.best_call_back_time   != None %} value="{{ data.best_call_back_time |stringformat:'s' }}"{% endif %}>
+<!--                                                    <input placeholder="Time"  class="form-control" id="best_call_back_time"  name="best_call_back_time" type="text"-->
+<!--                                                           {% if data.best_call_back_time != None %} value="{{ data.best_call_back_time|stringformat:'s' }}"{% endif %}>-->
+                                                    {% if errors %}
+                                                     <div id="best_call_back_time_errors" class="text-danger">
+                                                         {{ errors.best_call_back_time }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <label>HOA</label>
+                                            <div class="form-group">
+                                                <div class="form-check-inline">
+                                                    <div class="custom-control custom-radio  ">
+                                                        <input type="radio" id="hoa_yes" name="hoa" value="True" class="custom-control-input"
+                                                        {% if data.hoa == True %} checked {% endif %}>
+                                                        <label class="custom-control-label" for="hoa_yes">Yes </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="hoa_no" name="hoa" value="False" class="custom-control-input"
+                                                               {% if data.hoa == False %} checked {% endif %}>
+                                                        <label class="custom-control-label" for="hoa_no">No</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="hoa" name="hoa"
+                                                           {% if data.hoa %}checked{% endif %}>
+                                                    HOA?
+                                                </label>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <script>
+                                                    var cont_miscellaneous_notes = "{{ data.miscellaneous_notes  | default_if_none:'' }}" ;
+                                                </script>
+                                                <label>Miscellaneous Notes</label>
+                                                <textarea class="form-control" id="miscellaneous_notes" name="miscellaneous_notes">
+                                                    {{ data.miscellaneous_notes|stringformat:'s' }}
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <script>
+                                                    var cont_details = "{{ data.details  | default_if_none:'' }}" ;
+                                                </script>
+                                                <label>Details(Condition, Reason for sale etc)</label>
+                                                <textarea id="details" class="form-control " name="details">
+                                                    {{ data.details|stringformat:'s' }}
+
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </fieldset>
+<!--                                <h3>Evaluation</h3>-->
+                                <h3>Evaluation</h3>
+                                <fieldset>
+                                    <div class="row" id="xforce_section">
+
+<!--                                        <div class="col-md-12">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <div class="form-check-inline custom_checkbox_button">-->
+<!--&lt;!&ndash;                                                    <input onclick="calc(this);" class="form-check-input" type="checkbox" id="get_data_from_total_view" name="get_data_from_total_view" sid={{data.id}}&ndash;&gt;-->
+<!--                                                    <input class="form-check-input" type="checkbox" id="get_data_from_total_view" name="get_data_from_total_view" sid={{data.id}}-->
+<!--                                                           {% if data.get_data_from_total_view %}checked disabled {% endif %}>-->
+<!--                                                   <label class="form-check-label" for="get_data_from_total_view">  Get Data From Total View </label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                        </div>-->
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Sqft</label>
+                                                <div>
+                                                    <input readonly placeholder="Add sqft"  class="form-control" id="sqft" name="sqft" type="number"
+                                                           {% if data.sqft != None %}value="{{ data.sqft|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="sqft_errors" class="text-danger">
+                                                         {{ errors.sqft }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Lot Size</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Lot Size"  class="form-control" id="lot_size" name="lot_size" type="number"
+                                                           {% if data.lot_size != None %}value="{{ data.lot_size|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="lot_size_errors" class="text-danger">
+                                                         {{ errors.lot_size }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Property Type</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Property Type"  class="form-control" id="property_type" name="property_type" type="text"
+                                                           {% if data.property_type != None %}value="{{ data.property_type|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="property_type_errors" class="text-danger">
+                                                         {{ errors.property_type }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Year Built</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Year Built"  class="form-control" id="year_built" name="year_built" type="number"
+                                                           {% if data.year_built != None %}value="{{ data.year_built|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="year_built_errors" class="text-danger">
+                                                         {{ errors.year_built }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Tax Assessment</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Tax Assessment"  class="form-control" id="tax_assessment" name="tax_assessment" type="number"
+                                                           {% if data.tax_assessment != None %}value="{{ data.tax_assessment|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="tax_assessment_errors" class="text-danger">
+                                                         {{ errors.tax_assessment }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Year Assessed</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Year Assessed"  class="form-control" id="year_assessed" name="year_assessed" type="number"
+                                                           {% if data.year_assessed != None %}value="{{ data.year_assessed|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="year_assessed_errors" class="text-danger">
+                                                         {{ errors.year_assessed }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Property Value(Total View)</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Property value (Total view)"  class="form-control" id="property_value" name="property_value" type="number"
+                                                           {% if data.property_value != None %}value="{{ data.property_value|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="property_value_errors" class="text-danger">
+                                                         {{ errors.property_value }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Potential Offer</label>
+                                                <div>
+                                                    <input readonly placeholder="Add Potential offer"  class="form-control" id="potential_offer" name="potential_offer" type="number"
+                                                           {% if data.potential_offer != None %}value="{{ data.potential_offer|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="potential_offer_errors" class="text-danger">
+                                                         {{ errors.potential_offer }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>ARV</label>
+                                                <div>
+                                                    <input placeholder="Add ARV"  class="form-control" id="arv" name="arv" type="number"
+                                                           {% if data.arv != None %}value="{{ data.arv|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="arv_errors" class="text-danger">
+                                                         {{ errors.arv }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>MAO</label>
+                                                <div>
+                                                    <input placeholder="Add MAO"  class="form-control" id="mao" name="mao" type="number"
+                                                           {% if data.mao != None %}value="{{ data.mao|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="mao_errors" class="text-danger">
+                                                         {{ errors.mao }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <!-- <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <script>
+                                                        var cont_mao_details = "{{ data.mao_details  | default_if_none:'' }}" ;
+                                                    </script>
+                                                    <label>MAO Details</label>
+                                                    <textarea  id="mao_details" class="form-control"  name="mao_details">
+                                                        {{ data.mao_details|stringformat:'s' }}
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+
+                                </fieldset>
+                                <h3>Offer</h3>
+                                <fieldset>
+                                    <div class="row">
+                                         
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Offer Range</label>
+                                                <div>
+                                                    <input placeholder="Add Offer Range"  class="form-control" id="offer_range" name="offer_range" type="text"
+                                                           {% if data.offer_range != None %}value="{{ data.offer_range|stringformat:'s' }}"{% endif %}>
+                                               {% if errors %}
+                                                     <div id="offer_range_errors" class="text-danger">
+                                                         {{ errors.offer_range }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Offer Status</label>
+                                            <div class="form-group">
+                                                <select name="offer_status" id="offer_status" class="form-control wizard_select2">
+                                                    {% for status in offer_status %}
+                                                    <option value="{{ status }}" {% if data.offer_status == status %}selected{% endif %} >{{ status }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Made Offer ?</label>
+                                            <div class="form-group">
+                                                <div class="input-group" id="offer_button">
+                                                    <div class="input-group-btn offer_attempt_btn">
+                                                      <button type="button" class="btn btn-primary w-lg dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {% if ofer == "Make Attempt 1" %} Make Attempt 2
+                                                          {% elif ofer == "Make Attempt 2" %} Make Attempt 3
+                                                          {% elif ofer == "Make Attempt 3" %} Make Attempt 4
+                                                          {% elif ofer == "Make Attempt 4" %} Made Offer
+                                                          {% elif ofer == "Made Offer" %} Offer Not Made
+                                                          {% elif ofer == "Offer Not Made" %} Offer Not Made
+
+
+                                                          {% else %} Make Attempt 1 {% endif %}
+
+                                                      </button>
+                                                        <input hidden id="textbox1" name="offer" {% if data.made_offer != None %} value="{{ data.made_offer |stringformat:'s' }}" {% endif %}>
+                                                      <div class="dropdown-menu" >
+                                                        <a class="dropdown-item" href="#">Make Attempt 1</a>
+                                                        <a class="dropdown-item" href="#">Make Attempt 2</a>
+                                                        <a class="dropdown-item" href="#">Make Attempt 3</a>
+                                                        <a class="dropdown-item" href="#">Make Attempt 4</a>
+                                                        <a class="dropdown-item" href="#">Made Offer</a>
+                                                        <a class="dropdown-item" href="#">Offer Not Made</a>
+                                                      </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+<!--                                        <div class="col-xl-3 col-lg-4 col-md-4 ">-->
+<!--                                            <label>Made Offer ?</label>-->
+<!--                                            <div class="form-group">-->
+<!--                                                <div class="form-check form-check-inline custom_checkbox_button">-->
+<!--                                                    <input class="form-check-input" type="checkbox" id="offer_attempt" name="offer_attempt"-->
+<!--                                                    {% if data.offer_attempt %}checked{% endif %}>-->
+<!--                                                    <label class="form-check-label" for="offer_attempt">offer Attempts </label>-->
+<!--                                                </div>-->
+<!--                                                &lt;!&ndash; <select name="made_offer" id="made_offer" class="form-control wizard_select2">-->
+<!--                                                    {% for offer in made_offer %}-->
+<!--                                                    <option value="{{ offer }}" {% if data.made_offer == offer %}selected{% endif %} >{{ offer }}</option>-->
+<!--                                                    {% endfor %}-->
+<!--                                                </select> &ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+<!--                                    </div>-->
+                                </fieldset>
+                                <h3>Contract Details</h3>
+                                <fieldset>
+                                    <div class="row">
+                                         
+                                        <div class="col-md-12">
+                                            <div class="form-check-inline ">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="set_appointment" name="set_appointment"
+                                                           {% if data.set_appointment %}checked{% endif %}>
+                                                    Set Appointment
+                                                </label>
+                                            </div>
+<!--                                            <div class="form-check-inline">-->
+<!--                                                <label class="form-check-label">-->
+<!--                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="canceled_appointment" name="canceled_appointment"-->
+<!--                                                           {% if data.set_appointment %}checked{% endif %}>-->
+<!--                                                    Canceled Appointment-->
+<!--                                                </label>-->
+<!--                                            </div>-->
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Appointment Date</label>
+                                                <div class="input-group">
+                                                    <div class="input-group date" data-target-input="nearest">
+<!--                                                        <input  class="form-control datetimepicker"  name="app_start" id="app_start" type="text"-->
+<!--                                                                {% if data.app_start   != None %}value="{{ data.app_start |stringformat:'s' }}"{% endif %}>-->
+<!--                                                        <strong class="m-1 p-1 ">To</strong>-->
+                                                        <input  class="form-control datetimepicker_sellerlead"  name="app_date" id="app_date" type="text"
+                                                                {% if data.app_date   != None %}value="{{ data.app_date |stringformat:'s' }}"{% endif %}>
+                                                   {% if errors %}
+                                                     <div id="app_date_errors" class="text-danger">
+                                                         {{ errors.app_date }}
+                                                     </div>
+                                                {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Contract Offer Amount </label>
+                                                <div>
+                                                    <input placeholder="Add Contract Offer Amount"  class="form-control" id="contract_offer_amt" name="contract_offer_amt" type="number"
+
+                                                           {% if data.contract_offer_amt != None %}value="{{ data.contract_offer_amt|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="contract_offer_amt_errors" class="text-danger">
+                                                         {{ errors.contract_offer_amt }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Title Company</label>
+                                            <div class="form-group input-group custom_select_button">
+                                                <select name="title_company" id="title_company" class="form-control wizard_select2" onchange="company_empty()">
+                                                    <option selected value="">Select</option>
+                                                    {% for comp in company %}
+                                                    <option value="{{ comp.id }}" {% if sel_title_company == comp %}selected{% endif %}>{{ comp.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <div>
+                                                <a href="javascript:comp_profile()" class="btn btn-primary" id="company_profile" >view company</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>++ EMD</label>
+                                                <div>
+                                                    <input placeholder="Add ++EMD"  class="form-control" id="emd" name="emd" type="number"
+                                                           {% if data.emd != None %}value="{{ data.emd|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="emd_errors" class="text-danger">
+                                                         {{ errors.emd }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <label>Closing Cost</label>
+                                            <div class="form-group">
+                                                <select name="closing_costs" id="closing_costs" class="form-control wizard_select2">
+                                                    {% for cost in closing_cost %}
+                                                    <option value="{{ cost }}" {% if data.closing_costs == cost %}selected{% endif %}>{{ cost }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>Closing(# Days) </label>
+                                                <div>
+                                                    <input placeholder="Add Closing (# Days)"  class="form-control" id="closing_no_day" name="closing_no_day" type="number"
+                                                           {% if data.closing_no_day != None %}value="{{ data.closing_no_day|stringformat:'s' }}"{% endif %}>
+                                                    {% if errors %}
+                                                     <div id="closing_no_day_errors" class="text-danger">
+                                                         {{ errors.closing_no_day }}
+                                                     </div>
+                                                {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                            <div class="form-group">
+                                                <label>To Vacate On</label>
+                                                <div>
+                                                </div>
+                                                <input placeholder="Add To Vacate On "  class="form-control" id="to_vacate_on" name="to_vacate_on" type="text"
+                                                       {% if data.to_vacate_on != None %}value="{{ data.to_vacate_on|stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                     <div id="to_vacate_on_errors" class="text-danger">
+                                                         {{ errors.to_vacate_on }}
+                                                     </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <!-- <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <script>
+                                                        var cont_other_terms = "{{ data.other_terms  | default_if_none:'' }}" ;
+                                                    </script>
+                                                    <label>Other Terms</label>
+                                                    <textarea  id="other_terms" class="form-control" name="other_terms">
+                                                        {{ data.other_terms|stringformat:'s' }}
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <script>
+                                                        var cont_note_for_agent = "{{ data.note_for_agent  | default_if_none:'' }}" ;
+                                                    </script>
+                                                    <label>Note For Agent</label>
+                                                    <textarea  class="form-control" id="note_for_agent" name="note_for_agent">
+                                                        {{ data.note_for_agent|stringformat:'s' }}
+                                                    </textarea>
+    
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+
+                                </fieldset>
+                                <h3>Deal Actions</h3>
+                                <fieldset>
+                                    <div class="row">
+                                        {% if is_edit %}
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="deal_action" name="deal_action"
+                                                           {% if data.deal_action %}checked{% endif %}>
+                                                    <label class="form-check-label" for="deal_action"> Send to Transactions</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+<!--                                    <div class="col-md-12">-->
+<!--                                        <div class="form-check-inline">-->
+<!--                                            <label class="form-check-label">-->
+<!--                                                <input class="form-check-input" type="checkbox" data-toggle="toggle" id="deal_action" name="deal_action"-->
+<!--                                                       {% if data.deal_action %}checked{% endif %}>-->
+<!--                                                Deal Action-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
+                                    <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                        <label>Lead by</label>
+                                        <div class="form-group">
+                                        <select name="lead_by" id="lead_by" required class="form-control wizard_select2">
+                                                    <option value="" selected>Select</option>
+                                                    {% for user in users %}
+                                                    <option value="{{ user.id }}" {% if selected_lead_by == user %}selected {% else %} disabled{% endif %}>{{ user.first_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                        <label>Lead Source</label>
+                                        <div class="form-group">
+                                            <select name="lead_source" id="lead_source" class="form-control wizard_select2">
+                                                {% for source in lead_source %}
+                                                <option value="{{ source }}" {% if data.lead_source == source %}selected {% else %} disabled{% endif %}>{{ source }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div> 
+                                    <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                        <label>Deal Status</label>
+                                        <div class="form-group">
+                                            <select name="deal_status" id="deal_status" class="form-control wizard_select2">
+                                                {% for status in deal_status %}
+                                                <option value="{{ status }}" {% if data.deal_status == status %} selected {% else %} disabled {% endif %}>{{ status }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                        <label>Campaigns</label>
+                                        <div class="form-group">
+                                            <select name="campaign" id="campaign" class="form-control wizard_select2">
+                                                <option selected value="">Select</option>
+                                                {% for camp in campaigns %}
+                                                <option value="{{ camp.id }}" {% if selected_campaign == camp %} selected {% else %} disabled {% endif %}>{{ camp.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                        <label>Major Market</label>
+                                        <div class="form-group">
+                                            <select name="major_market" id="major_market" class="form-control wizard_select2">
+                                                 <option selected value="">Select</option>
+                                                {% for market in majormarket %}
+                                                <option value="{{ market.id }}" {% if selected_market == market %}selected {% else %} disabled {% endif %}>{{ market.title }}</option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                        <div class="form-group">
+                                            <label>File</label><br>
+                                            <!--                                            <input id="lead_file" name="lead_file" type="file" class="" data-buttonname="btn-primary">-->
+                                            <input type="file" id="lead_file" name="lead_file"
+                                                   class="with-border xforce_filestyle" data-buttonname="btn-primary"
+                                                   accept="image/png, image/jpeg, .txt, .pdf">
+                                            {% if errors %}
+                                            <div id="files_errors" class="text-danger">
+                                                {{ errors.files | striptags }}
+                                            </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                        {% if data.files %}
+                                            <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                                <div class="form-group">
+                                                    <label>Uploaded File</label><br>
+                                                    <a href="{{ data.lead_file }}" target="_blank" ><image  id="files" name="files" src="{% static 'images/uploaded.png' %}" width="40" height="40"></image></a>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if is_edit %}
+                                        <div class="col-xl-6 col-lg-6 col-md-6 ">
+                                            <label>Contact Action</label>
+                                            <div class="form-group xforce_radio_btn">
+                                                <!-- Default inline 1-->
+                                                <div class="custom-control custom-radio custom-control-inline">
+                                                {% if data.contract_action == "Generate Contract" %}
+                                                <input type="radio" class="custom-control-input" value="Generate Contract" id="generate_contract" name="contract_action" checked >
+                                                <label class="custom-control-label" for="generate_contract">Generate Contract</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" value="Generate Contract" id="generate_contract" name="contract_action">
+                                                <label class="custom-control-label" for="generate_contract">Generate Contract</label>
+                                                {% endif %}
+                                            </div>
+
+
+                                            <!-- Default inline 2-->
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                {% if data.contract_action == "Email Contract" %}
+                                                <input type="radio" class="custom-control-input" value="Email Contract" id="email_contract" name="contract_action" checked>
+                                                <label class="custom-control-label" for="email_contract">Email Contract</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" value="Email Contract" id="email_contract" name="contract_action">
+                                                <label class="custom-control-label" for="email_contract">Email Contract</label>
+                                                {% endif %}
+                                            </div>
+
+                                            <!-- Default inline 3-->
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                               {% if data.contract_action == "E Signature" %}
+                                                <input type="radio" class="custom-control-input" value="E Signature" id="contact_e_signature" name="contract_action" checked>
+                                                <label class="custom-control-label" for="contact_e_signature">E Signature</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" value="E Signature" id="contact_e_signature" name="contract_action">
+                                                <label class="custom-control-label" for="contact_e_signature">E Signature</label>
+                                                {% endif %}
+                                            </div>
+                                                <!-- <select name="contract_action" id="contract_action" class="form-control wizard_select2">
+                                                    {% for action in contract_action %}
+                                                    <option value="{{ action }}" {% if data.contract_action == action %}selected{% endif %}>{{ action }}</option>
+                                                    {% endfor %}
+                                                </select> -->
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 ">
+                                            <label>Contact Delivery</label>
+                                            <div class="form-group xforce_radio_btn">
+                                            <!-- Default inline 1-->
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                            {% if data.contract_delivery == "E Signature" %}
+                                            <input type="radio" class="custom-control-input" value="E Signature" id="e_signature" name="contract_delivery" checked>
+                                            <label class="custom-control-label" for="e_signature">E Signature</label>
+                                            {% else %}
+                                            <input type="radio" class="custom-control-input" value="E Signature" id="e_signature" name="contract_delivery">
+                                            <label class="custom-control-label" for="e_signature">E Signature</label>
+                                            {% endif %}
+                                        </div>
+
+                                        <!-- Default inline 2-->
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            {% if data.contract_delivery == "Email" %}
+                                            <input type="radio" class="custom-control-input" value="Email" id="email" name="contract_delivery" checked>
+                                            <label class="custom-control-label" for="email">Email</label>
+                                            {% else %}
+                                            <input type="radio" class="custom-control-input" value="Email" id="email" name="contract_delivery">
+                                            <label class="custom-control-label" for="email">Email</label>
+                                            {% endif %}
+                                        </div>
+
+
+                                        <!-- Default inline 3-->
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            {% if data.contract_delivery == "In Person" %}
+                                            <input type="radio" class="custom-control-input" value="In Person" id="in_person" name="contract_delivery" checked>
+                                            <label class="custom-control-label" for="in_person">In Person</label>
+                                            {% else %}
+                                            <input type="radio" class="custom-control-input" value="In Person" id="in_person" name="contract_delivery">
+                                            <label class="custom-control-label" for="in_person">In Person</label>
+                                            {% endif %}
+                                        </div>
+
+                                                <!-- <select name="contract_delivery" id="contract_delivery" class="form-control wizard_select2">
+                                                    {% for contract in contract_delivery %}
+                                                    <option value="{{ contract }}" {% if data.contract_delivery == contract %}selected{% endif %}>{{ contract }}</option>
+                                                    {% endfor %}
+                                                </select> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <script>
+                                                    var cont_deal_details = "{{ data.deal_details  | default_if_none:'' }}" ;
+                                                </script>
+                                                <label>Deal Details for Acq/Agent (Situation, Tenants/Vacant, Keys/Access, etc )</label>
+                                                <div>
+                                                    <textarea  id="deal_details" class="form-control" name="deal_details">
+                                                        {{ data.deal_details|stringformat:'s' }}
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <script>
+                                                    var cont_detailed_source = "{{ data.detailed_source  | default_if_none:'' }}" ;
+                                                </script>
+                                                <label>Detailed Source</label>
+                                                <textarea  id="detailed_source" class="form-control" id="detailed_source" name="detailed_source">
+                                                    {{ data.detailed_source|stringformat:'s' }}
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </fieldset>
+                                <div class="row">
+                                    <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                            <script>
+                                                var cont_info = "{{ data.info  | default_if_none:'' }}" ;
+                                            </script>
+                                            <label>Notes</label>
+                                            <textarea  id="info" class="form-control" name="info">
+
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--</div>-->
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+ $('#loader_id').removeClass('loading');
+ $('.offer_attempt_btn .dropdown-menu a').on('click', function(){
+     var attempt = "{{attempt|safe}}";
+    if (attempt == "CONTACTED"){
+        $('.offer_attempt_btn .dropdown-toggle').html($(this).html());
+        $("input#textbox1").val($(this).html());
+        toastr.success("selected")
+    }
+    else{
+        toastr.error("Stage Of Contact must be CONTACTED")
+    }
+ });
+ //$("input#textbox").val($('.call_attempt_btn .dropdown-menu a').html());
+ });
+</script>
+<script type="text/javascript">
+    function company_empty() {
+        if ($("#title_company").val() !== "" && $("#title_company").val().trim() !== "") {
+            $("#company_profile").show();
+        } else {
+            $("#company_profile").hide();
+        }
+    }
+    function comp_profile() {
+        var company_loc = window.location.origin + "/xforce_settings/edit_company/";
+        var comp_id = $("#title_company").val();
+        var company_url = company_loc + comp_id + "/" ;
+        window.open(company_url, '_blank');
+    }
+
+
+
+    $(document).ready(function () {
+        if ($("#title_company").val() == "" && $("#title_company").val().trim() == "") {
+            $("#company_profile").hide();
+        }else {
+            $("company_profile").show();
+        }
+
+        validate();
+        var edit = "{{edit|safe}}";
+
+        if (edit !== 'yes') {
+            // $('#Next').parent().addClass('disabled');
+            // $('#Next').removeAttr('href');
+
+        }
+
+        (function () {
+            $('#lead_manager').change(validate);
+            $('#elemdiv :input[required]').keyup(validate);
+        })()
+    });
+
+    function validate() {
+        // console.log("in keyup")
+        var empty = false;
+        $('#elemdiv :input[required]').each(function () {
+            if ($(this).val() == '') {
+                // console.log($(this).attr("name") + " is empty")
+                empty = true;
+            }
+        });
+        if (empty) {
+            $('#Save').addClass('disabled');
+            // console.log("its empty")
+            // console.log("--------")
+        } else {
+            console.log("all done")
+            $('#Save').removeClass('disabled');
+        }
+
+    }
+
+    $(function () {
+        $(".datetimepicker_sellerlead").datetimepicker({
+            format: 'm/d/y H:m',
+            minDate: 0,
+
+        });
+        $(".best_call_back_time").datetimepicker({
+            format: 'm/d/y H:m',
+            minDate: 0,
+
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+
+
+
+    // function calc(e) {
+    //     var edit = "{{edit|safe}}";
+    //     console.log(edit)
+    //      if (edit == 'yes') {
+    //          if (document.getElementById('get_data_from_total_view').checked) {
+    //              console.log("on");
+    //              var lead_id = $(e).attr('sid')
+    //              $.ajax({
+    //                  type: 'GET',
+    //                  url: "/seller/total_view/" + lead_id + "/",
+    //                  success: function (data) { // on success..
+    //                      console.log(data)
+    //                      $("#sqft").val(data["SqFt:"])
+    //                      $("#lot_size").val(data["Lot Size:"])
+    //                      $("#property_type").val(data["Property Type:"])
+    //                      $("#year_built").val(data["Year Built:"])
+    //                      $("#year_assessed").val(data["Year Assessed:"])
+    //                      $("#tax_assessment").val(data["Tax Assessment:"])
+    //                      // toastr.success("Total");
+    //                  },
+    //                  error: function (xhr, ajaxOptions, thrownError) { // on error..
+    //                      var err = JSON.parse(xhr.responseText);
+    //                      toastr.error(err.message);
+    //                  },
+    //                  statusCode: {
+    //                      404: function () {
+    //                          alert("page not found");
+    //                      }
+    //                  }
+    //              });
+    //          } else {
+    //              console.log("off")
+    //          }
+    //      }
+    // }
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+
+    var stripe = Stripe('pk_test_dVBmazomqv3pto0tTQ9mz27a');
+
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    var cardholderName = document.getElementById('cardholder-name');
+    var cardButton = document.getElementById('card-button');
+    var clientSecret = cardButton.dataset.secret;
+
+    cardButton.addEventListener('click', function(ev) {
+
+      stripe.confirmCardSetup(
+        clientSecret,
+        {
+          payment_method: {
+            card: cardElement,
+            billing_details: {name: cardholderName.value}
+          }
+        }
+      ).then(function(result) {
+        if (result.error) {
+          alert("errors")
+        } else {
+          alert("success")
+        }
+      });
+    });
+</script>
+
+
+
+
+{% endblock %}

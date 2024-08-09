@@ -1,0 +1,352 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content xforce_steps xforce_form_without_steps">
+    <div id="loader_id" class="loading"></div>
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <!-- <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title"><a href="{% url 'appointment_list'%}">Appointments</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home"><i
+                                class="mdi mdi-home-outline"></i></a></li> 
+                        <li class="breadcrumb-item "><a href="/x_force/">Xforce</a> </li>
+                        {% if is_edit %}
+                        <li class="breadcrumb-item active">Edit Appointment</li>
+                        {% else %}
+                        <li class="breadcrumb-item active">Add Appointment</li>
+                        {% endif %}
+                    </ol>
+                </div>
+            </div>  -->
+            <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body buyer_form pl-4 pr-4">
+                        <form id="my_form" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class=" ">
+                                        <a href="{% url 'appointment_list'%}" class="btn btn-primary w-md">
+                                            <!-- <i class="mdi mdi-chevron-left"></i> -->
+                                            Back</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h3 class="xforce-title text-center mb-1">Add Appointments</h3>
+                                </div>
+                                <div class="col-md-12">
+                                   <hr>
+                                    <!-- <label class="required_info"><span class="text-danger font-16">*</span> These fields are required.</label> -->
+                                </div>
+                                <div class="col-md-3">
+                                    <label>For <span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <select name="seller" id="seller" required class="form-control wizard_select2" onchange="seller_property()">
+                                            <option value="" selected>Select</option>
+                                            {% for seller in sellers %}
+                                                <option seller_property = "{{ seller.property_address_map }}" value="{{ seller.id }}" {% if data.seller == seller %}selected{% endif %}>{{ seller.seller_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <!--{% if errors %}-->
+                                                        <!--<div id="seller_errors" class="text-danger">-->
+                                                            <!--{{ errors.seller.seller_name | striptags }}-->
+                                                        <!--</div>-->
+                                               <!--{% endif %}-->
+                                    </div>
+                                </div>
+
+
+
+                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Date<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+
+                                                <input required class="form-control datetimepicker" value="{{data.appt_date_start}}" name="appt_date_start" type="text" autocomplete="off">
+
+
+                                                <!--<input required class="form-control datetimepicker" value="{{data.appt_date_start}}" name="appt_date_start" type="text" >-->
+                                                <!--<strong class="m-1 p-1"> To </strong>-->
+                                                <!--<input required class="form-control datetimepicker" value="{{data.appt_date_end}}" name="appt_date_end" type="text">-->
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Property Address Map<span class="text-danger">*</span></label>
+                                        <div>
+                                            <input readonly required placeholder="Property Address" class="form-control"  id="property_address" name="property_address" type="text" autocomplete="off"
+                                                   {% if data.property_address != None %}
+                                                   value="{{ data.property_address|stringformat:'s' }}"
+                                                   {% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Who Set This Appointment</label>
+                                    <div class="form-group">
+                                        <select id="who_set_this_appt" name="who_set_this_appt"  class="form-control select2">
+                                            <!--<option value="" selected>Select</option>-->
+                                            <!--{% for user in users %}-->
+                                            <!--<option value="{{ user.id }}" {% if who_set_this_appt  == user %}selected{% endif %}>{{ user.first_name }}</option>-->
+                                            <!--{% endfor %}-->
+
+                                            <option value="" selected>Select</option>
+                                            {% for user in users %}
+                                            <option value="{{ user.id }}" {% if data.who_set_this_appt == user %}selected{% endif %}>{{ user.first_name }}</option>
+                                            {% endfor %}
+                                        </select>
+
+
+
+
+
+
+                                            <!--{% if data.who_set_this_appt %}-->
+                                            <!--<option value="{{ data.who_set_this_appt.id}}" selected>-->
+                                                <!--{{ data.who_set_this_appt}}</option>-->
+                                            <!--{% endif %}-->
+                                            <!--{% for user in users %}-->
+                                            <!--<option value="{{ user.id }}">{{ user.first_name }}</option>-->
+                                            <!--{% endfor %}-->
+
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <label>Going on Appointment</label>
+                                    <div class="form-group">
+                                        <select  class="form-control select2" id="going_on_appt" name="going_on_appt" >
+
+                                            <option value="" selected>Select</option>
+                                            {% for user in users %}
+                                            <option value="{{ user.id }}" {% if data.going_on_appt == user %}selected{% endif %}>{{ user.first_name }}</option>
+                                            {% endfor %}
+
+
+
+
+                                            <!--{% if data.going_on_appt %}-->
+                                                    <!--<option value="{{ data.going_on_appt.id}}" selected>-->
+                                                        <!--{{ data.going_on_appt }}</option>-->
+                                                    <!--{% endif %}-->
+                                                    <!--{% for user in users %}-->
+                                                    <!--<option value="{{ user.id }}">{{ user.first_name }}</option>-->
+                                                    <!--{% endfor %}-->
+                                        </select>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-3">
+                                    <label>Offer Acceptance</label>
+                                    <div class="form-group">
+                                        <select  id="offer_acceptance" name="offer_acceptance"  class="form-control select2">
+                                            <option value="" selected>Select</option>
+                                                    {% for offer in OFFER_ACCEPTANCE %}
+                                                        <option value="{{ offer }}" {% if data.offer_acceptance  == offer %}selected{% endif %}>{{ offer }}</option>
+                                                    {% endfor %}
+
+
+
+
+                                            <!--{% if data.offer_acceptance %}-->
+                                                    <!--<option value="{{ data.offer_acceptance|stringformat:'s' }}" selected>-->
+                                                        <!--{{ data.offer_acceptance }}</option>-->
+                                                    <!--{% endif %}-->
+                                                    <!--{% for offer in OFFER_ACCEPTANCE %}-->
+                                                    <!--<option value="{{ offer }}">{{ offer }}</option>-->
+                                                    <!--{% endfor %}-->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Appointment Status</label>
+                                    <div class="form-group">
+                                        <select  id="appt_status" name="appt_status"  class="form-control select2">
+                                            <!--<option value="" selected>Lead Manager</option>-->
+                                            <option value="" selected>Select</option>
+                                                    {% for apptstatus in Appt_Status %}
+                                                        <option value="{{ apptstatus }}" {% if data.appt_status  == apptstatus %}selected{% endif %}>{{ apptstatus }}</option>
+                                                    {% endfor %}
+
+
+
+
+
+                                            <!--{% if data.appt_status %}-->
+                                                    <!--<option value="{{ data.appt_status}}" selected>-->
+                                                        <!--{{ data.appt_status }}</option>-->
+                                            <!--{% endif %}-->
+                                                    <!--{% for apptstatus in Appt_Status %}-->
+                                                    <!--<option value="{{ apptstatus }}">{{ apptstatus }}</option>-->
+                                                    <!--{% endfor %}-->
+                                        </select>
+                                        {% if errors %}
+                                                         <div id="appt_status_errors" class="text-danger">
+                                                             {{ errors.appt_status | striptags }}
+                                                         </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+ 
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>File</label><br>
+                                        <input id="appt_file" name="appt_file" value="{{data.appt_file}}" type="file" class="with-border filestyle" data-buttonname="btn-primary" accept="image/x-png,image/gif,image/jpeg">
+
+                                    </div>
+                                </div>
+
+<!--                                <div class="col-md-3">-->
+<!--                                    <label>Going Status</label>-->
+<!--                                    <div class="form-group">-->
+<!--                                        <select id="going_status" name="going_status"  class="form-control select2">-->
+<!--                                            &lt;!&ndash;<option value="" selected>Lead Manager</option>&ndash;&gt;-->
+<!--                                            {% if data.going_status%}-->
+<!--                                                    <option value="{{ data.going_status|stringformat:'s' }}" selected>-->
+<!--                                                        {{ data.going_status}}</option>-->
+<!--                                            {% endif %}-->
+<!--                                                    {% for goingstatus in GOING_STATUS %}-->
+<!--                                                    <option value="{{ goingstatus }}">{{ goingstatus }}</option>-->
+<!--                                                    {% endfor %}-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                                <script>
+                                    var cont_notes = "{{ data.notes  | default_if_none:'' }}";
+                                </script>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Notes</label>
+                                        <textarea placeholder="Add Notes" class="form-control summernote" id="notes" name="notes">
+                                            {% if data.notes != None %}
+                                               value="{{ data.notes|stringformat:'s' }}"
+                                            {% endif %}</textarea>
+                                    </div>
+                                </div>
+
+
+
+                                    <!--<div class="col-md-3">-->
+                                        <!--<label>Tags</label>-->
+                                        <!--<div class="form-group">-->
+
+                                                <!--<input id="tags" name="tags" value="{{data.tags}}" class="form-control select2">-->
+
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <div class="col-sm-12">
+                                        <input id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+                                        {% if is_edit %}
+                                            <a type="button" data-original-title="Delete appt"  data-toggle="tooltip" appt-id="{{ data.id }}" class="btn btn-outline-primary waves-effect waves-light appt-delete" href="#">Delete</a>
+                                        {% endif %}
+                                    </div>
+                                        <div class="modal fade" id="deleteApptModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Confirm!
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to delete this Appointment?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark waves-effect waves-light"
+                                                    data-dismiss="modal">No</button>
+                                                <a id="delete-appt" class="btn btn-danger waves-effect waves-light btn-ok">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />-->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>-->
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+    <script>
+        $(function () {
+            $(".datetimepicker").datetimepicker({
+                format: 'm/d/y H:m',
+                minDate : 0,
+            });
+
+            $("#datepicker1").datetimepicker({
+                format: 'm/d/y',
+            });
+        });
+    </script>
+
+<script type="text/javascript">
+
+    function seller_property(){
+        $('#property_address').val($("#seller").find(':selected').attr('seller_property'));
+
+
+    }
+
+    $(document).ready(function () {
+    $(document).on('click', '.appt-delete', function(){
+        selectedappt = $(this).attr('appt-id');
+        url = window.location.origin + '/appointment/delete_appointment/' + selectedappt;
+        $('#delete-appt').attr("href", url);
+
+        $('#deleteApptModal').modal('show');
+    });
+
+ });
+
+
+
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+    var encodedStr = cont_notes;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#appt_notes").val(decodedString);
+});
+
+
+</script>
+{% endblock %}
+
+{% endblock %}

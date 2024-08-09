@@ -1,0 +1,384 @@
+<html>
+<head>
+    <title>ProspectX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        .main_body_podio {
+            font-family: arial, helvetica, sans-serif;
+            font-size: 12px;
+            line-height: 1.428571429;
+            color: #333;
+            background-color: #F6F6F6;
+        }
+
+        .container_style {
+            background: #fff;
+            margin-bottom: 50px;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .container_style {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            padding: 35px 30px;
+            max-width: 540px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .webforms {
+            width: auto;
+        }
+
+        .webforms__heading {
+            color: #444;
+            font-weight: 700;
+            font-size: 14px;
+            font-family: inherit;
+            line-height: 1.1;
+        }
+
+        .webforms .webforms__description {
+            margin-bottom: 42px !important;
+        }
+
+        .paragraph {
+            margin: 0 0 8.5px;
+            font-size: 12px;
+        }
+
+        .webforms__label {
+            font-weight: bold;
+            display: block;
+            max-width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .webforms__field {
+            margin-bottom: 1.5em;
+        }
+
+        .webforms .email-field .input-group .input-group-addon {
+            padding: 4px 18px;
+            background-color: #F6F6F6;
+            border: 1px solid #ced4da;
+        }
+
+        .webforms__select {
+            margin-top: 5px;
+        }
+
+        .webforms .text-field__large {
+            resize: none;
+        }
+
+        .powered-by-podio {
+            text-align: center;
+            margin: 50px 0;
+            font-size: 11px;
+        }
+
+        .powered-by-podio__image {
+
+            background-repeat: no-repeat;
+            width: 235px;
+            height: 47px;
+            margin: 0 auto 20px
+        }
+
+        .add_button:hover {
+            color: black;
+            background-color: white;
+            border-color: white;
+        }
+
+        .btn-light:not(:disabled):not(.disabled).active, .btn-light:not(:disabled):not(.disabled):active, .show > .btn-light.dropdown-toggle {
+            color: black;
+            background-color: white;
+            border-color: white;
+        }
+
+        /* .custom-select-shadow{
+            box-shadow: 1px 2px 6px 0px #D3D9DE;
+        }
+        .form-control-shadow{
+            box-shadow: 1px 2px 6px 0px #D3D9DE;
+        }
+        .span_shadow_form{
+            box-shadow: 1px 2px 6px 0px #D3D9DE;
+        } */
+    </style>
+</head>
+
+<body class="main_body_podio">
+
+<div class="container_style">
+    <form class="webforms" method="post">
+           {% csrf_token %}
+        <h1 class="webforms__heading webforms__description">
+            <p class="mb-2">Seller Lead Input</p>
+        </h1>
+        <div class="form_podio">
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Seller Name <span class="text-danger">*</span></label>
+                </div>
+                <div class="first_field">
+                    <input class="form-control" required id="seller_name" name="seller_name"
+                            type="text"
+                           {% if data.seller_name != None %} value="{{ data.seller_name|stringformat:'s' }}" {% endif %}>
+                    {% if errors %}
+                    <div id="seller_name_errors" class="text-danger">
+                        {{ errors.seller_name }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Seller Phone <span class="text-danger">*</span></label>
+                </div>
+                <div class="email-field form-group validation-group">
+                    <div class="form-group has-error input_fields_wrap">
+                        <div class="input-group">
+                            <input required class="form-control" id="seller_phone"
+                                   name="seller_phone"  type="text"
+                                   {% if data.seller_phone != None %}value="{{ data.seller_phone|stringformat:'s' }}" {%endif %}>
+                        </div>
+                        <div class="form_lable mt-1">
+                            {% if errors %}
+                            <div id="seller_phone_errors" class="text-danger">
+                                {{ errors.seller_phone }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--                    <div class="form-group">-->
+                    <!--                        &lt;!&ndash; <button type="button" class="btn btn-success btn-xs field-add-another">Add another</button> &ndash;&gt;-->
+                    <!--                        <button type="button" class="btn btn-light btn-sm add_button add_field_button"-->
+                    <!--                                style="box-shadow: 3px 2px 6px 2px #CED4DA;">Add Another-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lhasable">
+                    <label class="webforms__label">Seller Email <span class="text-danger">*</span></label>
+                </div>
+                <div class="email-field form-group validation-group">
+                    <div class="form-group has-error input_fields_wrap_two">
+                        <div class="input-group">
+                            <input type="hidden" name="via_webform" value="yes">
+                            <input required class="form-control" id="seller_email"
+                                   name="seller_email"  type="text"
+                                   {% if data.seller_email != None %}value="{{ data.seller_email|stringformat:'s' }}" {%endif %}>
+
+                        </div>
+                        <div class="form_lable mt-1">
+                            {% if errors %}
+                            <div id="seller_email_errors" class="text-danger">
+                                {{ errors.seller_email }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--                    <div class="form-group">-->
+                    <!--                        &lt;!&ndash; <button type="button" class="btn btn-success btn-xs field-add-another">Add another</button> &ndash;&gt;-->
+                    <!--                        <button type="button" class="btn btn-light btn-sm add_button add_field_button_two"-->
+                    <!--                                style="box-shadow: 3px 2px 6px 2px #CED4DA;" onclick="myFunction()">Add Another-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Property Address Map <span class="text-danger">*</span></label>
+                </div>
+                <div class="first_field">
+                    <input class="form-control" required id="property_address_map"
+                           name="property_address_map"  type="text"
+                           {% if data.property_address_map != None %}
+                           value="{{ data.property_address_map|stringformat:'s' }}" {% endif %}>
+                    {% if errors %}
+                    <div id="property_address_map_errors" class="text-danger">
+                        {{ errors.property_address_map }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Occupancy?</label>
+                </div>
+                <div class="first_field">
+                    <select name="occupancy" id="occupancy" class="form-control wizard_select2">
+                        {% for accu in occupancy %}
+                        <option value="{{ accu }}" {% if data.occupancy == accu %}selected{% endif %}>{{ accu }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Details (Condition, Reason for Selling, How soon they want to
+                        sell)</label>
+                </div>
+                <div class="text-field form-group validation-group">
+                    <textarea ="" rows="7"
+                              class="text-field__large form-control form-control-shadow"
+                              name="details">
+
+                    </textarea></div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Mortgage Amount</label>
+                </div>
+                <div class="first_field">
+                    <input  class="form-control" id="mortgage_amount"
+                           name="mortgage_amount" type="number"
+                           {% if data.mortgage_amount != None %}value="{{ data.mortgage_amount|stringformat:'s' }}" {%endif %}>
+                    {% if errors %}
+                    <div id="mortgage_amount_errors" class="text-danger">
+                        {{ errors.mortgage_amount }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Asking Price</label>
+                </div>
+                <div class="first_field">
+                    <input  class="form-control" id="asking_price" name="asking_price"
+                           type="number"
+                           {% if data.asking_price != None %}value="{{ data.asking_price|stringformat:'s' }}" {% endif
+                           %}>
+                    {% if errors %}
+                    <div id="asking_price_errors" class="text-danger">
+                        {{ errors.asking_price }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Best Call Back Time</label>
+                </div>
+                <div class="first_field">
+                    <input  class="form-control" id="best_call_back_time"
+                           name="best_call_back_time" type="text"
+                           {% if data.best_call_back_time !=None
+                           %}value="{{ data.best_call_back_time|stringformat:'s' }}" {% endif %}>
+                    {% if errors %}
+                    <div id="best_call_back_time_errors" class="text-danger">
+                        {{ errors.best_call_back_time }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Miscellaneous Notes</label>
+                </div>
+                <div class="text-field form-group validation-group">
+                    <textarea ="" rows="7"
+                              class="text-field__large form-control form-control-shadow"
+                              name="miscellaneous_notes"></textarea></div>
+            </div>
+            <div class="webforms__field">
+                <div class="form_lable">
+                    <label class="webforms__label">Lead By</label>
+                </div>
+                <div class="first_field">
+                    <select name="lead_by" id="lead_by" class="form-control wizard_select2">
+                        {% for user in users %}
+                        <option value="{{ user.id }}" {% if selected_lead_by == user %} selected {% endif %}>
+                            {{ user.first_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="webforms__submit-box form-group">
+                <button name="button" type="submit" class="btn btn-primary" style="background-color: #337AB7;">Submit
+                    Lead
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+<!--<div id="webforms__footer">-->
+<!--    <div class="powered-by-podio"><a class="powered-by-podio__link" target="_blank" href="#">-->
+<!--        <div class="powered-by-podio__image">-->
+<!--            <img src="xforce/Prospect-X-Logo.png" style="width: 238px;-->
+<!--                    height: 79px;">-->
+<!--        </div>-->
+<!--    </a><br><span><a href="#">Powered by Podio</a><span class="link-separator"> | </span><a target="_blank"-->
+<!--                                                                                            href="#">Report Abuse</a><span-->
+<!--            class="link-separator"> | </span><a target="_blank" href="#">Terms of-->
+<!--                    Service</a></span></div>-->
+<!--</div>-->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        var max_fields = 10; //maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap"); //Fields wrapper
+        var add_button = $(".add_field_button"); //Add button ID
+
+        var x = 1; //initlal text box count
+        $(add_button).click(function (e) { //on add input button click
+            e.preventDefault();
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div class="form-group has-error mt-3"> <div class="input-group"><span class="input-group-addon span_shadow_form"><select class="webforms__select"name="">  <option selected="" value="other">Other</option>    <option value="home">Home</option><option value="work">Work</option></select></span><input type="email" value="" ="" class="form-control form-control-shadow"name=""><a href="#" class="remove_field ml-3 mr-3 mt-2" style="color:#0C0C0D;"><strong>X</strong></a></div></div>'); //add input box
+            }
+        });
+
+        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        })
+    });
+    $(document).ready(function () {
+        var max_fields = 10; //maximum input boxes allowed
+        var wrapper = $(".input_fields_wrap_two"); //Fields wrapper
+        var add_button = $(".add_field_button_two"); //Add button ID
+
+        var x = 1; //initlal text box count
+        $(add_button).click(function (e) { //on add input button click
+            e.preventDefault();
+            if (x < max_fields) { //max input box allowed
+                x++; //text box increment
+                $(wrapper).append('<div class="input-group mt-3"><span class="input-group-addon span_shadow_form"><select class="webforms__select"   name=""> <option selected="" value="other">Other</option>   <option value="home">Home</option><option value="work">Work</option> </select></span><input type="email" value="" ="" class="form-control form-control-shadow"  name=""><a href="#" class="remove_field ml-3 mr-3 mt-2" style="color:#0C0C0D;"><strong>X</strong></a></div>'); //add input box
+            }
+        });
+
+        $(wrapper).on("click", ".remove_field", function (e) { //user click on remove text
+            e.preventDefault();
+            $(this).parent('div').remove();
+            x--;
+        })
+    });
+
+</script>
+
+</body>
+
+</html>

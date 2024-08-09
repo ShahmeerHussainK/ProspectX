@@ -1,0 +1,149 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">List Management</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Tags Management</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+
+            <!--settings partial sidebar-->
+            {% include 'partials/settings_sidebar.html' %}
+
+            <div class="col-sm-9 col-md-9 col-lg-10">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <!-- Manage Lists tab link -->
+                    <li class="nav-item">
+                        <a id="list_href" class="nav-link" href="{% url 'list_management' %}">
+                            <span class="d-block d-sm-none"><i class="fas fa-stream"></i></span>
+                            <span class="d-none d-sm-block">Manage Lists</span>
+                        </a>
+                    </li>
+                    <!-- Manage Tags tab link -->
+
+                    <li class="nav-item tag">
+                        <a class="nav-link active" href="{% url 'tags_management' %}">
+                            <span class="d-block d-sm-none"><i class="fas fa-tags"></i></span>
+                            <span class="d-none d-sm-block">Manage Tags</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <!-- Tab panes start -->
+                <div class="tab-content">
+                    <!-- Manage Lists tab start-->
+                    <div class="tab-pane active" id="manage-list" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="my_form" action="{% url 'create_tag' %}" method="post">{% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <div>
+                                                    <input id="name" name="name" type="text" class="form-control" required=""
+                                                        placeholder="Enter Tag Name" autocomplete="on">
+                                                </div>
+                                            <input type="hidden" id="user_id" name="user_id" value="{{ user }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Status</label>
+                                            <select required id="status" name="status" class="form-control select2">
+                                                <option value="Active">Active</option>
+                                                <option value="InActive">InActive</option>
+                                            </select>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <textarea wrap="hard" placeholder="Enter Description" id="description" class="form-control summernote" name="description"> </textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <button id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+                                                Create Tag
+                                            </button>
+                                            <p id="tag_msg" style="color:red;">{{ msg }}</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    </div>
+    <!-- content -->
+
+{% block extrajs %}
+
+<script type="text/javascript">
+$(window).on('load', function() {
+    let loc = window.location.href;
+    if (loc.indexOf("tag") >= 0) {
+        $('#tag_href').addClass('active');
+    }
+});
+// check_tag
+$('#').on('', function() {
+toastr.options = {
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+};
+
+    $.ajax({
+        type: 'POST',
+        url: window.location.origin + "/check_tag",
+        data: {
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+            'name': $('#name').val(),
+            'user': $('#user_id').val(),
+        },
+        dataType: 'json',
+        success: function (json) {
+            if (json.status == 200) {
+                toastr.error('Tag Already Exists!', 'Error');
+                window.location.href = "/create_tag"
+
+            }
+        },
+        error: function (xhr, errmsg, err) {
+        }
+    });
+});
+
+</script>
+{% endblock %}
+
+
+{% endblock %}

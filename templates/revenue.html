@@ -1,0 +1,193 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+<!-- <div class="card m-t-4">
+      <div class="card-body">
+        <div class="row">
+    <div class="col-md-12 text-center">
+        <div class="home-wrapper m-t-4">
+            <div class="mb-4">
+                <img src="{{ MEDIA_URL }}/maintenance.png" alt="logo"  height="30">
+            </div>
+            <div class="maintenance-img m-t-4">
+                <img src="{{ MEDIA_URL }}/maintenance.png" alt="" class="img-fluid mx-auto d-block" width="52%">
+            </div>
+            <h3 class="m-t-30">Coming Soon</h3>
+            <p>Please check back in sometime.</p>
+
+        </div>
+    </div>
+</div>
+      </div>
+</div> -->
+
+<div class="container-fluid">
+    <div class="content">
+        <div class="row mt-5">
+            <div class="col-sm-12 col-md-12 mt-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <label>Date Range</label>
+                        <div class="col-sm-10 mb-2 offset-md-1">
+                            <div class="form-group mb-0">
+
+                                <div id="reportrange"
+                                     style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                    <i class="fa fa-calendar"></i>&nbsp;
+                                    <span></span> <i class="fa fa-caret-down"></i>
+                                </div>
+
+                                <!--                                <div class="input-group input-daterange">-->
+                                <!--                                    <input id="to_date" type="text" class="form-control lower_input_fields"-->
+                                <!--                                           value="2012-04-05" placeholder="From">-->
+                                <!--                                    <div class="input-group-addon ml-3 mr-3 mt-2"><strong>-</strong></div>-->
+                                <!--                                    <input id="from_date" type="text" class="form-control lower_input_fields"-->
+                                <!--                                           value="2012-04-19" placeholder="To">-->
+                                <!--                                    <button id="filter-toggle-button"-->
+                                <!--                                            class="btn btn-outline-secondary waves-effect waves-light  ml-4 fillter_button_color lower_input_fields"-->
+                                <!--                                            onclick="myFunction()" type="button">-->
+                                <!--                                        Filter-->
+                                <!--                                    </button>-->
+                                <!--                                </div>-->
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title mb-4">Revenue</h4>
+
+                        <div class="row justify-content-center">
+                            <div class="col-sm-4">
+                                <div class="text-center">
+                                    <h5 class="mb-0 font-size-20">$ {{total}}</h5>
+                                    <p class="text-muted">Total</p>
+                                </div>
+                            </div>
+                            <!--                            <div class="col-sm-4">-->
+                            <!--                                <div class="text-center">-->
+                            <!--                                    <h5 class="mb-0 font-size-20">56210</h5>-->
+                            <!--                                    <p class="text-muted">Pending</p>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <!--                            <div class="col-sm-4">-->
+                            <!--                                <div class="text-center">-->
+                            <!--                                    <h5 class="mb-0 font-size-20">12485</h5>-->
+                            <!--                                    <p class="text-muted">Deactivated</p>-->
+                            <!--                                </div>-->
+                        </div>
+                    </div>
+
+
+                    <div id="revenue" class="morris-charts morris-chart-height" dir="ltr"
+                         style="position: relative;">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% block extrajs %}
+
+<script type="text/javascript">
+
+    $(function () {
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    });
+    $('#reportrange').daterangepicker({
+
+        ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        "startDate": "03/26/2020",
+        "endDate": "04/01/2020"
+    }, function (start, end, label) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        // console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+    });
+
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+
+        var start_date = picker.startDate.format('YYYY-MM-DD');
+        var end_date = picker.endDate.format('YYYY-MM-DD');
+        var rev = $("#revenue");
+        rev.empty();
+        $.ajax({
+            type: 'POST',
+            url: window.location.origin + "/revenue",
+            data: {
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                start_date: start_date,
+                end_date: end_date,
+            },
+            // beforeSend: function () {
+            //     $("#del_url").hide();
+            //     $('#del_loader').show();
+            // },
+            // complete: function () {
+            //     $("#del_url").show();
+            //     $('#del_loader').hide();
+            // },
+            success: function (data) {
+                // $("url_tbody").empty();
+                console.log(data.data);
+                // $("#revenue").empty();
+                console.log('abdul');
+                toastr.success('Successfully Deleted');
+                rv_chart(data.data)
+                // location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) { // on error..
+                // console.log(xhr.status + ": " + xhr.responseText);
+                var err = JSON.parse(xhr.responseText);
+                toastr.error('Error');
+            }
+        });
+    });
+
+
+    function rv_chart(data) {
+        // code to be executed
+        new Morris.Line({
+            // ID of the element in which to draw the chart.
+            element: 'revenue',
+            // Chart data records -- each entry in this array corresponds to a point on
+            // the chart.
+            data: data,
+            // The name of the data record attribute that contains x-values.
+            xkey: 'x',
+            // A list of names of data record attributes that contain y-values.
+            ykeys: ['y'],
+            // Labels for the ykeys -- will be displayed when you hover over the
+            // chart.
+            labels: ['Revenue']
+        });
+    }
+
+    $(document).ready(function () {
+        let res = "{{data}}";
+        res = res.replace(/&#39;/g, '"');
+        console.log(JSON.parse(res));
+        rv_chart(JSON.parse(res))
+    });
+
+
+</script>
+{% endblock %}
+
+{% endblock %}

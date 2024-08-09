@@ -1,0 +1,32 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+<div class="card m-t-4">
+      <div class="card-body">
+        <div class="row">
+    <div class="col-md-12 text-center">
+        <div class="home-wrapper m-t-4">
+            <div class="mb-4">
+                <img src="{{ MEDIA_URL }}/maintenance.png" alt="logo"  height="30">
+            </div>
+            <div class="maintenance-img m-t-4">
+                <img src="{{ MEDIA_URL }}/maintenance.png" alt="" class="img-fluid mx-auto d-block" width="52%">
+            </div>
+            <h3 class="m-t-30">Coming Soon</h3>
+            <p>Please check back in sometime.</p>
+
+        </div>
+    </div>
+</div>
+      </div>
+</div>
+{% block extrajs %}
+
+
+<script type="text/javascript">
+
+
+</script>
+{% endblock %}
+
+{% endblock %}

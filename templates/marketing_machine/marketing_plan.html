@@ -1,0 +1,1107 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+
+                    <div
+                         {% if queryset.status == 'Pending' %} class="bg-primary col-sm-12" {% endif %}
+                        {% if queryset.status == 'InActive' %} class="bg-danger col-sm-12" {% endif %}
+                        {% if queryset.status == 'Active' %} class="bg-success col-sm-12" {% endif %}>
+                            <h4 class="page-title text-white">Marketing Planner</h4>
+                        <ol class="breadcrumb marketing_plan_breadcrunb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                        class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item">Marketing Planner </li>
+                            <li class="breadcrumb-item active">Create Plan</li>
+                        </ol>
+                    </div>
+
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <form method="post" id="update_sequence_form">{% csrf_token %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card marketing_plan_mobile_view">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Sequence Name</label>
+                                    <div>
+                                        <input id="seq_name" name="seq_name" type="text" class="form-control" required=""
+                                               placeholder="Enter a sequence name" autocomplete="on"
+                                               value="{{ queryset.name }}" >
+                                        <input id="seq_id" type="hidden" value="{{ queryset.id }}">
+                                        <input id="user_name" type="hidden" value="{{ user_name }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>List</label>
+                                    <div>
+                                        <input id="seq_list" name="seq_list" type="text" class="form-control" value="{{ queryset.list.list_name }}" disabled>
+                                        <input type="hidden" id="list_id" name="list_id" value="{{ queryset.id }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Total Records in List</label>
+                                    <div>
+                                        <input id="total_records" name="total_records" type="text" class="form-control" value="{{ total_records }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm m-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Plan</th>
+                                                    <th>
+                                                            <label class="marketing_plan_slider">
+                                                            <input type="checkbox"
+                                                                id="cold_call_plan" name="cold_call_plan">
+                                                            <span class="slider round"></span>
+
+                                                            </label>
+
+                                                            <span class="radio_btn_title">Cold Call</span>
+
+                                                    </th>
+                                                    <th>
+                                                        <label class="marketing_plan_slider">
+                                                            <input type="checkbox"
+                                                                id="dir_mail_plan_1" name="dir_mail_plan_1">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <span class="radio_btn_title">Direct Mail</span>
+                                                    </th>
+                                                    <th>
+                                                        <label class="marketing_plan_slider">
+                                                            <input type="checkbox"
+                                                                id="voice_plan_1" name="voice_plan_1">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <span class="radio_btn_title">V-Broadcast</span>
+
+                                                        <!--<div class="custom-control custom-switch " dir="ltr">-->
+                                                            <!--<input type="checkbox" class="custom-control-input"-->
+                                                                <!--id="voice_plan_1" name="voice_plan_1">-->
+                                                            <!--<label class="custom-control-label d-lg-block d-xl-block d-md-none d-sm-none d-none" for="voice_plan_1">-->
+                                                                <!--Voice Broadcast-->
+                                                            <!--</label>-->
+                                                            <!--<label class="custom-control-label d-lg-none d-xl-none d-md-block d-sm-block " for="voice_plan_1">-->
+                                                               <!--Broadcast-->
+                                                            <!--</label>-->
+                                                        <!--</div>-->
+                                                    </th>
+                                                    <th>
+                                                        <label class="marketing_plan_slider">
+                                                            <input type="checkbox"
+                                                                id="rvm_plan_1" name="rvm_plan_1">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <span class="radio_btn_title">RVM</span>
+
+                                                    </th>
+                                                    <th>
+                                                        <label class="marketing_plan_slider">
+                                                            <input type="checkbox"
+                                                                id="sms_plan_1" name="sms_plan_1">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <span class="radio_btn_title">SMS</span>
+                                                    </th>
+                                                    <th>
+                                                        <label class="marketing_plan_slider">
+                                                            <input type="checkbox"
+                                                                id="email_plan_1" name="email_plan_1">
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                        <span class="radio_btn_title">EMAIL</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th># Of Round </th>
+                                                    <td>
+                                                        <div class="planner-select-option">
+                                                            <select name="Cold_Call" id="Cold_Call" class="custom-select rounds-count">
+                                                                <option id="0" value="0">0</option>
+                                                                {% for round in rounds %}
+                                                                    <option id="{{ round }}" value="{{ round }}">{{ round }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="planner-select-option">
+                                                            <select name="Direct_Mail" id="Direct_Mail" class="custom-select rounds-count">
+                                                                <option>0</option>
+                                                                {% for round in rounds %}
+                                                                    <option value="{{ round }}">{{ round }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="planner-select-option">
+                                                            <select name="Voice_Broadcast" id="Voice_Broadcast" class="custom-select rounds-count">
+                                                                <option>0</option>
+                                                                {% for round in rounds %}
+                                                                    <option value="{{ round }}">{{ round }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="planner-select-option">
+                                                            <select name="RVM" id="RVM" class="custom-select rounds-count">
+                                                                <option>0</option>
+                                                                {% for round in rounds %}
+                                                                    <option value="{{ round }}">{{ round }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="planner-select-option">
+                                                            <select name="SMS" id="SMS" class="custom-select rounds-count">
+                                                                <option>0</option>
+                                                                {% for round in rounds %}
+                                                                    <option value="{{ round }}">{{ round }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="planner-select-option">
+                                                            <select name="EMAIL" id="EMAIL" class="custom-select rounds-count">
+                                                                <option>0</option>
+                                                                {% for round in rounds %}
+                                                                    <option value="{{ round }}">{{ round }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr class="sequence_detail_row">
+                                                    <th valign="top" id="days_heading" scope="row">Next Follow Up</th>
+
+                                                    <td valign="top" height="100%" id="Cold_Call_td">
+                                                    </td>
+
+                                                    <td valign="top" id="Direct_Mail_td">
+                                                    </td>
+
+                                                    <td valign="top" id="Voice_Broadcast_td">
+                                                    </td>
+
+                                                    <td valign="top" id="RVM_td">
+                                                    </td>
+
+                                                    <td valign="top" id="SMS_td">
+                                                    </td>
+
+                                                    <td valign="top" id="EMAIL_td">
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Status</label>
+                                <div class=" optional-filter-radio-btn-circles" role="group" data-toggle="buttons">
+                                    <label for="approval_pending" class="btn btn-sm btn-outline-primary waves-effect btn-circle  {% if queryset.status == 'Pending' %}active{% endif %} waves-light w-xs">
+                                        <input type="radio" id="approval_pending" name="status_radio" value="Pending"
+                                        class="custom-control-input" {% if queryset.status == 'Pending' %}checked{% endif %}>Pending
+                                    </label>
+
+                                    <label for="approval_active" class="btn btn-sm btn-outline-success waves-effect btn-circle  {% if queryset.status == 'Active' %} active {% endif %}  waves-light w-xs">
+                                        <input type="radio" id="approval_active" name="status_radio" value="Active"
+                                        class="custom-control-input"  {% if queryset.status == 'Active' %}checked{% endif %}>Active
+                                    </label>
+                                    <label for="approval_inactive" class="btn btn-sm btn-outline-danger waves-effect btn-circle {% if queryset.status == 'InActive' %} active {% endif %}  waves-light w-xs">
+                                        <input type="radio" id="approval_inactive" name="status_radio" value="InActive"
+                                                class="custom-control-input" {% if queryset.status == 'InActive' %} checked {% endif %}>InActive
+                                    </label>
+                                </div>
+
+                                <!-- <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input value="Pending" type="radio" id="approval_pending" name="status_radio"
+                                                class="custom-control-input" {% if queryset.status == 'Pending' %}checked{% endif %}>
+                                            <label class="custom-control-label" for="approval_pending">Pending </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input value="Active" type="radio" id="approval_active" name="status_radio"
+                                                class="custom-control-input" {% if queryset.status == 'Active' %}checked{% endif %}>
+                                            <label class="custom-control-label" for="approval_active">Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input value="InActive" type="radio" id="approval_inactive" name="status_radio"
+                                                class="custom-control-input" {% if queryset.status == 'InActive' %}checked{% endif %}>
+                                            <label class="custom-control-label" for="approval_inactive">InActive
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="control-label">Temperature</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input value="Cold" type="radio" id="temperature_cold" name="temperature_radio"
+                                                class="custom-control-input" {% if queryset.temperature == 'Cold' %}checked{% endif %}>
+                                            <label class="custom-control-label" for="temperature_cold">Cold </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input value="Warm" type="radio" id="temperature_warm" name="temperature_radio"
+                                                class="custom-control-input" {% if queryset.temperature == 'Warm' %}checked{% endif %}>
+                                            <label class="custom-control-label" for="temperature_warm">Warm</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input value="Hot" type="radio" id="temperature_hot" name="temperature_radio"
+                                                class="custom-control-input" {% if queryset.temperature == 'Hot' %}checked{% endif %}>
+                                            <label class="custom-control-label" for="temperature_hot">Hot</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Details</label>
+                                    <textarea class="form-control summernote" id="seq_details" name="seq_details">{{ queryset.details }}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="marketing_plan_slider">
+                                        <input type="checkbox"
+                                            id="open_marketing_template" name="open_marketing_template">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span class="radio_btn_title"><h6>Open Marketing Template</h6></span>
+
+                                    <!--<div class="custom-control custom-switch " dir="ltr">-->
+                                        <!--<input type="checkbox" class="custom-control-input" id="open_marketing_template">-->
+                                        <!--<label class="custom-control-label" for="open_marketing_template">-->
+                                            <!--Open Marketing Template-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="marketing_plan_slider">
+                                        <input type="checkbox"
+                                            id="open_planner" name="open_planner">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span class="radio_btn_title"><h6>Open Planner</h6></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="marketing_plan_slider">
+                                        <input type="checkbox"
+                                            id="open_prospect_properties" name="open_prospect_properties">
+                                        <span class="slider round"></span>
+                                    </label>
+                                    <span class="radio_btn_title"><h6>Open Prospects</h6></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Open Marketing Template row start -->
+                        <div id="related_temp" class="row">
+                            <div class="col-sm-12 template_list">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4 class="mt-0 header-title">Related Template</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Related Template Cold Call  colum start -->
+                                    <div class="col-sm-3 col-md-2">
+                                        <div id="call_temp" class="template_list_detail">
+                                            <div class="template_list_heading">
+                                                <label class="m-1">
+                                                    <strong>
+                                                        Cold Call
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <!-- template list bottom card start -->
+                                            <div id="Cold_Call_temp" class="template_list_bottom_card">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Related Template Cold Call colum end -->
+                                    <!-- Related Template Direct Mail  colum start -->
+                                    <div class="col-sm-3 col-md-2">
+                                        <div id="dir_mail_temp" class="template_list_detail">
+                                            <div class="template_list_heading">
+                                                <label class="m-1">
+                                                    <strong>
+                                                        Direct Mail
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <!-- template list bottom card start -->
+                                            <div id="Direct_Mail_temp" class="template_list_bottom_card">
+
+
+                                            </div>
+                                            <!-- template list bottom card end -->
+                                        </div>
+                                    </div>
+                                    <!-- Related Template Direct Mail colum end -->
+                                    <!-- Related Template Voice Broadcast colum start -->
+                                    <div class="col-sm-3 col-md-2">
+                                        <div id="voice_temp" class="template_list_detail">
+                                            <div class="template_list_heading">
+                                                <label class="m-1">
+                                                    <strong>
+                                                        Voice Broadcast
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <!-- template list bottom card start -->
+                                            <div id="Voice_Broadcast_temp" class="template_list_bottom_card">
+
+
+                                            </div>
+                                            <!-- template list bottom card end -->
+                                        </div>
+                                    </div>
+                                    <!-- Related Template Voice Broadcast colum end -->
+                                    <!-- Related Template RVM  colum start -->
+                                    <div class="col-sm-3 col-md-2">
+                                        <div id="rvm_temp_div" class="template_list_detail">
+                                            <div class="template_list_heading">
+                                                <label class="m-1">
+                                                    <strong>
+                                                        RVM
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <!-- template list bottom card start -->
+                                            <div id="RVM_temp" class="template_list_bottom_card">
+
+
+                                            </div>
+                                            <!-- template list bottom card end -->
+                                        </div>
+                                    </div>
+                                    <!-- Related Template RVM colum end -->
+                                    <!-- Related Template SMS  colum start -->
+                                    <div class="col-sm-3 col-md-2">
+                                        <div id="sms_temp_div" class="template_list_detail">
+                                            <div class="template_list_heading">
+                                                <label class="m-1">
+                                                    <strong>
+                                                        SMS
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <!-- template list bottom card start -->
+                                            <div id="SMS_temp" class="template_list_bottom_card">
+
+
+                                            </div>
+                                            <!-- template list bottom card end -->
+                                        </div>
+                                    </div>
+                                    <!-- Related Template Direct Mail colum end -->
+                                    <!-- Related Template EMAIL colum start -->
+                                    <div class="col-sm-3 col-md-2">
+                                        <div id="email_temp_div" class="template_list_detail">
+                                            <div class="template_list_heading">
+                                                <label class="m-1">
+                                                    <strong>
+                                                        EMAIL
+                                                    </strong>
+                                                </label>
+                                            </div>
+                                            <!-- template list bottom card start -->
+                                            <div id="EMAIL_temp" class="template_list_bottom_card">
+
+
+                                            </div>
+                                            <!-- template list bottom card end -->
+                                        </div>
+                                    </div>
+                                    <!-- Related Template EMAIL colum end -->
+                                </div>
+                            </div>
+                        </div><br>
+                        <!-- Open Marketing Template row end -->
+
+                        <!-- Open Planner Template row start-->
+                        <div id="plan_temp" class="row">
+                            <div class="col-sm-12 ">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Details</label>
+                                            <textarea class="form-control summernote"
+                                                name="plan_details" id="plan_details">Details for Plans...</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Market</label>
+                                            <!--<input type="text" id="major_inp" name="major_inp" class="form-control" placeholder="Search Item">-->
+                                            <select id="markets" required name="markets" class="form-control select2">
+
+                                            </select>
+
+                                            <!--<button style="color:#0c5fa8;" type="button" class="btn btn-link p-0  waves-effect"-->
+                                                <!--data-toggle="modal" data-target=".bs-example-modal-center">Create new Item</button>-->
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Responsible</label>
+                                            <select required id="responsible_user" name="responsible_user" class="form-control select2">
+                                                {% for users in sub_users %}
+                                                    <option value="{{ users.id }}" {% if queryset.responsible.id == users.id %} selected {% endif %}>{{ users.username }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Status</label>
+                                        <div class="form-group">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio  ">
+                                                    <input value="Untouched" type="radio" id="planning_status_untouched" name="planning_status"
+                                                        class="custom-control-input" {% if queryset.planning_status == 'Untouched' %}checked{% endif %}>
+                                                    <label class="custom-control-label" for="planning_status_untouched">Untouched </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input value="Filtered" type="radio" id="planning_status_filtered" name="planning_status"
+                                                        class="custom-control-input" {% if queryset.planning_status == 'Filtered' %}checked{% endif %}>
+                                                    <label class="custom-control-label" for="planning_status_filtered">Filtered</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input value="Skipped" type="radio" id="planning_status_skipped" name="planning_status"
+                                                        class="custom-control-input" {% if queryset.planning_status == 'Skipped' %}checked{% endif %}>
+                                                    <label class="custom-control-label" for="planning_status_skipped">Skipped</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input value="Planned" type="radio" id="planning_status_planned" name="planning_status"
+                                                        class="custom-control-input" {% if queryset.planning_status == 'Planned' %}checked{% endif %}>
+                                                    <label class="custom-control-label" for="planning_status_planned">Planned</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-sm m-0 days_campaign"  style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Exit Plan</th>
+                                                            <th id="call_exit_th" class="call_exit">
+                                                                Cold Call
+                                                            </th>
+                                                            <th id="dir_mail_exit_th" class="dir_mail_exit">
+                                                                Direct Mail
+                                                            </th>
+                                                            <th id="voice_exit_th" class="voice_exit">
+                                                                Voice Broadcast
+                                                            </th>
+                                                            <th id="rvm_exit_th" class="rvm_exit">
+                                                                RVM
+                                                            </th>
+                                                            <th id="sms_exit_th" class="sms_exit">
+                                                                SMS
+                                                            </th>
+                                                            <th id="email_exit_th" class="email_exit">
+                                                                EMAIL
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Schedule</th>
+                                                            <td class="call_exit">
+                                                                <div class="input-group">
+                                                                    <div class="input-group date" data-target-input="nearest">
+                                                                      <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                                                                      <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                                                                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                                                                      <!--</div>-->
+                                                                    <!--</div>-->
+                                                                        <input value="{{ scheduled_date.cold_call }}" class="form-control datetimepicker"
+                                                                               required id="Cold_Call_date" name="Cold_Call_date" type="text" autocomplete="off">
+                                                                    <!--<input type="datetime-local" id="datetimepicker1" name="Cold_Call_date">-->
+                                                                    <!--<input type="datetime-local" id="Cold_Call_date" name="Cold_Call_date">-->
+
+                                                                    <!--<input value="{{ scheduled_date.cold_call }}" class="with-border datepicker" type="date" id="Cold_Call_date" name="Cold_Call_date">-->
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="dir_mail_exit">
+                                                                <div class="input-group">
+
+                                                                    <div class="input-group date" data-target-input="nearest">
+                                                                      <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                                                                      <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                                                                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                                                                      <!--</div>-->
+                                                                    <!--</div>-->
+                                                                        <input value="{{ scheduled_date.direct_mail }}" class="form-control datetimepicker"
+                                                                               required id="Direct_Mail_date" name="Direct_Mail_date" type="text" autocomplete="off">
+                                                                    <!--<input type="datetime-local" id="datetimepicker1" name="Cold_Call_date">-->
+                                                                    <!--<input type="datetime-local" id="Cold_Call_date" name="Cold_Call_date">-->
+
+                                                                    <!--<input value="{{ scheduled_date.cold_call }}" class="with-border datepicker" type="date" id="Cold_Call_date" name="Cold_Call_date">-->
+                                                                    </div>
+
+                                                                    <!--<input value="{{ scheduled_date.direct_mail }}" class="with-border datepicker" type="date" id="Direct_Mail_date" name="Direct_Mail_date">-->
+                                                                </div>
+                                                            </td>
+                                                            <td class="voice_exit">
+                                                                <div class="input-group">
+
+                                                                    <div class="input-group date" data-target-input="nearest">
+                                                                      <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                                                                      <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                                                                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                                                                      <!--</div>-->
+                                                                    <!--</div>-->
+                                                                        <input value="{{ scheduled_date.voice_broadcast }}" class="form-control datetimepicker"
+                                                                               required id="Voice_Broadcast_date" name="Voice_Broadcast_date" type="text" autocomplete="off">
+                                                                    <!--<input type="datetime-local" id="datetimepicker1" name="Cold_Call_date">-->
+                                                                    <!--<input type="datetime-local" id="Cold_Call_date" name="Cold_Call_date">-->
+
+                                                                    <!--<input value="{{ scheduled_date.cold_call }}" class="with-border datepicker" type="date" id="Cold_Call_date" name="Cold_Call_date">-->
+                                                                    </div>
+
+                                                                    <!--<input value="{{ scheduled_date.voice_broadcast }}" class="with-border datepicker" type="date" id="Voice_Broadcast_date" name="Voice_Broadcast_date">-->
+                                                                </div>
+                                                            </td>
+                                                            <td class="rvm_exit">
+                                                                <div class="input-group">
+
+                                                                    <div class="input-group date" data-target-input="nearest">
+                                                                      <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                                                                      <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                                                                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                                                                      <!--</div>-->
+                                                                    <!--</div>-->
+                                                                        <input value="{{ scheduled_date.RVM }}" class="form-control datetimepicker"
+                                                                               required id="RVM_date" name="RVM_date" type="text" autocomplete="off">
+                                                                    <!--<input type="datetime-local" id="datetimepicker1" name="Cold_Call_date">-->
+                                                                    <!--<input type="datetime-local" id="Cold_Call_date" name="Cold_Call_date">-->
+
+                                                                    <!--<input value="{{ scheduled_date.cold_call }}" class="with-border datepicker" type="date" id="Cold_Call_date" name="Cold_Call_date">-->
+                                                                    </div>
+
+                                                                    <!--<input value="{{ scheduled_date.RVM }}" class="with-border datepicker" type="date" id="RVM_date" name="RVM_date">-->
+                                                                </div>
+                                                            </td>
+                                                            <td class="sms_exit">
+                                                                <div class="input-group">
+
+                                                                    <div class="input-group date" data-target-input="nearest">
+                                                                      <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                                                                      <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                                                                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                                                                      <!--</div>-->
+                                                                    <!--</div>-->
+                                                                        <input value="{{ scheduled_date.SMS }}" class="form-control datetimepicker"
+                                                                               required id="SMS_date" name="SMS_date" type="text" autocomplete="off">
+                                                                    <!--<input type="datetime-local" id="datetimepicker1" name="Cold_Call_date">-->
+                                                                    <!--<input type="datetime-local" id="Cold_Call_date" name="Cold_Call_date">-->
+
+                                                                    <!--<input value="{{ scheduled_date.cold_call }}" class="with-border datepicker" type="date" id="Cold_Call_date" name="Cold_Call_date">-->
+                                                                    </div>
+
+                                                                    <!--<input value="{{ scheduled_date.SMS }}" class="with-border datepicker" type="date" id="SMS_date" name="SMS_date">-->
+                                                                </div>
+                                                            </td>
+                                                            <td class="email_exit">
+                                                                <div class="input-group">
+
+                                                                    <div class="input-group date" data-target-input="nearest">
+                                                                      <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                                                                      <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                                                                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                                                                      <!--</div>-->
+                                                                    <!--</div>-->
+                                                                        <input value="{{ scheduled_date.EMAIL }}" class="form-control datetimepicker"
+                                                                               required id="Email_date" name="Email_date" type="text" autocomplete="off">
+                                                                        <input value="" id="time_dif" name="time_dif" type="hidden">
+                                                                    <!--<input type="datetime-local" id="datetimepicker1" name="Cold_Call_date">-->
+                                                                    <!--<input type="datetime-local" id="Cold_Call_date" name="Cold_Call_date">-->
+
+                                                                    <!--<input value="{{ scheduled_date.cold_call }}" class="with-border datepicker" type="date" id="Cold_Call_date" name="Cold_Call_date">-->
+                                                                    </div>
+
+                                                                    <!--<input value="{{ scheduled_date.EMAIL }}" class="with-border datepicker" type="date" id="Email_date" name="Email_date">-->
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Break Into </th>
+                                                            <td class="call_exit">
+                                                                <input class="form-control planner-custom-input breaking-into"
+                                                                    type="number" max="100" min="0" value="{{ break_into.cold_call }}" id="call_break" name="call_break">
+                                                            </td>
+                                                            <td class="dir_mail_exit">
+                                                                <input class="form-control planner-custom-input breaking-into"
+                                                                    type="number" max="100" min="0" value="{{ break_into.direct_mail }}" id="dir_mail_break" name="dir_mail_break">
+                                                            </td>
+                                                            <td class="voice_exit">
+                                                                <input class="form-control planner-custom-input breaking-into"
+                                                                    type="number" max="100" min="0" value="{{ break_into.voice_broadcast }}" id="voice_break" name="voice_break">
+                                                            </td>
+                                                            <td class="rvm_exit">
+                                                                <input class="form-control planner-custom-input breaking-into"
+                                                                    type="number" max="100" min="0" value="{{ break_into.RVM }}" id="rvm_break" name="rvm_break">
+                                                            </td>
+                                                            <td class="sms_exit">
+                                                                <input class="form-control planner-custom-input breaking-into"
+                                                                    type="number" max="100" min="0"value="{{ break_into.SMS }}" id="sms_break" name="sms_break">
+                                                            </td>
+                                                            <td class="email_exit">
+                                                                <input class="form-control planner-custom-input breaking-into"
+                                                                    type="number" max="100" min="0" value="{{ break_into.EMAIL }}" id="email_break" name="email_break">
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr class="sequence_detail_row breaking_into">
+                                                            <th id="campaign_gap" height="0" scope="row"> </th>
+                                                            <td valign="top" height="100%" id="call_break_td" class="call_exit">
+                                                            </td>
+
+                                                            <td valign="top" height="100%" id="dir_mail_break_td" class="dir_mail_exit">
+                                                            </td>
+
+                                                            <td valign="top" height="100%" id="voice_break_td" class="voice_exit">
+                                                            </td>
+
+                                                            <td valign="top" height="100%" id="rvm_break_td" class="rvm_exit">
+                                                            </td>
+
+                                                            <td valign="top" height="100%" id="sms_break_td" class="sms_exit">
+                                                            </td>
+
+                                                            <td valign="top" height="100%" id="email_break_td" class="email_exit">
+                                                            </td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th scope="row">Send On</th>
+                                                            <td class="call_exit">
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-S" type="radio" id="send_on_call_MS" name="send_on_call"
+                                                                        class="custom-control-input" {% if send_on.cold_call == 'M-S' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_call_MS">M
+                                                                        - S </label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-F" type="radio" id="send_on_call_MF"
+                                                                        name="send_on_call"
+                                                                        class="custom-control-input" {% if send_on.cold_call == 'M-F' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_call_MF">M
+                                                                        - F </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="dir_mail_exit">
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-S" type="radio" id="send_on_dir_mail_MS"
+                                                                        name="send_on_dir_mail"
+                                                                        class="custom-control-input" {% if send_on.direct_mail == 'M-S' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_dir_mail_MS">M
+                                                                        - S </label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-F" type="radio" id="send_on_dir_mail_MF"
+                                                                        name="send_on_dir_mail"
+                                                                        class="custom-control-input" {% if send_on.direct_mail == 'M-F' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_dir_mail_MF">M
+                                                                        - F </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="voice_exit">
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-S" type="radio" id="send_on_voice_MS"
+                                                                        name="send_on_voice"
+                                                                        class="custom-control-input" {% if send_on.voice_broadcast == 'M-S' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_voice_MS">M
+                                                                        - S </label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-F" type="radio" id="send_on_voice_MF"
+                                                                        name="send_on_voice"
+                                                                        class="custom-control-input" {% if send_on.voice_broadcast == 'M-F' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_voice_MF">M
+                                                                        - F </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="rvm_exit">
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-S" type="radio" id="send_on_rvm_MS"
+                                                                        name="send_on_rvm"
+                                                                        class="custom-control-input" {% if send_on.RVM == 'M-S' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_rvm_MS">M
+                                                                        - S </label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-F" type="radio" id="send_on_rvm_MF"
+                                                                        name="send_on_rvm"
+                                                                        class="custom-control-input" {% if send_on.RVM == 'M-F' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_rvm_MF">M
+                                                                        - F </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="sms_exit">
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-S" type="radio" id="send_on_sms_MS"
+                                                                        name="send_on_sms"
+                                                                        class="custom-control-input" {% if send_on.SMS == 'M-S' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_sms_MS">M
+                                                                        - S </label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-F" type="radio" id="send_on_sms_MF"
+                                                                        name="send_on_sms"
+                                                                        class="custom-control-input" {% if send_on.SMS == 'M-F' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_sms_MF">M
+                                                                        - F </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="email_exit">
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-S" type="radio" id="send_on_email_MS"
+                                                                        name="send_on_email"
+                                                                        class="custom-control-input" {% if send_on.EMAIL == 'M-S' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_email_MS">M
+                                                                        - S </label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio  ">
+                                                                    <input value="M-F" type="radio" id="send_on_email_MF"
+                                                                        name="send_on_email"
+                                                                        class="custom-control-input" {% if send_on.EMAIL == 'M-F' %} checked {% endif %}>
+                                                                    <label class="custom-control-label" for="send_on_email_MF">M
+                                                                        - F </label>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Create Marketing</label>
+                                        <div class="form-group">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio  ">
+                                                    <input value="Yes" type="radio" id="create_marketing_yes" name="create_marketing_radio"
+                                                        class="custom-control-input">
+                                                    <label class="custom-control-label" for="create_marketing_yes">Yes </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input value="No" type="radio" id="create_marketing_no" name="create_marketing_radio"
+                                                        class="custom-control-input" checked>
+                                                    <label class="custom-control-label" for="create_marketing_no">No Value</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Planing Done</label>
+                                        <div class="form-group">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio  ">
+                                                    <input value="Yes" type="radio" id="planning_done_yes" name="planning_done_radio"
+                                                        class="custom-control-input"{% if queryset.planning_done == 'Yes' %}checked{% endif %}>
+                                                    <label class="custom-control-label" for="planning_done_yes">Yes </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-radio">
+                                                    <input value="No" type="radio" id="planning_done_no" name="planning_done_radio"
+                                                        class="custom-control-input"{% if queryset.planning_done == 'No' %}checked{% endif %}>
+                                                    <label class="custom-control-label" for="planning_done_no">Not Done</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label>Choose File</label><br />-->
+<!--                                            <input id="campaign_file" name="campaign_file" type="file" class="filestyle" data-buttonname="btn-secondary">-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- Open Planner Template row end -->
+
+                        <!-- Open Related Templates row start -->
+                        <div id="related_prospects" class="row">
+                            <div class="col-sm-12 prospects_list2">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4 class="mt-0 header-title">Related Prospects</h4>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body ">
+                                        <table id="my_table" class="table table-hover dt-responsive nowrap display"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Property Full Address</th>
+                                    <th>Mailing Full Address</th>
+                                    <th>List Count</th>
+                                    <th>Tags</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rel_data">
+<!--                                {% for rel_prospect in related_prospects_data %}-->
+<!--                                <tr id="rel_data">-->
+<!--                                    <td id="rel_name">{{ rel_prospect.name }}</td>-->
+<!--                                    <td id="rel_property">{{ rel_prospect.propertyaddress }}</td>-->
+<!--                                    <td id="rel_mailing">{{ rel_prospect.mailingaddress }}</td>-->
+<!--                                    <td id="rel_list">{{ rel_prospect.list_count }}</td>-->
+<!--                                    <td id="rel_tag">{{ rel_prospect.tag_count }}</td>-->
+<!--                                </tr>-->
+<!--                                {% endfor %}-->
+
+                            </tbody>
+                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                        <!-- Open Related Templates row end -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button class="btn marketing_plan_mobile_btn btn-primary waves-effect waves-light" type="submit">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+            </form>
+
+            <div class="row">
+                <div id="major_modal" class="modal fade" tabindex="-1" role="dialog"
+                    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title mt-0"> Market</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="major_market_form">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Title</label>
+                                            <div>
+                                                <input id="mark_title" name="mark_title" type="text" class="form-control"
+                                                    required="" autocomplete="on">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Market</label>
+                                            <div>
+                                                <input value="{{ queryset.maj_market.title }}" id="market" name="market" type="text" class="form-control"
+                                                    required="" autocomplete="on">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label> State </label>
+                                            <div>
+                                                <input id="state" name="state" type="text" class="form-control"
+                                                    required="" autocomplete="on">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col-sm-12 ">
+                                        <button id="create_major_mark"
+                                            class="btn btn-primary waves-effect waves-light"
+                                            type="submit">
+                                            Create Market
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                                </div>
+                            </form>
+                            </div><!-- /.modal-content -->
+
+
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
+            </div>
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- content -->
+
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+ <link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+
+
+{% block extrajs %}
+
+<!--//datetime picker new for market planer-->
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'Y/m/d H:m',
+
+        onGenerate:function( ct ){
+        jQuery(this).find('.xdsoft_date.xdsoft_weekend')
+          .addClass('xdsoft_disabled');
+      },
+
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+
+    let conf = {
+        plans_data: "{{plans_data}}",
+        plan_status: "{{plan_status}}",
+        campaign_gap: "{{campaign_gap}}",
+    };
+    // Initialization
+    oMarketingPlan = new MarketPlan(conf);
+    var off = (new Date().getTimezoneOffset()/60).toString();
+    $('#time_dif').val(off);
+});
+
+$(window).on('load', function() {
+    var data = {
+          seq_id : $('#list_id').val(),
+      };
+
+    $.ajax({
+         type: "POST",
+         async: false,
+         cache: false,
+         url: window.location.origin+"/marketing/related_prospects",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+             if(result.status==200)
+             {
+                //let data_got = result.data;
+                let $rel = $('#rel_data');
+                $rel.empty();
+
+                $.each(result.data, function( key, value ) {
+                  $rel.append('<tr><td>'+value.name+'</td><td>'+value.propertyaddress+'</td><td>'+value.mailingaddress+'</td><td>'+value.list_count+'</td><td>'+value.tag_count+'</td></tr>');
+                });
+                table = $('#my_table').DataTable( {
+                    retrieve: true,
+                    paging: true,
+                });
+                table.page( 'next' ).draw( 'page' );
+                table.page( 'previous' ).draw( 'page' );
+             }
+             else {
+             }
+
+         },
+         error: function ( result) {
+         }
+      });
+
+});
+
+</script>
+
+<script src="{% static 'assets/js/prospectx/MarketingPlan.js' %}"></script>
+{% endblock %}
+
+
+
+{% endblock %}

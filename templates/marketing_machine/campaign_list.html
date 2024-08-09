@@ -1,0 +1,595 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Marketing</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Marketing Campaign</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary waves-effect waves-light float-right" href="{% url 'create_campaign' %}">
+                        <i class="mdi mdi-plus mr-2"></i> Marketing Campaign
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-xl-2 col-md-3 col-lg-3 col-sm-3">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar side_bar_borders_mart_page">
+                                <tbody>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title" style="padding-top: 8px;"><a style="color:white;" href="{% url 'campaign_list' 'home' %}">All {{ counts.all }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top: 2px;padding-bottom: 8px;"><a href="{% url 'campaign_list' 'today' %}">Today {{ counts.today }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'campaign_list' 'tomorrow' %}">Tomorrow {{ counts.tomorrow }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-top: 2px;padding-bottom: 8px;"><a href="{% url 'campaign_list' 'future' %}">Future {{ counts.future }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'campaign_list' 'past' %}">Past Due {{ counts.past }}</a></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-md-9 col-lg-9 col-sm-9">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+
+                        <a class="nav-link active"  href="{% url 'campaign_list' 'home' %}">
+                            <i class="fas fa-bullhorn selected_icon"></i> Marketing Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link "  href="{% url 'sequence_list' 'home' %}">
+                            <i class="fa fa-tasks non_selected_icon"></i> Marketing Planner
+                        </a>
+                    </li>
+                </ul>
+                <div class="card">
+                    <div class="card-body ">
+                        <div class="">
+                            <form action="{% url 'campaign_list' 'home' %}" method="post">{% csrf_token %}
+                            <div id="filters-div" class="row mb-3">
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Plan Type:</label>
+                                        <select id="search_plan" name="search_plan"
+                                            class="select2 form-control select2-multiple"
+                                            multiple="multiple"
+                                            data-placeholder="Choose ...">
+                                            <option value="Cold Call">Cold Call</option>
+                                            <option value="Direct Mail">Direct Mail</option>
+                                            <option value="Voice Broadcast">Voice Broadcast</option>
+                                            <option value="RVM">RVM</option>
+                                            <option value="SMS">SMS</option>
+                                            <option value="EMAIL">EMAIL</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Temperature:</label>
+                                        <select id="temperature_search" name="temperature_search"
+                                            class="select2 form-control select2-multiple"
+                                            multiple="multiple"
+                                            data-placeholder="Choose ...">
+                                            <option value="Cold">Cold</option>
+                                            <option value="Warm">Warm</option>
+                                            <option value="Hot">Hot</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Distribution Status:</label>
+                                        <select id="dist_search" name="dist_search"
+                                            class="select2 form-control select2-multiple"
+                                            multiple="multiple"
+                                            data-placeholder="Choose ...">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Untouched">Untouched</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Approval Status:</label>
+                                        <select id="approval_search" name="approval_search"
+                                            class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Approved to Merchant">Approved to Merchant</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Planning Done:</label>
+                                        <select id="planning_done_search" name="planning_done_search"
+                                            class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Scheduled Date:</label>
+                                        <input value="" class="form-control datepicker1 scheduled_font_size"
+                                               id="datepicker1" name="datepicker1" type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <button class="btn btn-primary w-md waves-effect waves-light  mt-2 ml-10"
+                                            type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+
+                        <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Title</th>
+                                    <th>Plan Type</th>
+                                    <th>Temperature</th>
+                                    <th>Approval</th>
+                                    <th>Distribution Status</th>
+                                    <th>Touch</th>
+                                    <th>Scheduled</th>
+                                    <th>Created</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in campaign_data %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td id="seq_td">
+                                        <a href="{% url 'update_campaign' item.id %}" id="camp_btn" type="button" class="btn btn-sm btn-block btn-primary btn_wrap_content" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    data-original-title="Click to Edit">{{ item.title }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <!-- For Cold use below code -->
+                                        {% if item.plan == 'Cold Call' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Cold</button> -->
+                                        <span class="badge badge-primary font-12"> Cold Call</span>
+                                        {% endif %}
+                                        <!-- For Hot use below code -->
+                                        {% if item.plan == 'Direct Mail' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#d9534f; border-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">Hot</button> -->
+                                        <span class="badge badge-danger font-12"> Direct Mail</span>
+                                        {% endif %}
+                                        <!-- For Warm use below code -->
+                                        {% if item.plan == 'Voice Broadcast' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Warm</button> -->
+                                        <span class="badge badge-secondary font-12"> Voice Broadcast</span>
+                                        {% endif %}
+                                        <!-- For Warm use below code -->
+                                        {% if item.plan == 'RVM' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Warm</button> -->
+                                        <span class="badge badge-success font-12"> RVM</span>
+                                        {% endif %}
+                                        <!-- For Warm use below code -->
+                                        {% if item.plan == 'SMS' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Warm</button> -->
+                                        <span class="badge badge-warning font-12"> SMS</span>
+                                        {% endif %}
+                                        <!-- For Warm use below code -->
+                                        {% if item.plan == 'EMAIL' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Warm</button> -->
+                                        <span class="badge badge-info font-12"> EMAIL</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <!-- For Cold use below code -->
+                                        {% if item.temperature == 'Cold' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Cold</button> -->
+                                        <span class="text-primary font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Cold</span>
+                                        {% endif %}
+                                        <!-- For Hot use below code -->
+                                        {% if item.temperature == 'Hot' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#d9534f; border-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">Hot</button> -->
+                                        <span class="text-danger font-12"><i
+                                                class="mdi mdi-checkbox-blank-circle mr-1"></i>Hot</span>
+                                        {% endif %}
+                                        <!-- For Warm use below code -->
+                                        {% if item.temperature == 'Warm' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Warm</button> -->
+                                        <span class="text-warning font-12"><i
+                                                class="mdi mdi-checkbox-blank-circle mr-1"></i> Warm</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <!-- For Completed use below code -->
+                                        {% if item.approval == 'Pending' %}
+                                                <!-- <button style="height:30px; font-size:12px; width:150px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Pending</button> -->
+                                            <span class="badge badge-secondary font-12"> Pending</span>
+
+                                            <!-- For Completed use below code -->
+                                            {% else %}
+                                                <!-- <button style="height:30px; font-size:12px; width:150px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Approved to Merchant</button> -->
+                                            <span class="badge badge-success font-12">  Approved to Merchant</span>
+                                            {% endif %}
+                                    </td>
+                                    <td>
+                                        <!-- For Completed use below code -->
+                                        {% if item.dist_status == 'Completed' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:150px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Completed</button> -->
+                                        <span class="text-success font-12"> <i class="mdi mdi-checkbox-blank-circle mr-1"></i>Completed</span>
+                                        {% endif %}
+                                        <!-- For Completed use below code -->
+                                        {% if item.dist_status == 'Untouched' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:150px; background-color:#d9534f; border-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">Untouched</button> -->
+                                        <span class="text-danger font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i> Untouched</span>
+                                        {% endif %}
+
+                                        <!-- For pending use below code -->
+                                        {% if item.dist_status == 'Pending' %}
+                                            <!-- <button style="height:30px; font-size:12px; width:150px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Pending</button> -->
+                                        <span class="text-primary font-12"> <i class="mdi mdi-checkbox-blank-circle mr-1"></i> Pending</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{{ item.hash_off }}</td>
+                                    <td>{{ item.scheduled_plan_for }}</td>
+                                    <td>{{ item.created_at }}</td>
+
+                                    <td>
+                                        <!--<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">-->
+                                            <button onclick="show_details('{{item.id}}')" type="button"
+                                                    class="btn btn-info btn-sm" data-original-title="View Campaign" data-toggle="tooltip"><i class="mdi mdi-eye"></i></button>
+                                            <a href="{% url 'update_campaign' item.id %}" type="button" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                                data-placement="top" title="" data-original-title="Edit Campaign"><i
+                                                    class="mdi mdi-grease-pencil"></i></a>
+                                            <a type="button" data-original-title="Delete Campaign" data-toggle="tooltip" campaign-id="{{ item.id }}" class="btn btn-danger btn-sm camp-delete" href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                                        <!--</div>-->
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <div class="modal" id="exampleModalScrollable">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                      <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h4 class="modal-title page-title" id="heading_id"></h4>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <div>
+                                                        <input readonly class="form-control" id="title" name="title" >
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                <label>Marketing Sequence</label>
+                                                <div>
+                                                    <input readonly class="form-control" type="text" id="created_by" name="created_by" >
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Plan</label>
+                                                    <div>
+                                                        <input readonly class="form-control" type="text" id="plan" name="plan">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Hash Off</label>
+                                                    <div>
+                                                        <input readonly class="form-control" id="hash_off" name="hash_off" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Temperature</label>
+                                                    <div>
+                                                        <input id="temperature" name="temperature" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Distribution Status</label>
+                                                    <textarea readonly id="distribution_status" class="form-control" name="distribution_status"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Approval</label>
+                                                    <div>
+                                                        <input id="approval" name="approval" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Scheduled Plan For</label>
+                                                    <div>
+                                                        <input id="scheduled_plan_for" name="scheduled_plan_for" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Break Into</label>
+                                                    <div>
+                                                        <input id="break_into" name="break_into" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Send On</label>
+                                                    <div>
+                                                        <input id="send_on" name="send_on" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Major Market</label>
+                                                    <div>
+                                                        <input id="maj_market" name="maj_market" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Responsible</label>
+                                                    <div>
+                                                        <input id="responsible" name="responsible" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Notes</label>
+                                                    <div>
+                                                        <input id="notes" name="notes" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Detail</label>
+                                                    <div>
+                                                        <input id="detail" name="detail" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Created At</label>
+                                                    <div>
+                                                        <input id="created_at" name="created_at" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                <div class="modal fade" id="deleteCampaignModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Confirm!
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to delete this Campaign?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark waves-effect waves-light"
+                                                    data-dismiss="modal">No</button>
+                                                <a id="delete-campaign" class="btn btn-danger waves-effect waves-light btn-ok">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- content -->
+<!-- XDSoft DateTimePicker -->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />-->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>-->
+<script>
+$(function () {
+  $(".datetimepicker").datetimepicker({
+    format: 'm/d/y H:m',
+  });
+
+  $("#datepicker1").datetimepicker({
+    format: 'Y/m/d',
+    timepicker: false,
+  });
+});
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $(document).on('click', '.camp-delete', function(){
+        selectedCampaign = $(this).attr('campaign-id');
+        url = window.location.origin + '/marketing/del_camp/' + selectedCampaign;
+        $('#delete-campaign').attr("href", url);
+
+        $('#deleteCampaignModal').modal('show');
+    });
+
+ });
+
+
+function search_campaigns() {
+alert($('#datepicker1').val());
+    var data = {
+      search_plan : $('#search_plan').val(),
+      temperature_search : $('#temperature_search').val(),
+      dist_search : $('#dist_search').val(),
+      approval_search : $('#approval_search').val(),
+      search_scheduled : $('#datepicker1').val(),
+    };
+
+    $.ajax({
+         type: "POST",
+         url: window.location.origin+"/marketing/search_campaigns",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+         if(result.status==200)
+         {
+            alert("successful");
+         }
+         else
+         {
+            alert("There is some error")
+
+         }
+       }
+    });
+}
+
+function show_details(id) {
+
+    var data = {
+      id : id,
+    };
+
+    $.ajax({
+         type: "POST",
+         url: window.location.origin+"/marketing/campaign_details",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+         if(result.status==200)
+         {
+            $("#heading_id").text(result.campaign_data.name)
+            $("#title").val(result.campaign_data.name)
+            $("#created_by").val(result.campaign_data.sequence)
+            $("#plan").val(result.campaign_data.plan)
+            $("#hash_off").val(result.campaign_data.hash_off)
+            $("#temperature").val(result.campaign_data.temperature)
+            $("#distribution_status").val(result.campaign_data.distribution_status)
+            $("#approval").val(result.campaign_data.approval)
+            $("#scheduled_plan_for").val(result.campaign_data.scheduled_plan_for)
+            $("#notes").val(result.campaign_data.notes)
+            $("#detail").val(result.campaign_data.marketing_details)
+            $("#break_into").val(result.campaign_data.break_into)
+            $("#send_on").val(result.campaign_data.send_on)
+            $("#maj_market").val(result.campaign_data.maj_market)
+            $("#responsible").val(result.campaign_data.responsible)
+            $("#created_at").val(result.campaign_data.created_at)
+            $('#exampleModalScrollable').modal('show');
+         }
+         else
+         {
+            alert("There is some error")
+
+         }
+       }
+    });
+}
+
+
+</script>
+
+
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,490 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">SkipTrace</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Bulk SkipTrace</li>
+                    </ol>
+                    <!--<h5 class="text-secondary">Remaining Balance - <span class="text-primary">${{ obj.amount }}</span></h5>-->
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary waves-effect waves-light float-right add_single_prospect_media" href="{% url 'upload_skip_trace' %}">
+                        <i class="fas fa-upload mr-1"></i> Bulk Trace
+                    </a>
+                    <!--<a class="btn btn-primary waves-effect waves-light float-right mr-1" href="{% url 'single_trace' %}">-->
+                        <!--<i class="fa fa-search"></i> Single Trace-->
+                    <!--</a>-->
+                    <a class="btn btn-primary waves-effect waves-light float-right mr-1 add_single_prospect_media" href="{% url 'skip_trace_existing' %}">
+                        <i class="fas fa-database  mr-1"></i> Skip Trace Existing List
+                    </a>
+
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="{% url 'skip_trace' 'list' %}">
+                            <i class="fas fa-upload  selected_icon"></i> &nbsp;Bulk Skiptrace
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link "  href="{% url 'skip_trace' 'single' %}">
+                            <i class="fab fa-searchengin non_selected_icon"></i> &nbsp;Single Skiptrace
+                        </a>
+                    </li>
+                    <li class="nav-item ml-auto">
+                        <div class="input-group input-group-sm mb-0">
+                            <h6 class="text-secondary">Balance : <span class="text-primary">${{ obj.amount }}</span></h6> &nbsp;
+                          <!--<input id="add_balance" name="add_balance" required type="number" min="0" class="form-control border-primary" placeholder="Enter Balance" aria-label="Enter Balance" aria-describedby="basic-addon2">-->
+                          <div class="input-group-append">
+                              &nbsp;<button type="button" data-toggle="modal" data-target=".bs-example-modal-center-balance" class="btn btn-primary waves-effect waves-light float-right add_balance_btn_color rounded">
+                                    <i class="mdi mdi-plus"></i> Add Balance
+                              </button>
+                            <!--<button onclick="add_new_balance()" data-original-title="Add Balance in your Account" data-toggle="tooltip" class="btn btn-primary w-sm" type="button">Add Balance</button>-->
+                          </div>
+                        </div>
+                        <form id="form_checkout" action="{% url 'small_plan' %}" method="post">{% csrf_token %}
+                            <input hidden id="bal_id" name="bal_id" value="">
+                            <input hidden id="where_to" name="where_to" value="bulk">
+                        </form>
+                    </li>
+                </ul>
+
+                <div id="major_modal" class="modal fade bs-example-modal-center-balance" tabindex="-1" role="dialog"
+                aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <div class="modal-header" style="color:#2e63b8;">
+                            <h5 class="modal-title mt-0"> Add Wallet Balance</h5>
+                            <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="major_market_form">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Amount</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">$</div>
+                                            </div>
+                                          <input value="100" id="add_balance" name="add_balance" required type="number" min="0" class="form-control border-primary" aria-label="Enter Balance" aria-describedby="basic-addon2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-sm-12 ">
+                                    <button id="pay_btn" onclick="add_new_balance()" data-original-title="Add Balance in your Account" data-toggle="tooltip" class="btn btn-primary btn-md btn-block" type="button">Continue</button>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        </div><!-- /.modal-content -->
+
+
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+            </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            <form method="post">{% csrf_token %}
+                            <div id="filters-div" class="row mb-3">
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">File Name:</label>
+                                        <input autocomplete="off" class="form-control" id="file_name_search" name="file_name_search" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Uploading Status:</label>
+                                        <select id="status_search" name="status_search"
+                                            class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Uploaded">Uploaded</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Total Records:</label>
+                                        <input min="0" class="form-control" id="total_records_search" name="total_records_search" type="number">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Total Hits:</label>
+                                        <input min="0" class="form-control" id="total_hits_search" name="total_hits_search" type="number">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Date:</label>
+                                        <input value="" class="form-control datepicker1 scheduled_font_size"
+                                               id="datepicker1" name="datepicker1" type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <button class="btn btn-primary w-md waves-effect waves-light  mt-2 ml-10"
+                                            type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                        <input hidden id="user_id" name="user_id" value="{{ user.id }}" >
+                        <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>File Name</th>
+                                    <th>Uploading Status</th>
+                                    <th>Total Records</th>
+                                    <th>Total Hits</th>
+                                    <th>Hit Percent(%)</th>
+                                    <th>Date</th>
+                                    <th>Export</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in data %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td id="seq_td">
+                                        <a class="btn btn-primary btn-sm btn-block btn_wrap_content" href="/{{ item.list_link }}" id="camp_btn"> {{ item.file_name }}
+                                        </a>
+                                    </td>
+                                    <td><span id="status{{ item.id }}" class="badge font-12">{{ item.status }}</span></td>
+                                    <td><span id="total_records{{ item.id }}">{{ item.total_records }}</span></td>
+                                    <td><span id="total_hits{{ item.id }}">{{ item.total_hits }}</span></td>
+                                    <td><div class=""><div class="progress"><div id="percent{{ item.id }}" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" data-toggle="tooltip" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{ item.hits_percentage }}%;">{{ item.hits_percentage }}%</div></div></div></td>
+                                    <td>{{ item.date }}</td>
+                                    <td><a class="btn btn-default border border-secondary btn-sm btn_downlod_color" id="exported{{ item.id }}" href="/{{ item.exported_link }}"><i class="fa fa-download fa-1x"></i></a></td>
+                                </tr>
+                                {% endfor %}
+                                <div class="modal" id="exampleModalScrollable">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                      <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h2 class="modal-title" id="heading_id"></h2>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <div>
+                                                        <input readonly class="form-control" id="title" name="title" >
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                <label>Marketing Sequence</label>
+                                                <div>
+                                                    <input readonly class="form-control" type="text" id="created_by" name="created_by" >
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Plan</label>
+                                                    <div>
+                                                        <input readonly class="form-control" type="text" id="plan" name="plan">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Hash Off</label>
+                                                    <div>
+                                                        <input readonly class="form-control" id="hash_off" name="hash_off" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Temperature</label>
+                                                    <div>
+                                                        <input id="temperature" name="temperature" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Distribution Status</label>
+                                                    <textarea readonly id="distribution_status" class="form-control" name="distribution_status"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Approval</label>
+                                                    <div>
+                                                        <input id="approval" name="approval" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Scheduled Plan For</label>
+                                                    <div>
+                                                        <input id="scheduled_plan_for" name="scheduled_plan_for" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Break Into</label>
+                                                    <div>
+                                                        <input id="break_into" name="break_into" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Send On</label>
+                                                    <div>
+                                                        <input id="send_on" name="send_on" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Major Market</label>
+                                                    <div>
+                                                        <input id="maj_market" name="maj_market" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Responsible</label>
+                                                    <div>
+                                                        <input id="responsible" name="responsible" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Notes</label>
+                                                    <div>
+                                                        <input id="notes" name="notes" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Detail</label>
+                                                    <div>
+                                                        <input id="detail" name="detail" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Created At</label>
+                                                    <div>
+                                                        <input id="created_at" name="created_at" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                <div class="modal fade" id="deleteSkiptraceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Confirm!
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to delete this Campaign?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">No</button>
+                                                <a id="delete-campaign" class="btn btn-danger btn-ok">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+{% block extrajs %}
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+<script>
+$(function () {
+  $(".datetimepicker").datetimepicker({
+    format: 'm/d/y H:m',
+  });
+
+  $("#datepicker1").datetimepicker({
+    format: 'Y-m-d',
+    timepicker: false,
+  });
+});
+</script>
+<script type="text/javascript">
+
+toastr.options = {
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+};
+
+$(document).ready(function () {
+    setInterval(function() {
+        let user = $("#user_id").val();
+        var data = {
+                user : user,
+            };
+        $.ajax({
+             type: "POST",
+             url: window.location.origin+"/skiptrace/hit_percent",
+             data: JSON.stringify(data),
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             success: function (result) {
+             if(result.status==200)
+             {
+                var data_list = result.data
+                $(data_list).each(function(a) {
+                    $("#"+data_list[a].id).text(data_list[a].hits_percentage+'%');
+                    $('#'+data_list[a].id).css('width', data_list[a].hits_percentage+'%');
+                    $('#status'+data_list[a].ids).html(data_list[a].status);
+                    $('#total_records'+data_list[a].ids).html(data_list[a].total_records);
+                    $('#total_hits'+data_list[a].ids).html(data_list[a].total_hits);
+                    $('#exported'+data_list[a].ids).attr("href", data_list[a].exported_link);
+                    if (data_list[a].status === 'Uploaded'){
+                        $('#status'+data_list[a].ids).addClass("badge-success").removeClass("badge-secondary");
+                        $('#percent'+data_list[a].ids).removeClass("progress-bar progress-bar-striped progress-bar-animated").addClass("progress-bar");
+                    } else {
+                        $('#status'+data_list[a].ids).addClass("badge-secondary").removeClass("badge-success");
+                    };
+                });
+             }
+             else {
+                alert("error");
+             }
+             }
+        });
+
+    }, 2000);
+
+
+    $(document).on('click', '.camp-delete', function(){
+        selectedCampaign = $(this).attr('campaign-id');
+        url = window.location.origin + '/marketing/del_camp/' + selectedCampaign;
+        $('#delete-campaign').attr("href", url);
+        $('#deleteCampaignModal').modal('show');
+    });
+ });
+
+function add_new_balance() {
+if ($('#add_balance').val() < 10){
+    toastr.error('Please Enter Amount equal to or more than $10!', 'Error');
+    e.preventDefault();
+}
+else {
+
+    $.ajax({
+        type: 'POST',
+        url: window.location.origin+"/skiptrace/add_payment",
+        data:{
+            balance: $('#add_balance').val(),
+            user: $('#user_id').val(),
+            csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success:function(data){
+        var token = function(res){
+            var $id = $('<input type=hidden name=stripeToken />').val(res.id);
+            var $email = $('<input type=hidden name=stripeEmail />').val(res.email);
+            $('#bal_id').val(data.response.balance);
+            $('#form_checkout').append($id).append($email).submit();
+            $('#pay_btn').attr('disabled', 'true');
+        };
+        StripeCheckout.open({
+            key:data.response.key,
+            amount:data.response.balance,
+            name:'SkipTrace Checkout',
+            token:token,
+            email: data.response.email,
+            allowRememberMe: false,
+            });
+        },
+    });
+}
+}
+
+</script>
+{% endblock %}
+
+
+
+{% endblock %}

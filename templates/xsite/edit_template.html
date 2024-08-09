@@ -1,0 +1,608 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Template Settings</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Update Template</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button"
+                                class="btn btn-outline-dark text-uppercase  waves-effect waves-light float-right" onclick="window.open('/xsite/{{ site }}', '_blank')">
+                            Preview
+                        </button>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+            <div class="card">
+                <form action="{% url 'update_site' site %}" method="post"  enctype='multipart/form-data'>
+                    {% csrf_token %}
+                    <div class="card-body xsite_form ">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading"> Header </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div class="custom-file">
+                                             <input type="file"
+                                               class="custom-file-input" id="logo"
+                                               name="logo"
+                                               value="{{ site_content.logo }}">
+                                            <label class="custom-file-label" for="logo">Choose
+                                                        file</label>
+                                                {% if form.logo.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.logo.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading">Banner</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                {% if site_content.banner_title %}
+                                                    <input name="banner_title" type="text" class="form-control"
+                                                           placeholder="Enter banner section title"
+                                                           value="{{ site_content.banner_title | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="banner_title" type="text" class="form-control"
+                                                           placeholder="Enter banner section title"
+                                                           value="{{ form.instance.banner_title | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.banner_title.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.banner_title.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                {% if site_content.banner_button_text %}
+                                                    <input name="banner_button_text" type="text" class="form-control"
+                                                           placeholder="Enter banner form button text"
+                                                           value="{{ site_content.banner_button_text | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="banner_button_text" type="text" class="form-control"
+                                                           placeholder="Enter banner form button text"
+                                                           value="{{ form.instance.banner_button_text | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.banner_button_text.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.banner_button_text.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <script>
+                            var abt_us_textarea = "";
+                            var vid_textarea = "";
+                            var tst_1_textarea = "";
+                            var tst_2_textarea = "";
+                            var tst_3_textarea = "";
+                            var detail_textarea = "";
+                            if ("{{ site_content.about_us_desc }}") {
+                                abt_us_textarea = "{{ site_content.about_us_desc | default_if_none:''}}";
+                            } else {
+                                abt_us_textarea = "{{ form.instance.about_us_desc | default_if_none:''}}";
+                            }
+                            if ("{{ site_content.video_desc }}") {
+                                vid_textarea = "{{ site_content.video_desc | default_if_none:''}}";
+                            } else {
+                                vid_textarea = "{{ form.instance.video_desc | default_if_none:''}}";
+                            }
+                            if ("{{ site_content.testi_1_text }}") {
+                                tst_1_textarea = "{{ site_content.testi_1_text | default_if_none:''}}";
+                            } else {
+                                tst_1_textarea = "{{ form.instance.testi_1_text | default_if_none:''}}";
+                            }
+                            if ("{{ site_content.testi_2_text }}") {
+                                tst_2_textarea = "{{ site_content.testi_2_text | default_if_none:''}}";
+                            } else {
+                                tst_2_textarea = "{{ form.instance.testi_2_text | default_if_none:''}}";
+                            }
+                            if ("{{ site_content.testi_3_text }}") {
+                                tst_3_textarea = "{{ site_content.testi_3_text | default_if_none:''}}";
+                            } else {
+                                tst_3_textarea = "{{ form.instance.testi_3_text | default_if_none:''}}";
+                            }
+                            if ("{{ site_content.other_details_desc }}") {
+                                detail_textarea = "{{ site_content.other_details_desc | default_if_none:''}}";
+                            } else {
+                                detail_textarea = "{{ form.instance.other_details_desc | default_if_none:''}}";
+                            }
+                        </script>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading">About Us </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.about_us_title %}
+                                                    <input name="about_us_title" type="text" class="form-control"
+                                                           placeholder="Enter about us section title"
+                                                           value="{{ site_content.about_us_title | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="about_us_title" type="text" class="form-control"
+                                                           placeholder="Enter about us section title"
+                                                           value="{{ form.instance.about_us_title | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.about_us_title.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.about_us_title.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <textarea id="about_us_desc" name="about_us_desc" class="form-control"
+                                                          placeholder="Type your description here..."
+                                                          rows="2"></textarea>
+                                                {% if form.about_us_desc.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.about_us_desc.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading">Video </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.video_link %}
+                                                    <input name="video_link" type="text" class="form-control"
+                                                           placeholder="Share Live video link"
+                                                           value="{{ site_content.video_link | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="video_link" type="text" class="form-control"
+                                                           placeholder="Share Live video link"
+                                                           value="{{ form.instance.video_link | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.video_link.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.video_link.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.video_title %}
+                                                    <input name="video_title" type="text" class="form-control"
+                                                           placeholder="Enter video section title"
+                                                           value="{{ site_content.video_title | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="video_title" type="text" class="form-control"
+                                                           placeholder="Enter video section title"
+                                                           value="{{ form.instance.video_title | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.video_title.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.video_title.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <textarea id="video_desc" name="video_desc" class="form-control"
+                                                          placeholder="Type video section description..."
+                                                          rows="2"></textarea>
+                                                {% if form.video_desc.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.video_desc.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading">Testimonial</label>
+                            </div>
+                            <div class="col-sm-9">
+                                {#                                <div class="row">#}
+                                {#                                    <div class="col-sm-12">#}
+                                {#                                        <button type="button"#}
+                                {#                                                class="btn btn-outline-dark text-uppercase btn-sm waves-effect waves-light float-right testimonial_btn mb-2">#}
+                                {#                                            Add more testimonials#}
+                                {#                                        </button>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                                <div class="row testimonial_form">
+                                    <div class="col-sm-6 mt-2">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.testi_1_company_name %}
+                                                    <input name="testi_1_company_name" type="text" class="form-control"
+                                                           placeholder="Enter company name"
+                                                           value="{{ site_content.testi_1_company_name | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="testi_1_company_name" type="text" class="form-control"
+                                                           placeholder="Enter company name"
+                                                           value="{{ form.instance.testi_1_company_name | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.testi_1_company_name.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_1_company_name.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-2">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.testi_1_person_name %}
+                                                    <input name="testi_1_person_name" type="text" class="form-control"
+                                                           placeholder="Enter person name "
+                                                           value="{{ site_content.testi_1_person_name | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="testi_1_person_name" type="text" class="form-control"
+                                                           placeholder="Enter person name "
+                                                           value="{{ form.instance.testi_1_person_name | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.testi_1_person_name.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_1_person_name.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <textarea id="testi_1_text" name="testi_1_text" class="form-control"
+                                                          placeholder="Type testimonial text..." rows="2"></textarea>
+                                                {% if form.testi_1_text.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_1_text.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row testimonial_form">
+                                    <div class="col-sm-6 mt-2">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.testi_2_company_name %}
+                                                    <input name="testi_2_company_name" type="text" class="form-control"
+                                                           placeholder="Enter company name"
+                                                           value="{{ site_content.testi_2_company_name | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="testi_2_company_name" type="text" class="form-control"
+                                                           placeholder="Enter company name"
+                                                           value="{{ form.instance.testi2_company_name | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.testi_2_company_name.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_2_company_name.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-2">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.testi_2_person_name %}
+                                                    <input name="testi_2_person_name" type="text" class="form-control"
+                                                           placeholder="Enter person name "
+                                                           value="{{ site_content.testi_2_person_name | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="testi_2_person_name" type="text" class="form-control"
+                                                           placeholder="Enter person name "
+                                                           value="{{ form.instance.testi_2_person_name | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.testi_2_person_name.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_2_person_name.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <textarea id="testi_2_text" name="testi_2_text" class="form-control"
+                                                          placeholder="Type testimonial text..." rows="2"></textarea>
+                                                {% if form.testi_2_text.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_2_text.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row testimonial_form">
+                                    <div class="col-sm-6 mt-2">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.testi_3_company_name %}
+                                                    <input name="testi_3_company_name" type="text" class="form-control"
+                                                           placeholder="Enter company name"
+                                                           value="{{ site_content.testi_3_company_name | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="testi_3_company_name" type="text" class="form-control"
+                                                           placeholder="Enter company name"
+                                                           value="{{ form.instance.testi_3_company_name | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.testi_3_company_name.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_3_company_name.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-2">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.testi_3_person_name %}
+                                                    <input name="testi_3_person_name" type="text" class="form-control"
+                                                           placeholder="Enter person name "
+                                                           value="{{ site_content.testi_3_person_name | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="testi_3_person_name" type="text" class="form-control"
+                                                           placeholder="Enter person name "
+                                                           value="{{ form.instance.testi_3_person_name | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.testi_3_person_name.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_3_person_name.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <textarea id="testi_3_text" name="testi_3_text" class="form-control"
+                                                          placeholder="Type testimonial text..." rows="2"></textarea>
+                                                {% if form.testi_3_text.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.testi_3_text.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading">Other Details </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.other_details_title %}
+                                                    <input name="other_details_title" type="text" class="form-control"
+                                                           placeholder="Enter Other section title"
+                                                           value="{{ site_content.other_details_title | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="other_details_title" type="text" class="form-control"
+                                                           placeholder="Enter Other section title"
+                                                           value="{{ form.instance.other_details_title | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.other_details_title.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.other_details_title.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <textarea id="other_details_desc" name="other_details_desc"
+                                                          class="form-control"
+                                                          placeholder="Type your description here..."
+                                                          rows="2"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label class="main_heading">Call to action </label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group mb-3">
+                                            <div>
+                                                {% if site_content.call_to_action_text %}
+                                                    <input name="call_to_action_text" type="text" class="form-control"
+                                                           placeholder="Enter call to action text"
+                                                           value="{{ site_content.call_to_action_text | default_if_none:'' }}">
+                                                {% else %}
+                                                    <input name="call_to_action_text" type="text" class="form-control"
+                                                           placeholder="Enter call to action text"
+                                                           value="{{ form.instance.call_to_action_text | default_if_none:'' }}">
+                                                {% endif %}
+                                                {% if form.call_to_action_text.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.call_to_action_text.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                            <div class="col-sm-12">
+                                <button type="submit"
+                                        class="btn btn-outline-dark text-uppercase  waves-effect waves-light float-right">
+                                    Save Changes
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block extrajs %}
+    <script>
+        var encodedStr = abt_us_textarea;
+        var parser = new DOMParser;
+        var dom = parser.parseFromString(encodedStr, 'text/html');
+        var decodedString = dom.body.textContent;
+
+        if (decodedString !== "null") {
+            $("#about_us_desc").val(decodedString);
+        } else {
+            $("#about_us_desc").val("");
+        }
+
+        encodedStr = vid_textarea;
+        parser = new DOMParser;
+        dom = parser.parseFromString(encodedStr, 'text/html');
+        decodedString = dom.body.textContent;
+
+        if (decodedString !== "null") {
+            $("#video_desc").val(decodedString);
+        } else {
+            $("#video_desc").val("");
+        }
+
+        encodedStr = tst_1_textarea;
+        parser = new DOMParser;
+        dom = parser.parseFromString(encodedStr, 'text/html');
+        decodedString = dom.body.textContent;
+
+        if (decodedString !== "null") {
+            $("#testi_1_text").val(decodedString);
+        } else {
+            $("#testi_1_text").val("");
+        }
+
+        encodedStr = tst_2_textarea;
+        parser = new DOMParser;
+        dom = parser.parseFromString(encodedStr, 'text/html');
+        decodedString = dom.body.textContent;
+
+        if (decodedString !== "null") {
+            $("#testi_2_text").val(decodedString);
+        } else {
+            $("#testi_2_text").val("");
+        }
+
+        encodedStr = tst_3_textarea;
+        parser = new DOMParser;
+        dom = parser.parseFromString(encodedStr, 'text/html');
+        decodedString = dom.body.textContent;
+
+        if (decodedString !== "null") {
+            $("#testi_3_text").val(decodedString);
+        } else {
+            $("#testi_3_text").val("");
+        }
+
+        encodedStr = detail_textarea;
+        parser = new DOMParser;
+        dom = parser.parseFromString(encodedStr, 'text/html');
+        decodedString = dom.body.textContent;
+
+        if (decodedString !== "null") {
+            $("#other_details_desc").val(decodedString);
+        } else {
+            $("#other_details_desc").val("");
+        }
+
+         $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+{% endblock %}

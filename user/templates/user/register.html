@@ -1,0 +1,613 @@
+{% extends 'layouts/authbasefile/auth_base.html' %}
+{% block extracss %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/plans.css' %}">
+{% endblock %}
+{% block auth_content %}
+{% load static %}
+
+
+<div class="account-pages">
+    <div class="container-fluid">
+        <div class="row justify-content-center background_imgae_media_reset">
+            <!-- <div class="col-md-8 col-lg-8 col-xl-8">
+
+            </div> -->
+            <div class="col-xl-8  col-lg-7 auth_form_reg d-none d-lg-block d-xl-block"
+                 style="background-image: url({% static 'assets/images/web-page.jpg' %});">
+                <!-- <div class="row">
+                 <a href="# " class="logo reg_logo_margin"><img
+                     src="{% static 'assets/images/Prospect-X-Logo-new.png' %}" class="logo_image_width_reg" alt="logo" ></a>
+                </div> -->
+                <div class="banner_text_login_page" style="margin-top:57px; margin-left: 17px;">
+                    <div>
+                        <h4 class="reg_banner_text_fst">Decide faster</h4>
+                    </div>
+                    <div>
+                        <h3 class="reg_banner_text_scnd">So you can do more</h3>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="tab-pane p-3" id="" role="">
+                                <div id="generic_price_table">
+                                    <!--BLOCK ROW START-->
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-4 p-2">
+
+                                            <!--PRICE CONTENT START-->
+                                            <div id="select_monthly_plan" class="generic_content clearfix">
+
+                                                <!--HEAD PRICE DETAIL START-->
+                                                <div class="generic_head_price clearfix">
+
+                                                    <!--HEAD CONTENT START-->
+                                                    <div class="generic_head_content clearfix">
+
+                                                        <!--HEAD START-->
+                                                        <div class="head_bg"></div>
+                                                        <div class="head">
+                                                            <span>Monthly Plan</span>
+                                                        </div>
+                                                        <!--//HEAD END-->
+
+                                                    </div>
+                                                    <!--//HEAD CONTENT END-->
+
+                                                    <!--PRICE START-->
+                                                    <div class="generic_price_tag clearfix">
+                                                        <span class="price">
+                                                            <small class="">Total: </small>
+                                                            <span class="sign">$</span>
+                                                            <span id="monthly_total" class="currency">0</span>
+                                                            <span class="cent">.00</span>
+                                                            <span class="month">/Month</span>
+                                                        </span>
+                                                    </div>
+                                                    <!--//PRICE END-->
+
+                                                </div>
+                                                <!--//HEAD PRICE DETAIL END-->
+
+                                                <!--FEATURE LIST START-->
+                                                <div class="generic_feature_list">
+                                                    <ul>
+                                                    <li>
+                                                        <div class="form-group ml-1">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" id="monthly_basic" name="monthly_basic"
+                                                                       value="147" checked
+                                                                       class="custom-control-input monthly_charges">
+                                                                <label class="custom-control-label" for="monthly_basic">Basic: $147.00 </label>
+                                                                <br><small>List Management, SkipTrace, Campaigns</small>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group">
+<!--                                                            <div class="custom-control  mr-2">-->
+<!--                                                                <input type="checkbox" id="monthly_xsite" name="monthly_xsite"-->
+<!--                                                                       value="97"-->
+<!--                                                                       class="custom-control-input monthly_charges">-->
+                                                                <p class="custom-control-label">XSite: $97.00</p>
+<!--                                                            </div>-->
+
+<!--                                                            <div class="custom-control custom-checkbox" id="mon_xsite_child_div">-->
+<!--                                                                <input type="checkbox" id="monthly_xsite_child" name="monthly_xsite_child"-->
+<!--                                                                       value="47"-->
+<!--                                                                       class="custom-control-input monthly_charges">-->
+                                                                <p class="custom-control-label"><small>$47 for 2 sites</small></p>
+
+<!--                                                            </div>-->
+                                                            </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group mr-2">
+<!--                                                            <div class="custom-control custom-checkbox">-->
+<!--                                                                <input type="checkbox" id="monthly_xforce" name="monthly_xforce"-->
+<!--                                                                       value="147"-->
+<!--                                                                       class="custom-control-input monthly_charges">-->
+                                                                <p class="custom-control-label">XForce: $147</p>
+<!--                                                            </div>-->
+<!--                                                            <div class="custom-control custom-checkbox">-->
+                                                                <p class="custom-control-label"><small>&nbsp;&nbsp;&nbsp;&nbsp; $15 / XForce User</small></p>
+<!--                                                            </div>-->
+                                                        </div>
+                                                    </li>
+                                                    </ul>
+                                                </div>
+                                                <!--//FEATURE LIST END-->
+
+                                                <!--BUTTON START-->
+                                                <div class="generic_price_btn clearfix">
+                                                    <a type="button" id="select_monthly_btn" class="" >Select</a>
+                                                </div>
+                                                <!--//BUTTON END-->
+
+                                            </div>
+                                            <!--//PRICE CONTENT END-->
+
+                                        </div>
+                                        <div class="col-md-4 p-2">
+
+                                            <!--PRICE CONTENT START-->
+                                            <div id="select_yearly_plan" class="generic_content clearfix">
+
+                                                <!--HEAD PRICE DETAIL START-->
+                                                <div class="generic_head_price clearfix">
+
+                                                    <!--HEAD CONTENT START-->
+                                                    <div class="generic_head_content clearfix">
+
+                                                        <!--HEAD START-->
+                                                        <div class="head_bg"></div>
+                                                        <div class="head">
+                                                            <span>Yearly Plan</span>
+                                                        </div>
+                                                        <!--//HEAD END-->
+
+                                                    </div>
+                                                    <!--//HEAD CONTENT END-->
+
+                                                    <!--PRICE START-->
+                                                    <div class="generic_price_tag clearfix">
+                                                        <span class="price">
+                                                            <small class="">Total: </small>
+                                                            <span class="sign">$</span>
+                                                            <span id="yearly_total" class="currency">0</span>
+                                                            <span class="cent">.00</span>
+                                                            <span class="month">/Year</span>
+                                                        </span>
+                                                    </div>
+                                                    <!--//PRICE END-->
+
+                                                </div>
+                                                <!--//HEAD PRICE DETAIL END-->
+
+                                                <!--FEATURE LIST START-->
+                                                <div class="generic_feature_list">
+                                                    <ul>
+                                                    <li>
+                                                        <div class="form-group ml-1">
+                                                            <div class="custom-control custom-radio">
+                                                                <input type="radio" id="yearly_basic" name="yearly_basic"
+                                                                       value="1411" checked
+                                                                       class="custom-control-input yearly_charges">
+                                                                <label class="custom-control-label" for="yearly_basic">Basic: $1411.00 </label>
+                                                                <br><small>List Management, SkipTrace, Campaigns</small>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group mr-2">
+<!--                                                            <div class="custom-control">-->
+<!--                                                                <input type="checkbox" id="yearly_xsite" name="yearly_xsite"-->
+<!--                                                                       value="931"-->
+<!--                                                                       class="custom-control-input yearly_charges">-->
+                                                                <p class="custom-control-label">XSite: $931.00</p>
+<!--                                                            </div>-->
+<!--                                                            <div class="custom-control custom-checkbox" id="yea_xsite_child_div">-->
+<!--                                                                <input type="checkbox" id="yearly_xsite_child" name="yearly_xsite_child"-->
+<!--                                                                       value="451"-->
+<!--                                                                       class="custom-control-input yearly_charges">-->
+                                                                <p class="custom-control-label"><small>$451 for 2 sites</small></p>
+
+<!--                                                                *<small> $451 for 2 websites</small>-->
+<!--                                                            </div>-->
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="form-group mr-2">
+<!--                                                            <div class="custom-control custom-checkbox">-->
+<!--                                                                <input type="checkbox" id="yearly_xforce" name="yearly_xforce"-->
+<!--                                                                       value="1411"-->
+<!--                                                                       class="custom-control-input yearly_charges">-->
+                                                                <p class="custom-control-label">XForce: $1411</p>
+<!--                                                            </div>-->
+<!--                                                            <div class="custom-control custom-checkbox">-->
+                                                                <p class="custom-control-label"><small>&nbsp;&nbsp;&nbsp;&nbsp; $120 / XForce User</small></p>
+<!--                                                            </div>-->
+                                                        </div>
+                                                    </li>
+                                                    </ul>
+                                                </div>
+                                                <!--//FEATURE LIST END-->
+
+                                                <!--BUTTON START-->
+                                                <div class="generic_price_btn clearfix">
+                                                    <a type="button" id="select_yearly_btn" class="">Select</a>
+                                                </div>
+                                                <!--//BUTTON END-->
+
+                                            </div>
+                                            <!--//PRICE CONTENT END-->
+
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                    <!--//BLOCK ROW END-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="button button_code_reg fixed-bottom">
+                    <button class="btn_color button_color_reg_page"><a href="" data-lightbox="iframe"><i
+                            class="fa fa-play button_font_color_reg"
+                    ></i></a></i></button>
+                    <b> <span class="Decide_lover_color ml-2"> what is a ProspectX?</span></b>
+                </div>
+
+            </div>
+            <div class="col-md-8 col-lg-5 col-xl-4" style="padding: 0px;">
+                <div class="card  shadow-none mb-0 min_height_orreset bacgrnd_image_space">
+                    <div class=" bg_pattern_custom card-body border_color_reg_page registration_page_media">
+                        <div class="text-center mt-2">
+                            <div class="mb-0 auth_main_logo">
+                                <a href="# " class="logo"><img src="{% static 'assets/images/prospectx-logo.png' %}"
+                                                               alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-18 mt-0 headline_colors">Get Registered</h4>
+                            <p class="headline_colors_next"> on ProspectX </p>
+                            <p class="text-muted mb-4 short_heading">Get your ProspectX account now.</p>
+                            {% if message %}
+                            <div class="alert alert-danger mt-4 mb-5 text-center" role="alert">
+                                {{message}}
+                            </div>
+                            {% endif %}
+                            <form id="my_signup_form" class="form-horizontal" action="signup" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="first_name" class="labels_color_reg_page">First Name</label>
+                                            <input type="text" class="form-control input_value_color" id="first_name"
+                                                   name="first_name"
+                                                   placeholder="Enter first name" value="{{ form.instance.first_name}}"
+                                                   style="color:#566F9C ; border-color: #E7E8EE;">
+                                            {% if form.first_name.errors %}
+                                            <div class="text-danger">
+                                                {{ form.first_name.errors | striptags }}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="last_name" class="labels_color_reg_page">Last Name</label>
+                                            <input type="text" class="form-control" id="last_name" name="last_name"
+                                                   placeholder="Enter last name" value="{{ form.instance.last_name}}"
+                                                   style="color:#566F9C ; border-color: #E7E8EE;">
+                                            {% if form.last_name.errors %}
+                                            <div class="text-danger">
+                                                {{ form.last_name.errors | striptags }}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="email" class="labels_color_reg_page">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                   placeholder="Enter email" value="{{ form.instance.email}}"
+                                                   style="color:#566F9C ; border-color: #E7E8EE;">
+                                            {% if form.email.errors %}
+                                            <div class="text-danger">
+                                                {{ form.email.errors | striptags }}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 ">
+                                        <div class="form-group">
+                                            <label for="cell_phone" class="labels_color_reg_page">Phone</label><br/>
+                                            <input class="form-control" maxlength="13" type="tel" placeholder=""
+                                                   id="phone" name="phone"
+                                                   value="{{ profile_form.instance.cell_phone | default_if_none:''}}"
+                                                   style="color:#566F9C ; border-color: #E7E8EE;">
+                                            <input type="hidden" placeholder="" id="is_validated" name="is_validated"
+                                                   value="Invalid Number">
+                                            <input type="hidden" placeholder="" id="cell_phone" name="cell_phone">
+                                            {% if profile_form.cell_phone.errors %}
+                                            <div class="text-danger">
+                                                {{ profile_form.cell_phone.errors | striptags }}
+                                            </div>
+                                            {% endif %}
+                                            <div class="text-danger">
+                                                {{ profile_form.non_field_errors | striptags}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="password1" class="labels_color_reg_page">Password</label>
+                                            <input type="password" class="form-control" id="password1" name="password1"
+                                                   placeholder="Enter password" style="  border-color: #E7E8EE;">
+                                            {% if form.password1.errors %}
+                                            <div class="text-danger">
+                                                {{ form.password1.errors | striptags }}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="password2" class="labels_color_reg_page">Confirm
+                                                Password</label>
+                                            <input type="password" class="form-control" id="password2" name="password2"
+                                                   placeholder="Confirm password" style="border-color: #E7E8EE;">
+                                            {% if form.password2.errors %}
+                                            <div class="text-danger">
+                                                {{ form.password2.errors | striptags }}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form.no_field_errors | striptags}}
+                                <span id="check"></span>
+
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="form-group">
+                                            <h3 id="plan_name"></h3>
+                                            <div class="input-group">
+                                                <div class="">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input required disabled type="text" class="form-control input_value_color" id="total_price"
+                                                       name="total_price"
+                                                       value=""
+                                                       style="color:#566F9C ; border-color: #E7E8EE;">
+                                                <input type="hidden" value="" id="subscription_plan" name="subscription_plan">
+                                            </div>
+                                            <p style="color:#6286FB;">Your 7 days free Trial will Start after you Register!</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mt-4">
+                                            <button class="btn btn-primary btn-block waves-effect waves-light button_color_reg_page_register"
+                                                    type="submit" id="submit">Register
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <div class="mt-1 text-center text-white-50">
+                            <p class="mb-1 footer_text_color_reg_uppr">Already have an account ? <a
+                                    href="{% url 'login' %}" class="font-500 reg_link_back_logins"> Login </a></p>
+                            <p class="mb-0 footer_text_color_reg">© 2020 ProspectX - All Rights Reserved</p>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extrajs %}
+{% load static %}
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+<script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+
+<script>
+$(document).ready(function () {
+    $('#select_monthly_plan').addClass('active');
+    $('#select_yearly_plan').removeClass('active');
+//    $('#monthly_basic').attr('checked', true);
+//    $('#monthly_xsite').prop('checked', true);
+//    $('#monthly_xsite_child').prop('checked', true);
+//    $('#mon_xsite_child_div').css({'opacity': "100"});
+//    $('#monthly_xforce').prop('checked', true);
+//    $('#yearly_basic').prop('checked', true);
+//    $('#yearly_xsite').prop('checked', true);
+//    $('#yearly_xsite_child').prop('checked', true);
+//    $('#yearly_xforce').prop('checked', true);
+//    $('#yea_xsite_child_div').css({'opacity': "100"});
+    $('#monthly_total').html('147');
+    $('#yearly_total').html('1411');
+    $('#total_price').val('147');
+    $('#plan_name').html('Monthly Subscription');
+    $('#subscription_plan').val('Monthly');
+});
+
+
+$('#select_monthly_btn').on('click', function() {
+    $('#select_monthly_plan').addClass('active');
+    $('#select_yearly_plan').removeClass('active');
+//    $('#monthly_basic').prop('checked', true);
+//   $('#monthly_xsite').prop('checked', true);
+//    $('#monthly_xforce').prop('checked', true);
+//    $('#monthly_xsite_child').prop('checked', true);
+//    $('#mon_xsite_child_div').css({'opacity': "100"});
+    $('#monthly_total').html('147');
+    $('#total_price').val('147');
+    $('#plan_name').html('Monthly Subscription');
+    $('#subscription_plan').val('Monthly');
+});
+
+$('#select_yearly_btn').on('click', function() {
+    $('#select_monthly_plan').removeClass('active');
+    $('#select_yearly_plan').addClass('active');
+//    $('#yearly_basic').prop('checked', true);
+//    $('#yearly_xsite').prop('checked', true);
+//    $('#yearly_xsite_child').prop('checked', true);
+//    $('#yearly_xforce').prop('checked', true);
+    $('#yearly_total').html('1411');
+    $('#total_price').val('1411');
+    $('#plan_name').html('Yearly Subscription');
+    $('#subscription_plan').val('Yearly');
+});
+
+<!--$('.monthly_charges').on('click', function() {-->
+<!--    if($(this).is(':checked')) {-->
+<!--        if (parseInt($(this).val()) == 47){-->
+<!--            if ($('#monthly_xsite').is(':checked')) {-->
+<!--                var currentPage1 = parseInt($('#monthly_total').text())+parseInt($(this).val());-->
+<!--                $('#monthly_total').html(currentPage1);-->
+<!--            } else {-->
+<!--                $('#monthly_xsite_child').prop('checked', false);-->
+<!--            }-->
+<!--        } else {-->
+<!--            var currentPage1 = parseInt($('#monthly_total').text())+parseInt($(this).val());-->
+<!--            $('#monthly_total').html(currentPage1);-->
+<!--        }-->
+
+<!--        if (parseInt($(this).val()) == 97){-->
+<!--            $('#mon_xsite_child_div').css({'opacity': "100"});-->
+
+<!--        }-->
+
+<!--    } else {-->
+<!--        var currentPage = parseInt($('#monthly_total').text())-parseInt($(this).val());-->
+<!--        $('#monthly_total').html(currentPage);-->
+
+<!--        if (parseInt($(this).val()) == 97){-->
+<!--            if ($('#monthly_xsite_child').is(':checked')) {-->
+<!--                $('#monthly_xsite_child').prop('checked', false);-->
+<!--                $('#mon_xsite_child_div').css({'opacity': "0"});-->
+<!--                var currentPage = parseInt($('#monthly_total').text())-47;-->
+<!--                $('#monthly_total').html(currentPage);-->
+<!--            }-->
+<!--            $('#mon_xsite_child_div').css({'opacity': "0"});-->
+
+<!--        }-->
+<!--    }-->
+
+
+<!--    if($('#select_monthly_plan').hasClass('active')) {-->
+<!--        $('#total_price').val($('#monthly_total').text());-->
+<!--        $('#plan_name').html('Monthly Subscription');-->
+<!--    }-->
+<!--});-->
+
+<!--$('.yearly_charges').on('click', function() {-->
+<!--    if($(this).is(':checked')) {-->
+<!--        if (parseInt($(this).val()) == 451){-->
+<!--            if ($('#yearly_xsite').is(':checked')) {-->
+<!--                var currentPage10 = parseInt($('#yearly_total').text())+parseInt($(this).val());-->
+<!--                $('#yearly_total').html(currentPage10);-->
+<!--            } else {-->
+<!--                $('#yearly_xsite_child').prop('checked', false);-->
+<!--            }-->
+<!--        } else {-->
+<!--            var currentPage2 = parseInt($('#yearly_total').text())+parseInt($(this).val());-->
+<!--            $('#yearly_total').html(currentPage2);-->
+<!--        }-->
+
+<!--        if (parseInt($(this).val()) == 931){-->
+<!--            $('#yea_xsite_child_div').css({'opacity': "100"});-->
+<!--        }-->
+
+<!--    } else {-->
+<!--        var currentPage3 = parseInt($('#yearly_total').text())-parseInt($(this).val());-->
+<!--        $('#yearly_total').html(currentPage3);-->
+
+<!--        if (parseInt($(this).val()) == 931){-->
+<!--            if ($('#yearly_xsite_child').is(':checked')) {-->
+<!--                $('#yearly_xsite_child').prop('checked', false);-->
+<!--                $('#yea_xsite_child_div').css({'opacity': "0"});-->
+<!--                var currentPage = parseInt($('#yearly_total').text())-451;-->
+<!--                $('#yearly_total').html(currentPage);-->
+<!--            }-->
+<!--            $('#yea_xsite_child_div').css({'opacity': "0"});-->
+
+<!--        }-->
+<!--    }-->
+
+<!--    if (parseInt($(this).val()) == 931){-->
+<!--        $('#yea_xsite_child_div').show();-->
+<!--    }-->
+
+<!--    if($('#select_yearly_plan').hasClass('active')) {-->
+<!--        $('#total_price').val($('#yearly_total').text());-->
+<!--        $('#plan_name').html('Yearly Subscription');-->
+<!--    }-->
+<!--});-->
+
+    var input = document.querySelector('#phone');
+    var errorMap = ["Invalid number", "Invalid country code", "Too short", "To long", "Invalid number"];
+    var intl = $('#phone').intlTelInput({
+        // initialCountry: "auto",
+        //   geoIpLookup: function(success, failure) {
+        //     $.get("https://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        //       var countryCode = (resp && resp.country) ? resp.country : "";
+        //       success(countryCode);
+        //     });
+        //   },
+        separateDialCode: true,
+        autoFormat: true,
+        defaultCountry: "auto",
+        utilsScript: "{% static 'assets/js/utils.js' %}"
+    });
+
+    $(document).ready(function () {
+        $('#phone').focus(function () {
+            var placeholder = $(this).attr('placeholder');
+            var mask = placeholder.replace(/[0-9]/g, "9");
+            console.log(mask);
+            $(this).inputmask({"mask": mask});
+        });
+    });
+
+    <!--input.addEventListener("blur", function () {-->
+    <!--$("#cell_phone").val($("#phone").intlTelInput("getNumber"));-->
+    <!--if (input.value.trim()){-->
+    <!--if ($(this).intlTelInput("isValidNumber")) {-->
+    <!--$('#is_validated').val('valid');-->
+    <!--} else {-->
+    <!--$('#is_validated').val(errorMap[$(this).intlTelInput("getValidationError")]);-->
+    <!--}-->
+    <!--}-->
+    <!--});-->
+
+    $("#submit").click(function () {
+        $("#cell_phone").val($("#phone").intlTelInput("getNumber"));
+        console.log($("#cell_phone").val());
+        if (input.value.trim()) {
+            if ($('#phone').intlTelInput("isValidNumber")) {
+                $('#is_validated').val('valid');
+            } else {
+                $('#is_validated').val(errorMap[$('#phone').intlTelInput("getValidationError")]);
+            }
+        }
+
+<!--        var price = $('#total_price').val();-->
+<!--        if (price < 1) {-->
+<!--            toastr.error('Please choose and select at-least One Yearly or Monthly Plans/SubPlans!', 'Error');-->
+<!--        } else {-->
+<!--            $('#my_signup_form').submit();-->
+<!--        }-->
+
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'layouts/basefile/base.html' %}
+
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Notifications</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Notifications</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-sm-12">
+
+                                    <div class="table-responsive">
+                                        <table id="notification_datatable"
+                                               class="table table-hover dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Notification Details</th>
+                                                <th>Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for notification in notifications %}
+                                                <tr>
+                                                    <td> {{ notification.id }}</td>
+                                                    <td>{{ notification.title }} </td>
+                                                    <td>
+                                                        {{ notification.created_at }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div> <!-- end row -->
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div>
+            <!-- container-fluid -->
+        </div>
+        <!-- content -->
+    </div>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        $('#notification_datatable').DataTable({
+            lengthChange: false,
+            bFilter: false,
+            order: [[ 0, "desc" ]]
+        });
+    </script>
+{% endblock %}

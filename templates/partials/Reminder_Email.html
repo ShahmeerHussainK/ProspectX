@@ -1,0 +1,20 @@
+{% extends 'layouts/authbasefile/auth_base.html' %}
+{% load static %}
+    {% block auth_content %}
+    <table style="color: black; width:45%; border:0; cellspacing:0; cellpadding:0;" >
+        <a href="http://{{ domain }}">
+            <img src="http://{{ domain }}/static/assets/images/Prospect-X-Logo.png" height="80" alt="logo">
+        </a><br>
+     <hr style="height:1px;border:none;color:lightgrey;background-color:lightgrey; border-color:lightgrey;" />
+        <p>
+        <h4>Dear {{ first_name}} {{ last_name}}, </h4>
+        {% autoescape off %}
+        {{content}}
+        {% endautoescape %}<br><br>
+        Regards, <br>
+        ProspectX Team
+        </p>
+        <hr style="height:1px;border:none;color:lightgrey;background-color:lightgrey;border-color:lightgrey;" />
+        © 2020 ProspectX - All Rights Reserved
+    </table>
+{% endblock %}

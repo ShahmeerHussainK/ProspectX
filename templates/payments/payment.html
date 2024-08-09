@@ -1,0 +1,15 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+
+<form action="{% url 'packages' %}" method="post">
+    {% csrf_token %}
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{ key }}"
+    data-description="A Django Charge"
+    data-amount="500"
+    data-locale="auto">
+</script>
+</form>
+
+
+{% endblock %}

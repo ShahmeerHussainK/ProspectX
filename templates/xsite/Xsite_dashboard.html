@@ -1,0 +1,166 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Start content -->
+    <script>
+        var site = "{{ site }}";
+        var audience_type = "{{ audience_type }}";
+    </script>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Leads</h4>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-xl-2 col-md-2 col-lg-2 col-sm-3">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="table-responsive border">
+                                <table class="table mb-0 custom_sidbar">
+                                    <tbody>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a class="d-block" style="color:white;" href="#">Leads</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/statistics/{{ site }}/">Statistics</a></td>
+                                    </tr>
+{#                                    <tr>#}
+{#                                        <td><a class="d-block" href="/xsite/website_logo/{{ site }}/">Favicon</a></td>#}
+{#                                    </tr>#}
+                                    <tr class="bg-white">
+                                        <td><a class="d-block" href="/xsite/facebook_pixels/{{ site }}/">Facebook Pixel</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/google_tag_manager/{{ site }}/">Google Tag Manager</a></td>
+                                    </tr>
+                                    {% if not is_existing %}
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/renew_domain_info/{{ site }}/">Renew Domain</a></td>
+                                    </tr>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-md-10 col-lg-10 col-sm-9 xsite_dashboard_leads_tabs">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item leads_page_list">
+                            <a class="nav-link active " data-toggle="tab" href="#open_leads" role="tab">
+                                <span class="d-block d-sm-none"><i class="fa fa-filter"></i></span>
+                                <span class="d-none d-sm-block">
+                                <div class="name">Open Leads</div>
+                                <div id="open-leads" class="total">{{ other }}</div>
+                            </span>
+                            </a>
+                        </li>
+                        <li class="nav-item leads_page_list">
+                            <a class="nav-link" data-toggle="tab" href="#won_leads" role="tab">
+                                <span class="d-block d-sm-none"><i class="fas fa-award"></i></span>
+                                <span class="d-none d-sm-block">
+                                <div class="name">Won</div>
+                                <div id="won-leads" class="total">{{ won }}</div>
+                            </span>
+                            </a>
+                        </li>
+                        <li class="nav-item leads_page_list">
+                            <a class="nav-link" data-toggle="tab" href="#dead_leads" role="tab">
+                                <span class="d-block d-sm-none"><i class="fas fa-user-alt-slash"></i></span>
+                                <span class="d-none d-sm-block">
+                                <div class="name">Dead</div>
+                                <div id="dead-leads" class="total">{{ dead }}</div>
+                            </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="open_leads" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table id="datatable-leads" class="table table-hover dt-responsive nowrap"
+                                               style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Contact</th>
+                                                <th>Address</th>
+                                                <th>More Info</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="xsite_dashboard_leads_status">
+                                            <tr>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane " id="won_leads" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table id="datatable-leads-won" class="table table-hover dt-responsive nowrap"
+                                               style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Contact</th>
+                                                <th>Address</th>
+                                                <th>More Info</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="xsite_dashboard_leads_status">
+                                            <tr>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane " id="dead_leads" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table id="datatable-leads-dead" class="table table-hover dt-responsive nowrap"
+                                               style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Status</th>
+                                                <th>Contact</th>
+                                                <th>Address</th>
+                                                <th>More Info</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="xsite_dashboard_leads_status">
+                                            <tr>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- content -->
+    <script src="{% static 'assets/js/prospectx/xsite_dashboard.js' %}"></script>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        let conf = {};
+        odashboard = new Xsite_Dashboard(conf);
+    </script>
+{% endblock %}

@@ -1,0 +1,371 @@
+{% extends 'layouts/basefile/base.html' %}
+% load i18n %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title"><a href="{% url 'SalesList' %}">SALES</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/sales/SalesList/"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Property Sales Offers</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body buyer_form">
+                        {% if errors %}
+                        {% for error in errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        <form  id="myform"  enctype="multipart/form-data" action="" method="post" >
+                            {% csrf_token %}
+                            <div class="row"> 
+                                <div class="col-md-3">
+                                    <label>Property?</label>
+                                    <div class="form-group">
+                                        <div>
+                                            <input placeholder="property"  class="form-control"  id="property"  name="property" type="text"
+                                                   {% if data.property != None %}value="{{ data.property|stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>LLC Purchase Name</label>
+                                        <div>
+                                            <input placeholder="Enter LLC Purchase name"  class="form-control"  id="llc_purchase_name"  name="llc_purchase_name" type="text"
+                                                   {% if data.llc_purchase_name != None %}value="{{ data.llc_purchase_name|stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Full Name</label>
+                                        <div>
+                                            <input placeholder="full_name"  class="form-control"  id="full_name"  name="full_name" type="text"
+                                                   {% if data.full_name != None %}value="{{ data.full_name|stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <div>
+                                            <input placeholder="Enter Email" name="email" class="form-control"   type="text"
+                                                   {% if data.email != None %}value="{{ data.email|stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Type Of Email</label>
+                                    <div class="form-group">
+                                        <select  name="email_type" id="email_type" class="form-control select2">
+                                            {% if data.email_type %}
+                                            <option value="{{ data.email_type | stringformat:'s' }}" selected>{{ data.email_type }}</option>
+                                            {% endif %}
+                                            {% for emails in email_type %}
+                                            <option value="{{ emails }}">{{ emails }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <div>
+                                            <input placeholder="Enter Phone Number" id="phone_number" name="phone_number" class="form-control"   type="text"
+                                                   {% if data.phone_number != None %}value="{{ data.phone_number|stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Type Of Phones</label>
+                                    <div class="form-group">
+                                        <select id="phone_type" name="phone_type"  class="form-control select2">
+                                            {% if data.phone_type %}
+                                            <option value="{{ data.phone_type|stringformat:'s' }}" selected>{{ data.phone_type }}</option>
+                                            {% endif %}
+                                            {% for p in phone_type %}
+                                            <option value="{{ p}}">{{ p }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Soonest Close Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="close_date" id="close_date"t ype="text" placeholder="Add follow up on specific date" autocomplete="off"
+                                                 {% if data.close_date   != None %}value="{{ data.close_date |stringformat:'s' }}"{% endif %}>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-3"></div> -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Offer Amount</label>
+                                        <div>
+                                            <input placeholder="Enter Offer Amount"  id="offer_amount" name="offer_amount"  class="form-control"  type="text"
+                                                   {% if data.offer_amount != None %}value="{{ data.offer_amount|stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                        <div class="form-check-inline  ">
+                                            <label class="form-check-label mt-3">
+                                                <input  id="offer_accepted" name="offer_accepted"  type="checkbox" class="form-check-input"
+                                                 {% if data.offer_accepted %}checked{% endif %}>Offer Accepted
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>EMD (Earnest Money Deposit) Amount</label>
+                                        <div>
+                                            <input placeholder="Enter EMD Amount"  class="form-control"  name="earnest_money_deposit" id="earnest_money_deposit" type="text"
+                                            {% if data.earnest_money_deposit   != None %}value="{{ data.earnest_money_deposit |stringformat:'s' }}"{% endif %}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                                <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Submission Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="submission_date" id="submission_date" type="text" autocomplete="off"
+                                                        {% if data.submission_date   != None %}value="{{ data.submission_date |stringformat:'s' }}"{% endif %}>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Type Of Investor</label>
+                                    <div class="form-group">
+                                        <select id="investor_type" name="investor_type"  class="form-control select2">
+                                            {% if data.investor_type %}
+                                            <option value="{{ data.investor_type|stringformat:'s' }}" selected>{{ data.investor_type }}</option>
+                                            {% endif %}
+                                            {% for investors in investor_type %}
+                                            <option value="{{ investors }}">{{ investors }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Targeted Area</label>
+                                    <div class="form-group">
+                                        <select  id="targeted_area" name="targeted_area"  class="form-control select2">
+                                            {% if data.targeted_area %}
+                                            <option value="{{ data.targeted_area | stringformat:'s' }}" selected>{{ data.targeted_area }}</option>
+                                            {% endif %}
+                                            {% for area in targeted_area %}
+                                            <option value="{{ area }}">{{ area }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-md-4">-->
+                                <!--<label>Add Cash Buyer</label>-->
+                                <!--<div class="form-group">-->
+                                <!--<a hidden  class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add Buyer</a>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <div class="form-check-inline ">
+                                    <label class="form-check-label">
+                                        <input  id="add_cash_buyer" name="add_cash_buyer" type="checkbox" class="form-check-input"
+                                                {% if data.add_cash_buyer %}checked{% endif %}>Add Cash Buyer
+                                    </label>
+                                </div>
+                                <!--<div class="row">-->
+                                <!---->
+                                <!--<div class="col-md-12">-->
+                                <!--<button type="button" class="btn btn-secondary btn-lg">Add Buyer</button>-->
+
+                                <!--</div>-->
+                                <!--</div>-->
+
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="date" id="date" type="text" autocomplete="off"
+                                                {% if data.date != None %}value="{{ data.date|stringformat:'s' }}"{% endif %}>
+                                                <strong class="m-1 p-1 "> To </strong>
+                                                <input  class="form-control datetimepicker"  name="to_date" id="to_date" type="text" autocomplete="off"
+                                                {% if data.to_date != None %}value="{{ data.to_date|stringformat:'s' }}"{% endif %}>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                                <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group ">
+                                        <div class="form-check-inline ">
+                                            <label class="form-check-label">
+                                                <input  id="counter_email_offer_sent" name="counter_email_offer_sent" type="checkbox" class="form-check-input"
+                                                 {% if data.counter_email_offer_sent %}checked{% endif %}>Counter Email offer Sent
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline ">
+                                            <label class="form-check-label ">
+                                                <input id="pending_email_sent" name="pending_email_sent"  type="checkbox" class="form-check-input"
+                                                 {% if data.pending_email_sent %}checked{% endif %}>Pending Email Sent
+                                            </label>
+                                        </div>
+                                          <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input id="sold_email_sent" name="sold_email_sent"  type="checkbox" class="form-check-input"
+                                                  {% if data.sold_email_sent %}checked{% endif %}>Sold Email Sent
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>File</label><br>
+                                        <input id="file" name="file" type="file" class="with-border filestyle" data-buttonname="btn-primary" accept="image/x-png,image/gif,image/jpeg"
+                                        >
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="form-group ">
+                                    <script>
+                                        var cont_details = "{{ data.additional_details  | default_if_none:'' }}" ;
+                                    </script>
+                                    <label>Additional Details</label>
+                                    <textarea class="form-control summernote" id="additional_details" name="additional_details">
+                                        {% if data.additional_details != None %}value= "{{ data.additional_details | stringformat:'s' }}"{% endif %}
+                                    </textarea>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <input id="sub_btn" class="btn btn-outline-primary waves-effect waves-light" type="submit">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    var encodedStr = cont_details;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#additional_details").summernote(
+        'code', decodedString
+
+    );
+
+
+
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            format: 'm/d/y H:m',
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+    $('#my_form').on('submit', function(){
+        $("#sub_btn").hide();
+        $('#sub_btn').delay(2000).show(0);
+    });
+
+    $(document).ready(function() {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    });
+
+    $('#planer').on('change', function(){
+        let plan = $('#planer').val();
+        if (plan !== "") {
+            $("#hsh_off").show();
+            $('#resp').show();
+            $('#tl_units').show();
+            $('#tch').show();
+        } else {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        }
+    });
+
+</script>
+{% endblock %}
+
+{% endblock %}

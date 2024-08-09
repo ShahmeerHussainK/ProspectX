@@ -1,0 +1,528 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Marketing</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Marketing Sequence</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary waves-effect waves-light float-right" href="{% url 'create_sequence' %}">
+                        <i class="mdi mdi-plus mr-2"></i> Marketing Sequence
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar side_bar_borders_mart_page">
+                                <tbody>
+                                    <tr>
+                                        <th class="custom_sidbar_heading">Sequence View</th>
+                                    </tr>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a style="color:white;" href="{% url 'sequence_list' 'all_active' %}">All Active {{ queries_counts.all_active }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'call_active' %}">Cold Call {{ queries_counts.call_active_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'mail_active' %}">Direct Mail {{ queries_counts.mail_active_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'voice_active' %}">Voice Broadcast {{ queries_counts.voice_active_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'rvm_active' %}">RVM {{ queries_counts.rvm_active_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'sms_active' %}">SMS {{ queries_counts.sms_active_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'email_active' %}">EMAIL {{ queries_counts.email_active_plan }}</a></td>
+                                    </tr>
+
+                                    <!-- Next TITLE TAB -->
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a style="color:white;" href="{% url 'sequence_list' 'all_inactive' %}">All Inactive {{ queries_counts.all_inactive }}</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'call_inactive' %}">Cold Call {{ queries_counts.call_inactive_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'mail_inactive' %}">Direct Mail {{ queries_counts.mail_inactive_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'voice_inactive' %}">Voice Broadcast {{ queries_counts.voice_inactive_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'rvm_inactive' %}">RVM {{ queries_counts.rvm_inactive_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'sms_inactive' %}">SMS {{ queries_counts.sms_inactive_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'email_inactive' %}">EMAIL {{ queries_counts.email_inactive_plan }}</a></td>
+                                    </tr>
+
+                                    <!-- Next TITLE TAB -->
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a style="color:white;" href="{% url 'sequence_list' 'all_pending' %}">All Pending {{ queries_counts.all_pending }}</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'call_pending' %}">Cold Call {{ queries_counts.call_pending_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'mail_pending' %}">Direct Mail {{ queries_counts.mail_pending_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'voice_pending' %}">Voice Broadcast {{ queries_counts.voice_pending_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'rvm_pending' %}">RVM {{ queries_counts.rvm_pending_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'sms_pending' %}">SMS {{ queries_counts.sms_pending_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'email_pending' %}">EMAIL {{ queries_counts.email_pending_plan }}</a></td>
+                                    </tr>
+
+                                    <!-- NEW SECTION -->
+                                    <tr>
+                                        <th class="custom_sidbar_heading">Planner View</th>
+                                    </tr>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a style="color:white;" href="{% url 'sequence_list' 'all_plans' %}">All {{ queries_counts.all_plans }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'untouched_plan' %}">Untouched {{ queries_counts.untouched_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'filtered_plan' %}">Filtered {{ queries_counts.filtered_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'skipped_plan' %}">Skipped {{ queries_counts.skipped_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'planned_plan' %}">Planned {{ queries_counts.planned_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'planning_done_plan' %}">Planning Done {{ queries_counts.planning_done_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'planning_not_done_plan' %}">Planning Not Done {{ queries_counts.planning_not_done_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'marketing_created_plan' %}">Marketing Created {{ queries_counts.marketing_created_plan }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'sequence_list' 'marketing_not_created_plan' %}">Marketing Not Created {{ queries_counts.marketing_not_created_plan }}</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-10">
+                 <!-- Nav tabs -->
+                 <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'campaign_list' 'home' %}">
+                            <i class="fas fa-bullhorn non_selected_icon"></i> Marketing Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="{% url 'sequence_list' 'home' %}">
+                            <i class="fa fa-tasks selected_icon"></i> Marketing Planner
+                        </a>
+                    </li>
+                </ul>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                            <form action="{% url 'sequence_list' 'home' %}" method="post">{% csrf_token %}
+                            <div id="filters-div" class="row mb-3">
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Name:</label>
+                                        <input class="form-control" id="name_search" name="name_search" type="text" value="">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">List:</label>
+                                        <select id="list_search" name="list_search"
+                                            class="select2 form-control select2-multiple"
+                                            multiple="multiple"
+                                            data-placeholder="Choose ...">
+                                            {% for lis in list_data %}
+                                                <option value="{{lis.lis_id}}">{{ lis.lis_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Temperature:</label>
+                                        <select id="temperature_search" name="temperature_search"
+                                            class="select2 form-control select2-multiple"
+                                            multiple="multiple"
+                                            data-placeholder="Choose ...">
+                                            <option value="Cold">Cold</option>
+                                            <option value="Warm">Warm</option>
+                                            <option value="Hot">Hot</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Status:</label>
+                                        <select id="status_search" name="status_search"
+                                            class="select2 form-control select2-multiple" multiple="multiple" data-placeholder="Choose ...">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Active">Active</option>
+                                            <option value="InActive">InActive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group mb-0">
+                                        <label class="control-label">Created Date:</label>
+                                        <input value="" class="form-control datepicker1 scheduled_font_size"
+                                               id="datepicker1" name="datepicker1" type="text" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-lg-4 mt-2 col-md-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <button class="btn btn-primary w-md waves-effect waves-light  mt-2 ml-10"
+                                            type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+
+
+                        <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>List</th>
+                                    <th>Temperature</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 
+                               
+                                    {% for item in data_set %}
+                                    <tr>
+                                        <td>{{ item.id }}</td>
+                                        <td id="seq_td"><a href="{% url 'update_sequence' item.id %}" id="seq_btn" class="btn btn-sm btn-block btn-primary btn_wrap_content" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    data-original-title="Click to edit">{{ item.name }}</a></td>
+                                        <td>{{ item.list }}</td>
+                                        <td>
+                                            <!-- For temperature use below code -->
+                                            {% if item.temperature == "Cold" %}
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Cold</button> -->
+                                                <span class="text-primary font-12"><i
+                                                        class="mdi mdi-checkbox-blank-circle mr-1"></i> Cold</span>
+                                            {% elif item.temperature == "Hot" %}
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#d9534f; border-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Hot</button> -->
+                                                <span class="text-danger font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i>Hot</span> 
+                                            {% elif item.temperature == "Warm" %}
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Warm</button> -->
+                                                <span class="text-warning font-12"><i
+                                                        class="mdi mdi-checkbox-blank-circle mr-1"></i> Warm</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <!-- For status use below code -->
+                                            {% if item.status == "Active" %}
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Active</button> -->
+                                                <span class="badge badge-success font-12"> Active</span>
+                                            {% elif item.status == "InActive" %}
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#d9534f; border-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">InActive</button> -->
+                                                <span class="badge badge-danger font-12">Inactive</span>
+                                            {% elif item.status == "Pending" %}
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:##0b7eb5; border-color:##0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                        data-placement="top">Pending</button> -->
+                                                <span class="badge badge-primary font-12">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.date }}</td>
+                                        <td>
+                                            <button onclick="show_details('{{item.id}}')" type="button" data-toggle="tooltip"
+                                                    title="Click to view details" class="btn btn-sm btn-info"><i class="mdi mdi-eye"></i></button>
+
+                                                <a class="btn btn-sm btn-primary" data-toggle="tooltip"
+                                                    data-placement="top" title="Click to edit" data-original-title="Edit"
+                                                        href="{% url 'update_sequence' item.id %}"><i
+                                                        class="mdi mdi-grease-pencil"></i></a>
+
+
+                                                <a sequence-id="{{ item.id }}" data-toggle="tooltip" title="Click to delete" class="btn btn-danger btn-sm seq-delete" href="javascript:void(0);"><i class="mdi mdi-trash-can-outline"></i></a>
+
+
+                                                 <a class="btn btn-sm btn-info" data-toggle="tooltip"
+                                                         data-placement="top" title="" data-original-title="Marketing"
+                                                        href="{% url 'sequence_campaigns' item.id %}"><i
+                                                            class="fa fa-bullhorn"></i></a>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                        <div class="modal" id="exampleModalScrollable">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                              <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                  <h2 class="modal-title" id="heading_id"></h2>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Name</label>
+                                            <div>
+                                                <input readonly class="form-control" id="title" name="title" >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label>Created By</label>
+                                        <div class="form-group">
+                                        <div>
+                                            <input readonly class="form-control" id="planer" name="planer" >
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>List</label>
+                                            <div>
+                                                <input readonly class="form-control" type="text" id="list" name="list">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Total Records in List</label>
+                                            <div>
+                                                <input readonly class="form-control" type="text" id="list_count" name="list_count">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <div>
+                                                <input readonly class="form-control" id="status" name="status" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Temperature</label>
+                                            <div>
+                                                <input id="temperature" name="temperature" readonly class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Details</label>
+                                            <textarea readonly id="details" class="form-control" name="details"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Planning Status</label>
+                                            <div>
+                                                <input id="planning_status" name="planning_status" readonly class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Created Marketing</label>
+                                            <div>
+                                                <input id="create_marketing" name="create_marketing" readonly class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Planing Done</label>
+                                            <div>
+                                                <input id="planning_done" name="planning_done" readonly class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Created At</label>
+                                            <div>
+                                                <input id="created_at" name="created_at" readonly class="form-control" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Close</button>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+
+                        <div class="modal fade" id="deleteSequenceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        Confirm!
+                                    </div>
+                                    <div class="modal-body">
+                                        Do you really want to delete this Sequence?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark waves-effect waves-light"
+                                            data-dismiss="modal">No</button>
+                                        <a id="delete-sequence" class="btn btn-danger waves-effect waves-light btn-ok">Yes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+{% block extrajs %}
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+<script>
+$(function () {
+  $(".datetimepicker").datetimepicker({
+    format: 'm/d/y H:m',
+  });
+
+  $("#datepicker1").datetimepicker({
+    format: 'Y/m/d',
+    timepicker: false,
+  });
+});
+
+</script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $(document).on('click', '.seq-delete', function(){
+        selectedSequence = $(this).attr('sequence-id');
+        url = window.location.origin + '/marketing/del_seq/' + selectedSequence;
+        $('#delete-sequence').attr("href", url);
+
+        $('#deleteSequenceModal').modal('show');
+    });
+ });
+
+
+function show_details(id) {
+
+        console.log("id is: ",id)
+        var data = {
+          id : id,
+        };
+
+        $.ajax({
+             type: "POST",
+             url: window.location.origin+"/marketing/sequence_details",
+             data: JSON.stringify(data),
+             contentType: "application/json; charset=utf-8",
+             dataType: "json",
+             success: function (result) {
+             if(result.status==200)
+             {
+                $("#heading_id").text(result.market_data.name)
+                $("#title").val(result.market_data.name)
+                $("#list").val(result.market_data.list)
+                $("#list_count").val(result.market_data.list_count)
+                $("#planer").val(result.market_data.user)
+                $("#status").val(result.market_data.status)
+                $("#temperature").val(result.market_data.temperature)
+                $("#details").val(result.market_data.details)
+                $("#planning_status").val(result.market_data.planning_status)
+                $("#create_marketing").val(result.market_data.create_marketing)
+                $("#planning_done").val(result.market_data.planning_done)
+                $("#created_at").val(result.market_data.created_at)
+                $('#exampleModalScrollable').modal('show');
+             }
+             else
+             {
+                alert("There is some error")
+
+             }
+           }
+        });
+
+
+}
+
+</script>
+{% endblock %}
+
+
+
+{% endblock %}

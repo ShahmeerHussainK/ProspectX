@@ -1,0 +1,263 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+<!-- Start content -->
+<div class="content ">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Dashboard</h4>
+                    <!-- <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">Welcome to Prospectx Dashboard</li>
+                    </ol> -->
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="vx-card text-center bg-primary-gradient greet-user">
+                    <div class="vx-card__body">
+                        <img
+                            src="{% static 'assets/images/dashboard/decore-left.png' %}"
+                            alt="Decore Left" class="decore-left" width="200"><img
+                            src="{% static 'assets/images/dashboard/decore-right.png' %}"
+                            alt="Decore Right" class="decore-right" width="175">
+                            <span
+                            class="p-3 rounded-circle mb-3 custom_bg_purple text-white shadow feather-icon select-none relative"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-award h-8 w-8">
+                                <circle cx="12" cy="8" r="7"></circle>
+                                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                            </svg></span>
+                        <h2 class="mb-3 mt-4 text-white">Hi <span class="text-capitalize">
+                            {{first_name}},
+                        </span></h2>
+                        <h4 class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white"> Welcome to  <strong>ProspectX</strong></h4>
+                    </div>
+                    
+                </div>
+
+            </div>
+        </div> -->
+
+
+        <div class="row">
+            {% for dashboard in dashboard_data %}
+            {% ifequal dashboard.block_width "16.67%" %}
+            {% trans "col-lg-3 col-md-3" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "25%" %}
+            {% trans "col-md-3 col-sm-6" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "33.33%" %}
+            {% trans "col-md-4" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "41.67%" %}
+            {% trans "col-md-5" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "50%" %}
+            {% trans "col-md-6" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "58.33%" %}
+            {% trans "col-md-7" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "66.67%" %}
+            {% trans "col-md-8" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "75%" %}
+            {% trans "col-md-9" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "83.33%" %}
+            {% trans "col-md-10" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "91.67%" %}
+            {% trans "col-md-11" as action %}
+            {% endifequal %}
+            {% ifequal dashboard.block_width "100%" %}
+            {% trans "col-md-12" as action %}
+            {% endifequal %}
+
+            <div class="{{ action }}">
+                <!-- <div class="card  bg-primary text-white"
+                             style="width:100%;background-color: #626ed4!important;color: #fff;border: 1px solid #626ed4; display: inline-block;">
+                            <div class="card-header font-16 text-uppercase mt-0 text-white-50">
+                                {% ifequal dashboard.block_image "1" %}
+                                    <img src="{{ MEDIA_URL }}/dashboard_images/01.png" height="30px" width="30px">
+                                {% endifequal %}
+                                {% ifequal dashboard.block_image "2" %}
+                                    <img src="{{ MEDIA_URL }}/dashboard_images/02.png" height="30px" width="30px">
+                                {% endifequal %}
+                                {% ifequal dashboard.block_image "3" %}
+                                    <img src="{{ MEDIA_URL }}/dashboard_images/03.png" height="30px" width="30px">
+                                {% endifequal %}
+                                {% ifequal dashboard.block_image "4" %}
+                                    <img src="{{ MEDIA_URL }}/dashboard_images/04.png" height="30px" width="30px">
+                                {% endifequal %} 
+                                <span>
+                                    {{ dashboard.block_title }}
+                                </span>
+                            </div>
+                            <div class="card-body dashboard_card_detail" style="background-color: #fff;color: black">
+                                {% autoescape off %}
+                                    {{ dashboard.block_content }}
+                                {% endautoescape %}
+                            </div> 
+                        </div> -->
+
+                <div class="card mini-stat bg-purpl text-white">
+                    <div class="card-body">
+                        <div class="mb-2 mt-2">
+                            <div class="float-left mini-stat-img mr-4">
+                                {% ifequal dashboard.block_image "1" %}
+                                <img src="{{ MEDIA_URL }}/dashboard_images/01.png" height="30px" width="30px">
+                                {% endifequal %}
+                                {% ifequal dashboard.block_image "2" %}
+                                <img src="{{ MEDIA_URL }}/dashboard_images/02.png" height="30px" width="30px">
+                                {% endifequal %}
+                                {% ifequal dashboard.block_image "3" %}
+                                <img src="{{ MEDIA_URL }}/dashboard_images/03.png" height="30px" width="30px">
+                                {% endifequal %}
+                                {% ifequal dashboard.block_image "4" %}
+                                <img src="{{ MEDIA_URL }}/dashboard_images/04.png" height="30px" width="30px">
+                                {% endifequal %}
+                            </div>
+                            <h5 class="font-16 text-uppercase mt-0 text-white-50">{{ dashboard.block_title }}</h5>
+                            <h5 class="font-500 dashboard_card_detail">
+                                {% autoescape off %}
+                                {{ dashboard.block_content }}
+                                {% endautoescape %}
+
+                            </h5>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="card mini-stat bg-pattern">
+                            <div class="card-body mini-stat-img">
+                                <div class="mini-stat-icon"> 
+                                    {% ifequal dashboard.block_image "1" %}
+                                        <img  class="bg-soft-primary text-primary float-right" src="{{ MEDIA_URL }}/media/dashboard_images/01.png" height="30px" width="30px">
+                                    {% endifequal %}
+                                    {% ifequal dashboard.block_image "2" %}
+                                        <img  class="bg-soft-primary text-primary float-right" src="{{ MEDIA_URL }}/media/dashboard_images/02.png" height="30px" width="30px">
+                                    {% endifequal %}
+                                    {% ifequal dashboard.block_image "3" %}
+                                        <img  class="bg-soft-primary text-primary float-right" src="{{ MEDIA_URL }}/media/dashboard_images/03.png" height="30px" width="30px">
+                                    {% endifequal %}
+                                    {% ifequal dashboard.block_image "4" %}
+                                        <img  class="bg-soft-primary text-primary float-right" src="{{ MEDIA_URL }}/media/dashboard_images/04.png" height="30px" width="30px">
+                                    {% endifequal %}
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-2">{{ dashboard.block_title }}</h6>
+                                <h5 class="mb-3">1,687</h5>
+                                    {% autoescape off %}
+                                    <div class="text-muted dashboard_card_detail mb-0">
+                                        {{ dashboard.block_content }}
+                                    </div>
+                                    {% endautoescape %}
+                            </div>
+                        </div> -->
+            </div>
+
+            {% endfor %}
+            {% ifequal role "Super User" %}
+            <div class="col-md-3">
+                <div class="card mini-stat bg-purpl text-white">
+                    <div class="card-body">
+                        <div class="mb-2 mt-2">
+                            <div class="float-left mini-stat-img mr-4">
+                                <img src="{{ MEDIA_URL }}/dashboard_images/Users-Icon.png" height="30px" width="30px">
+                            </div>
+                            <h5 class="font-16 text-uppercase mt-0 text-white-50">Users</h5>
+                            <h5 class="font-500 dashboard_card_detail">
+                                <p>
+
+                                    {% autoescape off %}
+                                    {{total_admin_users}}
+                                    {% endautoescape %}
+
+                                </p>
+                            </h5>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endifequal %}
+
+        </div>
+       
+        <!-- end page-title -->
+
+        {#            {% ifequal role "Super User" %}#}
+        {#                <div class="row">#}
+        {#                    <div class="col-xl-6">#}
+        {#                        <div class="card">#}
+        {#                            <div class="card-header">#}
+        {#                                <h5 class="mt-0 mb-0">Total Admin Users</h5>#}
+        {#                            </div>#}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="mt-0 mb-0">{{ total_admin_users }}</h5>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                    <div class="col-xl-6">#}
+        {#                        <div class="card">#}
+        {#                            <div class="card-header">#}
+        {#                                <h5 class="mt-0 mb-0">Total Sub Users</h5>#}
+        {#                            </div>#}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="mt-0 mb-0">{{ total_sub_users }}</h5>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            {% endifequal %}#}
+        {#            <!-- end row -->#}
+        {#            {% ifequal role "Admin User" %}#}
+        {##}
+        {#                <div class="row">#}
+        {#                    <div class="col-xl-6">#}
+        {#                        <div class="card">#}
+        {#                            <div class="card-header">#}
+        {#                                <h5 class="mt-0 mb-0">Total Active Sub Users</h5>#}
+        {#                            </div>#}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="mt-0 mb-0">{{ total_active_sub_users }}</h5>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                    <div class="col-xl-6">#}
+        {#                        <div class="card">#}
+        {#                            <div class="card-header">#}
+        {#                                <h5 class="mt-0 mb-0">Total InActive Sub Users</h5>#}
+        {#                            </div>#}
+        {#                            <div class="card-body">#}
+        {#                                <h5 class="mt-0 mb-0">{{ total_inactive_sub_users }}</h5>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            {% endifequal %}#}
+        {#            {% ifequal role "Sub User" %}#}
+        {#            {% endifequal %}#}
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).on('click', '#to_admin', function (e) {
+        window.location.href = "/user/login/" + localStorage.getItem("user_id");
+        localStorage.removeItem("user_role");
+    });
+</script>
+
+{% endblock %}

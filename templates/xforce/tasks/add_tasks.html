@@ -1,0 +1,319 @@
+{% extends 'layouts/basefile/base.html' %}
+% load i18n %}
+{% block content %}
+{% load static %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+<link rel="stylesheet" href="{% static 'plugins/ion-rangeslider/css/ion.rangeSlider.css' %}"> 
+{% endblock %}
+<!-- Start content -->
+<div class="content xforce_steps xforce_form_without_steps">
+    <div id="loader_id" class="loading"></div>
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title"><a href="#">Task </a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home"><i class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item "><a href="#">Task</a> </li>
+                        <li class="breadcrumb-item active">Add Task</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body buyer_form pl-4 pr-4">
+
+
+                        <form id="myform" enctype="multipart/form-data" action="" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class=" ">
+                                        <a href="#" class="btn btn-primary w-md">
+                                            <!-- <i class="mdi mdi-chevron-left"></i>  -->
+                                            Back</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h3 class="xforce-title text-center mb-1">Add New Task</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr>
+                                    <!-- <label class="required_info"><span class="text-danger font-16">*</span> These fields are required.</label> -->
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Task <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="Add Task" class="form-control" id="add_task"
+                                                name="add_task" type="text"
+                                                {% if data.llc_purchase_name != None %}value="{{ data.llc_purchase_name|stringformat:'s' }}"
+                                                {% endif %}>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-md-4">
+                                    <label>Task for </label>
+                                    <div class="form-group input-group custom_select_button">
+                                        <select name="company" class="form-control wizard_select2"
+                                            onchange="company_empty()">
+                                            <option value="" selected>Select</option>
+                                            {% for compan in companies %}
+                                            <option value="{{ compan.id }}"
+                                                {% if company == compan %}selected{% endif %}>{{ compan }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <a href="javascript:profile_comp()" class="btn btn-primary" id="Task">Task</a>
+                                        {% if errors %}
+                                        <div id="company_errors" class="text-danger">
+                                            {{ errors.company | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-md-4">
+                                    <label>Responsible</label>
+                                    <div class="form-group input-group custom_select_button">
+                                        <select name="responsible" class="form-control wizard_select2"
+                                            onchange="company_empty()">
+                                            <option value="" selected>Select</option>
+                                            {% for compan in companies %}
+                                            <option value="{{ compan.id }}"
+                                                {% if company == compan %}selected{% endif %}>{{ compan }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <a href="javascript:profile_comp()" class="btn btn-primary"
+                                            id="responsible">Responsible</a>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Due Date <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input required class="form-control datetimepicker" name="close_date"
+                                                    id="due_date" type="text" placeholder="Add date" autocomplete="off"
+                                                    {% if data.close_date   != None %}value="{{ data.close_date |stringformat:'s' }}"
+                                                    {% endif %}>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                               
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>File</label><br>
+                                        <input id="file" name="file" type="file" class=" xforce_filestyle with-border filestyle"
+                                            data-buttonname="btn-primary" accept="image/png, image/jpeg, .txt, .pdf">
+                                    </div>
+
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input class="form-control datetimepicker" name="date" id="date"
+                                                    type="text" autocomplete="off"
+                                                    {% if data.date != None %}value="{{ data.date|stringformat:'s' }}"
+                                                    {% endif %}>
+                                                {% if errors %}
+                                                <div id="date_errors" class="text-danger">
+                                                    {{ errors.date | striptags }}
+                                                </div>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                    <label>Temperature</label>
+                                    <div class="form-group xforce_seller_temprature">
+                                        <div class=" optional-filter-radio-btn-circles" role="group"
+                                            data-toggle="buttons">
+                                            <label for="pending_approval"
+                                                class="btn btn-sm btn-outline-primary waves-effect btn-circle active waves-light w-xs">
+                                                <input type="radio" id="pending_approval" name="temperature"
+                                                    value="Cold" class="custom-control-input" checked>Cold
+                                            </label>
+                                            <label for="untouched"
+                                                class="btn btn-sm btn-outline-danger waves-effect btn-circle waves-light w-xs">
+                                                <input type="radio" id="untouched" name="temperature" value="Hot"
+                                                    class="custom-control-input" checked>Hot
+                                            </label>
+                                            <label for="completed"
+                                                class="btn btn-sm btn-outline-info waves-effect btn-circle waves-light w-xs">
+                                                <input type="radio" id="completed" name="temperature" value="Warm"
+                                                    class="custom-control-input" checked>Warm
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-md-4 ">
+                                    <div class="form-group">
+                                        <div> 
+                                            <label>Status</label>
+                                        </div>
+                                        <div class="form-check-inline  ">
+                                            <div class="form-check-inline custom_checkbox_button">
+                                                <input class="form-check-input" type="checkbox" id="Pending"
+                                                    name="Pending" {% if data.offer_accepted %}checked{% endif %}>
+                                                <label class="form-check-label" for="Pending">Pending</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check-inline ">
+                                            <div class="form-check-inline custom_checkbox_button">
+                                                <input class="form-check-input" type="checkbox" id="status_completed"
+                                                    name="status_completed" {% if data.add_cash_buyer %}checked{% endif %}>
+                                                <label class="form-check-label" for="status_completed">Completed</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-md-4 form-group">
+                                    <label>Progress</label>
+                                    <input type="text" id="range_progress">
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <script>
+                                            var cont_details = "{{ data.additional_details  | default_if_none:'' }}";
+                                        </script>
+                                        <label>Notes</label>
+                                        <textarea class="form-control summernote" id="additional_details"
+                                            name="additional_details">
+                                            {% if data.additional_details != None %}value= "{{ data.additional_details | stringformat:'s' }}"{% endif %}
+                                        </textarea>
+                                        {% if errors %}
+                                        <div id="additional_details_errors" class="text-danger">
+                                            {{ errors.additional_details | striptags }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <input id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+    integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    {#function num_validate(num) {# }
+        {#        var v = num.value;# }
+        {#        if (v > 2147483647) {# }
+            {#            alert("Value should be less than 2147483647");# }
+            {#            num.value = '';# }
+            {# }#
+        }
+        {# }#
+    }
+
+    var encodedStr = cont_details;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#additional_details").summernote(
+        'code', decodedString
+
+    );
+
+
+
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            format: 'm/d/y H:m',
+            minDate: 0,
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+    $('#my_form').on('submit', function () {
+        $("#sub_btn").hide();
+        $('#sub_btn').delay(2000).show(0);
+    });
+
+    $(document).ready(function () {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    });
+
+    $('#planer').on('change', function () {
+        let plan = $('#planer').val();
+        if (plan !== "") {
+            $("#hsh_off").show();
+            $('#resp').show();
+            $('#tl_units').show();
+            $('#tch').show();
+        } else {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        }
+    });
+
+</script>
+{% endblock %}
+
+{% endblock %}

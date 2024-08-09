@@ -1,0 +1,457 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block extracss %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+
+{% endblock %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Profile</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Profile</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row profile_sidebutton_color">
+
+                <!--settings partial sidebar-->
+                {% include 'partials/settings_sidebar.html' %}
+
+                <div class="col-sm-9 col-md-9 col-lg-8">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <!-- Update profile tab link -->
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">
+                                <i class="fas fa-user-edit"></i> &nbsp;Update profile
+                            </a>
+                        </li>
+                        <!-- Change password tab link -->
+                        <li class="nav-item">
+                            <a class="nav-link " data-toggle="tab" href="#password" role="tab">
+                                <i class="fas fa-key"></i> &nbsp;Change password
+                            </a>
+                        </li>
+
+                    </ul>
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content">
+                                <!-- Update profile tab start-->
+                                <div class="tab-pane active" id="profile" role="tabpanel">
+                                    <form action="update_profile" method="post" enctype='multipart/form-data'>
+                                        {% csrf_token %}
+                                        {% if message == "Profile has been updated successfully!" %}
+                                            <div class="alert alert-success mt-4 mb-5 text-center" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% elif message %}
+                                            <div class="alert alert-danger mt-4 mb-5 text-center" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% endif %}
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="first_name" class=" col-form-label">First Name</label>
+                                                    {% if user_data.first_name %}
+                                                        <input class="form-control" type="text" placeholder="First Name"
+                                                               id="first_name" name="first_name"
+                                                               value="{{ user_data.first_name }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="text" placeholder="First Name"
+                                                               id="first_name" name="first_name"
+                                                               value="{{ form.instance.first_name  | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if form.first_name.errors %}
+                                                        <div class="text-danger">
+                                                            {{ form.first_name.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label for="last_name" class=" col-form-label">Last Name</label>
+                                                    {% if user_data.last_name %}
+                                                        <input class="form-control" type="text" placeholder="Last Name"
+                                                               id="last_name" name="last_name"
+                                                               value="{{ user_data.last_name }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="text" placeholder="Last Name"
+                                                               id="last_name" name="last_name"
+                                                               value="{{ form.instance.last_name  | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if form.last_name.errors %}
+                                                        <div class="text-danger">
+                                                            {{ form.last_name.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group ">
+                                                    <label for="address" class="col-form-label">Address</label>
+                                                    {% if user_profile.address %}
+                                                        <input class="form-control" type="text"
+                                                               placeholder="3030 N. 3rd St #760"
+                                                               id="address" name="address"
+                                                               value="{{ user_profile.address }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="text"
+                                                               placeholder="3030 N. 3rd St #760"
+                                                               id="address" name="address"
+                                                               value="{{ profile_form.instance.address  | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if profile_form.address.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.address.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group ">
+                                                    <label for="city" class="col-form-label">City</label>
+                                                    {% if user_profile.city %}
+                                                        <input class="form-control" type="text" placeholder="Phoenix"
+                                                               id="city" name="city" value="{{ user_profile.city }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="text" placeholder="Phoenix"
+                                                               id="city" name="city"
+                                                               value="{{ profile_form.instance.city  | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if profile_form.city.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.city.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="state" class="col-form-label">State</label>
+                                                    {% if user_profile.state %}
+                                                        <input class="form-control" type="text" maxlength="2"
+                                                               placeholder="AZ"
+                                                               id="state" name="state" value="{{ user_profile.state }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="text" maxlength="2"
+                                                               placeholder="AZ"
+                                                               id="state" name="state"
+                                                               value="{{ profile_form.instance.state  | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if profile_form.state.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.state.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label for="zip" class="col-form-label">Zip</label>
+                                                    {% if user_profile.zip %}
+                                                        <input class="form-control" type="text" placeholder="85012"
+                                                               id="zip" name="zip"
+                                                               value="{{ user_profile.zip | default_if_none:'' }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="text" placeholder="85012"
+                                                               id="zip" name="zip"
+                                                               value="{{ profile_form.instance.zip | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if profile_form.zip.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.zip.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group ">
+                                                    <label for="landline_phone" class="col-form-label">Landline
+                                                        Phone</label>
+                                                    {% if user_profile.landline_phone %}
+                                                        <input class="form-control" type="tel" placeholder=""
+                                                               id="landline_phone" name="landline_phone"
+                                                               value="{{ user_profile.landline_phone | default_if_none:'' }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="tel" placeholder=""
+                                                               id="landline_phone" name="landline_phone"
+                                                               value="{{ profile_form.instance.landline_phone | default_if_none:'' }}">
+                                                    {% endif %}
+
+                                                    {% if profile_form.landline_phone.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.landline_phone.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group ">
+                                                    <label for="cell_phone" class="col-form-label">Cell Phone</label>
+                                                    {% if user_profile.cell_phone %}
+                                                        <input class="form-control" type="tel" placeholder=""
+                                                               id="phone2" name="phone2"
+                                                               value="{{ user_profile.cell_phone | default_if_none:'' }}">
+                                                        <input type="hidden" placeholder="" id="cell_phone"
+                                                               name="cell_phone"
+                                                               value="{{ user_profile.cell_phone | default_if_none:'' }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="tel" placeholder=""
+                                                               id="phone2" name="phone2"
+                                                               value="{{ profile_form.instance.cell_phone | default_if_none:'' }}">
+                                                        <input type="hidden" placeholder="" id="cell_phone"
+                                                               name="cell_phone"
+                                                               value="{{ profile_form.instance.cell_phone | default_if_none:'' }}">
+                                                    {% endif %}
+                                                    <input type="hidden" placeholder="" id="is_validated2"
+                                                           name="is_validated2" value="valid">
+                                                    {% if profile_form.cell_phone.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.cell_phone.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ profile_form.non_field_errors | striptags }}
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group ">
+                                                    <label for="email" class="col-form-label">Email</label>
+                                                    {% if user_data.email %}
+                                                        <input class="form-control" type="email"
+                                                               placeholder="name@example.com"
+                                                               id="email" name="email" value="{{ user_data.email }}">
+                                                    {% else %}
+                                                        <input class="form-control" type="email"
+                                                               placeholder="name@example.com"
+                                                               id="email" name="email"
+                                                               value="{{ form.instance.email }}">
+                                                    {% endif %}
+                                                    {% if form.email.errors %}
+                                                        <div class="text-danger">
+                                                            {{ form.email.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="custom-file mb-3">
+                                                    {% if user_profile.profile_image %}
+                                                        <input style="z-index: -1;" type="file"
+                                                               class="custom-file-input" id="profile_image"
+                                                               name="profile_image"
+                                                               value="{{ user_profile.profile_image }}">
+                                                    {% else %}
+                                                        <input style="z-index: -1;" type="file"
+                                                               class="custom-file-input" id="profile_image"
+                                                               name="profile_image"
+                                                               value="{{ profile_form.instance.profile_image  | default_if_none:'' }}">
+                                                    {% endif %}
+                                                    <label class="custom-file-label" for="profile_image">Choose
+                                                        file</label>
+                                                    {% if profile_form.profile_image.errors %}
+                                                        <div class="text-danger">
+                                                            {{ profile_form.profile_image.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{ form.non_field_errors | striptags }}
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-primary waves-effect waves-light">
+                                                    Save
+                                                    Changes
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                <div class="tab-pane" id="password" role="tabpanel">
+                                    <form id="change_password_form" class="form-horizontal"
+                                          action="{% url 'change_password' %}" method="post">
+                                        {% csrf_token %}
+                                        {#                                         {% if message2 %}#}
+                                        <div id="success_div"
+                                             class="alert alert-success mt-4 mb-5 text-center d-none"></div>
+                                        <div id="error_div"
+                                             class="alert alert-danger mt-4 mb-5 text-center d-none"></div>
+                                        {#                                        {% endif %}#}
+                                        <div class="form-group">
+                                            <label for="old_password">Current Password</label>
+                                            <input type="password" class="form-control" id="old_password"
+                                                   name="old_password" placeholder="Current Password">
+                                            {% if form.old_password.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.old_password.errors | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="new_password">New Password</label>
+                                            <input type="password" class="form-control" id="new_password"
+                                                   name="new_password" placeholder="New Password">
+                                            {% if form.new_password.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.new_password.errors | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirm_new_password">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirm_new_password"
+                                                   name="confirm_new_password" placeholder="Confirm New Password">
+                                            {% if form.confirm_new_password.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.confirm_new_password.errors | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        {{ form.non_field_errors | striptags }}
+
+                                        <div class="form-group row">
+                                            <div class="col-12  ">
+                                                <button class="btn btn-sm btn-primary waves-effect waves-light"
+                                                        type="submit">Change Password
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+                <div class="col-lg-3"></div><!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+
+
+    <!-- content -->
+{% endblock %}
+
+{% block extrajs %}
+
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+    <script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+    <script>
+        $(document).on('submit', '#change_password_form', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function () { // on success..
+                    $("#error_div").removeClass("d-block");
+                    $("#error_div").addClass("d-none");
+                    $('#success_div').html("Password Changed Successfully!");
+                    $("#success_div").addClass("d-block");
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) { // on error..
+                    $("#success_div").removeClass("d-block");
+                    $("#success_div").addClass("d-none");
+                    var err = JSON.parse(xhr.responseText);
+                    $("#error_div").html(err.message);
+                    $("#error_div").addClass("d-block")// unhide
+
+                },
+                statusCode: {
+                    404: function () {
+                        alert("page not found");
+                    }
+                }
+            });
+        });
+
+        // Add the following code if you want the name of the file appear on select
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+        var input = document.querySelector('#phone');
+        var input2 = document.querySelector('#phone2');
+        var errorMap = ["Invalid number", "Invalid country code", "Too short", "To long", "Invalid number"];
+        var intl = $('#phone, #phone2').intlTelInput({
+            separateDialCode: true,
+            autoFormat: true,
+            defaultCountry: "auto",
+            utilsScript: "{% static 'assets/js/utils.js' %}"
+        });
+
+        $(document).ready(function () {
+            $('#landline_phone').focus(function () {
+                var mask = "999-999-9999"
+                // var mask = placeholder.replace(/[0-9]/g,"9");
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+
+            $('#phone2').focus(function () {
+                var placeholder = $(this).attr('placeholder');
+                var mask = placeholder.replace(/[0-9]/g, "9");
+                $(this).inputmask({"mask": mask});
+            });
+
+            $('#zip').focus(function () {
+                $(this).inputmask("99999", {"placeholder": ""});
+            });
+        });
+
+
+        input2.addEventListener("blur", function () {
+            $("#cell_phone").val($("#phone2").intlTelInput("getNumber"));
+            if (input2.value.trim()) {
+                if ($(this).intlTelInput("isValidNumber")) {
+                    $('#is_validated2').val('valid');
+                } else {
+                    $('#is_validated2').val(errorMap[$(this).intlTelInput("getValidationError")]);
+                }
+            } else {
+                $('#is_validated2').val('Invalid Number');
+            }
+        });
+    </script>
+{% endblock %}

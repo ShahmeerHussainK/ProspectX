@@ -1,0 +1,157 @@
+<div class="col-sm-6 col-md-4 col-xl-3">
+
+    <div id="tasksModal" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form id="create_task_form" method='post' class="form" role="form" action="{% url 'create_task' %}">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title mt-0">Create Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <div>
+                                        <input name="title" type="text" class="form-control" required=""
+                                               placeholder="Enter a task title" autocomplete="on">
+                                    </div>
+                                </div>
+                            </div>
+                            {% ifequal role "Admin User" %}
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Assign To</label>
+                                    <select id="assign_to_create" name="assign_to" class="form-control select2">
+                                        <option value="">Select</option>
+                                        {% for usr in userData %}
+                                        <option value="{{usr.id}}">{{usr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            {% endifequal %}
+                         {% ifequal role "Super User" %}
+                            <div class="col-sm-6">
+                                <div class="form-group d-none">
+                                    <label class="control-label">Assign To</label>
+                                    <select name="assign_to" class="form-control select2">
+                                        <option value="">Select</option>
+{#                                        {% for usr in userData %}#}
+                                        <option value="{{myuser.pk}}">{{ myuser }}</option>
+{#                                        {% endfor %}#}
+                                    </select>
+                                </div>
+                            </div>
+                            {% endifequal %}
+                        {% ifequal role "Sub User" %}
+                            <div class="col-sm-6">
+                                <div class="form-group d-none">
+                                    <label class="control-label">Assign To</label>
+                                    <select name="assign_to" class="form-control select2 d-none">
+                                        <option value="">Select</option>
+{#                                        {% for usr in userData %}#}
+                                        <option value="{{myuser.pk}}">{{ myuser }}</option>
+{#                                        {% endfor %}#}
+                                    </select>
+                                </div>
+                            </div>
+                            {% endifequal %}
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" required="" class="form-control" rows="2" autocomplete="on"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Start Date/Time</label>
+                                    <div class="input-group datetime">
+                                        <input name="start_date_time" type="text" class="form-control" id="startdatetime" required="">
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">End Date/Time</label>
+                                    <div class="input-group datetime">
+                                        <input name="end_date_time" type="text" class="form-control" id="enddatetime" required="">
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <div class="form-check-inline">
+                                        <input id="is_all_day_task" name="is_all_day_task" type="checkbox" class="form-check-input" value="1">
+                                        <label for="is_all_day_task" class="form-check-label">
+                                            Full day task
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% ifequal role "Admin User" %}
+                        <div id="create_partial_formsets"></div>
+                    {% endifequal %}
+
+                        <div id="moretasksdiv"></div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Temprature</label>
+                            </div>
+
+                            <div class="col-sm-12">
+                                 <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="radio1">
+                                                <input type="radio"
+                                                       class="form-check-input"
+                                                       id="radio1" name="temperature"
+                                                       value="2" checked>Cold
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label"
+                                               for="radio2">
+                                            <input type="radio"
+                                                   class="form-check-input"
+                                                   id="radio2" name="temperature"
+                                                   value="1">Warm
+                                        </label>
+                                    </div>
+                                     <div class="form-check form-check-inline">
+                                        <label class="form-check-label"
+                                               for="radio3">
+                                            <input type="radio"
+                                                   class="form-check-input"
+                                                   id="radio3" name="temperature"
+                                                   value="3">Hot
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <button id="create_task_button" class="btn btn-primary waves-effect waves-light" type="submit">
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="success_div" class="alert alert-success d-none"></div>
+                    <div id="error_div" class="alert alert-danger d-none"></div>
+
+                </div><!-- /.modal-dialog -->
+            </form>
+        </div><!-- /.modal -->
+    </div>
+</div>

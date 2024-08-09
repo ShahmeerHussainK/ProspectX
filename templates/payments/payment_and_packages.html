@@ -1,0 +1,606 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+<div class="content">
+
+
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Packages</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Settings</a></li>
+                        <li class="breadcrumb-item active">Payments and Packages</li>
+                    </ol>
+                </div>
+
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="card">
+            <div class="card-body">
+                {% if messages %}
+                     {% for message in messages %}
+                        <button hidden id="messages_btn" onclick="display_message_func('{{ message }}')"></button>
+                     {% endfor %}
+                {% endif %}
+
+                {% if subs.status == 'Cancelled' %}
+                <div class="row">
+                    <div class="col-xl-3"></div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card plan-box text-center">
+                            <div style="background-color:#f3f3f3;" class="card-body">
+                                <div class="py-3">
+                                    <h2 class="mt-0">Monthly Plan</h2>
+                                    <div class="py-4">
+                                        <h3><sup><small>$</small></sup>147.00/<span class="font-14">Month</span></h3>
+                                    </div>
+                                    <div class="plan-icon py-3">
+                                        <i class="ti-cup h2 p-3 position-relative bg-white"></i>
+                                    </div>
+                                </div>
+                                <div class="plan-features mb-4">
+                                    <p>Unlimited Users</p>
+                                    <p>No Time Tracking</p>
+                                    <p>Month To Month Flexibility</p>
+                                </div>
+
+                                <div class="pt-3">
+                                    <form id="upgrade_monthly_form_id_cancelled" action="{% url 'upgrade' %}" method="post">{% csrf_token %}
+                                        <input hidden id="monthly" name="monthly" value="monthly" >
+                                    </form>
+                                    <button id="upgrade_monthly_id_1" type="button" class="btn btn-primary waves-effect waves-light" data-href="#" data-toggle="modal"
+                                            data-target="#confirm-monthly-upgrade-package_cancelled">Upgrade Monthly</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card plan-box text-center">
+                            <div style="background-color:#f3f3f3;" class="card-body">
+                                <div class="py-3">
+                                    <h2 class="mt-0">Yearly Plan</h2>
+                                    <div class="py-4">
+                                        <h3><sup><small>$</small></sup>1411.00/<span class="font-14">Year</span></h3>
+                                    </div>
+                                    <div class="plan-icon py-3">
+                                        <i class="ti-shield h2 p-3 position-relative bg-white"></i>
+                                    </div>
+                                </div>
+                                <div class="plan-features mb-4">
+                                    <p>Unlimited Users</p>
+                                    <p>No Time Tracking</p>
+                                    <p>2 Months Extra Benefits</p>
+                                </div>
+
+                                <div class="pt-3">
+                                    <form id="upgrade_yearly_form_id_cancelled" action="{% url 'upgrade' %}" method="post">{% csrf_token %}
+                                        <input hidden id="yearly" name="yearly" value="yearly" >
+                                        <button id="upgrade_yearly_id_1" type="button" class="btn btn-primary waves-effect waves-light" data-href="#" data-toggle="modal"
+                                            data-target="#confirm-yearly-upgrade-package_cancelled">Upgrade Yearly</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset disabled><a style="float:right; margin-bottom:50px;" onclick="cancel_subscription('{{subs.id}}')"
+                            class="btn btn-danger w-sm waves-effect waves-light" href="">Cancel Subscription</a></fieldset>
+
+
+                    </div>
+                    <div class="col-xl-3"></div>
+                </div>
+                {% elif subs.plan == 'Monthly' %}
+                <div class="row">
+                    <div class="col-xl-3"></div>
+                    <div class="col-xl-3 col-md-6">
+                        <fieldset class="disabled">
+                            <div class="card plan-box text-center">
+                                <div style="background-color:#f3f3f3;" class="card-body">
+                                    <div class="py-3">
+                                        <h2 class="mt-0">Monthly Plan</h2>
+                                        <div class="py-4">
+                                            <h3><sup><small>$</small></sup>147.00/<span class="font-14">Month</span>
+                                            </h3>
+                                        </div>
+                                        <div class="plan-icon py-3">
+                                            <i class="ti-cup h2 p-3 position-relative bg-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="plan-features mb-4">
+                                        <p>Unlimited Users</p>
+                                        <p>No Time Tracking</p>
+                                        <p>Month To Month Flexibility</p>
+                                    </div>
+
+                                    <div class="pt-3">
+                                        <form action="{% url 'upgrade' %}" method="post">{% csrf_token %}
+                                            <input hidden id="monthly" name="monthly" value="monthly" >
+                                            <button disabled class="btn btn-primary"
+                                            type="submit">Upgrade Monthly</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <fieldset>
+                            <div class="card plan-box text-center">
+                                <div style="background-color:#f3f3f3;" class="card-body">
+                                    <div class="py-3">
+                                        <h2 class="mt-0">Yearly Plan</h2>
+                                        <div class="py-4">
+                                            <h3><sup><small>$</small></sup>1411.00/<span class="font-14">Year</span>
+                                            </h3>
+                                        </div>
+                                        <div class="plan-icon py-3">
+                                            <i class="ti-shield h2 p-3 position-relative bg-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="plan-features mb-4">
+                                        <p>Unlimited Users</p>
+                                        <p>No Time Tracking</p>
+                                        <p>2 Months Extra Benefits</p>
+                                    </div>
+
+                                    <div class="pt-3">
+                                        <form id="upgrade_yearly_form_id" action="{% url 'upgrade' %}" method="post">{% csrf_token %}
+                                            <input hidden id="yearly" name="yearly" value="yearly" >
+                                        </form>
+                                        <button id="upgrade_yearly_id" type="button" class="btn btn-primary waves-effect waves-light" data-href="#" data-toggle="modal"
+                                            data-target="#confirm-yearly-upgrade-package">Upgrade Yearly</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <a style="float:right; margin-bottom:50px;" class="btn btn-danger w-sm waves-effect waves-light" href="#" data-href="#" data-toggle="modal"
+                                    data-target="#confirm-cancel-monthly">Cancel Subscription</a>
+                            <div class="modal fade" id="confirm-cancel-monthly" tabindex="-1" role="dialog"
+                                aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            Confirm!
+                                        </div>
+                                        <div class="modal-body">
+                                            Do you really want to cancel the subscription?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">No</button>
+                                            <button onclick="cancel_subscription('{{subs.id}}')"
+                                                class="btn btn-danger btn-ok">Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="col-xl-3"></div>
+                </div>
+                {% elif subs.plan == 'Yearly' %}
+                <div class="row">
+                    <div class="col-xl-3"></div>
+                    <div class="col-xl-3 col-md-6">
+                        <fieldset>
+                            <div class="card plan-box text-center">
+                                <div style="background-color:#f3f3f3;" class="card-body">
+                                    <div class="py-3">
+                                        <h2 class="mt-0">Monthly Plan</h2>
+                                        <div class="py-4">
+                                            <h3><sup><small>$</small></sup>147.00/<span class="font-14">Month</span>
+                                            </h3>
+                                        </div>
+                                        <div class="plan-icon py-3">
+                                            <i class="ti-cup h2 p-3 position-relative bg-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="plan-features mb-4">
+                                        <p>Unlimited Users</p>
+                                        <p>No Time Tracking</p>
+                                        <p>Month To Month Flexibility</p>
+                                    </div>
+
+                                    <div class="pt-3">
+                                        <form id="upgrade_monthly_form_id" action="{% url 'upgrade' %}" method="post">{% csrf_token %}
+                                            <input hidden id="monthly" name="monthly" value="monthly" >
+                                        </form>
+                                        <button id="upgrade_monthly_id" type="button" class="btn btn-primary waves-effect waves-light" data-href="#" data-toggle="modal"
+                                            data-target="#confirm-monthly-upgrade-package">Upgrade Monthly</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <fieldset class="disabled" >
+                            <div class="card plan-box text-center">
+                                <div style="background-color:#f3f3f3;" class="card-body">
+                                    <div class="py-3">
+                                        <h2 class="mt-0">Yearly Plan</h2>
+                                        <div class="py-4">
+                                            <h3><sup><small>$</small></sup>1411.00/<span class="font-14">Year</span>
+                                            </h3>
+                                        </div>
+                                        <div class="plan-icon py-3">
+                                            <i class="ti-shield h2 p-3 position-relative bg-white"></i>
+                                        </div>
+                                    </div>
+                                    <div class="plan-features mb-4">
+                                        <p>Unlimited Users</p>
+                                        <p>No Time Tracking</p>
+                                        <p>2 Months Extra Benefits</p>
+                                    </div>
+
+                                    <div class="pt-3">
+                                        <form action="{% url 'upgrade' %}" method="post">{% csrf_token %}
+                                            <input hidden id="yearly" name="yearly" value="yearly" >
+                                            <button disabled class="btn btn-primary"
+                                            type="submit">Upgrade Yearly</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <a style="float:right; margin-bottom:50px;" class="btn btn-danger w-sm waves-effect waves-light" href="#" data-href="#" data-toggle="modal"
+                                    data-target="#confirm-cancel-yearly">Cancel Subscription</a>
+
+                    </div>
+
+                    <div class="col-xl-3"></div>
+
+                </div>
+                {% endif %}
+
+                <div class="modal fade" id="confirm-cancel-yearly" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to cancel the subscription?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">No</button>
+                                <button onclick="cancel_subscription('{{subs.id}}')"
+                                    class="btn btn-danger btn-ok">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="confirm-monthly-upgrade-package" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to Downgrade Your Subscription Plan to Monthly?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">No</button>
+                                <button id="monthly_yes_btn" onclick="upgrade_package_monthly()"
+                                    class="btn btn-primary btn-ok">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="confirm-yearly-upgrade-package" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to Upgrade Your Subscription Plan to Yearly?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">No</button>
+                                <button id="yearly_yes_btn" onclick="upgrade_package_yearly()"
+                                    class="btn btn-primary btn-ok">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="confirm-yearly-upgrade-package_cancelled" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to Upgrade Your Subscription Plan to Yearly?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">No</button>
+                                <button id="yearly_yes_btn_cancelled" onclick="upgrade_package_yearly_cancelled()"
+                                    class="btn btn-primary btn-ok">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="confirm-monthly-upgrade-package_cancelled" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to Upgrade Your Subscription Plan to Monthly?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">No</button>
+                                <button id="monthly_yes_btn_cancelled" onclick="upgrade_package_monthly_cancelled()"
+                                    class="btn btn-primary btn-ok">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end row -->
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h4 class="mt-0 header-title">Payment Information</h4>
+                <div class="row">
+                    {% for card in cards %}
+                    <div class="col-lg-3">
+                        <div class="card mini-stat bg-pattern">
+                            <div class="card-body shadow">
+                                <div class="mini-stat-icon">
+                                </div>
+                                <h6 class="text-uppercase mb-3 mt-0">{{card.brand}}</h6>
+                                <h5 class="mb-3">************************* {{card.last4}}</h5>
+                                {% if count > 1 %}
+                                    <a  type="button" data-original-title="Delete Card" data-toggle="tooltip" data-href="#" onclick="card_delete('{{ card.id }}','{{card.customer_id}}')" class="btn btn-danger btn-sm"><i class="mdi mdi-trash-can-outline"></i></a>
+                                {% endif %}
+
+                                {% if card.count == 1 %}
+                                <a style="margin-left:30px; color:blue;">Default</a>
+                                {% else %}
+                                <a onclick="update_default('{{card.id}}','{{card.customer_id}}')"
+                                    style="margin-left:30px; color:blue;" href=""> Set as Default</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to delete this card?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default"
+                                    data-dismiss="modal">No</button>
+                                <a id="delete-this" href=""
+                                    class="btn btn-outline-danger btn-ok">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if count > 2 %}
+                <button data-original-title="You can not add more than 3 cards!" data-toggle="tooltip" style="float:right; background-color:#388bff;border-radius: 6px;" type="button"
+                        class="btn btn-primary waves-effect waves-light" aria-pressed="false"><strong> + Add New Card </strong></button>
+                {% else %}
+
+
+                <form onsubmit="adding_new()" id="add_card" name="add_card" style="float:right;" method="post">
+                    {% csrf_token %}
+                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ context_key.key }}"
+                        data-image='https://stripe.com/img/documentation/checkout/marketplace.png' data-name="ProspectX"
+                        data-panel-label="Add" data-label="+Add New Card" data-locale="auto" data-email={{email}}
+                        data-allow-remember-me="false">
+                        </script>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h2 class="mt-0 header-title">All Invoices</h2>
+                <div class="table-responsive">
+                    <table id="datatable-buttons" class="table table-hover mb-0">
+
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Date</th>
+                                <th>Package</th>
+                                <th>Status</th>
+                                <th>Amount Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for invoice in invoices_list %}
+                            {% if invoice.file %}
+                            <tr>
+                                <th scope="row">{{invoice.number}} <a href={{invoice.file}}><i
+                                            style="font-size:15px;color:#2339a6;" class="fa fa-download fa-1x"></i></a>
+                                </th>
+                                <td>{{invoice.date}}</td>
+                                
+                                <td>{{invoice.package}}</td>
+                                <td>
+                                    <span class="badge badge-success">
+                                        {{invoice.status}}
+                                    </span>
+                                </td>
+                                <td>{{invoice.amount}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% block extrajs %}
+<script type="text/javascript">
+toastr.options = {
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+};
+
+function display_message_func(message) {
+    if (message === "There's some error with the request, please try again later!") {
+        toastr.error(message);
+    } else if (message === "Successfully Upgraded to Yearly Plan!") {
+        toastr.success(message);
+    } else if (message === "Successfully Downgraded to Monthly Plan!") {
+        toastr.success(message);
+    } else if (message === "Subscription Cancelled Successfully!") {
+        toastr.success(message);
+    } else if (message === "Card Deleted Successfully!") {
+        toastr.success(message);
+    } else if (message === "Could not Delete Card!") {
+        toastr.error(message);
+    } else if (message === "New Card Added Successfully!") {
+        toastr.success(message);
+    } else if (message === "Could Not Add New Card, Please try again later!") {
+        toastr.error(message);
+    } else if (message === "Changed Default Card Successfully!") {
+        toastr.success(message);
+    } else if (message === "Could Not Change Default Card!, Please try again later!") {
+        toastr.error(message);
+    } else{
+        toastr.error(message);
+    }
+}
+
+$(document).ready(function () {
+$("#messages_btn").trigger('click');
+$("#yearly_yes_btn_cancelled").on("click", function() {
+    $(this).prop("disabled", true);
+});
+$("#yearly_yes_btn").on("click", function() {
+    $(this).prop("disabled", true);
+});
+
+$("#monthly_yes_btn").on("click", function() {
+    $(this).prop("disabled", true);
+});
+});
+
+
+
+function card_delete(id, name) {
+    let url = window.location.origin + "/payments/del_card/"+id+"/"+name;
+    $("#delete-this").attr("href", url);
+    $('#confirm-delete').modal('show');
+
+}
+
+//$(document).on('click', '.card-delete', function(){
+   //     selectedCampaign = $(this).attr('card-id');
+   //     url = window.location.origin + "/payments/remove_card";
+   //     $('#delete-campaign').attr("href", url);
+
+    //    $('#delete-campaign').modal('show');
+    //    $('#confirm-delete').modal('show');
+    //    });
+
+
+function cancel_subscription(id) {
+  $.ajax({
+        type: 'POST',
+        data: {
+            'subs_id': id,
+        },
+        url: window.location.origin + "/payments/cancel_subs",
+        success: function (msg) {
+            window.location.reload()
+        },
+        error: function (msg) {
+            alert("There is some error!");
+        }
+    });
+  }
+
+
+function upgrade_package_yearly_cancelled() {
+  $("#upgrade_yearly_form_id_cancelled").submit();
+  }
+
+
+
+function upgrade_package_monthly_cancelled() {
+  $("#upgrade_monthly_form_id_cancelled").submit();
+  }
+
+
+function upgrade_package_yearly() {
+  $("#upgrade_yearly_form_id").submit();
+  }
+
+function upgrade_package_monthly() {
+  $("#upgrade_monthly_form_id").submit();
+  }
+
+function update_default(id, name) {
+        $.ajax({
+            type: 'POST',
+            url: window.location.origin + "/payments/change_card",
+            data: {
+                'card': id,
+                'customer': name
+            },
+
+            success: function (msg) {
+                window.location.reload();
+            },
+            error: function (msg) {
+                alert('Error ' + msg);
+                msg.preventDefault();
+            }
+        });
+
+    }
+
+
+
+</script>{% endblock %}
+
+
+
+{% endblock %}

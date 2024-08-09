@@ -1,0 +1,194 @@
+{% extends 'layouts/authbasefile/auth_base.html' %}
+{% block auth_content %}
+{% load static %}
+
+
+<div class="account-pages">
+    <div class="container-fluid">
+        <div class="row justify-content-center background_imgae_media">
+            <div class="col-lg-8 auth_form d-none d-lg-block d-xl-block"
+                style="background-image: url({% static 'assets/images/web-page.jpg' %}); background-size: cover; background-repeat: no-repeat; background-position: center;">
+                <div class="row">
+                    <!-- <a href="# " class="logo" style="margin: 16px 42px;"><img
+                            src="{% static 'assets/images/Prospect-X-Logo-new.png' %}" style="width: 30%;"
+                            alt="logo"></a> -->
+                </div>
+                <div class="banner_text_login_page" style="margin-top:57px; margin-left: 17px;">
+                    <div>
+                        <h4 class="Decide_color">Decide faster</h4>
+                    </div>
+                    <div>
+                        <h3 class="Decide_lover_color">So you can do more</h3>
+                    </div>
+                </div>
+                <div class="button fixed-bottom button_code_login">
+                    <span class="btn_color login_button_styling "><a href="" data-lightbox="iframe"><i class="fa fa-play login_vedio_button"
+                                ></i></a></i></span>
+                  <b>  <span class="Decide_lover_color ml-2"> What is a ProspectX?</span></b>
+                </div>
+
+            </div>
+            <div class="col-md-8 col-lg-4 border col-xl-4 p-0 auth_form_left_side bg_pattern_short_image" >
+                <div class=" card shadow-none mb-0 bacgrnd_image_space">
+                    <div class="bg_pattern_custom card-body border_color_reg_page border_color_login_page">
+                        <div class="text-center mt-2">
+                            <div class="mb-0 auth_main_logo">
+                                <a href="# " class="logo"><img src="{% static 'assets/images/prospectx-logo.png' %}"
+                                        alt="logo"></a>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-18 text-center mt-0" style="color:#7367F1;">Enter Card Details Below!
+                            </h4>
+                            {% if message == "Signup Successful, Enter Card Details Below!" %}
+                                <div class="alert alert-success mt-4 mb-5 text-center" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% elif message == "Please complete your profile by entering payment details before logIn!" %}
+                                <div class="alert alert-success mt-4 mb-5 text-center" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% elif message %}
+                                <div class="alert alert-danger mt-4 mb-5 text-center" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                            <div  class="responsive-mobile-menu">
+                                <form id="subscription_form" action="{% url 'login' %}" method="POST"> {% csrf_token %}
+                                <input type="hidden" name="token" />
+                                <input type="hidden" name="email" id="email" value="{{email}}" />
+                                <input type="hidden" name="key" id="key" value="{{key}}" />
+                                <div class="group">
+                                  <div class="form-group">
+                                    <label>
+        <!--                                <span>Card number</span>-->
+                                        <div id="card-number-element" class="field form-control"></div>
+                                    </label>
+                                  </div>
+                                    <div class="form-group">
+                                      <label>
+            <!--                            <span>Expiry date</span>-->
+                                        <div id="card-expiry-element" class="field"></div>
+                                      </label>
+                                    </div>
+                                    <div class="form-group">
+                                      <label>
+            <!--                            <span>CVC</span>-->
+                                        <div id="card-cvc-element" class="field"></div>
+                                      </label>
+                                    </div>
+                            <!--      <label>-->
+                            <!--        <span>Postal code</span>-->
+                                    <input hidden id="postal-code" name="postal_code" class="field" placeholder="Regular field placeholder" />
+                            <!--      </label>-->
+
+                                <button class="btn btn-primary" type="submit">Subscribe {{ price }}</button>
+        </div>
+                                <div class="outcome">
+                                  <div class="error"></div>
+                                  <div class="success">
+                                    <span class="token"></span>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                            <div class="mt-2 text-center " style="margin-top: 38px !important; padding:50px;">
+                                <span class="mb-1 footer_text_color_reg_uppr"> &nbsp; Don't have an account ? <a href="signup"
+                                        class="font-500 reg_link_back_logins" > Sign Up
+                                    </a></span>
+                                <p class="reg_link_back_logins">© 2020 ProspectX - All Rights Reserved</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'assets/css/plans.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/subscription_css.css' %}">
+{% endblock %}
+{% endblock %}
+
+
+{% block extrajs %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var key_id = $('#key').val();
+var stripe = Stripe(key_id);
+var elements = stripe.elements();
+
+var style = {
+  base: {
+    iconColor: '#666EE8',
+    color: '#31325F',
+    lineHeight: '40px',
+    fontWeight: 300,
+    fontFamily: 'Helvetica Neue',
+    fontSize: '15px',
+
+    '::placeholder': {
+      color: '#CFD7E0',
+    },
+  },
+};
+
+var cardNumberElement = elements.create('cardNumber', {
+  style: style,
+  placeholder: 'Enter card number here',
+});
+cardNumberElement.mount('#card-number-element');
+
+var cardExpiryElement = elements.create('cardExpiry', {
+  style: style,
+  placeholder: 'Enter expiry date here',
+});
+cardExpiryElement.mount('#card-expiry-element');
+
+var cardCvcElement = elements.create('cardCvc', {
+  style: style,
+  placeholder: 'Enter CVC here',
+});
+cardCvcElement.mount('#card-cvc-element');
+
+
+function setOutcome(result) {
+  var successElement = document.querySelector('.success');
+  var errorElement = document.querySelector('.error');
+  successElement.classList.remove('visible');
+  errorElement.classList.remove('visible');
+
+  if (result.token) {
+    // In this example, we're simply displaying the token
+  //  successElement.querySelector('.token').textContent = result.token.id;
+  //  successElement.classList.add('visible');
+
+    // In a real integration, you'd submit the form with the token to your backend server
+    var form = document.querySelector('form');
+    form.querySelector('input[name="token"]').setAttribute('value', result.token.id);
+    form.submit();
+  } else if (result.error) {
+    errorElement.textContent = result.error.message;
+    errorElement.classList.add('visible');
+  }
+}
+
+cardNumberElement.on('change', function(event) {
+  setOutcome(event);
+});
+
+document.querySelector('#subscription_form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var options = {
+    address_zip: document.getElementById('postal-code').value,
+  };
+  stripe.createToken(cardNumberElement, options).then(setOutcome);
+});
+
+</script>
+{% endblock %}

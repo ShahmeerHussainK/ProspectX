@@ -1,0 +1,181 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title"><a href="{% url 'View_Sales' %}">SALES</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item "><a href="/x_force/">Xforce</a> </li>
+                        <li class="breadcrumb-item active">Sales Offers</li> 
+                        <input id="webform_offer_hidden_link" type="text" style="opacity: 0;">
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary waves-effect waves-light float-right" href="{% url 'create_sales_offer' %}">
+                        <i class="mdi mdi-plus mr-2"></i> Add Sales Offer
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2">
+                <div class="card mb-1">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar">
+                                <tbody>
+
+                                <tr class="bg-primary mb-0">
+                                    <td class="custom_sidbar_title" style="padding-top: 8px;"><a class="text-white" href="#">All</a></td>
+                                </tr>
+
+
+                                <!-- Next TITLE TAB -->
+                                <tr class="mb-0">
+                                    <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a  href="#">Offers</a></td>
+                                </tr>
+                                <tr class="mb-0">
+                                    <td class="custom_sidbar_title"><a href="#" >Offer Accepted</a></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-2">
+                    <div class="card-body  p-2 ">
+                        <label><strong class="font-weight-bold">Shareable link</strong></label>
+                        <button id="webform_offer_btn" class="btn btn-block btn-sm btn-primary " data-toggle="tooltip" data-placement="top"><i class="fa fa-copy"></i> Copy Webform link</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-10">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'View_Sales' %}">
+                            <span class="d-block d-sm-none"><i class="far fa-pennant"></i></span>
+                            <span class="d-none d-sm-block">Sales</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        
+                        <a class="nav-link active"  href="">
+                            <span class="d-block d-sm-none"><i class="far fa-calendar-alt"></i></span>
+                            <span class="d-none d-sm-block">Sales Offers</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead class="xsite_thead_background">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Property?</th>
+                                    <th>Full Name</th>
+                                    <th>Soonest Close Date </th>
+                                    <th>Offer Amount</th>
+                                    <th>Actions</th>
+
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for sales_offer in object_list %}
+                                <tr>
+                                    <td><a  href="{% url 'edit' sales_offer.id %}">{{ forloop.counter }}</a></td>
+                                    <td><a  href="{% url 'edit' sales_offer.id %}">{{ sales_offer.property.deals.property_address }}</a></td>
+                                    <td><a  href="{% url 'edit' sales_offer.id %}">{{ sales_offer.full_name }}</a></td>
+                                    <td><a  href="{% url 'edit' sales_offer.id %}">{{ sales_offer.close_date  }}</a></td>
+                                    <td><a  href="{% url 'edit' sales_offer.id %}">{{ sales_offer.offer_amount }}</a></td>
+                                    <td>
+
+<!--                                        <a  href="{% url 'view' sales_offer.id %}"  type="button" class="btn btn-primary btn-sm btn-info" data-toggle="tooltip"-->
+<!--                                            data-placement="top" title="" data-original-title="view Sales Offer">-->
+<!--                                            <i class="mdi mdi-eye"></i>-->
+<!--                                        </a>-->
+                                        <a  href="{% url 'edit' sales_offer.id %}" type="button" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                            data-placement="top" title="" data-original-title="Edit Sales Offer">
+                                        <i class="mdi mdi-grease-pencil"></i></a>
+                                        <a type="button" data-original-title="Delete Sales Offer" data-toggle="tooltip" sales-offer-id="{{ sales_offer.id }}" class="btn btn-danger btn-sm sales-offer-delete" href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+
+                                    </td>
+
+
+                                </tr>
+                                {% endfor %}
+                                <div class="modal fade" id="deleteSalesOfferModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Confirm!
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you really want to delete this Sale Offer?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-dark waves-effect waves-light"
+                                                    data-dismiss="modal">No</button>
+                                                <a id="delete-sales-offer" class="btn btn-danger waves-effect waves-light btn-ok">Yes</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+
+
+<Script>
+      $(document).ready(function () {
+         var user_uid = "{{user_uuid|safe}}";
+         var web_form_link = window.location.host + "/sales/sales_offer/" + user_uid + "/webform"
+         // $("#webform_link").tooltip({title: web_form_link, placement: "top"})
+         $("#webform_offer_btn").tooltip()
+         $("#webform_offer_btn").attr("title", web_form_link);
+         $('#webform_offer_hidden_link').val(web_form_link);
+         $("#webform_offer_btn").click(function () {
+             var copyText = document.getElementById("webform_offer_hidden_link");
+             copyText.select();
+             copyText.setSelectionRange(0, 99999);
+             document.execCommand("copy");
+             toastr.success("Link Copied Successfully");
+         });
+        $(document).on('click', '.sales-offer-delete', function(){
+        selectedSalesOffer = $(this).attr('sales-offer-id');
+        url = window.location.origin + '/sales/delete_offer/' + selectedSalesOffer;
+        $('#delete-sales-offer').attr("href", url);
+
+        $('#deleteSalesOfferModal').modal('show');
+    });
+     });
+</Script>
+
+{% endblock %}

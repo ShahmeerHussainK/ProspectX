@@ -1,0 +1,81 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">Show All Files</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Show All Files</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons"
+                                   class="table table-striped table-bordered dt-responsive nowrap"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>File Name</th>
+                                    <th>List Name</th>
+                                    <th>Skiped</th>
+                                    <th>Fail Reason</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for file in file_obj %}
+                                    <tr>
+                                        <td>{{ file.file_name }} </td>
+                                        <td>{{ file.list.list_name }}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>{{ file.created_at }}</td>
+                                        <td>
+                                            {% if file.is_process_complete %}
+                                                <button class="btn btn-sm btn-success waves-effect waves-light">
+                                                    Completed
+                                                </button>
+                                                <button class="btn btn-sm btn-primary waves-effect waves-light">
+                                                    Download
+                                                </button>
+                                            {% else %}
+                                                <button class="btn btn-sm btn-primary waves-effect waves-light">
+                                                    Processing
+                                                </button>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+{% endblock %}

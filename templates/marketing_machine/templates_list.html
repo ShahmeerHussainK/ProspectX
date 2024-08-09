@@ -1,0 +1,389 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Marketing Templates</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Marketing Templates</li>
+                    </ol>
+                </div>
+                <!--<div class="col-sm-6">-->
+                    <!--<a class="btn btn-primary waves-effect waves-light float-right" href="{% url 'create_sequence' %}">-->
+                        <!--<i class="mdi mdi-plus mr-2"></i> Marketing Template-->
+                    <!--</a>-->
+                <!--</div>-->
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-xl-2 col-md-3 col-sm-3">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar">
+                                <tbody>
+                                    <!--<tr>-->
+                                        <!--<th class="custom_sidbar_heading">Marketing Templates</th>-->
+                                    <!--</tr>-->
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_headingg"><a class="text-white" href="{% url 'templates_list' 'all_active' %} " >Active Marketing Templates {{ templates_count.active_templates }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'call_active' %}">Cold Call {{ templates_count.call_active }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'mail_active' %}">Direct Mail {{ templates_count.mail_active }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'voice_active' %}">Voice Broadcast {{ templates_count.voice_active }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'rvm_active' %}">RVM {{ templates_count.rvm_active }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'sms_active' %}">SMS {{ templates_count.sms_active }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'email_active' %}">EMAIL {{ templates_count.email_active }}</a></td>
+                                    </tr>
+
+                                    <!-- Next TITLE TAB -->
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a class="text-white" href="{% url 'templates_list' 'all_inactive' %}">Inactive Marketing Templates {{ templates_count.inactive_templates }}</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'call_inactive' %}">Cold Call {{ templates_count.call_inactive }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'mail_inactive' %}">Direct Mail {{ templates_count.mail_inactive }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'voice_inactive' %}">Voice Broadcast {{ templates_count.voice_inactive }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'rvm_inactive' %}">RVM {{ templates_count.rvm_inactive }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'sms_inactive' %}">SMS {{ templates_count.sms_inactive }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'email_inactive' %}">EMAIL {{ templates_count.email_inactive }}</a></td>
+                                    </tr>
+
+                                    <!-- Next TITLE TAB -->
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a class="text-white" href="{% url 'templates_list' 'all_pending' %}">Pending Marketing Templates {{ templates_count.pending_templates }}</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'call_pending' %}">Cold Call {{ templates_count.call_pending }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'mail_pending' %}">Direct Mail {{ templates_count.mail_pending }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'voice_pending' %}">Voice Broadcast {{ templates_count.voice_pending }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'rvm_pending' %}">RVM {{ templates_count.rvm_pending }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'sms_pending' %}">SMS {{ templates_count.sms_pending }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="{% url 'templates_list' 'email_pending' %}">EMAIL {{ templates_count.email_pending }}</a></td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-md-9 col-sm-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                        <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Marketing Plan</th>
+                                    <th>Sequence</th>
+                                    <th>State</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in data_set %}
+                                    <tr>
+                                        <td>{{ item.id }}</td>
+                                        <td id="seq_td"><a href="{% url 'marketing_template' item.id %}" id="seq_btn" class="btn btn-block btn-sm btn-primary btn_wrap_content" data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    data-original-title="Edit">{{ item.name }}</a></td>
+                                        {% if item.plan == 'Voice Broadcast' %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:160px; background-color:#d9534f; border-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.plan }}</button> -->
+                                                    <span class="text-danger font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i>{{ item.plan }}</span>
+                                                
+                                                </td>
+                                        {% elif item.plan == 'Cold Call' %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:160px; background-color:#61CCFF; border-color:#61CCFF;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.plan }}</button> -->
+                                                    <span class="text-info font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i>{{ item.plan }}</span>
+                                                
+                                                </td>
+                                        {% elif item.plan == 'SMS' %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:160px; background-color:#5cb85c; border-color:#5cb85c;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.plan }}</button> -->
+                                                    <span class="text-success font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i>{{ item.plan }}</span>
+                                                
+                                                </td>
+                                        {% else %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:160px; background-color:#f0ad4e; border-color:#f0ad4e;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.plan }}</button> -->
+                                                    <span class="text-warning font-12"><i class="mdi mdi-checkbox-blank-circle mr-1"></i>{{ item.plan }}</span>
+                                                </td>
+                                        {% endif %}
+                                        <td>{{ item.sequence }}</td>
+                                        {% if item.status == 'Active' %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#0b7eb5;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.status }}</button> -->
+                                                    <span class="badge badge-success font-12">{{ item.status }}</span>
+                                                </td>
+                                        {% elif item.status == 'Pending' %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#f0ad4e;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.status }}</button> -->
+                                                    <span class="badge badge-secondary font-12"> {{ item.status }}</span>
+                                                </td>
+                                        {% else %}
+                                            <td>
+                                                <!-- <button style="height:30px; font-size:12px; width:80px; background-color:#d9534f;" type="button" class="btn btn-primary" data-toggle="tooltip"
+                                                    data-placement="top">{{ item.status }}</button> -->
+                                                    <span class="badge badge-danger font-12">{{ item.status }}</span>
+                                                </td>
+                                        {% endif %}
+                                        <td>{{ item.date }}</td>
+                                        <td>
+                                            <button onclick="show_details('{{item.id}}')" type="button"
+                                                    class="btn btn-sm btn-info"><i class="mdi mdi-eye"></i></button>
+
+                                            <!--<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">-->
+                                                <a href="{% url 'marketing_template' item.id %}"  
+                                                   class="btn btn-sm btn-primary" data-toggle="tooltip"
+                                                    data-placement="top" title="" data-original-title="Edit"><i
+                                                        class="mdi mdi-grease-pencil"></i></a>
+                                                <a template-id="{{ item.id }}" class="btn btn-danger btn-sm temp-delete" href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                                            <!--</div>-->
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                <div class="modal" id="exampleModalScrollable">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                      <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                          <h4 class="modal-title page-title" id="heading_id"></h4>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Name</label>
+                                                    <div>
+                                                        <input readonly class="form-control" id="title" name="title" >
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                <label>Marketing Sequence</label>
+                                                <div>
+                                                    <input readonly class="form-control" type="text" id="created_by" name="created_by" >
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Plan</label>
+                                                    <div>
+                                                        <input readonly class="form-control" type="text" id="plan" name="plan">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Touch</label>
+                                                    <div>
+                                                        <input readonly class="form-control" id="touch_round_number" name="touch_round_number" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Touch Status</label>
+                                                    <div>
+                                                        <input id="touch_status" name="touch_status" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Next Cycle After Days</label>
+                                                    <textarea readonly id="touch_round_after_days" class="form-control" name="touch_round_after_days"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Details</label>
+                                                    <div>
+                                                        <input id="detail" name="detail" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>More Info</label>
+                                                    <div>
+                                                        <input id="more_info" name="more_info" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>Created At</label>
+                                                    <div>
+                                                        <input id="created_at" name="created_at" readonly class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+
+                            <div class="modal fade" id="deleteTemplateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            Confirm!
+                                        </div>
+                                        <div class="modal-body">
+                                            Do you really want to delete this template?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-dark waves-effect waves-light"
+                                                data-dismiss="modal">No</button>
+                                            <a id="delete-template" class="btn btn-danger waves-effect waves-light btn-ok">Yes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+
+
+{% block extrajs %}
+
+<script type="text/javascript">
+ $(document).ready(function () {
+    $(document).on('click', '.temp-delete', function(){
+        selectedTemplate = $(this).attr('template-id');
+        url = window.location.origin + '/marketing/del_temp/' + selectedTemplate;
+        $('#delete-template').attr("href", url);
+
+        $('#deleteTemplateModal').modal('show');
+    });
+ });
+
+function show_details(id) {
+
+    console.log("id is: ",id)
+    var data = {
+      id : id,
+    };
+
+    $.ajax({
+         type: "POST",
+         url: window.location.origin+"/marketing/template_details",
+         data: JSON.stringify(data),
+         contentType: "application/json; charset=utf-8",
+         dataType: "json",
+         success: function (result) {
+         if(result.status==200)
+         {
+            $("#heading_id").text(result.template_data.name)
+            $("#title").val(result.template_data.name)
+            $("#created_by").val(result.template_data.sequence)
+            $("#plan").val(result.template_data.plan)
+            $("#detail").val(result.template_data.detail)
+            $("#more_info").val(result.template_data.more_info)
+            $("#touch_round_number").val(result.template_data.touch_round_number)
+            $("#touch_status").val(result.template_data.touch_status)
+            $("#touch_round_after_days").val(result.template_data.touch_round_after_days)
+            $("#created_at").val(result.template_data.created_at)
+            $('#exampleModalScrollable').modal('show');
+         }
+         else
+         {
+            alert("There is some error")
+
+         }
+       }
+    });
+}
+
+</script>
+{% endblock %}
+
+
+
+{% endblock %}

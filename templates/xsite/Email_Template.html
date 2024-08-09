@@ -1,0 +1,16 @@
+{% extends 'layouts/authbasefile/auth_base.html' %}
+{% load static %}
+    {% block auth_content %}
+    <table style="color: black; width:45%; border:0; cellspacing:0; cellpadding:0;" >
+        <p>
+        <h4>Dear {{ fullname }}, </h4>
+        {% autoescape off %}
+        {{content}}<br><br>
+        {% endautoescape %}
+        Regards, <br>
+        Xsite Team
+        </p>
+        <hr style="height:1px;border:none;color:lightgrey;background-color:lightgrey;border-color:lightgrey;" />
+        © 2020 Xsite - All Rights Reserved
+    </table>
+{% endblock %}

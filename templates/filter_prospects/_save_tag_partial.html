@@ -1,0 +1,107 @@
+<!-- Sve Tag Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade bs-modal-tag" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Add Tag</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btn-md" data-toggle="modal"
+                                    data-target=".existing-tag-modal">Select Existing
+                                Tag
+                            </button>
+                            <button type="button" class="btn btn-primary btn-md" data-toggle="modal"
+                                    data-target=".create-tag-modal"> Create New Tag
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+</div> <!-- end col -->
+<!-- Select Existing Filter Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade existing-tag-modal" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Select Tag</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <select class="form-control custom-select selected-value-tag tag-partial-select" id="select-existing-tag">
+                                <option value="-1" selected="">Select Existing Filter</option>
+                                {% for tag in tags %}
+                                    <option value="{{ tag.pk }}">{{ tag.tag_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <button class="btn btn-primary waves-effect waves-light selected-action" action="create_tag"
+                                    id="btn-save-tag-old"
+                                    type="button" >
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+</div> <!-- end col -->
+
+<!-- Create New Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade create-tag-modal" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Create New Tag</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="control-label">Tag Name</label>
+                            <input id="input-new-tag" class="form-control form-control-md selected-value"
+                                   type="text">
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <button class="btn btn-primary waves-effect waves-light  selected-action" action="create_tag"
+                                    id="btn-save-new-tag"
+                                    type="button">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div> <!-- end col -->

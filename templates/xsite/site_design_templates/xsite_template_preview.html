@@ -1,0 +1,316 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" href="{{ MEDIA_URL }}{{favicon}}" type="image/x-icon">
+{#<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/img_avatar.png' %}">#}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158292791-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-158292791-1');
+      gtag('send', 'pageview', location.pathname);
+    </script>
+</head>
+<body>
+{% if messages %}
+        {% for message in messages %}
+                {{ message }}
+        {% endfor %}
+    {% endif %}
+    <span id="start"></span>
+
+    <script>
+        var msg = "";
+        var site_id = '{{ site_id }}';
+        var assistance = '{{ assistance }}';
+        var site_design = '{{ site_design }}';
+    </script>
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var msg = "{{ message }}";
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    <!-- jquery -->
+    {% if site_design == "Violet" %}
+        <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/jquery.js' %}"></script>
+    {% else %}
+        <script src="{% static 'xsite_template/js/jquery.js' %}"></script>
+    {% endif %}
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: '/xsite/get_template_data/'+ site_id +'/',
+                success: function (data) {
+                    console.log("in success");
+
+                    $("head").prepend(data['template_content'].html_head_content);
+                    $("head").append(data['template_content'].facebook_book_pixel);
+                    $("head").append(data['template_content'].google_tag_manager_head);
+                    $("body").prepend(data['template_content'].google_tag_manager_body);
+                    $("#start").after(data['template_content'].html_body_content);
+
+                    if(!data['template_content'].is_edited) {
+                        {#$("#logo").attr("href", data['template_content'].logo);#}
+                        {#$(".logo_img").attr("href", data['template_content'].logo);#}
+						$("#phone").html(data['phone']);
+						$(".phone").html(data['phone']);
+						$("#email").html(data['email']);
+						$(".email").html(data['email']);
+						if (data['address'])
+                        {
+                            $("#no_address_div").hide();
+                            $("#address").html(data['address']);
+                            $("#location").html(data['location']);
+                        }
+						else{
+						    $("#address_div").hide();
+                        }
+						$("#banner_title").html(data['template_content'].banner_title);
+						$("#banner_title1").html(data['template_content'].banner_title);
+						$(".banner_title").html(data['template_content'].banner_title);
+						$("#about_us_title").html(data['template_content'].about_us_title);
+						$("#about_us_desc").html(data['template_content'].about_us_desc);
+						$("#other_details_title").html(data['template_content'].other_details_title);
+						$("#other_details_desc").html(data['template_content'].other_details_desc);
+						$("#video_link").attr("href", data['template_content'].video_link);
+						$("#video_title").html(data['template_content'].video_title);
+						$("#video_desc").html(data['template_content'].video_desc);
+						$("#testi_1_company_name").html(data['template_content'].testi_1_company_name);
+						$("#testi_1_person_name").html(data['template_content'].testi_1_person_name);
+						$("#testi_1_text").html(data['template_content'].testi_1_text);
+						$("#testi_2_company_name").html(data['template_content'].testi_2_company_name);
+						$("#testi_2_person_name").html(data['template_content'].testi_2_person_name);
+						$("#testi_2_text").html(data['template_content'].testi_2_text);
+						$("#testi_3_company_name").html(data['template_content'].testi_3_company_name);
+						$("#testi_3_person_name").html(data['template_content'].testi_3_person_name);
+						$("#testi_3_text").html(data['template_content'].testi_3_text);
+						$("#call_to_action_text").html(data['template_content'].call_to_action_text);
+						$("#template-contactform-submit-buyer").html(data['template_content'].banner_button_text);
+						$("#template-contactform-seller").html(data['template_content'].banner_button_text);
+						$(".banner_button_text").html(data['template_content'].banner_button_text);
+						if( data['audience_name'] === 'Buyer' ){
+                            $("#seller_form").remove();
+                            $("#buyer_form").attr('action', '/xsite/create_lead/'+site_id+'/');
+                            $("#template-contactform-service-buyer").append('{% for buyer_option in buyer_options %}\n'+
+                            '                                                <option value="{{ buyer_option.pk }}">{{ buyer_option }}</option>\n'+
+                            '                                            {% endfor %}');
+                            $("#buyer_form").prepend('{% csrf_token %}');
+                        }
+                        else{
+                            $("#buyer_form").remove();
+                            $("#template-contactform-is_home_listed-seller").append('{% for listing_option in listing_options %}\n'+
+                             '                                            <option value="{{ listing_option.pk }}">{{ listing_option }}</option>\n'+
+                             '                                        {% endfor %}');
+                            $("#seller_form").prepend('{% csrf_token %}');
+                            $("#seller_form").attr('action', '/xsite/create_lead/'+site_id+'/');
+                        }
+		            }
+
+                    if( data['audience_name'] === 'Buyer' )
+                    {
+                        $("#buyer_form").attr('action', '/xsite/create_lead/'+site_id+'/');
+                        $("#template-contactform-name-buyer").val('{{ form.instance.fullname | default_if_none:"" }}');
+                        $("#template-contactform-name-buyer").after('{% if form.fullname.errors %}\n'+
+                                '                                            <div class="text-danger">\n'+
+                                '                                                {{ form.fullname.errors | striptags }}\n'+
+                                '                                            </div>\n'+
+                                '                                        {% endif %}');
+                        $("#template-contactform-email-buyer").val('{{ form.instance.email | default_if_none:"" }}');
+                        $("#template-contactform-email-buyer").after('{% if form.email.errors %}\n'+
+                                    '                                            <div class="text-danger">\n'+
+                                    '                                                {{ form.email.errors | striptags }}\n'+
+                                    '                                            </div>\n'+
+                                    '                                        {% endif %}');
+                        $("#template-contactform-phone-buyer").val('{{ form.instance.phone | default_if_none:"" }}');
+                        $("#template-contactform-phone-buyer").after('{% if form.phone.errors %}\n'+
+                                    '                                            <div class="text-danger">\n'+
+                                    '                                                {{ form.phone.errors | striptags }}\n'+
+                                    '                                            </div>\n'+
+                                    '                                        {% endif %}');
+                        $(document).ready(function () {
+                            $("#template-contactform-service-buyer option").filter(function() {
+                                return $(this).text() === '{{form.instance.what_are_you_looking_for | default_if_none:"" }}';
+                            }).prop('selected', true);
+                        });
+                        $("#template-contactform-service-buyer").after('{% if form.what_are_you_looking_for.errors %}\n'+
+                                    '                                            <div class="text-danger">\n'+
+                                    '                                                {{ form.what_are_you_looking_for.errors | striptags }}\n'+
+                                    '                                            </div>\n'+
+                                    '                                        {% endif %}\n' +
+                                    '                                        {% if select_msg %}\n'+
+                                    '                                            <div class="text-danger">\n'+
+                                    '                                                {{ select_msg }}\n'+
+                                    '                                            </div>\n'+
+                                    '                                        {% endif %}');
+
+
+                    }
+                    else
+                    {
+                        $("#seller_form").attr('action', '/xsite/create_lead/'+site_id+'/');
+                        $("#template-contactform-name-seller").val('{{ form.instance.fullname | default_if_none:"" }}');
+                        $("#template-contactform-name-seller").after('{% if form.fullname.errors %}\n'+
+                                '                                            <div class="text-danger">\n'+
+                                '                                                {{ form.fullname.errors | striptags }}\n'+
+                                '                                            </div>\n'+
+                                '                                        {% endif %}');
+                        $("#template-contactform-email-seller").val('{{ form.instance.email | default_if_none:"" }}');
+                        $("#template-contactform-email-seller").after('{% if form.email.errors %}\n'+
+                                    '                                            <div class="text-danger">\n'+
+                                    '                                                {{ form.email.errors | striptags }}\n'+
+                                    '                                            </div>\n'+
+                                    '                                        {% endif %}');
+                        $("#template-contactform-phone-seller").val('{{ form.instance.phone | default_if_none:"" }}');
+                        $("#template-contactform-phone-seller").after('{% if form.phone.errors %}\n'+
+                                    '                                            <div class="text-danger">\n'+
+                                    '                                                {{ form.phone.errors | striptags }}\n'+
+                                    '                                            </div>\n'+
+                                    '                                        {% endif %}');
+
+                        if(assistance === "on") {
+                            $("#immediate_assistance").prop('checked', true);
+                        }
+
+                        $("#template-contactform-address-seller").val('{{ form.instance.street_address | default_if_none:"" }}');
+                        $("#template-contactform-address-seller").after('{% if form.street_address.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.street_address.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+                        $("#template-contactform-city-seller").val('{{ form.instance.city | default_if_none:"" }}');
+                        $("#template-contactform-city-seller").after('{% if form.city.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.city.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+                        $("#template-contactform-state-seller").val('{{ form.instance.street_address | default_if_none:"" }}');
+                        $("#template-contactform-state-seller").after('{% if form.street_address.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.street_address.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+                        $(document).ready(function () {
+                            $("#template-contactform-state-seller option").filter(function() {
+                                if($(this).val() === '{{ form.instance.state | default_if_none:""  }}'){
+                                    return $(this).text();
+                                }
+                            }).prop('selected', true);
+                        });
+                        $("#template-contactform-state-seller").after('{% if form.state.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.state.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+
+                        $("#template-contactform-state-seller").val('{{ form.instance.street_address | default_if_none:"" }}');
+                        $("#template-contactform-state-seller").after('{% if form.street_address.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.street_address.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+
+                        $("#template-contactform-zip-seller").val('{{ form.instance.zip | default_if_none:"" }}');
+                        $("#template-contactform-zip-seller").after( '{% if form.zip.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.zip.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}' );
+                        $(document).ready(function () {
+                            $("#template-contactform-is_home_listed-seller option").filter(function() {
+                                return $(this).text() === '{{ form.instance.is_home_listed | default_if_none:""  }}';
+                            }).prop('selected', true);
+                        });
+                        $("#template-contactform-is_home_listed-seller").after('{% if form.is_home_listed.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.is_home_listed.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+
+                        $("#template-contactform-asking_price-seller").val('{{ form.instance.asking_price | default_if_none:"" }}');
+                        $("#template-contactform-asking_price-seller").after('{% if form.asking_price.errors %}\n'+
+                                    '                                                <div class="text-danger">\n'+
+                                    '                                                    {{ form.asking_price.errors | striptags }}\n'+
+                                    '                                                </div>\n'+
+                                    '                                            {% endif %}');
+                    }
+
+                    if ($("#immediate_assistance").is(':checked')) {
+                        $("#immediate_assistance_fields").show();
+                    }
+
+                    $("#template-contactform-submit-buyer").click(function () {
+                        $(this).attr('disabled', true);
+                        $("#buyer_form").submit();
+                    });
+
+                    $("#template-contactform-seller").click(function () {
+                        $(this).attr('disabled', true);
+                        $("#seller_form").submit();
+                    });
+
+                    console.log(msg);
+
+                    if (msg === "There was an error!") {
+                        toastr.error(msg);
+                    } else if(msg) {
+                        toastr.success(msg);
+                    }
+                    if(site_design === "XCanvas" || site_design === "XBrownStone" || site_design === "Modernistic" || site_design === "Educational" || site_design === "Vacation") {
+                        $.getScript("/static/xsite_template/js/functions.js").done(function (script, textStatus) {
+                            console.log("finished loading and running test.js. with a status of" + textStatus);
+                        });
+                    }
+                    else if(site_design === "Business") {
+                        $.getScript("/static/xsite_template/all_templates/xsite_template_six/js/functions.js").done(function (script, textStatus) {
+                            console.log("finished loading and running test.js. with a status of" + textStatus);
+                        });
+                    }else if(site_design === "Dark") {
+                        $.getScript("/static/xsite_template/all_templates/xsite_template_five/js/functions_xsite.js").done(function (script, textStatus) {
+                            console.log("finished loading and running test.js. with a status of" + textStatus);
+                        });
+                    }
+                    else if(site_design === "Violet") {
+                        $.getScript("/static/xsite_template/all_templates/xsite_template_two/assets/js/main.js").done(function (script, textStatus) {
+                            console.log("finished loading and running test.js. with a status of" + textStatus);
+                        });
+                        $.getScript("/static/xsite_template/all_templates/xsite_template_two/assets/js/main.js").done(function (script, textStatus) {
+                            console.log("finished loading and running test.js. with a status of" + textStatus);
+                        });
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+
+        });
+    </script>
+
+    <script>
+
+        function ShowFields() {
+            if ($("#immediate_assistance").is(':checked')) {
+                $("#immediate_assistance_fields").show();
+            } else {
+                $("#immediate_assistance_fields").hide();
+                // clear fields
+                $("#template-contactform-address-seller").val("");
+                $("#template-contactform-city-seller").val("");
+                $("#template-contactform-state-seller").val("");
+                $("#template-contactform-zip-seller").val("");
+                $("#template-contactform-is_home_listed-seller").val("");
+                $("#template-contactform-asking_price-seller").val("");
+            }
+        }
+    </script>
+</body>
+</html>

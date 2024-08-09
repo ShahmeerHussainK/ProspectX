@@ -1,0 +1,28 @@
+<div id="formset-mangement"> {{ reminder_form.management_form }}</div>
+<label class="row col-sm-12 col-form-label">Reminders before task starts</label>
+{% for reminder in reminder_form %}
+
+    <div id="link-formset" class="link-formset">
+        <div class="row mb-2">
+            <div class="col-sm-3">
+                <select name="{{ reminder.prefix }}{{ '-type_email' }}" class="form-control custom-select">
+                    <option value="1">Email</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <input name="{{ reminder.prefix }}{{ '-time_count' }}" min="0" type="number" class="form-control" required=""
+                       placeholder="15"
+                       autocomplete="on">
+            </div>
+            <div class="col-sm-3">
+                <select name="{{ reminder.prefix }}{{ '-time_type' }}" class="form-control custom-select">
+                    <option value="1">minutes</option>
+                    <option value="2">hours</option>
+                    <option value="3">days</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}
+

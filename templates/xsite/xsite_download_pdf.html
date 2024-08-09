@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Xsite" />
+    <link rel="icon" href="/static/assets/images/favicon-96x96.png">
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700|Roboto:300,400,500,700"
+		rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/bootstrap.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/style.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/swiper.css' %}" type="text/css" />
+
+	<!-- Construction Demo Specific Stylesheet -->
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_one/construction.css' %}" type="text/css" />
+	<!-- / -->
+
+	<link rel="stylesheet" href="{% static 'xsite_template/css/dark.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/font-icons.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/animate.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/magnific-popup.css' %}" type="text/css" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_one/css/fonts.css' %}" type="text/css" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/css/responsive.css' %}" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_one/css/colors.css' %}" type="text/css" />
+
+	<!-- Document Title
+	============================================= -->
+	<title>Xsite</title>
+
+</head>
+<body class="stretched">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+		<!-- Full Page Image Header with Vertically Centered Content -->
+		<section class="xsite_lead_form_slider">
+			<div class="container h-100">
+				<div class="row h-100 align-items-center">
+					<div class="col-sm-12">
+						<div class=" xsite_lead_form_bg shadow border-custom">
+							<div class="row">
+								<div class="col-sm-12">
+									<h2 class="text-center mb-1">Congrats! One of our agents will be in contact with you as soon as possible.</h2>
+									<h2 class="text-center  mb-1">Here’s A Quick Read While You Wait… </h2>
+
+								</div>
+								<div class="col-sm-12">
+									<div class="border p-3"> 
+											<h3 class="mb-1">Download Your
+												FREE Guide Below!</h3> 
+											<div class="form-process"></div>
+											<div class="col_full mb-1">
+												<p class="mb-1 mt-1">
+													<strong>
+														If you need help any time during the process just give us a call or shoot us an email.
+													</strong>
+													 We can walk you through your options, look at your specific situation, and in many cases we can buy your house at a fair price in as little as 7 days with no commissions or fees.</p>
+											</div>
+											<div class="col_full col_last mb-1">
+												<a href="https://cdn.carrot.com/reports/SellingtoARealEstateInvestor.pdf" target="_blank" rel="noopener noreferrer">
+													<img class="aligncenter" src="https://cdn.carrot.com/uploads/selling-to-a-professional-188x300.jpg" alt="" width="188"></a>
+											</div>
+											<div class="clear"></div>
+											<div class="col_full text-center mb-1 pt-2">
+												<a href="{% url 'xsite_websites' %}" class="button button-3d nomargin"  value="Go back">Go back</a>
+											</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</section>
+		    <script>
+        var msg= "";
+    </script>
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var msg= "{{ message }}";
+            </script>
+        {% endfor %}
+    {% endif %}
+
+</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- External JavaScripts
+	============================================= -->
+<!--	<script src="{% static 'assets/js/jquery.inputmask.bundle.js' %}"></script>-->
+	<script src="{% static 'xsite_template/js/jquery.js' %}"></script>
+	<script src="{% static 'xsite_template/js/plugins.js' %}"></script>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="{% static 'xsite_template/js/functions.js' %}"></script>
+    <script>
+
+        $(document).ready(function () {
+            if(msg){
+                toastr.success(msg);
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>

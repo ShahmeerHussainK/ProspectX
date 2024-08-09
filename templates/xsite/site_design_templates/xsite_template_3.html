@@ -1,0 +1,940 @@
+{% extends 'xsite/base/xsite_base_3.html' %}
+{% load static %}
+{% block content %}
+
+    <script>
+        var msg = "";
+    </script>
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var msg = "{{ message }}";
+            </script>
+        {% endfor %}
+    {% endif %}
+    <!-- Top Bar
+    ============================================= -->
+    <div id="top-bar" class="transparent-topbar">
+
+        <div class="container clearfix">
+
+
+            <div class="col_half fright dark col_last clearfix nobottommargin">
+
+                <!-- Top Social
+                ============================================= -->
+                <div id="top-social">
+                    <ul>
+                        <li><a href="#" class="si-facebook" target="_blank"><span class="ts-icon"><i
+                                class="icon-facebook"></i></span><span class="ts-text">Facebook</span></a>
+                        </li>
+                        <li><a href="#" class="si-twitter" target="_blank"><span class="ts-icon"><i
+                                class="icon-twitter"></i></span><span class="ts-text">Twitter</span></a>
+                        </li>
+                        <li><a href="#" class="si-youtube" target="_blank"><span class="ts-icon"><i
+                                class="icon-youtube"></i></span><span class="ts-text">Youtube</span></a>
+                        </li>
+                        <li><a href="#" class="si-instagram" target="_blank"><span class="ts-icon"><i
+                                class="icon-instagram2"></i></span><span
+                                class="ts-text">Instagram</span></a></li>
+                        <li><a href="tel:+10.11.85412542" class="si-call"><span class="ts-icon"><i
+                                class="icon-call"></i></span><span
+                                class="ts-text">{{ phone }}</span></a></li>
+                        <li><a href="mailto:info@xsite.com" class="si-email3"><span class="ts-icon"><i
+                                class="icon-envelope-alt"></i></span><span
+                                class="ts-text">{{ email }}</span></a></li>
+                    </ul>
+                </div><!-- #top-social end -->
+
+            </div>
+
+        </div>
+
+    </div><!-- #top-bar end -->
+
+    <!-- Header
+    ============================================= -->
+    <header id="header" class="transparent-header floating-header clearfix">
+
+        <div id="header-wrap">
+
+            <div class="container clearfix">
+
+                <div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
+
+                <!-- Logo
+                ============================================= -->
+                <div id="logo">
+                    <a href="#" class="standard-logo" data-dark-logo="images/logo-dark.png"><img
+                            src="{{ MEDIA_URL }}{{ template_content.logo }}" alt="Xsite Logo"></a>
+                    <a href="#" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img
+                            src="{{ MEDIA_URL }}{{ template_content.logo }}" alt="Xsite Logo"></a>
+                </div><!-- #logo end -->
+
+                <!-- Primary Navigationlogo.png
+                ============================================= -->
+                <nav id="primary-menu" class="with-arrows">
+
+                    <ul onclick="active_class_function(event)">
+                        <li class="current"><a href="#">
+                            <div>Home</div>
+                        </a></li>
+                        <li><a href="#about">
+                            <div>About</div>
+                        </a></li>
+                        <li><a href="#get_ebook">
+                            <div>Details</div>
+                        </a></li>
+                        <li><a href="#testimonails">
+                            <div>Testimonails</div>
+                        </a></li>
+                    </ul>
+
+                    <!-- Menu Buttons
+                    ============================================= -->
+                    <a href="#get_ebook"
+                       class="button button-rounded fright leftmargin-sm">{{ template_content.banner_button_text }}</a>
+
+                </nav><!-- #primary-menu end -->
+
+            </div>
+
+        </div>
+
+    </header><!-- #header end -->
+
+    <!-- Slider
+    ============================================= -->
+    <section id="slider" class="slider-element slider-parallax full-screen clearfix"
+             style="background: #FFF url('{% static 'xsite_template/all_templates/xsite_template_three/images/hero/hero-3.jpg' %}') center center no-repeat; background-size: cover;">
+
+        <div class="vertical-middle">
+            <div class="container topmargin-sm">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8">
+                        <div class="slider-title">
+                            <h2>{{ template_content.banner_title }} </h2>
+                            {#								<p>Get the best deal on your dream home right here, before it ever goes on the open#}
+                            {#									market. You will have access to our inventory of homes before anyone else, even#}
+                            {#									local real estate agents! </p>#}
+                            <a href="#get_ebook"
+                               class="button button-rounded button-large nott ls0">{{ template_content.banner_button_text }}</a>
+                            <!-- <a href="#" class="button button-rounded button-large button-light text-dark bg-white border nott ls0">Contact Us</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="video-wrap h-100 d-block d-lg-none">
+            <div class="video-overlay" style="background: rgba(255,255,255,0.85);"></div>
+        </div>
+
+
+    </section><!-- #slider end -->
+
+    <!-- Content
+    ============================================= -->
+    <section id="content">
+
+        <div class="content-wrap pt-0 pb-0">
+
+            <!-- Features
+            ============================================= -->
+            <div class="section nobg mt-4 mb-0 pb-0" id="about" style="padding: 80px 0;">
+                <div class="container">
+                    <div class="heading-block nobottomborder center divcenter mb-0 clearfix">
+                        <div class="badge badge-pill badge-default">About</div>
+                        <h3 class="nott ls0 mb-3">{{ template_content.about_us_title }}</h3>
+                        <p>{{ template_content.about_us_desc }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--
+            ============================================= -->
+            <div class="section m-0" id="get_ebook"
+                 style="background: url('{% static 'xsite_template/all_templates/xsite_template_three/images/sections/4.png' %}') no-repeat center top; background-size: cover; padding: 100px 0 0;">
+                <div class="container">
+                    <div class="row justify-content-between">
+                        <div class="col-lg-8  col-md-8 ">
+                            <div class="heading-block nobottomborder bottommargin-sm">
+                                <div class="badge badge-pill badge-default">More Details</div>
+                                <h3 class="nott ls0">{{ template_content.other_details_title }}</h3>
+                            </div>
+                            <p>{{ template_content.other_details_desc }} </p>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div id="section-pricing" class="page-section nopadding nomargin">
+
+                                <div id="pricing-switch"
+                                     class="pricing row align-items-end topmargin-sm bottommargin-lg clearfix">
+                                    <div class="card shadow-sm">
+                                        <div class="card-body">
+                                            <h4 class="mb-3">Find My Dream Home and Send My FREE Report</h4>
+                                            <div class="form-widget">
+                                                <div class="form-result"></div>
+                                                {% if audience_type == "Buyer" %}
+                                                    <form id="buyer_form" class="nobottommargin" name="template-contactform"
+                                                          action="{% url 'create_lead' template_content.site.pk %}"
+                                                          method="post">
+                                                        {% csrf_token %}
+                                                        <div class="form-process"></div>
+
+                                                        <div class="col_full mb-3">
+                                                            <label for="template-contactform-name-buyer">Name
+                                                                <small>*</small></label>
+                                                            <input type="text"
+                                                                   name="fullname"
+                                                                   value="{{ form.instance.fullname | default_if_none:'' }}"
+                                                                   id="template-contactform-name-buyer"
+                                                                   class="form-control input-sm required"/>
+                                                            {% if form.fullname.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.fullname.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+
+                                                        <div class="col_full mb-3">
+                                                            <label for="template-contactform-email-buyer">Email
+                                                                <small>*</small></label>
+                                                            <input type="email"
+                                                                   name="email"
+                                                                   value="{{ form.instance.email | default_if_none:'' }}"
+                                                                   id="template-contactform-email-buyer"
+                                                                   class="form-control input-sm required"/>
+                                                            {% if form.email.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.email.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+
+                                                        <div class="clear"></div>
+
+                                                        <div class="col_full mb-3">
+                                                            <label for="template-contactform-phone-buyer">Phone<small>*</small></label>
+                                                            <input type="text" id="template-contactform-phone-buyer"
+                                                                   name="phone"
+                                                                   value="{{ form.instance.phone | default_if_none:'' }}"
+                                                                   class="form-control input-sm required"/>
+                                                            {% if form.phone.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.phone.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col_full mb-4">
+                                                            <label for="template-contactform-service-buyer">What are you
+                                                                looking
+                                                                for?</label>
+                                                            <select id="template-contactform-service-buyer"
+                                                                    name="what_are_you_looking_for"
+                                                                    class="sm-form-control">
+                                                                <option value="">-- Select One --</option>
+                                                                {% for buyer_option in buyer_options %}
+                                                                    <option value="{{ buyer_option.pk }}"
+                                                                            {% if form.instance.what_are_you_looking_for == buyer_option %}
+                                                                            selected {% endif %}>{{ buyer_option }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                            {% if form.what_are_you_looking_for.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.what_are_you_looking_for.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                            {% if select_msg %}
+                                                                <div class="text-danger">
+                                                                    {{ select_msg }}
+                                                                </div>
+                                                            {% endif %}
+
+                                                        </div>
+                                                        <input type="hidden" name="audience" value="Buyer">
+                                                        <div class="col_full nobottommargin">
+                                                            <button class="button button-rounded btn-block nott ls0 m-0"
+                                                                    type="submit"
+                                                                    name="template-contactform-submit"
+                                                                    id="template-contactform-submit-buyer"
+                                                                    value="submit"> {{ template_content.banner_button_text }}
+
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                {% endif %}
+                                                {% if audience_type == "Seller" %}
+                                                    <form id="seller_form" class="nobottommargin" name="template-contactform"
+                                                          action="{% url 'create_lead' template_content.site.pk %}"
+                                                          method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="audience" value="Seller">
+                                                        <div class="col_full mb-3">
+                                                            <label for="template-contactform-name-seller">Name
+                                                                <small>*</small></label>
+                                                            <input type="text" id="template-contactform-name-seller"
+                                                                   name="fullname"
+                                                                   value="{{ form.instance.fullname | default_if_none:'' }}"
+                                                                   class="form-control input-sm required"/>
+                                                            {% if form.fullname.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.fullname.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col_full mb-3">
+                                                            <label for="template-contactform-phone-seller">Phone<small>*</small></label>
+                                                            <input type="text" id="template-contactform-phone-seller"
+                                                                   name="phone"
+                                                                   value="{{ form.instance.phone | default_if_none:'' }}"
+                                                                   class="form-control input-sm required"/>
+                                                            {% if form.phone.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.phone.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="col_full mb-3">
+                                                            <label for="template-contactform-email-seller">Email
+                                                                <small>*</small></label>
+                                                            <input type="email" id="template-contactform-email-seller"
+                                                                   name="email"
+                                                                   value="{{ form.instance.email | default_if_none:'' }}"
+                                                                   class="form-control input-sm required"/>
+                                                            {% if form.email.errors %}
+                                                                <div class="text-danger">
+                                                                    {{ form.email.errors | striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+
+                                                        <div class="col_full mb-3 pt-3">
+
+                                                            <div class="form-check">
+                                                                <label class="form-check-label">
+
+                                                                    <input name="immediate_assistance"
+                                                                           id="immediate_assistance" type="checkbox"
+                                                                           class="form-check-input"
+                                                                           onclick="javascript:ShowFields()"
+                                                                            {% if assistance == 'on' %}
+                                                                           checked {% endif %}>
+                                                                    I
+                                                                    would like
+                                                                    immediate assistance
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="immediate_assistance_fields" style="display: none">
+                                                            <div class="col_full mb-3">
+                                                                <label for="template-contactform-address-seller">Street
+                                                                    Address</label>
+                                                                <input type="text"
+                                                                       id="template-contactform-address-seller"
+                                                                       name="street_address"
+                                                                       value="{{ form.instance.street_address | default_if_none:'' }}"
+                                                                       class="form-control input-sm required"/>
+                                                                {% if form.street_address.errors %}
+                                                                    <div class="text-danger">
+                                                                        {{ form.street_address.errors | striptags }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            <div class="col_full mb-3">
+                                                                <label for="template-contactform-city-seller">City</label>
+                                                                <input type="text" id="template-contactform-city-seller"
+                                                                       name="city"
+                                                                       value="{{ form.instance.city | default_if_none:'' }}"
+                                                                       class="form-control input-sm required"/>
+                                                                {% if form.city.errors %}
+                                                                    <div class="text-danger">
+                                                                        {{ form.city.errors | striptags }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col_full mb-3">
+                                                                <label for="template-contactform-state-seller">State</label>
+                                                                <select id="template-contactform-state-seller"
+                                                                        name="state"
+                                                                        class="sm-form-control">
+                                                                    <option value="">State</option>
+                                                                    <option value="AL"
+                                                                            {% if form.instance.state == 'Alabama' %}selected{% endif %}>
+                                                                        Alabama
+                                                                    </option>
+                                                                    <option value="AK"
+                                                                            {% if form.instance.state == 'Alaska' %}selected{% endif %}>
+                                                                        Alaska
+                                                                    </option>
+                                                                    <option value="AB"
+                                                                            {% if form.instance.state == 'Alberta' %}selected{% endif %}>
+                                                                        Alberta
+                                                                    </option>
+                                                                    <option value="AS"
+                                                                            {% if form.instance.state == 'American Samoa' %}selected{% endif %}>
+                                                                        American Samoa
+                                                                    </option>
+                                                                    <option value="AZ"
+                                                                            {% if form.instance.state == 'Arizona' %}selected{% endif %}>
+                                                                        Arizona
+                                                                    </option>
+                                                                    <option value="AR"
+                                                                            {% if form.instance.state == 'Arkansas' %}selected{% endif %}>
+                                                                        Arkansas
+                                                                    </option>
+                                                                    <option value="BC"
+                                                                            {% if form.instance.state == 'British Columbia' %}selected{% endif %}>
+                                                                        British Columbia
+                                                                    </option>
+                                                                    <option value="CA"
+                                                                            {% if form.instance.state == 'California' %}selected{% endif %}>
+                                                                        California
+                                                                    </option>
+                                                                    <option value="CO"
+                                                                            {% if form.instance.state == 'Colorado' %}selected{% endif %}>
+                                                                        Colorado
+                                                                    </option>
+                                                                    <option value="CT"
+                                                                            {% if form.instance.state == 'Connecticut' %}selected{% endif %}>
+                                                                        Connecticut
+                                                                    </option>
+                                                                    <option value="DE"
+                                                                            {% if form.instance.state == 'Delaware' %}selected{% endif %}>
+                                                                        Delaware
+                                                                    </option>
+                                                                    <option value="FM"
+                                                                            {% if form.instance.state == 'Fed. St. of Micronesia' %}selected{% endif %}>
+                                                                        Fed. St. of Micronesia
+                                                                    </option>
+                                                                    <option value="FL"
+                                                                            {% if form.instance.state == 'Florida' %}selected{% endif %}>
+                                                                        Florida
+                                                                    </option>
+                                                                    <option value="GA"
+                                                                            {% if form.instance.state == 'Georgia' %}selected{% endif %}>
+                                                                        Georgia
+                                                                    </option>
+                                                                    <option value="GU"
+                                                                            {% if form.instance.state == 'Guam' %}selected{% endif %}>
+                                                                        Guam
+                                                                    </option>
+                                                                    <option value="HI"
+                                                                            {% if form.instance.state == 'Hawaii' %}selected{% endif %}>
+                                                                        Hawaii
+                                                                    </option>
+                                                                    <option value="ID"
+                                                                            {% if form.instance.state == 'Idaho' %}selected{% endif %}>
+                                                                        Idaho
+                                                                    </option>
+                                                                    <option value="IL"
+                                                                            {% if form.instance.state == 'Illinois' %}selected{% endif %}>
+                                                                        Illinois
+                                                                    </option>
+                                                                    <option value="IN"
+                                                                            {% if form.instance.state == 'Indiana' %}selected{% endif %}>
+                                                                        Indiana
+                                                                    </option>
+                                                                    <option value="IA"
+                                                                            {% if form.instance.state == 'Iowa' %}selected{% endif %}>
+                                                                        Iowa
+                                                                    </option>
+                                                                    <option value="KS"
+                                                                            {% if form.instance.state == 'Kansas' %}selected{% endif %}>
+                                                                        Kansas
+                                                                    </option>
+                                                                    <option value="KY"
+                                                                            {% if form.instance.state == 'Kentucky' %}selected{% endif %}>
+                                                                        Kentucky
+                                                                    </option>
+                                                                    <option value="LA"
+                                                                            {% if form.instance.state == 'Louisiana' %}selected{% endif %}>
+                                                                        Louisiana
+                                                                    </option>
+                                                                    <option value="ME"
+                                                                            {% if form.instance.state == 'Maine' %}selected{% endif %}>
+                                                                        Maine
+                                                                    </option>
+                                                                    <option value="MB"
+                                                                            {% if form.instance.state == 'Manitoba' %}selected{% endif %}>
+                                                                        Manitoba
+                                                                    </option>
+                                                                    <option value="MH"
+                                                                            {% if form.instance.state == 'Marshall Islands' %}selected{% endif %}>
+                                                                        Marshall Islands
+                                                                    </option>
+                                                                    <option value="MD"
+                                                                            {% if form.instance.state == 'Maryland' %}selected{% endif %}>
+                                                                        Maryland
+                                                                    </option>
+                                                                    <option value="MA"
+                                                                            {% if form.instance.state == 'Massachusetts' %}selected{% endif %}>
+                                                                        Massachusetts
+                                                                    </option>
+                                                                    <option value="MI"
+                                                                            {% if form.instance.state == 'Michigan' %}selected{% endif %}>
+                                                                        Michigan
+                                                                    </option>
+                                                                    <option value="MN"
+                                                                            {% if form.instance.state == 'Minnesota' %}selected{% endif %}>
+                                                                        Minnesota
+                                                                    </option>
+                                                                    <option value="MS"
+                                                                            {% if form.instance.state == 'Mississippi' %}selected{% endif %}>
+                                                                        Mississippi
+                                                                    </option>
+                                                                    <option value="MO"
+                                                                            {% if form.instance.state == 'Missouri' %}selected{% endif %}>
+                                                                        Missouri
+                                                                    </option>
+                                                                    <option value="MT"
+                                                                            {% if form.instance.state == 'Montana' %}selected{% endif %}>
+                                                                        Montana
+                                                                    </option>
+                                                                    <option value="NE"
+                                                                            {% if form.instance.state == 'Nebraska' %}selected{% endif %}>
+                                                                        Nebraska
+                                                                    </option>
+                                                                    <option value="NV"
+                                                                            {% if form.instance.state == 'Nevada' %}selected{% endif %}>
+                                                                        Nevada
+                                                                    </option>
+                                                                    <option value="NB"
+                                                                            {% if form.instance.state == 'New Brunswick' %}selected{% endif %}>
+                                                                        New Brunswick
+                                                                    </option>
+                                                                    <option value="NH"
+                                                                            {% if form.instance.state == 'New Hampshire' %}selected{% endif %}>
+                                                                        New Hampshire
+                                                                    </option>
+                                                                    <option value="NJ"
+                                                                            {% if form.instance.state == 'New Jersey' %}selected{% endif %}>
+                                                                        New Jersey
+                                                                    </option>
+                                                                    <option value="NM"
+                                                                            {% if form.instance.state == 'New Mexico' %}selected{% endif %}>
+                                                                        New Mexico
+                                                                    </option>
+                                                                    <option value="NY"
+                                                                            {% if form.instance.state == 'New York' %}selected{% endif %}>
+                                                                        New York
+                                                                    </option>
+                                                                    <option value="NL"
+                                                                            {% if form.instance.state == 'Newfoundland' %}selected{% endif %}>
+                                                                        Newfoundland
+                                                                    </option>
+                                                                    <option value="NC"
+                                                                            {% if form.instance.state == 'North Carolina' %}selected{% endif %}>
+                                                                        North Carolina
+                                                                    </option>
+                                                                    <option value="ND"
+                                                                            {% if form.instance.state == 'North Dakota' %}selected{% endif %}>
+                                                                        North Dakota
+                                                                    </option>
+                                                                    <option value="MP"
+                                                                            {% if form.instance.state == 'Northern Mariana Islands' %}selected{% endif %}>
+                                                                        Northern Mariana Islands
+                                                                    </option>
+                                                                    <option value="NT"
+                                                                            {% if form.instance.state == 'Northwest Territory' %}selected{% endif %}>
+                                                                        Northwest Territory
+                                                                    </option>
+                                                                    <option value="NS"
+                                                                            {% if form.instance.state == 'Nova Scotia' %}selected{% endif %}>
+                                                                        Nova Scotia
+                                                                    </option>
+                                                                    <option value="NU"
+                                                                            {% if form.instance.state == 'Nunavut' %}selected{% endif %}>
+                                                                        Nunavut
+                                                                    </option>
+                                                                    <option value="OH"
+                                                                            {% if form.instance.state == 'Ohio' %}selected{% endif %}>
+                                                                        Ohio
+                                                                    </option>
+                                                                    <option value="OK"
+                                                                            {% if form.instance.state == 'Oklahoma' %}selected{% endif %}>
+                                                                        Oklahoma
+                                                                    </option>
+                                                                    <option value="ON"
+                                                                            {% if form.instance.state == 'Ontario' %}selected{% endif %}>
+                                                                        Ontario
+                                                                    </option>
+                                                                    <option value="OR"
+                                                                            {% if form.instance.state == 'Oregon' %}selected{% endif %}>
+                                                                        Oregon
+                                                                    </option>
+                                                                    <option value="PA"
+                                                                            {% if form.instance.state == 'Pennsylvania' %}selected{% endif %}>
+                                                                        Pennsylvania
+                                                                    </option>
+                                                                    <option value="PE"
+                                                                            {% if form.instance.state == 'Prince Edward Island' %}selected{% endif %}>
+                                                                        Prince Edward Island
+                                                                    </option>
+                                                                    <option value="PR"
+                                                                            {% if form.instance.state == 'Puerto Rico' %}selected{% endif %}>
+                                                                        Puerto Rico
+                                                                    </option>
+                                                                    <option value="QC"
+                                                                            {% if form.instance.state == 'Quebec' %}selected{% endif %}>
+                                                                        Quebec
+                                                                    </option>
+                                                                    <option value="RI"
+                                                                            {% if form.instance.state == 'Rhode Island' %}selected{% endif %}>
+                                                                        Rhode Island
+                                                                    </option>
+                                                                    <option value="SK"
+                                                                            {% if form.instance.state == 'Saskatchewan' %}selected{% endif %}>
+                                                                        Saskatchewan
+                                                                    </option>
+                                                                    <option value="SC"
+                                                                            {% if form.instance.state == 'South Carolina' %}selected{% endif %}>
+                                                                        South Carolina
+                                                                    </option>
+                                                                    <option value="SD"
+                                                                            {% if form.instance.state == 'South Dakota' %}selected{% endif %}>
+                                                                        South Dakota
+                                                                    </option>
+                                                                    <option value="TN"
+                                                                            {% if form.instance.state == 'Tennessee' %}selected{% endif %}>
+                                                                        Tennessee
+                                                                    </option>
+                                                                    <option value="TX"
+                                                                            {% if form.instance.state == 'Texas' %}selected{% endif %}>
+                                                                        Texas
+                                                                    </option>
+                                                                    <option value="UT"
+                                                                            {% if form.instance.state == 'Utah' %}selected{% endif %}>
+                                                                        Utah
+                                                                    </option>
+                                                                    <option value="VT"
+                                                                            {% if form.instance.state == 'Vermont' %}selected{% endif %}>
+                                                                        Vermont
+                                                                    </option>
+                                                                    <option value="VI"
+                                                                            {% if form.instance.state == 'Virgin Islands' %}selected{% endif %}>
+                                                                        Virgin Islands
+                                                                    </option>
+                                                                    <option value="VA"
+                                                                            {% if form.instance.state == 'Virginia' %}selected{% endif %}>
+                                                                        Virginia
+                                                                    </option>
+                                                                    <option value="WA"
+                                                                            {% if form.instance.state == 'Washington' %}selected{% endif %}>
+                                                                        Washington
+                                                                    </option>
+                                                                    <option value="DC"
+                                                                            {% if form.instance.state == 'Washington DC' %}selected{% endif %}>
+                                                                        Washington DC
+                                                                    </option>
+                                                                    <option value="WV"
+                                                                            {% if form.instance.state == 'West Virginia' %}selected{% endif %}>
+                                                                        West Virginia
+                                                                    </option>
+                                                                    <option value="WI"
+                                                                            {% if form.instance.state == 'Wisconsin' %}selected{% endif %}>
+                                                                        Wisconsin
+                                                                    </option>
+                                                                    <option value="WY"
+                                                                            {% if form.instance.state == 'Wyoming' %}selected{% endif %}>
+                                                                        Wyoming
+                                                                    </option>
+                                                                    <option value="YT"
+                                                                            {% if form.instance.state == 'Yukon Territory' %}selected{% endif %}>
+                                                                        Yukon Territory
+                                                                    </option>
+                                                                </select>
+                                                                {% if form.state.errors %}
+                                                                    <div class="text-danger">
+                                                                        {{ form.state.errors | striptags }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col_full mb-3">
+                                                                <label for="template-contactform-zip-seller">Zip/Postal
+                                                                    Code</label>
+                                                                <input type="text" id="template-contactform-zip-seller"
+                                                                       name="zip"
+                                                                       value="{{ form.instance.zip | default_if_none:'' }}"
+                                                                       class="form-control input-sm required"/>
+                                                                {% if form.zip.errors %}
+                                                                    <div class="text-danger">
+                                                                        {{ form.zip.errors | striptags }}
+                                                                    </div>
+                                                                {% endif %}
+
+                                                            </div>
+                                                            <div class="col_full mb-3">
+                                                                <label for="template-contactform-is_home_listed-seller">
+                                                                    Is
+                                                                    home listed?</label>
+                                                                <select id="template-contactform-is_home_listed-seller"
+                                                                        name="is_home_listed" class="sm-form-control">
+                                                                    <option value="">-- Select One --</option>
+                                                                    {% for listing_option in listing_options %}
+                                                                        <option value="{{ listing_option.pk }}"
+                                                                                {% if form.instance.is_home_listed == listing_option %}
+                                                                                selected {% endif %}>{{ listing_option }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                {% if form.is_home_listed.errors %}
+                                                                    <div class="text-danger">
+                                                                        {{ form.is_home_listed.errors | striptags }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="col_full mb-4">
+                                                                <label for="template-contactform-asking_price-seller">Asking
+                                                                    Price</label>
+                                                                <input type="number"
+                                                                       id="template-contactform-asking_price-seller"
+                                                                       name="asking_price"
+                                                                       value="{{ form.instance.asking_price | default_if_none:'' }}"
+                                                                       class="form-control input-sm required" min="0"/>
+                                                                {% if form.asking_price.errors %}
+                                                                    <div class="text-danger">
+                                                                        {{ form.asking_price.errors | striptags }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col_full nobottommargin">
+                                                            <button class="button button-rounded btn-block nott ls0 m-0"
+                                                                    type="submit"
+                                                                    name="template-contactform-submit"
+                                                                    id="template-contactform-seller"
+                                                                    value="submit"> {{ template_content.banner_button_text }}
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section
+            ============================================= -->
+            <div class="section m-0"
+                 style="background: url('{% static 'xsite_template/all_templates/xsite_template_three/images/sections/1.jpg' %}') no-repeat center center; background-size: cover; padding: 100px 0;">
+                <div class="container">
+                    <div class="row justify-content-between align-items-center">
+
+                        <div class="col-md-6">
+                            <div class="heading-block nobottomborder bottommargin-sm">
+                                <h3 class="nott ls0">{{ template_content.video_title }}</h3>
+                            </div>
+                            <p>{{ template_content.video_desc }} </p>
+
+                        </div>
+
+
+                        <div class="col-md-4 mt-5 mt-md-0 center">
+                            <a href="{{ template_content.video_link }}" data-lightbox="iframe"
+                               class="play-icon shadow"><i class="icon-play"></i></a>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Testimonials
+            ============================================= -->
+            <div class="section mt-0" id="testimonails"
+                 style="background: url('{% static 'xsite_template/all_templates/xsite_template_three/images/sections/3.jpg' %}') no-repeat top center; background-size: cover; padding: 80px 0 70px;">
+                <div class="container">
+                    <div class="heading-block nobottomborder center">
+                        <div class="badge badge-pill badge-default">Testimonials</div>
+                        <h3 class="nott ls0">What Clients Says</h3>
+                    </div>
+
+                    <div id="oc-testi" class="owl-carousel testimonials-carousel carousel-widget clearfix"
+                         data-margin="0" data-pagi="true" data-loop="true" data-center="true" data-autoplay="5000"
+                         data-items-sm="1" data-items-md="2" data-items-xl="3">
+
+                        <div class="oc-item">
+                            <div class="testimonial">
+                                <div class="testi-image">
+                                    <a href="#"><img
+                                            src="{% static 'xsite_template/all_templates/xsite_template_three/images/avatar.png' %}"
+                                            alt="Customer Testimonails"></a>
+                                </div>
+                                <div class="testi-content">
+                                    <p>{{ template_content.testi_1_text }}</p>
+                                    <div class="testi-meta">
+                                        {{ template_content.testi_1_person_name }}
+                                        <span>{{ template_content.testi_1_company_name }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if template_content.testi_2_text %}
+                            <div class="oc-item">
+                                <div class="testimonial">
+                                    <div class="testi-image">
+                                        <a href="#"><img
+                                                src="{% static 'xsite_template/all_templates/xsite_template_three/images/avatar.png' %}"
+                                                alt="Customer Testimonails"></a>
+                                    </div>
+                                    <div class="testi-content">
+                                        <p>{{ template_content.testi_2_text }}</p>
+                                        <div class="testi-meta">
+                                            {{ template_content.testi_2_person_name }}
+                                            <span>{{ template_content.testi_2_company_name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if template_content.testi_3_text %}
+                            <div class="oc-item">
+                                <div class="testimonial">
+                                    <div class="testi-image">
+                                        <a href="#"><img
+                                                src="{% static 'xsite_template/all_templates/xsite_template_three/images/avatar.png' %}"
+                                                alt="Customer Testimonails"></a>
+                                    </div>
+                                    <div class="testi-content">
+                                        <p>{{ template_content.testi_3_text }}</p>
+                                        <div class="testi-meta">
+                                            {{ template_content.testi_3_person_name }}
+                                            <span>{{ template_content.testi_3_company_name }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {#                        <div class="oc-item">#}
+                        {#                            <div class="testimonial">#}
+                        {#                                <div class="testi-image">#}
+                        {#                                    <a href="#"><img#}
+                        {#                                            src="{% static 'xsite_template/all_templates/xsite_template_three/images/avatar.png' %}"#}
+                        {#                                            alt="Customer Testimonails"></a>#}
+                        {#                                </div>#}
+                        {#                                <div class="testi-content">#}
+                        {#                                    <p>Natus voluptatum enim quod necessitatibus quis expedita harum provident eos#}
+                        {#                                        obcaecati id culpa corporis molestias.</p>#}
+                        {#                                    <div class="testi-meta">#}
+                        {#                                        Mary Jane#}
+                        {#                                        <span>Google Inc.</span>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                        {#                        <div class="oc-item">#}
+                        {#                            <div class="testimonial">#}
+                        {#                                <div class="testi-image">#}
+                        {#                                    <a href="#"><img#}
+                        {#                                            src="{% static 'xsite_template/all_templates/xsite_template_three/images/avatar.png' %}"#}
+                        {#                                            alt="Customer Testimonails"></a>#}
+                        {#                                </div>#}
+                        {#                                <div class="testi-content">#}
+                        {#                                    <p>Natus voluptatum enim quod necessitatibus quis expedita harum provident eos#}
+                        {#                                        obcaecati id culpa corporis molestias.</p>#}
+                        {#                                    <div class="testi-meta">#}
+                        {#                                        Steve Jobs#}
+                        {#                                        <span>Apple Inc.</span>#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section><!-- #content end -->
+
+    <!-- Footer
+    ============================================= -->
+    <footer id="footer" class="noborder bg-white">
+        <!-- Copyrights
+        ============================================= -->
+        <div id="copyrights"
+             style="background: url('{% static 'xsite_template/all_templates/xsite_template_three/images/hero/footer.svg' %}') no-repeat top center; background-size: cover; padding-top: 70px;">
+            <div class="container clearfix">
+                <div class="col_half">
+                    {#                    Copyrights &copy; 2018 All Rights Reserved by Xsite.<br>#}
+                    &copy; 2020 <a target="_blank" href="https://prospectx.com/">Prospectx</a> All Rights Reserved.
+                </div>
+            </div>
+
+        </div><!-- #copyrights end -->
+
+    </footer><!-- #footer end -->
+
+{% endblock %}
+
+{% block extrajs %}
+    <script src="{% static 'assets/js/jquery.inputmask.bundle.js' %}"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#template-contactform-phone-seller').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+            $('#template-contactform-phone-buyer').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+            $('#template-contactform-zip-seller').focus(function () {
+                var mask = "99999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+
+            if (msg === "There was an error!") {
+                toastr.error(msg);
+            } else if(msg) {
+                toastr.success(msg);
+            }
+
+            if ($("#immediate_assistance").is(':checked')) {
+                $("#immediate_assistance_fields").show();
+            }
+
+            $("#template-contactform-submit-buyer").click(function () {
+                $(this).attr('disabled', true);
+                $("#buyer_form").submit();
+            });
+
+            $("#template-contactform-seller").click(function () {
+                $(this).attr('disabled', true);
+                $("#seller_form").submit();
+            });
+
+        });
+
+        function ShowFields() {
+            if ($("#immediate_assistance").is(':checked')) {
+                $("#immediate_assistance_fields").show();
+            } else {
+                $("#immediate_assistance_fields").hide();
+                // clear fields
+                $("#template-contactform-address-seller").val("");
+                $("#template-contactform-city-seller").val("");
+                $("#template-contactform-state-seller").val("");
+                $("#template-contactform-zip-seller").val("");
+                $("#template-contactform-is_home_listed-seller").val("");
+                $("#template-contactform-asking_price-seller").val("");
+            }
+        }
+    </script>
+{% endblock %}

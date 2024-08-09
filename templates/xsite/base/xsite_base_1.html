@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="Xsite" />
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700|Roboto:300,400,500,700"
+		rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/bootstrap.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/style.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/swiper.css' %}" type="text/css" />
+
+	<!-- Construction Demo Specific Stylesheet -->
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_one/construction.css' %}" type="text/css" />
+	<!-- / -->
+
+	<link rel="stylesheet" href="{% static 'xsite_template/css/dark.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/font-icons.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/animate.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'xsite_template/css/magnific-popup.css' %}" type="text/css" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_one/css/fonts.css' %}" type="text/css" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/css/responsive.css' %}" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_one/css/colors.css' %}" type="text/css" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158292791-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-158292791-1');
+      gtag('send', 'pageview', location.pathname);
+    </script>
+
+	{% block extracss %}
+	{% endblock %}
+	<!-- Document Title
+	============================================= -->
+	<title>Xsite</title>
+
+</head>
+
+<body class="stretched">
+
+	<!-- Document Wrapper
+	============================================= -->
+	<div id="wrapper" class="clearfix">
+
+		{% block content %}
+		{% endblock %}
+
+
+	</div><!-- #wrapper end -->
+
+	<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+
+	<!-- External JavaScripts
+	============================================= -->
+<!--	<script src="{% static 'assets/js/jquery.inputmask.bundle.js' %}"></script>-->
+	<script src="{% static 'xsite_template/js/jquery.js' %}"></script>
+	<script src="{% static 'xsite_template/js/plugins.js' %}"></script>
+
+	<!-- Footer Scripts
+	============================================= -->
+	<script src="{% static 'xsite_template/js/functions.js' %}"></script>
+
+	{% block extrajs %}
+	{% endblock %}
+
+</body>
+
+</html>

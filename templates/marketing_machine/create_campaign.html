@@ -1,0 +1,335 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Create Marketing Campaign</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Create Marketing Campaign</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="my_form" enctype="multipart/form-data" action="{% url 'create_campaign' %}" method="post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <div>
+                                        <input placeholder="Enter title here.." required class="form-control" id="title" name="title" type="text">
+                                        <input value="" id="time_dif" name="time_dif" type="hidden">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Select Planner</label>
+                                <div class="form-group">
+                                <select name="planer" id="planer" class="form-control select2">
+                                    <option value="" selected>Select Marketing Planner</option>
+                                    {% for sequence in sequences %}
+                                        <option value="{{ sequence.id }}">{{ sequence.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+                            <div id="hsh_off" class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Hash Off</label>
+                                    <div>
+                                        <input value="" placeholder="1 of 1" class="form-control" id="hash_off" name="hash_off" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Major Market</label>
+                                <div class="form-group">
+                                <select name="maj_market" id="maj_market" required class="form-control select2">
+                                    <option value="" disabled selected hidden>Select Market</option>
+                                    {% for market in markets %}
+                                        <option value="{{ market.id }}">{{ market.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+
+                            <div id="resp" class="col-sm-6">
+                                <label>Responsible</label>
+                                <div class="form-group">
+                                <select id="responsible" name="responsible" class="form-control select2">
+                                    <option value="" selected>Select Responsible User</option>
+                                    {% for user in users_list %}
+                                        <option value="{{ user.username }}">{{ user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+                            <div id="tl_units" class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Total Units</label>
+                                    <div>
+                                        <input required name="total_units" class="form-control" type="number" value="0" id="total_units">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="tch" class="col-sm-6">
+                                <label>Touch</label>
+                                <div class="form-group">
+                                <select required name="touch" id="touch" class="form-control select2">
+                                    {% for round in rounds %}
+                                        <option value="{{ round }}">Touch {{ round }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Scheduled For</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input value="{{ today_date }}" class="form-control datetimepicker"
+                                                   required id="scheduled_for" name="scheduled_for" type="text" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <!--<div>-->
+                                        <!--<input required name="scheduled_for" class="form-control" type="date" value="{{ today_date }}" id="scheduled_for">-->
+                                    <!--</div>-->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Temperature</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="cold" name="temperature" value="Cold"
+                                                class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="cold">Cold</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="warm" name="temperature" value="Warm"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="warm">Warm</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="hot" name="temperature" value="Hot"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="hot">Hot </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Distribution Status</label>
+                                <div class=" optional-filter-radio-btn-circles" role="group" data-toggle="buttons">
+                                    <label for="pending_approval" class="btn btn-sm btn-outline-primary waves-effect btn-circle active waves-light w-xs">
+                                        <input type="radio" id="pending_approval" name="dist_status" value="Pending"
+                                            class="custom-control-input" checked>Pending
+                                    </label>
+                                    <label for="untouched" class="btn btn-sm btn-outline-danger waves-effect btn-circle waves-light w-xs">
+                                        <input type="radio" id="untouched" name="dist_status" value="Untouched"
+                                            class="custom-control-input">Untouched
+                                    </label>
+                                    <label for="completed" class="btn btn-sm btn-outline-success waves-effect btn-circle waves-light w-xs">
+                                        <input type="radio" id="completed" name="dist_status" value="Completed"
+                                            class="custom-control-input">Completed
+                                    </label>
+                                </div>
+                            </div>
+ 
+                            <div class="col-sm-6">
+                                <label>Approval</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="pending_status" name="approval" value="Pending"
+                                                class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="pending_status">Pending </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="approved_to_merchant" name="approval" value="Approved to Merchant"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="approved_to_merchant">Approved to Merchant</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <label>Send Via</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="cold_call" name="send_via" value="Cold Call"
+                                                class="custom-control-input" checked>
+                                            <label class="custom-control-label" for="cold_call">Cold Call </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="direct_mail" name="send_via" value="Direct Mail"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="direct_mail">Direct Mail</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="voice_broadcast" name="send_via" value="Voice Broadcast"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="voice_broadcast">Voice Broadcast</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="rvm" name="send_via" value="RVM"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="rvm">RVM</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="sms" name="send_via" value="SMS"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="sms">SMS</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="email" name="send_via" value="EMAIL"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="email">EMAIL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Notes</label>
+                                    <textarea required="" id="notes" class="form-control summernote" name="notes"> </textarea>
+                                    <!--<textarea id="notes" class="form-control summernote" placeholder="Type any notes" name="notes"></textarea>-->
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Marketing Template</label><br>
+                                    <button disabled onclick="location.href='{% url 'marketing_template' 2 %}'" type="button" class="btn btn-link p-0  waves-effect" data-toggle="modal" data-target=".bs-example-modal-center">
+                                    Template Touch</button>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Marketing Details</label>
+                                    <textarea required="" id="mark_details" class="form-control summernote" name="mark_details"> </textarea>
+                                    <!--<textarea placeholder="Enter some details" id="mark_details" class="form-control summernote" name="mark_details"></textarea>-->
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>File</label><br>
+                                    <input id="image" name="image" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <input id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />-->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>-->
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+<script>
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'Y/m/d H:m',
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+  </script>
+
+<script type="text/javascript">
+$('#my_form').on('submit', function(){
+       $("#sub_btn").hide();
+       $('#sub_btn').delay(2000).show(0);
+});
+
+$(document).ready(function() {
+    $("#hsh_off").hide();
+    $('#resp').hide();
+    $('#tl_units').hide();
+    $('#tch').hide();
+
+var off = (new Date().getTimezoneOffset()/60).toString();
+$('#time_dif').val(off);
+});
+
+$('#planer').on('change', function(){
+    let plan = $('#planer').val();
+    if (plan !== "") {
+        $("#hsh_off").show();
+        $('#resp').show();
+        $('#tl_units').show();
+        $('#tch').show();
+    } else {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    }
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

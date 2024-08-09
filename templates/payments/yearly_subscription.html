@@ -1,0 +1,13 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+
+
+<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{ key }}"
+    data-description="Yearly Subscription"
+    data-amount="399700"
+    data-locale="auto">
+</script>
+
+
+{% endblock %}

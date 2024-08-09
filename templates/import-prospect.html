@@ -1,0 +1,331 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Import Prospect</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Import Prospect</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div id="accordion">
+                            <!--Upload file Start -->
+                            <div class="card mb-1 mt-3">
+                                <div class="card-header p-3" id="headingOne">
+
+                                    <a href="#collapseOne" class="text-dark" data-toggle="collapse" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                        <h4 class="mt-0 header-title">Upload your file</h4>
+                                    </a>
+
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p class="mb-1">
+                                                    <strong> Select a file containing your address to import. </strong>
+                                                </p>
+                                                <div>
+                                                    <form action="#" class="dropzone">
+                                                        <div class="fallback">
+                                                            <input name="file" type="file" multiple="multiple">
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <div class=" mt-4">
+                                                    <button type="button"
+                                                        class="btn btn-outline-dark waves-effect waves-light">Clear</button>
+                                                    <button type="button"
+                                                        class="btn btn-primary waves-effect waves-light">Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Upload file Start-->
+                            <div class="card mb-1">
+                                <div class="card-header p-3" id="headingTwo">
+
+                                    <a href="#collapseTwo" class="text-dark collapsed" data-toggle="collapse"
+                                        aria-expanded="false" aria-controls="collapseTwo">
+                                        <h4 class="mt-0 mb-0 header-title"> Mapping data</h4>
+                                    </a>
+
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                    data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <p class="mb-1">
+                                                        <strong>Select Spreadsheet Tab</strong>
+                                                    </p>
+                                                    <select multiple="" class="form-control"
+                                                        id="exampleFormControlSelect2" autocomplete="on">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="mb-1">
+                                                    <strong>Source Fields</strong>
+                                                </p>
+                                                <div class="source-field">
+                                                    <input class="form-control form-control-sm mb-1" type="text"
+                                                        placeholder="Website urls" readonly="readonly">
+                                                    <span class="float-right text-success source-field-icon"><i
+                                                            class="mdi mdi-check-outline"></i> </span>
+                                                </div>
+                                                <div class="source-field">
+                                                    <input class="form-control form-control-sm mb-1" type="text"
+                                                        placeholder="Website urls" readonly="readonly">
+                                                    <span class="float-right text-success source-field-icon"><i
+                                                            class="mdi mdi-check-outline"></i> </span>
+                                                </div>
+                                                <div class="source-field">
+                                                    <input class="form-control form-control-sm mb-1" type="text"
+                                                        placeholder="Website urls" readonly="readonly">
+                                                    <span class="float-right text-success source-field-icon"><i
+                                                            class="mdi mdi-check-outline"></i> </span>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="col-4">
+                                                <p class="mb-1">
+                                                    <strong>Destination Fields</strong>
+                                                </p>
+                                                <select class="form-control">
+                                                    <option value="">Do not Import</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="mailing_full_name"> Full Name</option>
+                                                    <option value="mailing_first_name"> First Name</option>
+                                                    <option value="mailing_last_name"> Last Name</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="property_address" style="font-weight: bold;">
+                                                        &nbsp;Property Address</option>
+                                                    <option value="property_address_2"> &nbsp; Property Address 2
+                                                    </option>
+                                                    <option value="property_city" style="font-weight: bold;"> &nbsp;
+                                                        Property City</option>
+                                                    <option value="property_state" style="font-weight: bold;"> &nbsp;
+                                                        Property State</option>
+                                                    <option value="property_zip" style="font-weight: bold;"> &nbsp;
+                                                        Property Zip</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="mailing_address"> Mailing Address</option>
+                                                    <option value="mailing_address_2"> Mailing Address 2</option>
+                                                    <option value="mailing_city"> &nbsp;Mailing City</option>
+                                                    <option value="mailing_state"> &nbsp;Mailing State</option>
+                                                    <option value="mailing_zip"> &nbsp;Mailing Zip</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="phone_other"> phone_other</option>
+                                                    <option value="phone cell"> phone cell</option>
+                                                    <option value="phone_landline"> Phone Landline</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="email"> Email1</option>
+                                                    <option value="email2"> Email2</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="notes"> Notes</option>
+                                                    <option value="deceased"> Deceased</option>
+                                                    <option value="year_built"> Year Built</option>
+                                                    <option value="dnc"> Do Not Call</option>
+                                                    <option value="opt_out"> opt_out</option>
+                                                    <option value="phone_other"> phone_other</option>
+                                                    <option value="list_status"> status</option>
+                                                    <option disabled="">──────────</option>
+                                                    <option value="custom_1"> custom 1</option>
+                                                    <option value="custom_2"> custom 2</option>
+                                                    <option value="custom_3"> custom 3</option>
+                                                    <option disabled="">──────────</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class=" mt-4">
+                                                    <button type="button"
+                                                        class="btn btn-outline-dark waves-effect waves-light">Back</button>
+                                                    <button type="button"
+                                                        class="btn btn-primary waves-effect waves-light">Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-0">
+                                <div class="card-header p-3" id="headingThree">
+
+                                    <a href="#collapseThree" class="text-dark collapsed" data-toggle="collapse"
+                                        aria-expanded="false" aria-controls="collapseThree">
+                                        <h4 class="mt-0 mb-0 header-title"> Select a list</h4>
+                                    </a>
+
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                    data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-toggle="tab" href="#selectlist"
+                                                            role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="fas fa-home"></i></span>
+                                                            <span class="d-none d-sm-block">Select a list</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#createlist"
+                                                            role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="far fa-user"></i></span>
+                                                            <span class="d-none d-sm-block">Create a list</span>
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active p-3" id="selectlist" role="tabpanel">
+                                                        <p class="mb-1">
+                                                            <strong>Import Existing List:</strong>
+                                                        </p>
+                                                        <select class="form-control">
+                                                            <option>Select</option>
+                                                            <option>Large select</option>
+                                                            <option>Small select</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="tab-pane p-3" id="createlist" role="tabpanel">
+                                                        <p class="mb-1">
+                                                            <strong> List Name:</strong>
+                                                        </p>
+                                                        <input class="form-control" type="text"
+                                                            placeholder="Enter list name" id="example-text-input">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mt-4">
+                                                <p class="mb-1">
+                                                    <strong>Add tag </strong>
+                                                </p>
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-toggle="tab" href="#selecttag"
+                                                            role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="fas fa-home"></i></span>
+                                                            <span class="d-none d-sm-block">Select a tag</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#createtag"
+                                                            role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="far fa-user"></i></span>
+                                                            <span class="d-none d-sm-block">Create a tag</span>
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active p-3" id="selecttag" role="tabpanel">
+                                                        <p class="mb-1">
+                                                            <strong>Select Existing Tag:</strong>
+                                                        </p>
+                                                        <select class="form-control">
+                                                            <option>Select</option>
+                                                            <option>Large select</option>
+                                                            <option>Small select</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="tab-pane p-3" id="createtag" role="tabpanel">
+                                                        <p class="mb-1">
+                                                            <strong>Tag Name:</strong>
+                                                        </p>
+                                                        <input class="form-control" type="text"
+                                                            placeholder="Enter tag name" id="example-text-input">
+
+                                                        <p class="mb-1">
+                                                            <strong>Tag Description:</strong>
+                                                        </p>
+                                                        <textarea class="form-control" maxlength="225" rows="2"
+                                                            placeholder="Add Tag Description"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 mt-4">
+                                                    <p class="mb-1">
+                                                            <strong>Opt Out All Addresses/Records:</strong>
+                                                        </p>
+                                                        <select class="form-control">
+                                                            <option>No</option>
+                                                            <option>Yes</option> 
+                                                        </select>
+                                            </div>
+                                            <div class="col-12">
+                                                    <div class=" mt-4">
+                                                        <button type="button"
+                                                            class="btn btn-outline-dark waves-effect waves-light">Back</button>
+                                                        <button type="button"
+                                                            class="btn btn-primary waves-effect waves-light">Submit</button>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+{% endblock %}

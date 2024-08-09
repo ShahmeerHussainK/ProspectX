@@ -1,0 +1,311 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var msg = "{{ message }}";
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    <div class="content ">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h4 class="page-title">XSite Settings</h4>
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                        class="mdi mdi-home-outline"></i></a></li>
+                                <li class="breadcrumb-item active">XSite Membership Details</li>
+                            </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <div class="row">
+                <!--settings partial sidebar-->
+                {% include 'partials/settings_sidebar.html' %}
+                <div class="col-xl-1 "></div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card plan-box text-center mb-1">
+                        <div class="card-body">
+                            {% if messages %}
+                                 {% for message in messages %}
+                                    <button hidden id="messages_btn" onclick="display_message_func('{{ message }}')"></button>
+                                 {% endfor %}
+                            {% endif %}
+                            <div class="py-3">
+                                <h5 class="mt-0">Monthly Plan</h5>
+                                <p class="text-muted"><strong>
+                                    Billing Amount
+                                </strong>
+                                </p>
+                                <div class="py-2">
+                                    <h2><sup><small>$</small></sup><span id="monthly_total">144</span>/<span class="font-14">Per month</span></h2>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="two_sites_monthly" name="two_sites_monthly"
+                                               value="47" checked
+                                               class="custom-control-input">
+                                        <label class="custom-control-label" for="two_sites_monthly">$47 for 2 sites</label>
+                                    </div>
+                                </div>
+                                <div class="plan-icon py-3">
+                                    <i class="ti-package h2 px-4 position-relative bg-white"></i>
+                                </div>
+                            </div>
+                            <div class="plan-features mb-4">
+                                <p id="monthly_sites"><strong>Investor Sites:</strong> 3</p>
+                                <p><strong>Billing Frequency:</strong> Monthly</p>
+                                {% if membership_details.membership_plan.plan == "Monthly" and  membership_details.subscription_status == "Subscribed" %}
+                                    <p><strong>Next Billing
+                                        Date:</strong> {{ membership_details.subscription_end_date }}
+                                    </p>
+                                {% else %}
+                                    <p><strong>Next Billing Date:</strong> -
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <div class="pt-3">
+                                {% if membership_details.membership_plan.plan == "Monthly" and  membership_details.subscription_status == "Subscribed" %}
+                                    <button onclick="window.location.href='/xsite/subscribe_monthly'" disabled
+                                            class="btn btn-primary btn-block waves-effect waves-light">Current Membership
+                                    </button>
+                                {% else %}
+                                    <button onclick="UpgradeMonthly()"
+                                            class="btn btn-primary btn-block waves-effect waves-light">Update
+                                        Membership
+                                    </button>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal fade" id="upgrde-monthly" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to Downgrade to Monthly XSite Plan?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-dismiss="modal">No</button>
+                                <a id="upgrade-a-monthly" href=""
+                                    class="btn btn-outline-danger btn-ok">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="modal fade" id="upgrde-yearly" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to Upgrade to Yearly XSite Plan?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-dismiss="modal">No</button>
+                                <a id="upgrade-a-yearly" href=""
+                                    class="btn btn-outline-danger btn-ok">Yes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card plan-box text-center mb-1">
+                        <div class="card-body">
+                            <div class="py-3">
+                                <h5 class="mt-0">Yearly Plan</h5>
+                                <p class="text-muted"><strong>
+                                    Billing Amount
+                                </strong>
+                                </p>
+                                <div class="py-2">
+                                    <h2><sup><small>$</small></sup><span id="yearly_total">1382</span>/<span class="font-14">Per year</span></h2>
+                                </div>
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="two_sites_yearly" name="two_sites_yearly"
+                                               value="451" checked
+                                               class="custom-control-input">
+                                        <label class="custom-control-label" for="two_sites_yearly">$451 for 2 sites</label>
+                                    </div>
+                                </div>
+                                <div class="plan-icon py-3">
+                                    <i class="ti-package h2 px-4 position-relative bg-white"></i>
+                                </div>
+                            </div>
+                            <div class="plan-features mb-4">
+                                <p id="yearly_sites"><strong>Investor Sites:</strong> 3</p>
+                                <p><strong>Billing Frequency:</strong> Annual</p>
+                                {% if membership_details.membership_plan.plan == "Yearly" and  membership_details.subscription_status == "Subscribed" %}
+                                    <p><strong>Next Billing
+                                        Date:</strong> {{ membership_details.subscription_end_date }}
+                                    </p>
+                                {% else %}
+                                    <p><strong>Next Billing Date:</strong> -
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <div class="pt-3">
+                                {% if membership_details.membership_plan.plan == "Yearly" and  membership_details.subscription_status == "Subscribed" %}
+                                    <button onclick="window.location.href='/xsite/subscribe_yearly'" disabled
+                                            class="btn btn-primary btn-block waves-effect waves-light">Current Membership
+                                    </button>
+                                {% else %}
+                                    <button onclick="UpgradeYearly()"
+                                            class="btn btn-primary btn-block waves-effect waves-light">Update
+                                        Membership
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-md-6"></div>
+                <div class="col-xl-6 col-md-6">
+                    <div class="pt-2">
+                        <button type="button" data-toggle="modal"
+                                data-target="#confirm-cancel-subscription"
+                                {% if membership_details.subscription_status != "Subscribed" %}
+                                disabled
+                                {% endif %}
+                                class="btn float-right btn-danger waves-effect waves-light w-md">Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="confirm-cancel-subscription" tabindex="-1" role="dialog"
+                    aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                Confirm!
+                            </div>
+                            <div class="modal-body">
+                                Do you really want to cancel the subscription?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary"
+                                    data-dismiss="modal">No</button>
+                                <button onclick="window.location.href='/xsite/cancel_subscription'"
+                                    class="btn btn-outline-danger btn-ok">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript">
+toastr.options = {
+    "progressBar": true,
+    "positionClass": "toast-top-right",
+};
+
+function display_message_func(message) {
+    if (message === "There's some error with the card!") {
+        toastr.error(message);
+    } else if (message === "Plan changed to Monthly subscription, Payment will be deducted when your annual subscription period ends!") {
+        toastr.success(message);
+    } else if (message === "Monthly subscription Successful, Payment will be deducted when your previous payed subscription period ends!") {
+        toastr.success(message);
+    } else if (message === "Monthly subscription Successful, You can check your invoice history in payments and packages section!") {
+        toastr.success(message);
+    } else if (message === "Monthly subscription Successful, You can check your invoice history in payments and packages section!") {
+        toastr.success(message);
+    } else if (message === "Plan changed to Yearly subscription, Payment will be deducted when your monthly subscription period ends!") {
+        toastr.success(message);
+    } else if (message === "Yearly subscription Successful, Payment will be deducted when your previous payed subscription period ends!") {
+        toastr.success(message);
+    } else if (message === "Yearly subscription Successful, You can check your invoice history in payments and packages section!") {
+        toastr.success(message);
+    } else if (message === "Yearly subscription Successful, You can check your invoice history in payments and packages section!") {
+        toastr.success(message);
+    } else if (message === "Subscription cancelled Successfully, You can use three sites until your payed subscription period ends!") {
+        toastr.success(message);
+    } else if (message === "Changed Default Card Successfully!") {
+        toastr.success(message);
+    } else if (message === "Could Not Change Default Card!, Please try again later!") {
+        toastr.error(message);
+    } else{
+        toastr.error(message);
+    }
+}
+
+$(document).ready(function () {
+$("#messages_btn").trigger('click');
+$('#href_xsite_id').addClass('active');
+});
+$('#two_sites_monthly').on('click', function() {
+    if ($('#two_sites_monthly').is(':checked')) {
+        $('#monthly_total').html('144');
+        $('#monthly_sites').html('<strong>Investor Sites:</strong> 3');
+    } else {
+        $('#monthly_total').html('97');
+        $('#monthly_sites').html('<strong>Investor Sites:</strong> 1');
+    }
+});
+
+$('#two_sites_yearly').on('click', function() {
+    if ($('#two_sites_yearly').is(':checked')) {
+        $('#yearly_total').html('1382');
+        $('#yearly_sites').html('<strong>Investor Sites:</strong> 3');
+    } else {
+        $('#yearly_total').html('931');
+        $('#yearly_sites').html('<strong>Investor Sites:</strong> 1');
+    }
+});
+
+function UpgradeMonthly() {
+    if ($('#two_sites_monthly').is(':checked')) {
+        var url = window.location.origin + '/xsite/subscribe_monthly/extra';
+    } else {
+        var url = window.location.origin + '/xsite/subscribe_monthly/simple';
+    }
+    $("#upgrade-a-monthly").attr("href", url);
+    $('#upgrde-monthly').modal('show');
+
+}
+
+function UpgradeYearly() {
+    if ($('#two_sites_yearly').is(':checked')) {
+        var url = window.location.origin + '/xsite/subscribe_yearly/extra';
+    } else {
+        var url = window.location.origin + '/xsite/subscribe_yearly/simple';
+    }
+    $("#upgrade-a-yearly").attr("href", url);
+    $('#upgrde-yearly').modal('show');
+
+}
+
+</script>
+
+{% endblock %}

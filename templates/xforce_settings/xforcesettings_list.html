@@ -1,0 +1,99 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">XForce Settings</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a ><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">XForce Settings</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-outline-primary waves-effect waves-light float-right" href="">
+                        <i class="mdi mdi-plus mr-2"></i> Add Settings
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-3 col-lg-2">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar">
+                                <tbody>
+
+                                <tr class="bg-primary mb-0">
+                                    <td class="custom_sidbar_title"><a href="" style="color:black;" href="">All    <strong></strong></a></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-lg-10">
+                <!-- Nav tabs -->
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Setting Name </th>
+                                    <th>Entity Name/Email Sender Name</th>
+                                    <th>Company Name</th>
+                                    <th>Email Subject From Comment</th>
+                                    <th>Email Signature</th>
+                                    <th>SMS Phone #</th>
+                                    <th>Text signature</th>
+                                    <th>Phone #</th>
+                                    <th>Email / Sender Email</th>
+                                    <th>Website</th>
+                                    <th>Logo</th>
+                                    <th>Seller Missed Call Text</th>
+                                    <th>Missed Call Trigger</th>
+                                    <th>1st Call Attempt SMS</th>
+                                    <th>1st Call Attempt Email TitIe</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+
+
+{% block extrajs %}
+
+
+{% endblock %}
+
+
+
+{% endblock %}

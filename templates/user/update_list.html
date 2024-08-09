@@ -1,0 +1,1063 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">List Management</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Update List</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <!--settings partial sidebar-->
+            {% include 'partials/settings_sidebar.html' %}
+
+            <div class="col-sm-9 col-md-9 col-lg-10">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <!-- Manage Lists tab link -->
+                    <li class="nav-item">
+                        <a id="list_href" class="nav-link active" href="{% url 'list_management' %}">
+                            <span class="d-block d-sm-none"><i class="fas fa-stream"></i></span>
+                            <span class="d-none d-sm-block">Manage Lists</span>
+                        </a>
+                    </li>
+                    <!-- Manage Tags tab link -->
+
+                    <li class="nav-item tag">
+                        <a class="nav-link" href="{% url 'tags_management' %}">
+                            <span class="d-block d-sm-none"><i class="fas fa-tags"></i></span>
+                            <span class="d-none d-sm-block">Manage Tags</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!-- Add List Div Start -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="manage-list" role="tabpanel">
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <h6>List Name</h6>
+                                                <div>
+                                                    <input value="{{ data.list_name }}" id="select_list_id" name="select_list_id" type="text"
+                                                        class="form-control" required="" placeholder="Enter List Name"
+                                                        autocomplete="on">
+                                                    <input id="list_id" name="list_id" value="{{ data.id }}" type="hidden">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <h6 class="control-label">List Status</h6>
+                                            <div class="form-group">
+                                                <div class="form-check-inline">
+                                                    <div class="custom-control custom-radio">
+                                                        <input value="Active" type="radio" class="custom-control-input"
+                                                            id="active" name="list_status" {% if data.list_status == 'Active'  %} checked {% endif %}>
+                                                        <label class="custom-control-label" for="active">
+                                                            Active</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-check-inline">
+                                                    <div class="custom-control custom-radio">
+                                                        <input value="InActive" type="radio"
+                                                            class="custom-control-input" id="inactive"
+                                                            name="list_status" {% if data.list_status == 'InActive'  %} checked {% endif %}>
+                                                        <label class="custom-control-label" for="inactive">InActive
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="custom-control custom-switch mb-3">
+                                                <input onchange="upload_action()" type="checkbox" class="custom-control-input" name="upload_file_check" id="upload_file_check">
+                                                <label class="custom-control-label" for="upload_file_check">Update/Replace File</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <div class="form-check-inline">
+                                                    <input class="btn btn-primary waves-effect waves-light per_submit" id="add_list_only" name="add_list_only" type="button"
+                                                    value="Update List">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="accordion">
+                                        <!--Upload file Start -->
+                                        <div class="card mb-1 mt-0">
+                                            <div class="card-header p-3" id="headingOne">
+
+                                                <a href="#" id="hit_api" class="text-dark" data-toggle="collapse"
+                                                    aria-expanded="true" aria-controls="collapseOne">
+                                                    <h4 class="mt-0 header-title">Upload your file</h4>
+                                                </a>
+
+                                            </div>
+
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                                data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="mb-1">
+                                                                <strong> Select a file containing your address to
+                                                                    import. </strong>
+                                                            </p>
+                                                            <div>
+                                                                <form action="{% url 'upload_file' %}"
+                                                                    id="upload-widget" class="dropzone"
+                                                                    enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="fallback">
+                                                                        <input name="file" id="file" type="file">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+                                                            <div class=" mt-4" id="hide_accrod_1_button_group"
+                                                                style="display: none">
+                                                                <button type="button"
+                                                                    class="btn btn-outline-dark waves-effect waves-light"
+                                                                    onclick="clear_data()">Clear
+                                                                </button>
+                                                                <button type="button"
+                                                                    class="btn btn-primary waves-effect waves-light"
+                                                                    id="open_accord_2">Next
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Upload file Start-->
+                                        <div class="card mb-1">
+                                            <div class="card-header p-3" id="headingTwo">
+
+                                                <a href="#" class="text-dark collapsed" data-toggle="collapse"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    <h4 class="mt-0 mb-0 header-title"> Mapping data</h4>
+                                                </a>
+
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                                data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <p class="mb-1">
+                                                                    <strong>Select Spreadsheet Tab</strong>
+                                                                </p>
+                                                                <select multiple="" class="form-control"
+                                                                    id="exampleFormControlSelect2" autocomplete="on">
+
+
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4" id="append_source">
+                                                            <p class="mb-1">
+                                                                <strong>Source Fields</strong>
+                                                            </p>
+                                                            <div class="source-field">
+                                                                <input hidden value="{{ custom_fields.custom1 }}"
+                                                                    id="hid_custom1" name="custom1" type="text"
+                                                                    class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom2 }}"
+                                                                    id="hid_custom2" name="custom2" type="text"
+                                                                    class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom3 }}"
+                                                                    id="hid_custom3" name="custom3" type="text"
+                                                                    class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom4 }}"
+                                                                       id="hid_custom4" name="custom4" type="text"
+                                                                       class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom5 }}"
+                                                                       id="hid_custom5" name="custom5" type="text"
+                                                                       class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom6 }}"
+                                                                       id="hid_custom6" name="custom6" type="text"
+                                                                       class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom7 }}"
+                                                                       id="hid_custom7" name="custom7" type="text"
+                                                                       class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom8 }}"
+                                                                       id="hid_custom8" name="custom8" type="text"
+                                                                       class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom9 }}"
+                                                                       id="hid_custom9" name="custom9" type="text"
+                                                                       class="form-control">
+                                                                <input hidden value="{{ custom_fields.custom10 }}"
+                                                                       id="hid_custom10" name="custom10" type="text"
+                                                                       class="form-control">
+
+                                                                <input class="form-control form-control-sm mb-1"
+                                                                    type="text" placeholder="Website urls"
+                                                                    readonly="readonly">
+                                                                <span
+                                                                    class="float-right text-success source-field-icon"><i
+                                                                        class="mdi mdi-check-outline"></i> </span>
+                                                            </div>
+                                                            <div class="source-field">
+                                                                <input class="form-control form-control-sm mb-1"
+                                                                    type="text" placeholder="Website urls"
+                                                                    readonly="readonly">
+                                                                <span
+                                                                    class="float-right text-success source-field-icon"><i
+                                                                        class="mdi mdi-check-outline"></i> </span>
+                                                            </div>
+                                                            <div class="source-field">
+                                                                <input class="form-control form-control-sm mb-1"
+                                                                    type="text" placeholder="Website urls"
+                                                                    readonly="readonly">
+                                                                <span
+                                                                    class="float-right text-success source-field-icon"><i
+                                                                        class="mdi mdi-check-outline"></i> </span>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div class="col-4" id="load_destination_field">
+
+
+                                                        </div>
+
+
+
+                                                        <div class="col-sm-12">
+                                                            <h6 class="control-label">Do You Want To Also Import The
+                                                                Data?</h6>
+                                                            <div class="form-group">
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio  ">
+                                                                        <input onselect="yes_import_function()"
+                                                                            type="radio" id="import_yes"
+                                                                            name="import_data"
+                                                                            class="custom-control-input" value="Yes">
+                                                                        <label class="custom-control-label"
+                                                                            for="import_yes">Yes
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" id="import_no"
+                                                                            name="import_data"
+                                                                            class="custom-control-input" value="No"
+                                                                            checked>
+                                                                        <label class="custom-control-label"
+                                                                            for="import_no">No</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="imp_option" class="col-sm-12">
+                                                            <h6 class="control-label">Import Option</h6>
+                                                            <div class="form-group">
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio  ">
+                                                                        <input checked type="radio" id="abc"
+                                                                            name="import_option"
+                                                                            class="custom-control-input"
+                                                                            value="Import and Don't Update Existing Property Information">
+                                                                        <label class="custom-control-label"
+                                                                            for="abc">Import and Don't Update Existing
+                                                                            Prospect Information
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" id="abc2"
+                                                                            name="import_option"
+                                                                            class="custom-control-input"
+                                                                            value="Import and Update Existing Property Information">
+                                                                        <label class="custom-control-label"
+                                                                            for="abc2">Import and Update Existing
+                                                                            Prospect Information</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" id="abc3"
+                                                                            name="import_option"
+                                                                            class="custom-control-input"
+                                                                            value="Only Import New Addresses">
+                                                                        <label class="custom-control-label"
+                                                                            for="abc3">Only Import New Addresses</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="up_option" class="col-sm-12">
+                                                            <h6 class="control-label">Update Option</h6>
+                                                            <div class="form-group">
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio  ">
+                                                                        <input checked type="radio" id="update1"
+                                                                            name="update_option"
+                                                                            class="custom-control-input"
+                                                                            value="Update Only if Field has Content in Spreadsheet">
+                                                                        <label class="custom-control-label"
+                                                                            for="update1">Update Only if Field has
+                                                                            Content in Spreadsheet
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-check-inline">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" id="update2"
+                                                                            name="update_option"
+                                                                            class="custom-control-input"
+                                                                            value="Update Even if Field on Spreadsheet is Empty">
+                                                                        <label class="custom-control-label"
+                                                                            for="update2">Update Even if Field on
+                                                                            Spreadsheet is Empty</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div class="col-12">
+                                                            <div class=" mt-4">
+                                                                <button type="button"
+                                                                    class="btn btn-outline-dark waves-effect waves-light"
+                                                                    id="back_accord_1">Back
+                                                                </button>
+                                                                <button type="button"
+                                                                    class="btn btn-primary waves-effect waves-light"
+                                                                    id="submit_data">Update List
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end row -->
+
+    </div>
+</div>
+<!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+{% endblock %}
+
+{% block extrajs %}
+<link href="{% static 'assets/custom_css/toastr.new.min.css' %}" rel="stylesheet" type="text/css">
+<script src="{% static 'assets/custom_js/toastr.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script type="text/javascript">
+$(window).on('load', function() {
+    let loc = window.location.href;
+    if (loc.indexOf("/update_list/") >= 0) {
+        $('#tag_href').addClass('active');
+    }
+
+});
+
+    $(document).ready(function () {
+        $("#accordion").hide();
+        $("#add_list_only").show();
+
+        // executes when HTML-Document is loaded and DOM is ready
+        $("#imp_option").hide();
+        $("#up_option").hide();
+
+
+        var html = '<option value="select">Select</option>'
+        var html1 = '<option value="select">Select</option>'
+        $.ajax({
+            url: window.location.origin + "/filter/get_all_list_and_tags_by_user_id",
+            dataType: 'json',
+            success: function (data) {
+                console.log(data.list)
+                if (data.list.length > 0) {
+                    for (var i = 0; i < data.list.length; i++) {
+                        html += '<option value="' + data.list[i].id + '">' + data.list[i].list_name + '</option>'
+                    }
+                }
+
+                if (data.tag.length > 0) {
+                    for (var i = 0; i < data.tag.length; i++) {
+                        html1 += '<option value="' + data.tag[i].id + '">' + data.tag[i].tag_name + '</option>'
+                    }
+                }
+                $("#select_list_id").html(html);
+
+            }
+        });
+    });
+
+function upload_action() {
+    if($('#upload_file_check').prop("checked") == true){
+        $("#accordion").show();
+        $("#add_list_only").hide();
+    }
+    else if($('#upload_file_check').prop("checked") == false){
+        $("#accordion").hide();
+        $("#add_list_only").show();
+    }
+}
+
+$("#add_list_only").click(function () {
+
+        var e = $("#select_list_id").val();
+        if (e === "" | e === " ") {
+            document.getElementById("select_list_id").focus();
+            toastr.error('Please enter list name', 'Error');
+            check = false
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: window.location.origin + "/filter/add_list_without_file",
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    'list_name': e,
+                    'list_id': $("#list_id").val(),
+                    'list_status': $('input[name ="list_status"]:checked').val(),
+                    'import_data': $('input[name ="import_data"]:checked').val(),
+                    'import_option': $('input[name ="import_option"]:checked').val(),
+                    'update_option': $('input[name ="update_option"]:checked').val(),
+                },
+                dataType: 'json',
+                success: function (json) {
+                    if (json.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'List has been Updated successfully!',
+                            allowOutsideClick: false
+                        }
+                        )
+                        $(".swal2-confirm").click(function () {
+
+                            window.location.href = "/list_management"
+                        })
+
+                    }
+                    if (json.status == 500) {
+                        toastr.error('There is some error', 'Error');
+                    }
+                    if (json.status == 202) {
+                        toastr.error('List Already Exists!', 'Error');
+                    }
+
+                },
+                error: function (xhr, errmsg, err) {
+                }
+            });
+        }
+});
+
+
+    toastr.options = {
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+    };
+
+
+    $('input[name="import_data"]').change(function () {
+        if ($('#import_yes').prop('checked')) {
+            $("#imp_option").show();
+            if ($('#abc2').prop('checked')) {
+                $("#up_option").show();
+            } else {
+                $("#up_option").hide();
+            }
+        } else {
+            $("#imp_option").hide();
+            $("#up_option").hide();
+        }
+    });
+
+
+    $('input[name="import_option"]').change(function () {
+        if ($('#abc2').prop('checked')) {
+            $("#up_option").show();
+        } else {
+            $("#up_option").hide();
+        }
+    });
+
+</script>
+<script>
+    var form_dictionary = {};
+    var address_city_state_array = 0
+    var mapping_array = [
+        "fullname",
+        "firstname",
+        "lastname",
+        "propertyaddress",
+        "propertyaddress2",
+        "propertycity",
+        "propertystate",
+        "propertyzip",
+        "mailingaddress",
+        "mailingaddress2",
+        "mailingcity",
+        "mailingstate",
+        "mailingzip",
+        "email1",
+        "email2",
+        "phone_other",
+        "phonecell",
+        "Phonelandline",
+        "phone1",
+        "phone2",
+        "phone3",
+        "phone4",
+        "phone5",
+        "phone6",
+        "phone7",
+        "phone8",
+        "phone9",
+        "phone10",
+        "notes",
+        "deceased",
+        "yearbuilt",
+        "donotcall",
+        "phone_other",
+        "custome1",
+        "custome2",
+        "custome3",
+        "custome4",
+        "custome5",
+        "custome6",
+        "custome7",
+        "custome8",
+        "custome9",
+        "custome10",
+    ];
+    Dropzone.options.uploadWidget = {
+        url: window.location.origin + "/filter/upload_file",
+        acceptedFiles: '.csv,.xlsx,.xls,.xlsm',
+        maxFilesize: 1000, // MB
+        init: function (file) {
+            this.on("addedfile", function () {
+                $(".dz-message").css("display", "none")
+                console.log(this.files.length)
+                var index = this.files.length
+                var new_index = index - 2
+                if (this.files.length > 1) {
+                    console.log(this.files)
+                    console.log("index ", new_index)
+                    console.log(this.files[new_index])
+                    this.removeFile(this.files[new_index]);
+                    console.log(this.files)
+                }
+                //if ( this.files[1] != null ){
+                //this.removeFile( this.files[0] );
+                //}
+                //});
+            });
+        },
+        success: function (file, response) {
+            $("#hide_accrod_1_button_group").show()
+            address_city_state_array = response.header.length
+            load_sheet_name(response)
+            load_destination_field(response);
+            load_source_field(response);
+
+            form_dictionary['file_name'] = response.file_name;
+            if (file.previewElement) {
+                console.log("ener in preview element")
+                //file.previewElement.innerHTML = "";
+                return file.previewElement.classList.add("dz-success");
+            }
+        },
+        error: function (file, message) {
+            console.log("enter in error file.php ", this.files.length)
+            var node, _i, _len, _ref, _results;
+            if (file.previewElement) {
+                file.previewElement.classList.add("dz-error");
+                if (typeof message !== "String" && message.error) {
+                    message = message.error;
+                }
+                _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i];
+                    _results.push(node.textContent = message);
+                }
+                return _results;
+            }
+        },
+        removedfile: function (file) {
+            $("#hide_accrod_1_button_group").hide()
+
+            console.log("enter in remove file import prospect.html")
+            var _ref;
+            if (file.previewElement) {
+                if ((_ref = file.previewElement) != null) {
+                    _ref.parentNode.removeChild(file.previewElement);
+                }
+            }
+            return this._updateMaxFilesReachedClass();
+        },
+    };
+
+    function load_sheet_name(response) {
+        var html = "";
+        if (response.sheet_name.length == 1) {
+            console.log("======laoded sheet name is =========", response.sheet_name[0])
+            form_dictionary['sheet_name'] = response.sheet_name[0]
+            for (var i = 0; i < response.sheet_name.length; i++) {
+                html += '<option  selected="selected"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+            }
+            $("#exampleFormControlSelect2").html(html)
+        } else {
+            for (var i = 0; i < response.sheet_name.length; i++) {
+                if (i == 0) {
+                    form_dictionary['sheet_name'] = response.sheet_name[i]
+                    html += '<option selected="selected" onclick="select_sheet_name(\'' + response.file_name + '\',\'' + response.sheet_name[i] + '\')"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                } else {
+                    html += '<option onclick="select_sheet_name(\'' + response.file_name + '\',\'' + response.sheet_name[i] + '\')"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                }
+
+            }
+            $("#exampleFormControlSelect2").html(html)
+        }
+
+    }
+
+    function select_sheet_name(file_name, sheet_name) {
+        form_dictionary['sheet_name'] = sheet_name
+        $.ajax
+            ({
+                url: window.location.origin + "/filter/get_col_by_sheet_name",
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    'file_name': file_name,
+                    'sheet_name': sheet_name
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    $("#load_destination_field").empty()
+                    $("#append_source").empty()
+                    address_city_state_array = data.header.length
+                    load_destination_field(data);
+                    load_source_field(data);
+                }
+            });
+    }
+    function load_destination_field(response) {
+        custom1 = $("#hid_custom1").val();
+        custom2 = $("#hid_custom2").val();
+        custom3 = $("#hid_custom3").val();
+        custom4 = $("#hid_custom4").val();
+        custom5 = $("#hid_custom5").val();
+        custom6 = $("#hid_custom6").val();
+        custom7 = $("#hid_custom7").val();
+        custom8 = $("#hid_custom8").val();
+        custom9 = $("#hid_custom9").val();
+        custom10 = $("#hid_custom10").val();
+
+        var html = "";
+        html += '<p class="mb-1"><strong>Destination Fields</strong></p>'
+        console.log("enter in sucess php.js,", response)
+        for (var i = 0; i < response.header.length; i++) {
+            console.log(i)
+            var id = "match_selected_tick_" + i
+            html += '<select id=' + id + ' onclick="get_old_value(this)" onchange="select_call(\'' + i + '\',\'' + id + '\',\'' + this + '\' )" class="form-control form-control-sm mb-1">\n' +
+                '                                                            <option value="not_import">Do not Import</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="fullname"> Full Name</option>\n' +
+                '                                                            <option value="firstname"> First Name</option>\n' +
+                '                                                            <option value="lastname"> Last Name</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="propertyaddress" style="font-weight: bold;">Prospect Address</option>\n' +
+                '                                                            <option value="propertyaddress2"> &nbsp; Prospect Address 2</option>\n' +
+                '                                                            <option value="propertycity" style="font-weight: bold;">Prospect City</option>\n' +
+                '                                                            <option value="propertystate" style="font-weight: bold;">Prospect State</option>\n' +
+                '                                                            <option value="propertyzip" style="font-weight: bold;">Prospect Zip</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="mailingaddress"> Mailing Address</option>\n' +
+                '                                                            <option value="mailingaddress2"> Mailing Address 2</option>\n' +
+                '                                                            <option value="mailingcity"> &nbsp;Mailing City</option>\n' +
+                '                                                            <option value="mailingstate"> &nbsp;Mailing State</option>\n' +
+                '                                                            <option value="mailingzip"> &nbsp;Mailing Zip</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="phone_other"> phone_other</option>\n' +
+                '                                                            <option value="phonecell"> phone cell</option>\n' +
+                '                                                            <option value="phonelandline"> Phone Landline</option>\n' +
+                '                                                            <option value="phone1"> phone1</option>\n' +
+                '                                                            <option value="phone2"> phone2</option>\n' +
+                '                                                            <option value="phone3"> phone3</option>\n' +
+                '                                                            <option value="phone4"> phone4</option>\n' +
+                '                                                            <option value="phone5"> phone5</option>\n' +
+                '                                                            <option value="phone6"> phone6</option>\n' +
+                '                                                            <option value="phone7"> phone7</option>\n' +
+                '                                                            <option value="phone8"> phone8</option>\n' +
+                '                                                            <option value="phone9"> phone9</option>\n' +
+                '                                                            <option value="phone10"> phone10</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="email"> Email1</option>\n' +
+                '                                                            <option value="email2"> Email2</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="notes"> Notes</option>\n' +
+                '                                                            <option value="deceased"> Deceased</option>\n' +
+                '                                                            <option value="yearbuilt"> Year Built</option>\n' +
+                '                                                            <option value="donotcall">Do Not Call</option>\n' +
+                '                                                            <option value="opt_out"> opt_out</option>\n' +
+                '                                                            <option value="status"> status</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="custome1">' + custom1 + '</option>\n' +
+                '                                                            <option value="custome2">' + custom2 + '</option>\n' +
+                '                                                            <option value="custome3">' + custom3 + '</option>\n' +
+                '                                                            <option value="custome4">' + custom4 + '</option>\n' +
+                '                                                            <option value="custome5">' + custom5 + '</option>\n' +
+                '                                                            <option value="custome6">' + custom6 + '</option>\n' +
+                '                                                            <option value="custome7">' + custom7 + '</option>\n' +
+                '                                                            <option value="custome8">' + custom8 + '</option>\n' +
+                '                                                            <option value="custome9">' + custom9 + '</option>\n' +
+                '                                                            <option value="custome10">' + custom10 + '</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                        </select>';
+        }
+        $("#load_destination_field").html(html);
+    }
+
+    function load_source_field(response) {
+        var html = "";
+        html += '<p class="mb-1"><strong>Source Fields</strong></p>'
+        for (var i = 0; i < response.header.length; i++) {
+            var value = response.header[i]
+            var new_value = value.replace(/\s/g, '');
+            var show = mapping_array.indexOf(new_value.toLowerCase())
+            // str.replace(/\s/g, '');
+            var tick = ""
+            if (show > -1) {
+                var tick_id = "tick_match_id_" + i
+                tick = '<i id=' + tick_id + ' class="mdi mdi-check-outline"></i>'
+                $('#match_selected_tick_' + i).val(mapping_array[show])
+            } else {
+                var tick_id = "tick_match_id_" + i
+                tick = '<i id=' + tick_id + ' style="display:none;" class="mdi mdi-check-outline"></i>'
+            }
+            console.log("-------------------    ")
+            html += '<div class="source-field">' +
+                '<input class="form-control form-control-sm mb-1" type="text"placeholder="' + response.header[i] + '" readonly="readonly">' +
+                '<span class="float-right text-success source-field-icon">' + tick + '</span></div>';
+            // $('#element option[value="no"]').attr("selected", "selected");
+
+
+        }
+        $("#append_source").html(html);
+    }
+
+    var html = "";
+    html += '<p class="mb-1"><strong>Source Fields</strong></p>'
+    $("#hit_api1").click(function () {
+        $.ajax({
+            url: window.location.origin + "/filter/read",
+            dataType: 'json',
+            success: function (data) {
+                console.log(data)
+            }
+        });
+    });
+
+    function clear_data() {
+
+        $(".dz-complete").hide()
+        $("#hide_accrod_1_button_group").hide()
+        html = "<span>Drop files here to upload</span>"
+        $(".dz-message").html(html)
+        $(".dz-message").css("display", "block")
+    }
+
+    function mapping() {
+        var mapping_array = [
+            "Full Name",
+            "First Name",
+            "Last Name",
+            "Property Address",
+            "Property Address 2",
+            "Property City",
+            "Property State",
+            "Property Zip",
+            "Mailing Address",
+            "Mailing Address 2",
+            "Mailing City",
+            "Mailing State",
+            "Mailing Zip",
+            "Email1",
+            "Email2",
+            "phone_other",
+            "phone cell",
+            "Phone Landline",
+            "Notes",
+            "Deceased",
+            "Year Built",
+            "Do Not Call",
+            "phone_other",
+            "status",
+            "custom 1",
+            "custom 2",
+            "custom 3",
+        ];
+        return mapping_array
+    }
+
+
+    function get_old_value(e) {
+    }
+
+    function select_call(index, id, e) {
+        var e = document.getElementById(id);
+        var value = e.options[e.selectedIndex].value;
+        console.log("next", value)
+        var match = "#tick_match_id_" + index
+        if (value == "not_import") {
+            $(match).hide()
+        } else {
+            $(match).show()
+        }
+        for (var i = 0; i < address_city_state_array; i++) {
+            if (i == index)
+                continue
+            var id = "match_selected_tick_" + i
+            var e = document.getElementById(id);
+            console.log("==============event value is ==============", e.selectedIndex)
+            var select_value = e.options[e.selectedIndex].value;
+            console.log("selected all values ", select_value)
+            if (value !== "not_import") {
+                if (value == select_value) {
+                    var selected_index = "#match_selected_tick_" + index
+                    $(selected_index).val("not_import");
+                    var new_match_id = "#tick_match_id_" + index
+                    console.log("========tick match id  is ", new_match_id)
+
+                    toastr.error('Field already mapped', 'Error');
+
+                    // $(new_match_id).addClass( "d-none" );
+                    $(new_match_id).hide()
+
+                }
+            }
+
+        }
+
+        console.log(value)
+
+
+    }
+
+    $("#open_accord_2").click(function () {
+        $("#collapseTwo").collapse().show()
+        $("#collapseOne").collapse().hide()
+    });
+    $("#back_accord_1").click(function () {
+        $("#collapseTwo").collapse().hide()
+        $("#collapseOne").collapse().show()
+    });
+
+    $("#ggsubmit_data222").click(function () {
+        var address_city_state_array_array = []
+        var count_size = 0
+        for (var i = 0; i < address_city_state_array; i++) {
+            var id = "match_selected_tick_" + i
+            var e = document.getElementById(id);
+            var value = e.options[e.selectedIndex].value;
+            console.log("selected all values ", value)
+            count_size++;
+            address_city_state_array_array.push(value)
+        }
+        console.log("========count size======", count_size)
+        console.log(address_city_state_array_array)
+        var valid = true
+
+        if (count_size == 1) {
+            toastr.error('It is required to have the mapping for property city and state or zip code. ', 'Error');
+            valid = false
+        } else {
+            for (var x = 0; x < address_city_state_array_array.length; x++) {
+                if (address_city_state_array_array.indexOf("propertyaddress") < 0) {
+                    toastr.error('Prospect address field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_city_state_array_array.indexOf("propertycity") < 0) {
+                    toastr.error('Prospect city field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_city_state_array_array.indexOf("propertystate") < 0) {
+                    if (address_city_state_array_array.indexOf("propertyzip") > 0) {
+
+                    } else {
+                        toastr.error('Prospect zip field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+
+                }
+            }
+        }
+        if (valid) {
+            $("#collapseTwo").collapse().hide()
+            $("#collapseThree").collapse().show()
+        }
+    });
+    $("#back_accord_2").click(function () {
+        $("#collapseTwo").collapse().show()
+        $("#collapseThree").collapse().hide()
+    });
+
+    $("#submit_data").click(function () {
+
+        var address_array = []
+        var count_size = 0
+        for (var i = 0; i < address_city_state_array; i++) {
+            var id = "match_selected_tick_" + i
+            var e = document.getElementById(id);
+            var value = e.options[e.selectedIndex].value;
+            console.log("selected all values ", value)
+            count_size++;
+            address_array.push(value)
+        }
+        var valid = true
+
+        var e = $("#select_list_id").val();
+        if (e === "") {
+            document.getElementById("select_list_id").focus();
+            toastr.error('Please enter list name', 'Error');
+            check = false
+        }
+        else if (count_size == 1) {
+            toastr.error('It is required to have the mapping for property city and state or zip code. ', 'Error');
+            valid = false
+        } else {
+            for (var x = 0; x < address_array.length; x++) {
+                if (address_array.indexOf("propertyaddress") < 0) {
+                    toastr.error('Prospect address field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_array.indexOf("propertycity") < 0) {
+                    toastr.error('Prospect city field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_array.indexOf("propertystate") < 0) {
+                    if (address_array.indexOf("propertyzip") > 0) {
+
+                    } else {
+                        toastr.error('Prospect zip field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+
+                }
+            }
+
+            var ref_this = $("ul.nav-tabs li a.active").attr("href");
+            console.log(ref_this)
+            var check = true
+
+
+            form_dictionary['create_list_value'] = e
+            form_dictionary['select_list_value'] = ""
+
+            var address_city_state_array_array = []
+            var count_size = 0
+            for (var i = 0; i < address_city_state_array; i++) {
+                var id = "match_selected_tick_" + i
+                var e = document.getElementById(id);
+                var value = e.options[e.selectedIndex].value;
+                console.log("selected all values ", value)
+                count_size++;
+                address_city_state_array_array.push(value)
+            }
+            $.ajax({
+                type: 'POST',
+                url: window.location.origin + "/filter/add_list",
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    'file_name': form_dictionary["file_name"],
+                    'list_id': $("#list_id").val(),
+                    'create_list_value': form_dictionary["create_list_value"],
+                    'list_status': $('input[name ="list_status"]:checked').val(),
+                    'import_data': $('input[name ="import_data"]:checked').val(),
+                    'import_option': $('input[name ="import_option"]:checked').val(),
+                    'update_option': $('input[name ="update_option"]:checked').val(),
+                    'sheet_name': form_dictionary['sheet_name'],
+                    'source_field': address_city_state_array_array.toString()
+
+                },
+                dataType: 'json',
+                success: function (json) {
+                    if (json.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'List has been submitted successfully!',
+                            allowOutsideClick: false
+                        }
+                        )
+                        $(".swal2-confirm").click(function () {
+
+                            window.location.href = "/list_management"
+                        })
+
+                    }
+                    if (json.status == 500) {
+                        toastr.error('There is some error', 'Error');
+                    }
+                    if (json.status == 202) {
+                        toastr.error('List Already Exists!', 'Error');
+                    }
+
+                },
+                error: function (xhr, errmsg, err) {
+                }
+            });
+        }
+
+    });
+
+
+
+</script>
+{% endblock %}

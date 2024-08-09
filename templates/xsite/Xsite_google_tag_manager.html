@@ -1,0 +1,100 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Google Tag Manager</h4>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-xl-2 col-md-2 col-lg-2 col-sm-3">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="table-responsive border">
+                                <table class="table mb-0 custom_sidbar">
+                                    <tbody>
+                                    <tr class="bg-white">
+                                        <td><a class="d-block" href="/xsite/dashboard/{{ site }}/">Leads</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/statistics/{{ site }}/">Statistics</a></td>
+                                    </tr>
+                                    {#                                    <tr>#}
+                                    {#                                        <td><a class="d-block" href="/xsite/website_logo/{{ site }}/">Favicon</a></td>#}
+                                    {#                                    </tr>#}
+                                    <tr class="bg-white">
+                                        <td><a class="d-block" href="/xsite/facebook_pixels/{{ site }}/">Facebook
+                                            Pixel</a></td>
+                                    </tr>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a class="d-block" style="color:white;"
+                                                                           href="#">Google Tag Manager</a></td>
+                                    </tr>
+                                    {% if not is_existing %}
+                                        <tr>
+                                            <td><a class="d-block" href="/xsite/renew_domain_info/{{ site }}/">Renew
+                                                Domain</a></td>
+                                        </tr>
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-md-10 col-lg-10 col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mt-0 header-title mb-4">Google Tag Manager</h4>
+                            <form method="POST" action="/xsite/save_google_tag_manager/{{ site }}/">
+                                {% csrf_token %}
+                                <label>Head Script</label>
+                                <textarea id="google_tag_manager_head" rows="4" spellcheck="false" class="form-control"
+                                          name="google_tag_manager_head"
+                                          placeholder="Add your google tag manager head script here ...">{{ google_tag_manager_head }}</textarea>
+                                <label class="mt-4">Body Script</label>
+                                <textarea id="google_tag_manager_body" rows="4" spellcheck="false" class="form-control"
+                                          name="google_tag_manager_body"
+                                          placeholder="Add your google tag manager body script here ...">{{ google_tag_manager_body }}</textarea>
+                                <button class="btn btn-primary waves-effect waves-light float-right w-md mt-2"
+                                        type="submit">Save
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- content -->
+    <script>
+        var msg = "";
+    </script>
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var msg = "{{ message }}";
+            </script>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        if (msg === "Script saved successfully!") {
+            toastr.success(msg);
+        } else if (msg) {
+            toastr.error(msg);
+        }
+    </script>
+{% endblock %}

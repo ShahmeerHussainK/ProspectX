@@ -1,0 +1,484 @@
+{% extends 'layouts/basefile/base.html' %}
+% load i18n %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content xforce_steps xforce_form_without_steps"> 
+    <div id="loader_id" class="loading"></div>
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <!-- <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title"><a href="{% url 'SalesList' %}">SALES</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item "><a href="/x_force/ ">Xforce</a> </li>  
+                        <li class="breadcrumb-item active">Property Sales Offers</li>
+                    </ol>
+                </div>
+            </div>  -->
+            <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body buyer_form pl-4 pr-4">
+
+                       
+                        <form  id="myform"  enctype="multipart/form-data" action="" method="post" >
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class=" ">
+                                        <a href="/sales/SalesList/" class="btn btn-primary w-md">
+                                            <!-- <i class="mdi mdi-chevron-left"></i>  -->
+                                            Back</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <h3 class="xforce-title text-center mb-1">Add Property Sales Offers</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr>
+                                    <!-- <label class="required_info"><span class="text-danger font-16">*</span> These fields are required.</label> -->
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Property<span class="text-danger">*</span></label>
+                                    <div class="form-group">
+                                        <div>
+                                            <select name="property" id="property"  class="form-control wizard_select2" required>
+                                                <option value="" selected>Select</option>
+                                                {% for pro in property %}
+                                                    <option value="{{ pro.id }}" {% if select_property == pro %}selected{% endif %}>{{ pro.deals.property_address }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            {% if errors %}
+                                            <div id="property_errors" class="text-danger">
+                                                {{ errors.property | striptags }}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>LLC Purchase Name <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="Enter LLC Purchase name"  class="form-control"  id="llc_purchase_name"  name="llc_purchase_name" type="text"
+                                                   {% if data.llc_purchase_name != None %}value="{{ data.llc_purchase_name|stringformat:'s' }}"{% endif %}>
+                                            {% if errors %}
+                                                <div id="llc_purchase_name_errors" class="text-danger">
+                                                    {{ errors.llc_purchase_name | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Full Name <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="full_name"  class="form-control"  id="full_name"  name="full_name" type="text"
+                                                   {% if data.full_name != None %}value="{{ data.full_name|stringformat:'s' }}"{% endif %}>
+                                            {% if errors %}
+                                                <div id="full_name_errors" class="text-danger">
+                                                    {{ errors.full_name | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Email <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="Enter Email" name="email" class="form-control"   type="text"
+                                                   {% if data.email != None %}value="{{ data.email|stringformat:'s' }}"{% endif %}>
+                                            {% if errors %}
+                                                <div id="email_errors" class="text-danger">
+                                                    {{ errors.email | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Type Of Email</label>
+                                    <div class="form-group">
+                                        <select  name="email_type" id="email_type" class="form-control select2">
+                                            {% if data.email_type %}
+                                            <option value="{{ data.email_type | stringformat:'s' }}" selected>{{ data.email_type }}</option>
+                                            {% endif %}
+                                            {% for emails in email_type %}
+                                            <option value="{{ emails }}">{{ emails }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="Enter Phone Number" id="phone_number" name="phone_number" class="form-control"   type="number"
+                                                   {% if data.phone_number != None %}value="{{ data.phone_number|stringformat:'s' }}"{% endif %}>
+                                            {% if errors %}
+                                                         <div id="phone_number_errors" class="text-danger">
+                                                             {{ errors.phone_number | striptags }}
+                                                         </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Type Of Phones</label>
+                                    <div class="form-group">
+                                        <select id="phone_type" name="phone_type"  class="form-control select2">
+                                            {% if data.phone_type %}
+                                            <option value="{{ data.phone_type|stringformat:'s' }}" selected>{{ data.phone_type }}</option>
+                                            {% endif %}
+                                            {% for p in phone_type %}
+                                            <option value="{{ p}}">{{ p }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Soonest Close Date <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input required class="form-control datetimepicker"  name="close_date" id="close_date" type="text" placeholder="Add follow up on specific date" autocomplete="off"
+                                                 {% if data.close_date   != None %}value="{{ data.close_date |stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                    <div id="close_date_errors" class="text-danger">
+                                                        {{ errors.close_date | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-3"></div> -->
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Offer Amount <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="Enter Offer Amount"
+                                                   id="offer_amount" name="offer_amount"
+                                                   class="form-control"  type="number" min="0"
+                                                   {% if data.offer_amount != None %}value="{{ data.offer_amount|stringformat:'s' }}"{% endif %}>
+                                            {% if errors %}
+                                                <div id="offer_amount_errors" class="text-danger">
+                                                    {{ errors.offer_amount | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <!-- <label>EMD (Earnest Money Deposit) Amount <span class="text-danger">*</span></label> -->
+                                        <label>EMD Amount <span class="text-danger">*</span></label>
+                                        <div>
+                                            <input required placeholder="Enter EMD Amount"  class="form-control"
+                                                   name="earnest_money_deposit"
+                                                   id="earnest_money_deposit" type="number" min="0"
+                                            {% if data.earnest_money_deposit   != None %} value="{{ data.earnest_money_deposit |stringformat:'s' }}"{% endif %}>
+                                            {% if errors %}
+                                                <div id="earnest_money_deposit_errors" class="text-danger">
+                                                    {{ errors.earnest_money_deposit | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Submission Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="submission_date" id="submission_date" type="text" autocomplete="off"
+                                                        {% if data.submission_date   != None %}value="{{ data.submission_date |stringformat:'s' }}"{% endif %}>
+                                                {% if errors %}
+                                                    <div id="submission_date_errors" class="text-danger">
+                                                        {{ errors.submission_date | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Type Of Investor</label>
+                                    <div class="form-group">
+                                        <select name="investor_type" id="investor_type"  class="form-control wizard_select2">
+                                                    <option value="" selected>Select</option>
+                                                    {% for investors in investor_type %}
+                                                    <option value="{{ investors }}" {% if data.investor_type == investors %}selected{% endif %}>{{ investors }}</option>
+                                                    {% endfor %}
+                                        </select>
+                                        {% if errors %}
+                                            <div id="investor_type_errors" class="text-danger">
+                                                {{ errors.investor_type | striptags }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="form-check-inline  ">
+                                            <div class="form-check-inline custom_checkbox_button">
+                                                <input class="form-check-input" type="checkbox" id="offer_accepted" name="offer_accepted"
+                                                       {% if data.offer_accepted %}checked{% endif %}>
+                                                <label class="form-check-label" for="offer_accepted">Offer Accepted</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-check-inline ">
+                                            <div class="form-check-inline custom_checkbox_button">
+                                                    <input class="form-check-input" type="checkbox" id="add_cash_buyer" name="add_cash_buyer"
+                                                       {% if data.add_cash_buyer %}checked{% endif %}>
+                                                <label class="form-check-label" for="add_cash_buyer">Add Cash Buyer</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                                <div class="row">
+                               
+                                <div class="col-md-3">
+                                    <label>Targeted Area</label>
+                                    <div class="form-group">
+                                        <select name="targeted_area" id="targeted_area"  class="form-control wizard_select2">
+                                            <option value="" selected>Select</option>
+                                            {% for area in targeted_area %}
+                                                <option value="{{ area }}" {% if data.targeted_area == area %}selected{% endif %}>{{ area }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!--<div class="col-md-3">-->
+                                <!--<label>Add Cash Buyer</label>-->
+                                <!--<div class="form-group">-->
+                                <!--<a hidden  class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add Buyer</a>-->
+                                <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="row">-->
+                                <!---->
+                                <!--<div class="col-md-12">-->
+                                <!--<button type="button" class="btn btn-secondary btn-lg">Add Buyer</button>-->
+
+                                <!--</div>-->
+                                <!--</div>-->
+
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="date" id="date" type="text" autocomplete="off"
+                                                {% if data.date != None %}value="{{ data.date|stringformat:'s' }}"{% endif %}>
+                                             {% if errors %}
+                                            <div id="date_errors" class="text-danger">
+                                                {{ errors.date | striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>File</label><br>
+                                        <input id="file" name="file" type="file" class=" with-border filestyle" data-buttonname="btn-primary" accept="image/png, image/jpeg, .txt, .pdf">
+                                    </div>
+
+                                </div>
+
+                                    <!-- {% if data.file %}
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>Uploaded File</label><br>
+                                                <a href="{{data.file}}" target="_blank"><image  id="files" name="files" src="{% static 'images/uploaded.png' %}" width="40" height="40"></image></a>
+                                            </div>
+
+                                        </div>
+                                    {% endif %}-->
+                                </div>
+
+                                <div class="row">
+<!--                                <div class="col-md-12">-->
+
+<!--                                    <div class="form-group ">-->
+<!--                                        <div class="form-check-inline ">-->
+<!--                                            <div class="form-check-inline custom_checkbox_button">-->
+<!--                                                <input class="form-check-input" type="checkbox" id="counter_email_offer_sent" name="counter_email_offer_sent"-->
+<!--                                                       {% if data.counter_email_offer_sent %}checked{% endif %}>-->
+<!--                                                <label class="form-check-label" for="counter_email_offer_sent">Counter Email offer Sent</label>-->
+<!--                                            </div>-->
+
+<!--                                        </div>-->
+<!--                                        <div class="form-check-inline ">-->
+<!--                                            <div class="form-check-inline custom_checkbox_button">-->
+<!--                                                <input class="form-check-input" type="checkbox" id="pending_email_sent" name="pending_email_sent"-->
+<!--                                                       {% if data.pending_email_sent %}checked{% endif %}>-->
+<!--                                                <label class="form-check-label" for="pending_email_sent">Pending Email Sent</label>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-check-inline">-->
+<!--                                            <div class="form-check-inline custom_checkbox_button">-->
+<!--                                                <input class="form-check-input" type="checkbox" id="sold_email_sent" name="sold_email_sent"-->
+<!--                                                       {% if data.sold_email_sent %}checked{% endif %}>-->
+<!--                                                <label class="form-check-label" for="sold_email_sent">Sold Email Sent</label>-->
+<!--                                            </div>-->
+
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                <div class="form-group ">
+                                    <script>
+                                        var cont_details = "{{ data.additional_details  | default_if_none:'' }}" ;
+                                    </script>
+                                    <label>Additional Details</label>
+                                    <textarea class="form-control summernote" id="additional_details" name="additional_details">
+                                        {% if data.additional_details != None %}value= "{{ data.additional_details | stringformat:'s' }}"{% endif %}
+                                    </textarea>
+                                {% if errors %}
+                                            <div id="additional_details_errors" class="text-danger">
+                                                {{ errors.additional_details | striptags }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <input id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    {#function num_validate(num) {#}
+    {#        var v = num.value;#}
+    {#        if (v > 2147483647) {#}
+    {#            alert("Value should be less than 2147483647");#}
+    {#            num.value = '';#}
+    {#        }#}
+    {#    }#}
+
+    var encodedStr = cont_details;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#additional_details").summernote(
+        'code', decodedString
+
+    );
+
+
+
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            format: 'm/d/y H:m',
+            minDate : 0,
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+    $('#my_form').on('submit', function(){
+        $("#sub_btn").hide();
+        $('#sub_btn').delay(2000).show(0);
+    });
+
+    $(document).ready(function() {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    });
+
+    $('#planer').on('change', function(){
+        let plan = $('#planer').val();
+        if (plan !== "") {
+            $("#hsh_off").show();
+            $('#resp').show();
+            $('#tl_units').show();
+            $('#tch').show();
+        } else {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        }
+    });
+
+</script>
+{% endblock %}
+
+{% endblock %}

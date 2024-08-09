@@ -1,0 +1,837 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content ">
+        <div class="container-fluid text_font_famliy_Xsite">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Website Setup</h4>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body p-2">
+
+                            <form action="{% url 'add_site' %}" method="post" id="form-horizontal"
+                                  class="form-horizontal form-wizard-wrapper form_colo_disabled Xsite_vizard_design">
+                                {% csrf_token %}
+                                <h3>Site Category</h3>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-5">
+                                            <h4 class="mt-0 header-title">1. Select a Site Category</h4>
+                                        </div>
+                                        {% for category in site_categories %}
+                                            <div class="col-sm-4 {% if category.pk == 1 %} offset-sm-2 {% endif %}"
+                                                    {% if category.pk == 1 %} id="ulCategory" {% endif %}>
+                                                <div mydata="{{ category.pk }}"
+                                                     class="card optionl_xsite_page site_category">
+                                                    <div class="card-body optionl_xsite_page_active">
+                                                        <h2 class="text-center"><i
+                                                                class="{{ category.category_icon }}"></i></h2>
+                                                        <h5 class="card-title text-center">{{ category.category_name }}</h5>
+                                                        <p class="card-text text-center">{{ category.category_desc }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </fieldset>
+                                <h3>Site Type</h3>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-5">
+                                            <h4 class="mt-0 header-title">2. Select a Site Type</h4>
+                                        </div>
+                                        <div class="col-sm-4 offset-sm-2">
+                                            <div class="card optionl_xsite_page type" onclick="Xsite_AddSite_Setup.prototype.Site_Type_Selection('website')"
+                                                 id="website">
+                                                <div class="card-body ">
+                                                    <h2 class="text-center"><i class="fa fa-globe"></i></h2>
+                                                    <h5 class="card-title text-center">Website</h5>
+                                                    <p class="card-text text-center">Coming Soon</p>
+                                                    {#                                                     <p class="card-text text-center">Full website option for multi-page#}
+                                                    {#                                                        site.</p>#}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="card optionl_xsite_page type"
+                                                 onclick="Xsite_AddSite_Setup.prototype.Site_Type_Selection('landing_page')" id="landing_page">
+                                                <div class="card-body ">
+                                                    <h2 class="text-center"><i class="fa fa-tv"></i></h2>
+                                                    <h5 class="card-title text-center">Landing Page</h5>
+                                                    <p class="card-text text-center">Single page site option.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <h3>Design</h3>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input id="site_design" type="hidden"
+                                               name="site_design"
+                                               value="">
+                                        <div class="row design_section">
+
+
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <h3>Settings</h3>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="mt-0 header-title">4. General Settings</h4>
+                                        </div>
+                                        <div class="col-sm-12 mb-2">
+                                            <h5 class="xsite_snd_tab"> Contact Information </h5>
+                                        </div>
+                                        <div id="elemdiv" class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input id="company_name" name="company_name" type="text"
+                                                                   class="form-control required" value=""
+                                                                   placeholder="Enter Company Name" required>
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input id="address" name="address" type="text"
+                                                                   class="form-control" placeholder="Address"
+                                                                   value="{{ settings.address | default_if_none:'' }}"
+                                                                   required>
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="city" id="city" type="text"
+                                                                   class="form-control"
+                                                                   required="" placeholder="City"
+                                                                   value="{{ settings.city | default_if_none:'' }}"
+                                                                   required>
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <select name="state" class="custom-select form-control">
+                                                                <option disabled {% if not settings.state %} selected
+                                                                {% endif %}>State
+                                                                </option>
+                                                                <option value="AL" {% if settings.state == "AL" %}
+                                                                        selected
+                                                                {% endif %}>Alabama
+                                                                </option>
+                                                                <option value="AK" {% if settings.state == "AK" %}
+                                                                        selected
+                                                                {% endif %}>Alaska
+                                                                </option>
+                                                                <option value="AB" {% if settings.state == "AB" %}
+                                                                        selected
+                                                                {% endif %}>Alberta
+                                                                </option>
+                                                                <option value="AS" {% if settings.state == "AS" %}
+                                                                        selected
+                                                                {% endif %}>American Samoa
+                                                                </option>
+                                                                <option value="AZ" {% if settings.state == "AZ" %}
+                                                                        selected
+                                                                {% endif %}>Arizona
+                                                                </option>
+                                                                <option value="AR" {% if settings.state == "AR" %}
+                                                                        selected
+                                                                {% endif %}>Arkansas
+                                                                </option>
+                                                                <option value="BC" {% if settings.state == "BC" %}
+                                                                        selected
+                                                                {% endif %}>British Columbia
+                                                                </option>
+                                                                <option value="CA" {% if settings.state == "CA" %}
+                                                                        selected
+                                                                {% endif %}>California
+                                                                </option>
+                                                                <option value="CO" {% if settings.state == "CO" %}
+                                                                        selected
+                                                                {% endif %}>Colorado
+                                                                </option>
+                                                                <option value="CT" {% if settings.state == "CT" %}
+                                                                        selected
+                                                                {% endif %}>Connecticut
+                                                                </option>
+                                                                <option value="DE" {% if settings.state == "DE" %}
+                                                                        selected
+                                                                {% endif %}>Delaware
+                                                                </option>
+                                                                <option value="FM" {% if settings.state == "FM" %}
+                                                                        selected
+                                                                {% endif %}>Fed. St. of Micronesia
+                                                                </option>
+                                                                <option value="FL" {% if settings.state == "FL" %}
+                                                                        selected
+                                                                {% endif %}>Florida
+                                                                </option>
+                                                                <option value="GA" {% if settings.state == "GA" %}
+                                                                        selected
+                                                                {% endif %}>Georgia
+                                                                </option>
+                                                                <option value="GU" {% if settings.state == "GU" %}
+                                                                        selected
+                                                                {% endif %}>Guam
+                                                                </option>
+                                                                <option value="HI" {% if settings.state == "HI" %}
+                                                                        selected
+                                                                {% endif %}>Hawaii
+                                                                </option>
+                                                                <option value="ID" {% if settings.state == "ID" %}
+                                                                        selected
+                                                                {% endif %}>Idaho
+                                                                </option>
+                                                                <option value="IL" {% if settings.state == "IL" %}
+                                                                        selected
+                                                                {% endif %}>Illinois
+                                                                </option>
+                                                                <option value="IN" {% if settings.state == "IN" %}
+                                                                        selected
+                                                                {% endif %}>Indiana
+                                                                </option>
+                                                                <option value="IA" {% if settings.state == "IA" %}
+                                                                        selected
+                                                                {% endif %}>Iowa
+                                                                </option>
+                                                                <option value="KS" {% if settings.state == "KS" %}
+                                                                        selected
+                                                                {% endif %}>Kansas
+                                                                </option>
+                                                                <option value="KY" {% if settings.state == "KY" %}
+                                                                        selected
+                                                                {% endif %}>Kentucky
+                                                                </option>
+                                                                <option value="LA" {% if settings.state == "LA" %}
+                                                                        selected
+                                                                {% endif %}>Louisiana
+                                                                </option>
+                                                                <option value="ME" {% if settings.state == "ME" %}
+                                                                        selected
+                                                                {% endif %}>Maine
+                                                                </option>
+                                                                <option value="MB" {% if settings.state == "MB" %}
+                                                                        selected
+                                                                {% endif %}>Manitoba
+                                                                </option>
+                                                                <option value="MH" {% if settings.state == "MH" %}
+                                                                        selected
+                                                                {% endif %}>Marshall Islands
+                                                                </option>
+                                                                <option value="MD" {% if settings.state == "MD" %}
+                                                                        selected
+                                                                {% endif %}>Maryland
+                                                                </option>
+                                                                <option value="MA" {% if settings.state == "MA" %}
+                                                                        selected
+                                                                {% endif %}>Massachusetts
+                                                                </option>
+                                                                <option value="MI" {% if settings.state == "MI" %}
+                                                                        selected
+                                                                {% endif %}>Michigan
+                                                                </option>
+                                                                <option value="MN" {% if settings.state == "MN" %}
+                                                                        selected
+                                                                {% endif %}>Minnesota
+                                                                </option>
+                                                                <option value="MS" {% if settings.state == "MS" %}
+                                                                        selected
+                                                                {% endif %}>Mississippi
+                                                                </option>
+                                                                <option value="MO" {% if settings.state == "MO" %}
+                                                                        selected
+                                                                {% endif %}>Missouri
+                                                                </option>
+                                                                <option value="MT" {% if settings.state == "MT" %}
+                                                                        selected
+                                                                {% endif %}>Montana
+                                                                </option>
+                                                                <option value="NE" {% if settings.state == "NE" %}
+                                                                        selected
+                                                                {% endif %}>Nebraska
+                                                                </option>
+                                                                <option value="NV" {% if settings.state == "NV" %}
+                                                                        selected
+                                                                {% endif %}>Nevada
+                                                                </option>
+                                                                <option value="NB" {% if settings.state == "NB" %}
+                                                                        selected
+                                                                {% endif %}>New Brunswick
+                                                                </option>
+                                                                <option value="NH" {% if settings.state == "NH" %}
+                                                                        selected
+                                                                {% endif %}>New Hampshire
+                                                                </option>
+                                                                <option value="NJ" {% if settings.state == "NJ" %}
+                                                                        selected
+                                                                {% endif %}>New Jersey
+                                                                </option>
+                                                                <option value="NM" {% if settings.state == "NM" %}
+                                                                        selected
+                                                                {% endif %}>New Mexico
+                                                                </option>
+                                                                <option value="NY" {% if settings.state == "NY" %}
+                                                                        selected
+                                                                {% endif %}>New York
+                                                                </option>
+                                                                <option value="NL" {% if settings.state == "NL" %}
+                                                                        selected
+                                                                {% endif %}>Newfoundland
+                                                                </option>
+                                                                <option value="NC" {% if settings.state == "NC" %}
+                                                                        selected
+                                                                {% endif %}>North Carolina
+                                                                </option>
+                                                                <option value="ND" {% if settings.state == "ND" %}
+                                                                        selected
+                                                                {% endif %}>North Dakota
+                                                                </option>
+                                                                <option value="MP" {% if settings.state == "MP" %}
+                                                                        selected
+                                                                {% endif %}>Northern Mariana
+                                                                    Islands
+                                                                </option>
+                                                                <option value="NT" {% if settings.state == "NT" %}
+                                                                        selected
+                                                                {% endif %}>Northwest Territory
+                                                                </option>
+                                                                <option value="NS" {% if settings.state == "NS" %}
+                                                                        selected
+                                                                {% endif %}>Nova Scotia
+                                                                </option>
+                                                                <option value="NU" {% if settings.state == "NU" %}
+                                                                        selected
+                                                                {% endif %}>Nunavut
+                                                                </option>
+                                                                <option value="OH" {% if settings.state == "OH" %}
+                                                                        selected
+                                                                {% endif %}>Ohio
+                                                                </option>
+                                                                <option value="OK" {% if settings.state == "OK" %}
+                                                                        selected
+                                                                {% endif %}>Oklahoma
+                                                                </option>
+                                                                <option value="ON" {% if settings.state == "ON" %}
+                                                                        selected
+                                                                {% endif %}>Ontario
+                                                                </option>
+                                                                <option value="OR" {% if settings.state == "OR" %}
+                                                                        selected
+                                                                {% endif %}>Oregon
+                                                                </option>
+                                                                <option value="PA" {% if settings.state == "PA" %}
+                                                                        selected
+                                                                {% endif %}>Pennsylvania
+                                                                </option>
+                                                                <option value="PE" {% if settings.state == "PE" %}
+                                                                        selected
+                                                                {% endif %}>Prince Edward Island
+                                                                </option>
+                                                                <option value="PR" {% if settings.state == "PR" %}
+                                                                        selected
+                                                                {% endif %}>Puerto Rico
+                                                                </option>
+                                                                <option value="QC" {% if settings.state == "QC" %}
+                                                                        selected
+                                                                {% endif %}>Quebec
+                                                                </option>
+                                                                <option value="RI" {% if settings.state == "RI" %}
+                                                                        selected
+                                                                {% endif %}>Rhode Island
+                                                                </option>
+                                                                <option value="SK" {% if settings.state == "SK" %}
+                                                                        selected
+                                                                {% endif %}>Saskatchewan
+                                                                </option>
+                                                                <option value="SC" {% if settings.state == "SC" %}
+                                                                        selected
+                                                                {% endif %}>South Carolina
+                                                                </option>
+                                                                <option value="SD" {% if settings.state == "SD" %}
+                                                                        selected
+                                                                {% endif %}>South Dakota
+                                                                </option>
+                                                                <option value="TN" {% if settings.state == "TN" %}
+                                                                        selected
+                                                                {% endif %}>Tennessee
+                                                                </option>
+                                                                <option value="TX" {% if settings.state == "TX" %}
+                                                                        selected
+                                                                {% endif %}>Texas
+                                                                </option>
+                                                                <option value="UT" {% if settings.state == "UT" %}
+                                                                        selected
+                                                                {% endif %}>Utah
+                                                                </option>
+                                                                <option value="VT" {% if settings.state == "VT" %}
+                                                                        selected
+                                                                {% endif %}>Vermont
+                                                                </option>
+                                                                <option value="VI" {% if settings.state == "VI" %}
+                                                                        selected
+                                                                {% endif %}>Virgin Islands
+                                                                </option>
+                                                                <option value="VA" {% if settings.state == "VA" %}
+                                                                        selected
+                                                                {% endif %}>Virginia
+                                                                </option>
+                                                                <option value="WA" {% if settings.state == "WA" %}
+                                                                        selected
+                                                                {% endif %}>Washington
+                                                                </option>
+                                                                <option value="DC" {% if settings.state == "DC" %}
+                                                                        selected
+                                                                {% endif %}>Washington DC
+                                                                </option>
+                                                                <option value="WV" {% if settings.state == "WV" %}
+                                                                        selected
+                                                                {% endif %}>West Virginia
+                                                                </option>
+                                                                <option value="WI" {% if settings.state == "WI" %}
+                                                                        selected
+                                                                {% endif %}>Wisconsin
+                                                                </option>
+                                                                <option value="WY" {% if settings.state == "WY" %}
+                                                                        selected
+                                                                {% endif %}>Wyoming
+                                                                </option>
+                                                                <option value="YT" {% if settings.state == "YT" %}
+                                                                        selected
+                                                                {% endif %}>Yukon Territory
+                                                                </option>
+                                                            </select>
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="zipcode" id="zip" type="text"
+                                                                   class="form-control"
+                                                                   required="" placeholder="Zip"
+                                                                   value="{{ settings.zip | default_if_none:'' }}"
+                                                                   required>
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small> &nbsp; &nbsp; <small
+                                                                    id="zip_error"
+                                                                    class="text-danger d-none">Invalid ZipCode</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input class="form-control" type="tel" placeholder=""
+                                                                   id="phone" name="phone"
+                                                                   value="{{ settings.cell_phone | default_if_none:'' }}"
+                                                                   required>
+                                                            <input type="hidden" id="dial_code"
+                                                                   name="dial_code"
+                                                                   value="">
+                                                            <input mydata="0" type="hidden" id="is_validated"
+                                                                   name="is_validated"
+                                                                   value="valid">
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small> &nbsp; &nbsp; <small
+                                                                    id="phone_error"
+                                                                    class="text-danger d-none"></small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 mb-2">
+                                            <h5 class="xsite_snd_tab">Mailing Address</h5>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="fax" type="text" class="form-control"
+                                                                   placeholder="Fax">
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Optional)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input id="email" name="contact_email" type="email"
+                                                                   class="form-control"
+                                                                   placeholder="Contact Email"
+                                                                   value="{{ settings.user.email | default_if_none:'' }}"
+                                                                   required>
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Required)</small> &nbsp; &nbsp; <small
+                                                                    id="email_error"
+                                                                    class="text-danger d-none">Invalid Email</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="parent_website_url" type="text"
+                                                                   class="form-control" required=""
+                                                                   placeholder="Parent Website URL">
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Optional)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="google_analytics_tracking_code" type="text"
+                                                                   class="form-control" required=""
+                                                                   placeholder="Google Analytics Tracking Code">
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Optional)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 mb-2">
+                                            <h5 class="xsite_snd_tab">Website Settings </h5>
+
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="website_title" type="text" class="form-control"
+                                                                   placeholder="Website Title">
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Optional)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-1">
+                                                        <div>
+                                                            <input name="redirect_url" type="email" class="form-control"
+                                                                   placeholder="Redirect URL">
+                                                            <label class="mb-0"><small
+                                                                    class="text-muted">(Optional)</small></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <h3>Domain</h3>
+                                <fieldset>
+                                    <div class="col-md-12">
+                                        <h4 class="mt-0 header-title">5. Select a Domain Option</h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-radio mb-0">
+                                            <input type="radio" id="customRadio1" name="customRadio"
+                                                   class="custom-control-input" value="new_domain">
+                                            <label class="custom-control-label" for="customRadio1">I would like to
+                                                buy a domain</label>
+                                        </div>
+                                        <div id="new_domain" class="row" style="display:none;">
+                                            <div class="col-md-5">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">http://</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="domain1" id="domain1"
+                                                           onkeypress="return blockSpecialChar(event)"
+                                                           placeholder="Please enter a new non-existing domain here">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select id="price" name="price" class="custom-select form-control mb-2">
+                                                    <option value=".biz">.biz</option>
+                                                    <option selected="selected" value=".com">.com</option>
+                                                    <option value=".house">.house</option>
+                                                    <option value=".info">.info</option>
+                                                    <option value=".loan">.loan</option>
+                                                    <option value=".net">.net</option>
+                                                    <option value=".one">.one</option>
+                                                    <option value=".properties">.properties</option>
+                                                    <option value=".solutions">.solutions</option>
+                                                    <option value=".uno">.uno</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="col-md-4"></div>
+
+                                            <div class="col-md-8">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="">Duration</span>
+                                                    </div>
+                                                    <select class="custom-select form-control" id="duration"
+                                                            name="duration">
+                                                        <option value="1">1 year</option>
+                                                        <option selected="selected" value="2">2 years</option>
+                                                        <option value="3">3 years</option>
+                                                        <option value="4">4 years</option>
+                                                        <option value="5">5 years</option>
+                                                        <option value="6">6 years</option>
+                                                        <option value="7">7 years</option>
+                                                        <option value="8">8 years</option>
+                                                        <option value="9">9 years</option>
+                                                        <option value="10">10 years</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="search" type="button" class="btn btn-primary w-sm mb-2"
+                                                        onclick="javascript:Check_domain_Availability2()">Search
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio2" name="customRadio"
+                                                   class="custom-control-input" value="existing_domain">
+                                            <label class="custom-control-label" for="customRadio2">I would like to
+                                                use my own domain</label>
+                                        </div>
+                                        <div id="existing_domain" class="row" style="display:none;">
+                                            <div class="col-md-5">
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">http://</span>
+                                                    </div>
+                                                    <input type="text" class="form-control" name="domain2" id="domain2"
+                                                           onkeypress="return blockSpecialChar(event)"
+                                                           placeholder="Enter your domain, do not include www.">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select id="extension" name="extension"
+                                                        class="custom-select form-control mb-2">
+                                                    <option value=".ag">.ag</option>
+                                                    <option value=".asia">.asia</option>
+                                                    <option value=".at">.at</option>
+                                                    <option value=".bargains">.bargains</option>
+                                                    <option value=".be">.be</option>
+                                                    <option value=".biz">.biz</option>
+                                                    <option value=".bz">.bz</option>
+                                                    <option value=".ca">.ca</option>
+                                                    <option value=".casa">.casa</option>
+                                                    <option value=".cash">.cash</option>
+                                                    <option value=".cc">.cc</option>
+                                                    <option value=".club">.club</option>
+                                                    <option value=".cn">.cn</option>
+                                                    <option value=".co">.co</option>
+                                                    <option value=".co.com">.co.com</option>
+                                                    <option value=".co.in">.co.in</option>
+                                                    <option value=".co.nz">.co.nz</option>
+                                                    <option value=".co.uk">.co.uk</option>
+                                                    <option selected="selected" value=".com">.com</option>
+                                                    <option value=".com.ag">.com.ag</option>
+                                                    <option value=".com.au">.com.au</option>
+                                                    <option value=".com.bz">.com.bz</option>
+                                                    <option value=".com.cn">.com.cn</option>
+                                                    <option value=".com.tw">.com.tw</option>
+                                                    <option value=".company">.company</option>
+                                                    <option value=".de">.de</option>
+                                                    <option value=".direct">.direct</option>
+                                                    <option value=".estate">.estate</option>
+                                                    <option value=".eu">.eu</option>
+                                                    <option value=".expert">.expert</option>
+                                                    <option value=".firm.in">.firm.in</option>
+                                                    <option value=".fm">.fm</option>
+                                                    <option value=".forsale">.forsale</option>
+                                                    <option value=".gen.in">.gen.in</option>
+                                                    <option value=".global">.global</option>
+                                                    <option value=".group">.group</option>
+                                                    <option value=".gs">.gs</option>
+                                                    <option value=".guru">.guru</option>
+                                                    <option value=".help">.help</option>
+                                                    <option value=".holdings">.holdings</option>
+                                                    <option value=".house">.house</option>
+                                                    <option value=".how">.how</option>
+                                                    <option value=".idv.tw">.idv.tw</option>
+                                                    <option value=".in">.in</option>
+                                                    <option value=".ind.in">.ind.in</option>
+                                                    <option value=".info">.info</option>
+                                                    <option value=".io">.io</option>
+                                                    <option value=".jobs">.jobs</option>
+                                                    <option value=".jp">.jp</option>
+                                                    <option value=".life">.life</option>
+                                                    <option value=".llc">.llc</option>
+                                                    <option value=".loan">.loan</option>
+                                                    <option value=".me">.me</option>
+                                                    <option value=".me.uk">.me.uk</option>
+                                                    <option value=".mobi">.mobi</option>
+                                                    <option value=".money">.money</option>
+                                                    <option value=".ms">.ms</option>
+                                                    <option value=".net">.net</option>
+                                                    <option value=".net.ag">.net.ag</option>
+                                                    <option value=".net.bz">.net.bz</option>
+                                                    <option value=".net.cn">.net.cn</option>
+                                                    <option value=".net.in">.net.in</option>
+                                                    <option value=".net.nz">.net.nz</option>
+                                                    <option value=".nu">.nu</option>
+                                                    <option value=".one">.one</option>
+                                                    <option value=".online">.online</option>
+                                                    <option value=".org">.org</option>
+                                                    <option value=".org.ag">.org.ag</option>
+                                                    <option value=".org.cn">.org.cn</option>
+                                                    <option value=".org.in">.org.in</option>
+                                                    <option value=".org.nz">.org.nz</option>
+                                                    <option value=".org.tw">.org.tw</option>
+                                                    <option value=".org.uk">.org.uk</option>
+                                                    <option value=".pro">.pro</option>
+                                                    <option value=".properties">.properties</option>
+                                                    <option value=".property">.property</option>
+                                                    <option value=".realestate">.realestate</option>
+                                                    <option value=".realtor">.realtor</option>
+                                                    <option value=".services">.services</option>
+                                                    <option value=".site">.site</option>
+                                                    <option value=".solutions">.solutions</option>
+                                                    <option value=".space">.space</option>
+                                                    <option value=".support">.support</option>
+                                                    <option value=".tc">.tc</option>
+                                                    <option value=".tech">.tech</option>
+                                                    <option value=".tk">.tk</option>
+                                                    <option value=".today">.today</option>
+                                                    <option value=".tv">.tv</option>
+                                                    <option value=".tw">.tw</option>
+                                                    <option value=".uno">.uno</option>
+                                                    <option value=".us">.us</option>
+                                                    <option value=".vegas">.vegas</option>
+                                                    <option value=".vg">.vg</option>
+                                                    <option value=".vip">.vip</option>
+                                                    <option value=".website">.website</option>
+                                                    <option value=".world">.world</option>
+                                                    <option value=".ws">.ws</option>
+                                                    <option value=".xyz">.xyz</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <button id="OK" type="button" class="btn btn-primary w-sm mb-2"
+                                                        onclick="javascript:Check_domain_Availability()">Ok
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                        <div class="alert alert-primary">
+                                            <strong>Note!</strong> Please enter correct domain name format e.g. "google"
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <h3>Review</h3>
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4 class="mt-0 header-title">6. Review</h4>
+                                        </div>
+                                        <div class="col-md-12 text-center mb-5 mt-5">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 text-center">
+                                            <!-- <h4 class="mt-0"> Building your HTML5 Website</h4> -->
+                                            <p>
+                                                It will take a few minutes to prepare your site.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+            <!-- container-fluid -->
+        </div>
+    </div>
+
+    <!-- Delete popup -->
+    <div class="modal fade" id="domain_purchase_confirmation_modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Confirm!
+                </div>
+                <div class="modal-body">
+                    Do you really want to purchase this domain at <strong id="domain_price"></strong><strong>
+                    USD</strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark waves-effect waves-light" data-dismiss="modal">Cancel
+                    </button>
+                    <button id="purchase_domain_btn" type="button" class="btn btn-primary waves-effect waves-light">
+                        Purchase
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extrajs %}
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+    <script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/prospectx/xsite_add_site.js' %}"></script>
+
+     <script>
+        let conf = {};
+        osetup = new Xsite_AddSite_Setup(conf);
+    </script>
+
+{% endblock %}

@@ -1,0 +1,677 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">New Transactions</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">New Transactions</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+ 
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="my_form" enctype="multipart/form-data" action="add_title_company" method="post">{% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Property Address?</label>
+                                        <div>
+                                            <input placeholder="Enter Property Address" required class="form-control"  name="property_address" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Status</label>
+                                    <div class="form-group">
+                                        <select name="status"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Pending</option>
+                                            <option value="" >Marketing</option>
+                                            <option value="" >Follow Up / Offer</option>
+                                            <option value="" >Schedule and showing</option>
+                                            <option value="" >Offer Accepted</option>
+                                            <option value="" >Assigned </option>
+                                            <option value="" >$$$Closed$$$</option>
+                                            <option value="" >DEAD</option>
+                                            <option value="" >Renegotiate!</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Potential</label>
+                                    <div class="form-group">
+                                        <select name="potential"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Wholesale</option>
+                                            <option value="" >Asset</option>
+                                            <option value="" >Fix and Flip</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Wait For Refund</label>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" data-toggle="toggle">
+                                            Refund Pending
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Seller</label>
+                                    <div class="form-group">
+                                        <select name="seller"  class="form-control select2">
+                                            <option value="" selected></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Transaction Manager</label>
+                                    <div class="form-group">
+                                        <select name="transaction_manager"  class="form-control select2">
+                                            <option value="" selected></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Pending Stage</label>
+                                    <div class="form-group">
+                                        <select name="pending_stage"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Received Contract</option>
+                                            <option value="" >Contract Send to Title Company</option>
+                                            <option value="" >EMD Wired</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>HOA</label>
+                                    <div class="form-group">
+                                        <select name="hoa"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >YES</option>
+                                            <option value="" >NO</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Preliminary Received</label>
+                                    <div class="form-group">
+                                        <select name="preliminary_received"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >YES</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Reason For Pending</label>
+                                        <textarea required="" class="form-control summernote" name="reason_for_pending"> </textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Purchase Contract Ratification Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="purchase_contract_date" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="purchase_contract_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Contract Close Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="contract_closing_date" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="contract_closing_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Contract Price</label>
+                                        <div>
+                                            <input placeholder="Enter Contract Price" required class="form-control"  name="contract_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Original Purchase EMD Amount</label>
+                                        <div>
+                                            <input placeholder="Enter Original Purchase EMD Price" required class="form-control"  name="original_purchase_emd_amount" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Title Company</label>
+                                    <div class="form-group">
+                                        <select name="title_company"  class="form-control select2">
+                                            <option value="" selected></option>
+
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Wired Confirmation Number</label>
+                                        <div>
+                                            <input placeholder="Enter Wired Confirmation Number" required class="form-control"  name="wired_confirmation_number" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Title Actions</label>
+                                    <div class="form-group">
+                                        <select name="title_actions"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Email Contract To Title</option>
+                                            <option value="" >Email Wired Information to title</option>
+
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Marketing Stage</label>
+                                    <div class="form-group">
+                                        <select name="marketing_stage"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Not Started</option>
+                                            <option value="" >Pending</option>
+                                            <option value="" >Offer Accepted</option>\
+                                            <option value="" >Done! - Buyer Found</option>
+                                            <option value="" >Not Applicable</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Marketing Price</label>
+                                        <div>
+                                            <input placeholder="Enter Marketing Price" required class="form-control"  name="marketing_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Website/Picture Address</label>
+                                        <div>
+                                            <input placeholder="Type or paste web address" required class="form-control"  name="seller_name" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Showing Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="showing_date" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="showing_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Deadline To Accept Offer</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="deadline_to_accept_offer" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="deadline_to_accept_offer" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Showing</label>
+                                    <div class="form-group">
+                                        <select name="showing"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Showing Complete</option>
+                                            <option value="" >Not Showing needed</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Marketing Stage</label>
+                                    <div class="form-group">
+                                        <select name="marketing_stage"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >*****SEND TO SALES*****</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Assigned Stage</label>
+                                    <div class="form-group">
+                                        <select name="assigned_stage"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Assigned sent</option>
+                                            <option value="" >Assignment Received</option>
+                                            <option value="" >Assignment Sent To Title Company</option>\
+                                            <option value="" >EMD Deposit</option>
+                                            <option value="" >Set Closing Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Final Gross Sales Price</label>
+                                        <div>
+                                            <input placeholder="Enter Final Gross Sales Price" required class="form-control"  name="final_gross_sales_price" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Closing Date </label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="closing_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Finder's Fee</label>
+                                        <div>
+                                            <input placeholder="Enter Finder Fee" required class="form-control"  name="finder_fee" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Buyer Contact Info</label>
+                                    <div class="form-group">
+                                        <select name="buyer_contact_info"  class="form-control select2">
+                                            <option value="" selected></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Buyer's Entity Name</label>
+                                        <div>
+                                            <input placeholder="Enter buyer entity name" required class="form-control"  name="buyer_entity_name" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Assignment EMD Amount</label>
+                                        <div>
+                                            <input placeholder="Enter Assignment EMD Amount" required class="form-control"  name="assignment_emd_mount" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Non-refundable earnest money shall be deposited at</label>
+                                        <div>
+                                            <input placeholder="Enter Non-refundable earnest money shall be deposited at" required class="form-control"  name="non_refundable" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Located</label>
+                                        <div>
+                                            <input placeholder="Enter Location" required class="form-control"  name="located" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>EMD Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="emd_date" type="text">
+                                                <strong> to </strong>
+                                                <input  class="form-control datetimepicker"  name="emd_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Assignment Fee</label>
+                                        <div>
+                                            <input placeholder="Enter Assignment Fee" required class="form-control"  name="assignment_fee" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Other Terms</label>
+                                        <textarea required="" id="info" class="form-control summernote" name="other_terms"> </textarea>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Contract Actions</label>
+                                    <div class="form-group">
+                                        <select name="contract_actions"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Generate Assignment Contract</option>
+                                            <option value="" >Email Assignment Contract</option>
+                                            <option value="" >Email Assignment Contract To Title</option>\
+                                            <option value="" >EMD Deposit</option>
+                                            <option value="" >Set Closing Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Notes</label>
+                                        <textarea required="" class="form-control summernote" name="notes"> </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Actual Closing Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="actual_closing_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Misc Expenses</label>
+                                        <div>
+                                            <input placeholder="Enter Misc Expenses" required class="form-control"  name="Misc Expenses" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Explanation of Misc Expenses</label>
+                                        <textarea required="" class="form-control summernote" name="explanation_of_misc_expenses"> </textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Actual Profit</label>
+                                        <div>
+                                            <input placeholder="" required class="form-control"  name="actual_profit" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Closing Stage</label>
+                                    <div class="form-group">
+                                        <select name="contract_actions"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Closed</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Lead Source</label>
+                                    <div class="form-group">
+                                        <select name="lead_source"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="">Telemarketing</option>
+                                            <option value="">Direct Mail</option>
+                                            <option value="">PPC</option>
+                                            <option value="">Social</option>
+                                            <option value=""></option>
+                                            <option value="">Organic</option>
+                                            <option value="">Generic</option>
+                                            <option value="">Referral</option>
+                                            <option value=""></option>
+                                            <option value="">SMS</option>
+                                            <option value="">RVM</option>
+                                            <option value="">JV</option>
+                                            <option value="">Bandit Signs</option>
+                                            <option value="">Expired Listing</option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Contract Delivery</label>
+                                    <div class="form-group">
+                                        <select name="contract_delivery"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="">eSignature</option>
+                                            <option value="">Email</option>
+                                            <option value="">in person</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Campaign</label>
+                                    <div class="form-group">
+                                        <select name="campaign"  class="form-control select2">
+                                            <option value="" selected></option>
+
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>ACQ Sys Ref</label>
+                                        <div>
+                                            <input placeholder="" required class="form-control"  name="acq_sys_ref" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Dispo Sys Ref </label>
+                                        <div>
+                                            <input placeholder="" required class="form-control"  name="sispo_sys_ref" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>File</label><br>
+                                        <input id="image" name="image" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Tags</label>
+                                    <div class="form-group">
+                                        <select name="tags"  class="form-control select2">
+                                            <option value="" selected></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <input id="sub_btn" class="btn btn-outline-primary waves-effect waves-light" type="submit">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'm/d/y H:m',
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+  </script>
+
+
+
+<script type="text/javascript">
+$('#my_form').on('submit', function(){
+       $("#sub_btn").hide();
+       $('#sub_btn').delay(2000).show(0);
+});
+
+$(document).ready(function() {
+    $("#hsh_off").hide();
+    $('#resp').hide();
+    $('#tl_units').hide();
+    $('#tch').hide();
+});
+
+$('#planer').on('change', function(){
+    let plan = $('#planer').val();
+    if (plan !== "") {
+        $("#hsh_off").show();
+        $('#resp').show();
+        $('#tl_units').show();
+        $('#tch').show();
+    } else {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    }
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,996 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Import Prospects</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Import Prospects</li>
+                        </ol>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <a target="_blank" class="btn btn-primary waves-effect waves-light float-right ml-1 add_single_prospect_media"
+                           href="http://app.listiva.com/">
+                            <i class="ion ion-md-cash"></i> Purchase List
+                        </a>
+                        <a class="btn btn-primary waves-effect waves-light float-right ml-1 add_single_prospect_media"
+                           href="{% url 'prospects' %}">
+                            <i class="ion ion-md-cloud-upload"></i> Import Prospects
+                        </a>
+                        <a class="btn btn-primary waves-effect waves-light float-right add_single_prospect_media"
+                           href="{% url 'add_new_prospect' %}">
+                            <i class="ion ion-md-add"></i> Add Single Prospect
+                        </a>
+                    </div>
+
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <!-- Nav tabs -->
+
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div id="accordion">
+                                <!--Upload file Start -->
+                                <div class="card mb-1 mt-3">
+                                    <div class="card-header p-3" id="headingOne">
+
+                                        <a href="#" id="hit_api" class="text-dark" data-toggle="collapse"
+                                           aria-expanded="true"
+                                           aria-controls="collapseOne">
+                                            <h4 class="mt-0 header-title">Upload your file</h4>
+                                        </a>
+
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                         data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p class="mb-1">
+                                                        <strong> Select a file containing your address to
+                                                            import. </strong>
+                                                    </p>
+                                                    <div>
+                                                        <form action="{% url 'upload_file' %}" id="upload-widget"
+                                                              class="dropzone" enctype="multipart/form-data">
+                                                            {% csrf_token %}
+                                                            <div class="fallback">
+                                                                <input name="file" id="file" type="file">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    <div class=" mt-4" id="hide_accrod_1_button_group"
+                                                         style="display: none">
+                                                        <button type="button"
+                                                                class="btn btn-outline-dark waves-effect waves-light"
+                                                                onclick="clear_data()">Clear
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-primary waves-effect waves-light"
+                                                                id="open_accord_2">Next
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Upload file Start-->
+                                <div class="card mb-1">
+                                    <div class="card-header p-3" id="headingTwo">
+
+                                        <a href="#" class="text-dark collapsed" data-toggle="collapse"
+                                           aria-expanded="false" aria-controls="collapseTwo">
+                                            <h4 class="mt-0 mb-0 header-title"> Mapping data</h4>
+                                        </a>
+
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                         data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <p class="mb-1">
+                                                            <strong>Select Spreadsheet Tab</strong>
+                                                        </p>
+                                                        <select multiple="" class="form-control"
+                                                                id="exampleFormControlSelect2" autocomplete="on">
+
+
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4" id="append_source">
+                                                    <p class="mb-1">
+                                                        <strong>Source Fields</strong>
+                                                    </p>
+                                                    <div class="source-field">
+                                                        <input hidden value="{{ custom_fields.custom1 }}"
+                                                               id="hid_custom1" name="custom1" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom2 }}"
+                                                               id="hid_custom2" name="custom2" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom3 }}"
+                                                               id="hid_custom3" name="custom3" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom4 }}"
+                                                               id="hid_custom4" name="custom4" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom5 }}"
+                                                               id="hid_custom5" name="custom5" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom6 }}"
+                                                               id="hid_custom6" name="custom6" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom7 }}"
+                                                               id="hid_custom7" name="custom7" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom8 }}"
+                                                               id="hid_custom8" name="custom8" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom9 }}"
+                                                               id="hid_custom9" name="custom9" type="text"
+                                                               class="form-control">
+                                                        <input hidden value="{{ custom_fields.custom10 }}"
+                                                               id="hid_custom10" name="custom10" type="text"
+                                                               class="form-control">
+
+                                                        <input class="form-control form-control-sm mb-1" type="text"
+                                                               placeholder="Website urls" readonly="readonly">
+                                                        <span class="float-right text-success source-field-icon"><i
+                                                                class="mdi mdi-check-outline"></i> </span>
+                                                    </div>
+                                                    <div class="source-field">
+                                                        <input class="form-control form-control-sm mb-1" type="text"
+                                                               placeholder="Website urls" readonly="readonly">
+                                                        <span class="float-right text-success source-field-icon"><i
+                                                                class="mdi mdi-check-outline"></i> </span>
+                                                    </div>
+                                                    <div class="source-field">
+                                                        <input class="form-control form-control-sm mb-1" type="text"
+                                                               placeholder="Website urls" readonly="readonly">
+                                                        <span class="float-right text-success source-field-icon"><i
+                                                                class="mdi mdi-check-outline"></i> </span>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="col-md-4" id="load_destination_field">
+                                                    <!--<p class="mb-1"><strong>Destination Fields</strong></p>-->
+                                                    <!--<select class="form-control">-->
+                                                    <!--<option value="">Do not Import</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="mailing_full_name"> Full Name</option>-->
+                                                    <!--<option value="mailing_first_name"> First Name</option>-->
+                                                    <!--<option value="mailing_last_name"> Last Name</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="property_address" style="font-weight: bold;">Property Address</option>-->
+                                                    <!--<option value="property_address_2"> &nbsp; Property Address 2</option>-->
+                                                    <!--<option value="property_city" style="font-weight: bold;">Property City</option>-->
+                                                    <!--<option value="property_state" style="font-weight: bold;">Property State</option>-->
+                                                    <!--<option value="property_zip" style="font-weight: bold;">Property Zip</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="mailing_address"> Mailing Address</option>-->
+                                                    <!--<option value="mailing_address_2"> Mailing Address 2</option>-->
+                                                    <!--<option value="mailing_city"> &nbsp;Mailing City</option>-->
+                                                    <!--<option value="mailing_state"> &nbsp;Mailing State</option>-->
+                                                    <!--<option value="mailing_zip"> &nbsp;Mailing Zip</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="phone_other"> phone_other</option>-->
+                                                    <!--<option value="phone cell"> phone cell</option>-->
+                                                    <!--<option value="phone_landline"> Phone Landline</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="email"> Email1</option>-->
+                                                    <!--<option value="email2"> Email2</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="notes"> Notes</option>-->
+                                                    <!--<option value="deceased"> Deceased</option>-->
+                                                    <!--<option value="year_built"> Year Built</option>-->
+                                                    <!--<option value="dnc"> Do Not Call</option>-->
+                                                    <!--<option value="opt_out"> opt_out</option>-->
+                                                    <!--<option value="phone_other"> phone_other</option>-->
+                                                    <!--<option value="list_status"> status</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--<option value="custom_1"> custom 1</option>-->
+                                                    <!--<option value="custom_2"> custom 2</option>-->
+                                                    <!--<option value="custom_3"> custom 3</option>-->
+                                                    <!--<option disabled="">──────────</option>-->
+                                                    <!--</select>-->
+
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class=" mt-4">
+                                                        <button type="button"
+                                                                class="btn btn-outline-dark waves-effect waves-light"
+                                                                id="back_accord_1">Back
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-primary waves-effect waves-light"
+                                                                id="open_accord_3">Next
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-0">
+                                    <div class="card-header p-3" id="headingThree">
+
+                                        <a href="#collapseThree1" class="text-dark collapsed" data-toggle="collapse"
+                                           aria-expanded="false" aria-controls="collapseThree">
+                                            <h4 class="mt-0 mb-0 header-title"> Select a list</h4>
+                                        </a>
+
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                         data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <!-- Nav tabs -->
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" data-toggle="tab"
+                                                               href="#selectlist"
+                                                               role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="fas fa-home"></i></span>
+                                                                <span class="d-none d-sm-block">Select a list</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" href="#createlist"
+                                                               role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="far fa-user"></i></span>
+                                                                <span class="d-none d-sm-block">Create a list</span>
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+
+                                                    <!-- Tab panes -->
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active p-3" id="selectlist"
+                                                             role="tabpanel">
+                                                            <p class="mb-1">
+                                                                <strong>Import Existing List:</strong>
+                                                            </p>
+                                                            <select id="select_list_id" class="form-control">
+
+
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="tab-pane p-3" id="createlist" role="tabpanel">
+                                                            <p class="mb-1">
+                                                                <strong> List Name:</strong>
+                                                            </p>
+                                                            <input class="form-control" type="text" id="enter_list_name"
+                                                                   placeholder="Enter list name"
+                                                                   id="example-text-input"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mt-4">
+                                                    <p class="mb-1">
+                                                        <strong>Add tag </strong>
+                                                    </p>
+                                                    <!-- Nav tabs -->
+                                                    <ul class="nav nav-tabs" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" data-toggle="tab"
+                                                               id="select_a_tag" href="#selecttag"
+                                                               role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="fas fa-home"></i></span>
+                                                                <span class="d-none d-sm-block">Select a tag</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" data-toggle="tab" id="create_a_tag"
+                                                               href="#createtag"
+                                                               role="tab">
+                                                            <span class="d-block d-sm-none"><i
+                                                                    class="far fa-user"></i></span>
+                                                                <span class="d-none d-sm-block">Create a tag</span>
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+
+                                                    <!-- Tab panes -->
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active p-3" id="selecttag" role="tabpanel">
+                                                            <p class="mb-1">
+                                                                <strong>Select Existing Tag:</strong>
+                                                            </p>
+                                                            <select id="select_tag_existing" class="form-control">
+
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="tab-pane p-3" id="createtag" role="tabpanel">
+                                                            <p class="mb-1">
+                                                                <strong>Tag Name:</strong>
+                                                            </p>
+                                                            <input class="form-control" type="text"
+                                                                   placeholder="Enter tag name" id="enter_tag_name"/>
+
+                                                            <p class="mb-1">
+                                                                <strong>Tag Description:</strong>
+                                                            </p>
+                                                            <textarea class="form-control" maxlength="225" rows="2"
+                                                                      placeholder="Add Tag Description"
+                                                                      id="enter_tag_description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 mt-4">
+                                                    <p class="mb-1">
+                                                        <strong>Opt Out All Addresses/Records:</strong>
+                                                    </p>
+                                                    <select id="select_opt_out" id="opt_out_all" class="form-control">
+                                                        <option value="no">No</option>
+                                                        <option value="yes">Yes</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12 mt-4">
+                                                    <p class="mb-1">
+                                                        <strong>Skip Traced:</strong>
+                                                    </p>
+                                                    <select id="select_skip_traced"class="form-control">
+                                                        <option value="no">No</option>
+                                                        <option value="yes">Yes</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class=" mt-4">
+                                                        <button type="button"
+                                                                class="btn btn-outline-dark waves-effect waves-light"
+                                                                id="back_accord_2">Back
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-primary waves-effect waves-light"
+                                                                id="submit_data">Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+{% endblock %}
+
+{% block extrajs %}
+    <link href="{% static 'assets/custom_css/toastr.new.min.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static 'assets/custom_js/toastr.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            // executes when HTML-Document is loaded and DOM is ready
+            var html = '<option value="select">Select</option>';
+            var html1 = '<option value="select">Select</option>';
+            $.ajax({
+                url: 'get_all_list_and_tags_by_user_id',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.list);
+                    if (data.list.length > 0) {
+                        for (var i = 0; i < data.list.length; i++) {
+                            html += '<option value="' + data.list[i].id + '">' + data.list[i].list_name + '</option>'
+                        }
+                    }
+
+                    if (data.tag.length > 0) {
+                        for (var i = 0; i < data.tag.length; i++) {
+                            html1 += '<option value="' + data.tag[i].id + '">' + data.tag[i].tag_name + '</option>'
+                        }
+                    }
+                    $("#select_list_id").html(html);
+                    $("#select_tag_existing").html(html1);
+
+                }
+            });
+        });
+
+        toastr.options = {
+            "progressBar": true,
+            "positionClass": "toast-bottom-right",
+        };
+    </script>
+    <script>
+        var form_dictionary = {};
+        var address_city_state_array = 0;
+        var mapping_array = [
+            "fullname",
+            "firstname",
+            "lastname",
+            "propertyaddress",
+            "propertyaddress2",
+            "propertycity",
+            "propertystate",
+            "propertyzip",
+            "mailingaddress",
+            "mailingaddress2",
+            "mailingcity",
+            "mailingstate",
+            "mailingzip",
+            "email1",
+            "email2",
+            "phone_other",
+            "phonecell",
+            "Phonelandline",
+            "Phone1",
+            "Phone2",
+            "Phone3",
+            "Phone4",
+            "Phone5",
+            "Phone6",
+            "Phone7",
+            "Phone8",
+            "Phone9",
+            "Phone10",
+            "notes",
+            "deceased",
+            "yearbuilt",
+            "donotcall",
+            "phone_other",
+            "custome1",
+            "custome2",
+            "custome3",
+            "custome4",
+            "custome5",
+            "custome6",
+            "custome7",
+            "custome8",
+            "custome9",
+            "custome10",
+        ];
+        Dropzone.options.uploadWidget = {
+            url: "upload_file",
+            acceptedFiles: '.csv,.xlsx,.xls,.xlsm',
+            maxFilesize: 1000, // MB
+            init: function (file) {
+                this.on("addedfile", function () {
+                    $(".dz-message").css("display", "none");
+                    console.log(this.files.length);
+                    var index = this.files.length;
+                    var new_index = index - 2;
+                    if (this.files.length > 1) {
+                        console.log(this.files);
+                        console.log("index ", new_index);
+                        console.log(this.files[new_index]);
+                        this.removeFile(this.files[new_index]);
+                        console.log(this.files);
+                    }
+                    //if ( this.files[1] != null ){
+                    //this.removeFile( this.files[0] );
+                    //}
+                    //});
+                });
+            },
+            success: function (file, response) {
+                if (response.sheet_name === false) {
+                    toastr.error('File is Corrupt, try uploading some other File', 'Error');
+                } else {
+                console.log(file);
+                var resp = JSON.parse(file.xhr.response);
+                console.log(JSON.parse(file.xhr.response));
+                console.log(resp.header.length);
+                address_city_state_array = resp.header.length;
+                load_sheet_name(resp);
+                load_destination_field(resp);
+                load_source_field(resp);
+
+                form_dictionary['file_name'] = resp.file_name;
+                $("#hide_accrod_1_button_group").show();
+                if (file.previewElement) {
+                    console.log("enter in preview element");
+                    //file.previewElement.innerHTML = "";
+                    return file.previewElement.classList.add("dz-success");
+                }
+                }
+            },
+            error: function (file, message) {
+                console.log("enter in error file.php ", this.files.length);
+                var node, _i, _len, _ref, _results;
+                if (file.previewElement) {
+                    file.previewElement.classList.add("dz-error");
+                    if (typeof message !== "String" && message.error) {
+                        message = message.error;
+                    }
+                    _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+                    _results = [];
+                    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                        node = _ref[_i];
+                        _results.push(node.textContent = message);
+                    }
+                    return _results;
+                }
+            },
+            removedfile: function (file) {
+                $("#hide_accrod_1_button_group").hide();
+
+                console.log("enter in remove file import prospect.html");
+                var _ref;
+                if (file.previewElement) {
+                    if ((_ref = file.previewElement) != null) {
+                        _ref.parentNode.removeChild(file.previewElement);
+                    }
+                }
+                return this._updateMaxFilesReachedClass();
+            },
+        };
+
+        function load_sheet_name(response) {
+            var html = "";
+            if (response.sheet_name.length == 1) {
+                console.log("======laoded sheet name is =========", response.sheet_name[0])
+                form_dictionary['sheet_name'] = response.sheet_name[0]
+                for (var i = 0; i < response.sheet_name.length; i++) {
+                    html += '<option  selected="selected"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                }
+                $("#exampleFormControlSelect2").html(html)
+            } else {
+                for (var i = 0; i < response.sheet_name.length; i++) {
+                    if (i == 0) {
+                        form_dictionary['sheet_name'] = response.sheet_name[i]
+                        html += '<option selected="selected" onclick="select_sheet_name(\'' + response.file_name + '\',\'' + response.sheet_name[i] + '\')"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                    } else {
+                        html += '<option onclick="select_sheet_name(\'' + response.file_name + '\',\'' + response.sheet_name[i] + '\')"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                    }
+
+                }
+                $("#exampleFormControlSelect2").html(html)
+            }
+
+        }
+
+        function select_sheet_name(file_name, sheet_name) {
+            form_dictionary['sheet_name'] = sheet_name;
+            $.ajax
+            ({
+                url: 'get_col_by_sheet_name',
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    'file_name': file_name,
+                    'sheet_name': sheet_name
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    $("#load_destination_field").empty()
+                    $("#append_source").empty()
+                    address_city_state_array = data.header.length
+                    load_destination_field(data);
+                    load_source_field(data);
+                }
+            });
+        }
+
+        function load_destination_field(response) {
+            custom1 = $("#hid_custom1").val();
+            custom2 = $("#hid_custom2").val();
+            custom3 = $("#hid_custom3").val();
+            custom4 = $("#hid_custom4").val();
+            custom5 = $("#hid_custom5").val();
+            custom6 = $("#hid_custom6").val();
+            custom7 = $("#hid_custom7").val();
+            custom8 = $("#hid_custom8").val();
+            custom9 = $("#hid_custom9").val();
+            custom10 = $("#hid_custom10").val();
+
+            var html = "";
+            html += '<p class="mb-1"><strong>Destination Fields</strong></p>';
+            console.log("enter in sucess php.js,", response);
+            for (var i = 0; i < response.header.length; i++) {
+                console.log(i);
+                var id = "match_selected_tick_" + i;
+                html += '<select id=' + id + ' onclick="get_old_value(this)" onchange="select_call(\'' + i + '\',\'' + id + '\',\'' + this + '\' )" class="form-control form-control-sm mb-1">\n' +
+                    '                                                            <option value="not_import">Do not Import</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="fullname"> Full Name</option>\n' +
+                    '                                                            <option value="firstname"> First Name</option>\n' +
+                    '                                                            <option value="lastname"> Last Name</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="propertyaddress" style="font-weight: bold;">Prospect Address</option>\n' +
+                    '                                                            <option value="propertyaddress2"> &nbsp; Prospect Address 2</option>\n' +
+                    '                                                            <option value="propertycity" style="font-weight: bold;">Prospect City</option>\n' +
+                    '                                                            <option value="propertystate" style="font-weight: bold;">Prospect State</option>\n' +
+                    '                                                            <option value="propertyzip" style="font-weight: bold;">Prospect Zip</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="mailingaddress"> Mailing Address</option>\n' +
+                    '                                                            <option value="mailingaddress2"> Mailing Address 2</option>\n' +
+                    '                                                            <option value="mailingcity"> &nbsp;Mailing City</option>\n' +
+                    '                                                            <option value="mailingstate"> &nbsp;Mailing State</option>\n' +
+                    '                                                            <option value="mailingzip"> &nbsp;Mailing Zip</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="phoneother"> phone_other</option>\n' +
+                    '                                                            <option value="phonecell"> phone cell</option>\n' +
+                    '                                                            <option value="phonelandline"> Phone Landline</option>\n' +
+                    '                                                            <option value="phone1"> Phone 1</option>\n' +
+                    '                                                            <option value="phone2"> Phone 2</option>\n' +
+                    '                                                            <option value="phone3"> Phone 3</option>\n' +
+                    '                                                            <option value="phone4"> Phone 4</option>\n' +
+                    '                                                            <option value="phone5"> Phone 5</option>\n' +
+                    '                                                            <option value="phone6"> Phone 6</option>\n' +
+                    '                                                            <option value="phone7"> Phone 7</option>\n' +
+                    '                                                            <option value="phone8"> Phone 8</option>\n' +
+                    '                                                            <option value="phone9"> Phone 9</option>\n' +
+                    '                                                            <option value="phone10"> Phone 10</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="email"> Email1</option>\n' +
+                    '                                                            <option value="email2"> Email2</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="notes"> Notes</option>\n' +
+                    '                                                            <option value="deceased"> Deceased</option>\n' +
+                    '                                                            <option value="yearbuilt"> Year Built</option>\n' +
+                    '                                                            <option value="donotcall"> Do Not Call</option>\n' +
+                    '                                                            <option value="opt_out"> opt_out</option>\n' +
+                    '                                                            <option value="phoneother"> phone_other</option>\n' +
+                    '                                                            <option value="status"> status</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                            <option value="custome1">' + custom1 + '</option>\n' +
+                    '                                                            <option value="custome2">' + custom2 + '</option>\n' +
+                    '                                                            <option value="custome3">' + custom3 + '</option>\n' +
+                    '                                                            <option value="custome4">' + custom4 + '</option>\n' +
+                    '                                                            <option value="custome5">' + custom5 + '</option>\n' +
+                    '                                                            <option value="custome6">' + custom6 + '</option>\n' +
+                    '                                                            <option value="custome7">' + custom7 + '</option>\n' +
+                    '                                                            <option value="custome8">' + custom8 + '</option>\n' +
+                    '                                                            <option value="custome9">' + custom9 + '</option>\n' +
+                    '                                                            <option value="custome10">' + custom10 + '</option>\n' +
+                    '                                                            <option disabled="">──────────</option>\n' +
+                    '                                                        </select>';
+            }
+            $("#load_destination_field").html(html);
+        }
+
+        function load_source_field(response) {
+            var html = "";
+            html += '<p class="mb-1"><strong>Source Fields</strong></p>'
+            for (var i = 0; i < response.header.length; i++) {
+                var value = response.header[i]
+                var new_value = value.replace(/\s/g, '');
+                var show = mapping_array.indexOf(new_value.toLowerCase())
+                // str.replace(/\s/g, '');
+                var tick = ""
+                if (show > -1) {
+                    var tick_id = "tick_match_id_" + i
+                    tick = '<i id=' + tick_id + ' class="mdi mdi-check-outline"></i>'
+                    $('#match_selected_tick_' + i).val(mapping_array[show])
+                } else {
+                    var tick_id = "tick_match_id_" + i
+                    tick = '<i id=' + tick_id + ' style="display:none;" class="mdi mdi-check-outline"></i>'
+                }
+                console.log("-------------------    ")
+                html += '<div class="source-field">' +
+                    '<input class="form-control form-control-sm mb-1" type="text"placeholder="' + response.header[i] + '" readonly="readonly">' +
+                    '<span class="float-right text-success source-field-icon">' + tick + '</span></div>';
+                // $('#element option[value="no"]').attr("selected", "selected");
+
+
+            }
+            $("#append_source").html(html);
+        }
+
+        var html = "";
+        html += '<p class="mb-1"><strong>Source Fields</strong></p>'
+        $("#hit_api1").click(function () {
+            $.ajax({
+                url: '/read',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                }
+            });
+        });
+
+        function clear_data() {
+
+            $(".dz-complete").hide()
+            $("#hide_accrod_1_button_group").hide()
+            html = "<span>Drop files here to upload</span>"
+            $(".dz-message").html(html)
+            $(".dz-message").css("display", "block")
+        }
+
+        function mapping() {
+            var mapping_array = [
+                "Full Name",
+                "First Name",
+                "Last Name",
+                "Prospect Address",
+                "Prospect Address 2",
+                "Prospect City",
+                "Prospect State",
+                "Prospect Zip",
+                "Mailing Address",
+                "Mailing Address 2",
+                "Mailing City",
+                "Mailing State",
+                "Mailing Zip",
+                "Email1",
+                "Email2",
+                "phone_other",
+                "phone cell",
+                "Phone Landline",
+                "Notes",
+                "Deceased",
+                "Year Built",
+                "Do Not Call",
+                "phone_other",
+                "status",
+                "custom 1",
+                "custom 2",
+                "custom 3",
+            ];
+            return mapping_array
+        }
+
+
+        function get_old_value(e) {
+        }
+
+        function select_call(index, id, e) {
+            var e = document.getElementById(id);
+            var value = e.options[e.selectedIndex].value;
+            console.log("next", value)
+            var match = "#tick_match_id_" + index
+            if (value == "not_import") {
+                $(match).hide()
+            } else {
+                $(match).show()
+            }
+            for (var i = 0; i < address_city_state_array; i++) {
+                if (i == index)
+                    continue
+                var id = "match_selected_tick_" + i
+                var e = document.getElementById(id);
+                console.log("==============event value is ==============", e.selectedIndex)
+                var select_value = e.options[e.selectedIndex].value;
+                console.log("selected all values ", select_value)
+                if (value !== "not_import") {
+                    if (value == select_value) {
+                        var selected_index = "#match_selected_tick_" + index
+                        $(selected_index).val("not_import");
+                        var new_match_id = "#tick_match_id_" + index
+                        console.log("========tick match id  is ", new_match_id)
+
+                        toastr.error('Field already mapped', 'Error');
+
+                        // $(new_match_id).addClass( "d-none" );
+                        $(new_match_id).hide()
+
+                    }
+                }
+
+            }
+
+            console.log(value)
+
+
+        }
+
+        $("#open_accord_2").click(function () {
+            $("#collapseTwo").collapse().show()
+            $("#collapseOne").collapse().hide()
+        });
+        $("#back_accord_1").click(function () {
+            $("#collapseTwo").collapse().hide()
+            $("#collapseOne").collapse().show()
+        });
+
+        $("#open_accord_3").click(function () {
+            var address_city_state_array_array = []
+            var count_size = 0
+            for (var i = 0; i < address_city_state_array; i++) {
+                var id = "match_selected_tick_" + i
+                var e = document.getElementById(id);
+                var value = e.options[e.selectedIndex].value;
+                console.log("selected all values ", value)
+                count_size++;
+                address_city_state_array_array.push(value)
+            }
+            console.log("========count size======", count_size)
+            console.log(address_city_state_array_array)
+            var valid = true
+
+            if (count_size == 1) {
+                toastr.error('It is required to have the mapping for property city and state or zip code. ', 'Error');
+                valid = false
+            } else {
+                for (var x = 0; x < address_city_state_array_array.length; x++) {
+                    if (address_city_state_array_array.indexOf("propertyaddress") < 0) {
+                        toastr.error('Prospect address field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+                    if (address_city_state_array_array.indexOf("propertycity") < 0) {
+                        toastr.error('Prospect city field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+                    if (address_city_state_array_array.indexOf("propertystate") < 0) {
+                        toastr.error('Prospect state field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+
+                    }
+                    if (address_city_state_array_array.indexOf("propertyzip") < 0) {
+                        toastr.error('Prospect zip field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+                }
+            }
+            if (valid) {
+                $("#collapseTwo").collapse().hide()
+                $("#collapseThree").collapse().show()
+            }
+        });
+        $("#back_accord_2").click(function () {
+            $("#collapseTwo").collapse().show()
+            $("#collapseThree").collapse().hide()
+        });
+
+        $("#submit_data").click(function () {
+            var select_opt_out = $("#select_opt_out").val();
+            var select_skip_traced = $("#select_skip_traced").val();
+
+            var ref_this = $("ul.nav-tabs li a.active").attr("href");
+            console.log(ref_this)
+            var check = true
+            if (ref_this == "#createlist") {
+                var e = document.getElementById("enter_list_name")
+                if (e.value.trim() == "") {
+                    document.getElementById("enter_list_name").focus();
+                    toastr.error('Please enter list name', 'Error');
+                    check = false
+                } else {
+                    form_dictionary['create_list_value'] = e.value
+                    form_dictionary['select_list_value'] = ""
+                }
+            }
+            if (ref_this == "#selectlist") {
+                var e = document.getElementById("select_list_id");
+                var select_value = e.options[e.selectedIndex].value;
+                console.log(select_value)
+                if (select_value == "select") {
+                    document.getElementById("select_list_id").focus();
+                    toastr.error('Please select list.', 'Error');
+                    check = false
+                } else {
+                    form_dictionary['select_list_value'] = select_value
+                    form_dictionary['create_list_value'] = ""
+                }
+            }
+            var select_a_tag = $("#select_a_tag").hasClass("active");
+            var create_a_tag = $("#create_a_tag").hasClass("active");
+
+
+            if (check) {
+                if (select_a_tag) {
+                    var e = document.getElementById("select_tag_existing");
+                    var select_tag_existing = e.options[e.selectedIndex].value;
+                    var enter_tag_description = document.getElementById("enter_tag_description");
+                    form_dictionary['select_tag_existing'] = select_tag_existing
+                    form_dictionary['enter_tag_description'] = enter_tag_description.value.trim()
+                    form_dictionary['select_a_tag'] = true
+                    form_dictionary['create_a_tag'] = false
+                } else {
+                    var enter_tag_name = document.getElementById("enter_tag_name");
+                    var enter_tag_description = document.getElementById("enter_tag_description");
+                    form_dictionary['enter_tag_name'] = enter_tag_name.value
+                    form_dictionary['enter_tag_description'] = enter_tag_description.value.trim()
+                    form_dictionary['create_a_tag'] = true
+                    form_dictionary['select_a_tag'] = false
+                }
+
+                var address_city_state_array_array = []
+                var count_size = 0
+                for (var i = 0; i < address_city_state_array; i++) {
+                    var id = "match_selected_tick_" + i
+                    var e = document.getElementById(id);
+                    var value = e.options[e.selectedIndex].value;
+                    console.log("selected all values ", value)
+                    count_size++;
+                    address_city_state_array_array.push(value)
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'save_file_and_list_tags_by_user',
+                    data: {
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        'file_name': form_dictionary["file_name"],
+                        'select_list_value': form_dictionary["select_list_value"],
+                        'create_list_value': form_dictionary["create_list_value"],
+                        'select_tag_existing': form_dictionary['select_tag_existing'],
+                        'enter_tag_description': form_dictionary['enter_tag_description'],
+                        'select_a_tag': form_dictionary['select_a_tag'],
+                        'enter_tag_name': form_dictionary['enter_tag_name'],
+                        'create_a_tag': form_dictionary['create_a_tag'],
+                        'sheet_name': form_dictionary['sheet_name'],
+                        'source_field': address_city_state_array_array.toString(),
+                        'select_opt_out': select_opt_out,
+                        'select_skip_traced': select_skip_traced
+                    },
+                    dataType: 'json',
+                    success: function (json) {
+                        if (json.status == 200) {
+                            Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: 'We are working on importing, validating and vacancy checking your addresses. Depending on the amount of pending tasks and the size of the list it many take a few minutes up to a few hours before your list is fully imported. You can view your import history in the reports section to see the status of this import.',
+                                    allowOutsideClick: false
+                                }
+                            )
+                            $(".swal2-confirm").click(function () {
+
+                                window.location.href = "/report/report_history"
+                            })
+
+                        }
+                        if (json.status == 201) {
+                            toastr.error('List already exists.', 'Error');
+                        }
+                        if (json.status == 202) {
+                            console.log(json.message);
+                            toastr.error(json.message, 'Error');
+                        }
+
+                    },
+                    error: function (xhr, errmsg, err) {
+                    }
+                });
+
+            }
+
+        });
+
+
+    </script>
+{% endblock %}

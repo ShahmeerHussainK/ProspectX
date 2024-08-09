@@ -1,0 +1,136 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Create MARKETING TEMPLATE </h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item">Marketing List </li>
+                        <li class="breadcrumb-item active">Update Marketing</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="my_form" enctype="multipart/form-data" action="{% url 'marketing_template' queryset.id %}" method="post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label>Name*</label>
+                                    <div>
+                                        <p class="mb-0 mt-1">{{ queryset.name }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label>For Plan</label>
+                                    <div>
+                                        <p class="mb-0 mt-1">{{ queryset.plan.plan }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Details</label>
+                                    <textarea id="detail" class="form-control summernote" name="detail">{{ queryset.detail }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>More Info</label>
+                                    <textarea id="info" class="form-control summernote" name="info">{{ queryset.more_info }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <div class="form-group">
+                                    <label>For Touch</label>
+                                    <div>
+                                        <p class="mb-0 mt-1">{{ queryset.touch_round_number }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label>Status</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="Active" name="customRadio1" value="Active"
+                                                class="custom-control-input" {% if queryset.touch_status == 'Active' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="Active">Active </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="Pending" name="customRadio1" value="Pending"
+                                                class="custom-control-input" {% if queryset.touch_status == 'Pending' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="Pending">Pending</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="Inactive" name="customRadio1" value="InActive"
+                                                class="custom-control-input" {% if queryset.touch_status == 'InActive' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="Inactive">InActive</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>File</label><br>
+                                    <input id="image" name="image" type="file" class="with-border" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <input id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+{% block extrajs %}
+
+
+<script type="text/javascript">
+$('#my_form').on('submit', function(event){
+       $("#sub_btn").hide();
+       $('#sub_btn').delay(2000).show(0);
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

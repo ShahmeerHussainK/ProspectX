@@ -1,0 +1,803 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">Update Prospect</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item">Prospect</li>
+                            <li class="breadcrumb-item active">Update Prospect</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" action="{% url 'update_prospect' prospect.id %}">
+                                {% csrf_token %}
+                                <script>
+                                    var cont = "{{ prospect.notes  | default_if_none:'' }}";
+                                </script>
+                                {% if message %}
+                                    <div class="alert alert-danger mt-4 mb-5 text-center" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Full Name</label>
+                                            <div>
+                                                <input name="fullname" type="text" class="form-control"
+                                                       placeholder="Enter your full name"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.fullname | default_if_none:'' }}">
+                                                {% if form.fullname.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.fullname.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <div>
+                                                <input name="firstname" type="text" class="form-control"
+                                                       placeholder="Enter your first  name"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.firstname | default_if_none:'' }}">
+                                                {% if form.firstname.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.firstname.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <div>
+                                                <input name="lastname" type="text" class="form-control"
+                                                       placeholder="Enter your last name"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.lastname | default_if_none:'' }}">
+                                                {% if form.lastname.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.lastname.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> Mailing Address </label>
+                                            <div>
+                                                <input name="mailingaddress" type="text" class="form-control"
+                                                       placeholder="Enter address"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.mailingaddress | default_if_none:'' }}">
+                                                {% if form.mailingaddress.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingaddress.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Mailing Address 2</label>
+                                            <div>
+                                                <input name="mailingaddress2" type="text" class="form-control"
+                                                       placeholder="Enter address"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.mailingaddress2 | default_if_none:'' }}">
+                                                {% if form.mailingaddress2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingaddress2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Mailing City</label>
+                                            <div>
+                                                <input name="mailingcity" type="text" class="form-control"
+                                                       placeholder="Enter city"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.mailingcity | default_if_none:'' }}">
+                                                {% if form.mailingcity.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingcity.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Mailing State</label>
+                                            <div>
+                                                <input name="mailingstate" type="text" class="form-control"
+                                                       placeholder="Enter state"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.mailingstate | default_if_none:'' }}">
+                                                {% if form.mailingstate.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingstate.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Mailing Zip</label>
+                                            <div>
+                                                <input id="mailingzip" name="mailingzip" type="text"
+                                                       class="form-control" placeholder="Enter zip"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.mailingzip | default_if_none:'' }}">
+                                                {% if form.mailingzip.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.mailingzip.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> Property Address </label>
+                                            <div>
+                                                <input name="propertyaddress" type="text" class="form-control"
+                                                       required="" readonly
+                                                       placeholder="Enter property address" autocomplete="on"
+                                                       value="{{ prospect.propertyaddress | default_if_none:'' }}">
+                                                {% if form.propertyaddress.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertyaddress.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Property Address 2</label>
+                                            <div>
+                                                <input name="propertyaddress2" type="text" class="form-control"
+                                                       placeholder="Enter property address" autocomplete="on"
+                                                       value="{{ prospect.propertyaddress2 | default_if_none:'' }}">
+                                                {% if form.propertyaddress2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertyaddress2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Property City</label>
+                                            <div>
+                                                <input name="propertycity" type="text" class="form-control" required=""
+                                                       placeholder="Enter property city" autocomplete="on"
+                                                       value="{{ prospect.propertycity | default_if_none:'' }}">
+                                                {% if form.propertycity.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertycity.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Property State</label>
+                                            <div>
+                                                <input name="propertystate" type="text" class="form-control" required=""
+                                                       placeholder="Enter property state" autocomplete="on"
+                                                       value="{{ prospect.propertystate | default_if_none:'' }}">
+                                                {% if form.propertystate.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertystate.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Property Zip</label>
+                                            <div>
+                                                <input id="propertyzip" name="propertyzip" type="text"
+                                                       class="form-control" required=""
+                                                       placeholder="Enter property zip" autocomplete="on"
+                                                       value="{{ prospect.propertyzip | default_if_none:'' }}">
+                                                {% if form.propertyzip.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.propertyzip.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <div>
+                                                <input name="email" type="text" class="form-control"
+                                                       placeholder="Enter email"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.email | default_if_none:'' }}">
+                                                {% if form.email.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.email.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Email 2</label>
+                                            <div>
+                                                <input name="email2" type="text" class="form-control"
+                                                       placeholder="Enter email"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.email2 | default_if_none:'' }}">
+                                                {% if form.email2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.email2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone Landline</label>
+                                            <div>
+                                                <input id="phonelandline" name="phonelandline" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone landline" autocomplete="on"
+                                                       value="{{ prospect.phonelandline | default_if_none:'' }}">
+                                                {% if form.phonelandline.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phonelandline.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Cell Phone Number</label>
+                                            <div>
+                                                <input class="form-control" type="tel" placeholder=""
+                                                       id="phone" name="phone"
+                                                       value="{{ prospect.phonecell | default_if_none:'' }}">
+                                                <input type="hidden" placeholder="" id="phonecell"
+                                                       name="phonecell"
+                                                       value="{{ prospect.phonecell | default_if_none:'' }}">
+                                                <input type="hidden" placeholder="" id="is_validated"
+                                                       name="is_validated" value="valid">
+                                                {% if form.phonecell.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phonecell.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Other Phone Number</label>
+                                            <div>
+                                                <input id="phoneother" name="phoneother" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter other phone number" autocomplete="on"
+                                                       value="{{ prospect.phoneother | default_if_none:'' }}">
+                                                {% if form.phoneother.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phoneother.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 1:</label>
+                                            <div>
+                                                <input id="phone1" name="phone1" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone1" autocomplete="on"
+                                                       value="{{ prospect.phone1 | default_if_none:'' }}">
+                                                {% if form.phone1.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone1.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 2:</label>
+                                            <div>
+                                                <input id="phone2" name="phone2" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone2" autocomplete="on"
+                                                       value="{{ prospect.phone2 | default_if_none:'' }}">
+                                                {% if form.phone2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 3:</label>
+                                            <div>
+                                                <input id="phone3" name="phone3" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone3" autocomplete="on"
+                                                       value="{{ prospect.phone3 | default_if_none:'' }}">
+                                                {% if form.phone3.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone3.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 4:</label>
+                                            <div>
+                                                <input id="phone4" name="phone4" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone4" autocomplete="on"
+                                                       value="{{ prospect.phone4 | default_if_none:'' }}">
+                                                {% if form.phone4.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone4.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 5:</label>
+                                            <div>
+                                                <input id="phone5" name="phone5" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone5" autocomplete="on"
+                                                       value="{{ prospect.phone5 | default_if_none:'' }}">
+                                                {% if form.phone5.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone5.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 6:</label>
+                                            <div>
+                                                <input id="phone6" name="phone6" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone6" autocomplete="on"
+                                                       value="{{ prospect.phone6 | default_if_none:'' }}">
+                                                {% if form.phone6.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone6.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 7:</label>
+                                            <div>
+                                                <input id="phone7" name="phone7" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone7" autocomplete="on"
+                                                       value="{{ prospect.phone7 | default_if_none:'' }}">
+                                                {% if form.phone7.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone7.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 8:</label>
+                                            <div>
+                                                <input id="phone8" name="phone8" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone8" autocomplete="on"
+                                                       value="{{ prospect.phone8 | default_if_none:'' }}">
+                                                {% if form.phone8.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone8.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 9:</label>
+                                            <div>
+                                                <input id="phone9" name="phone9" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone9" autocomplete="on"
+                                                       value="{{ prospect.phone9 | default_if_none:'' }}">
+                                                {% if form.phone9.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone9.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone 10:</label>
+                                            <div>
+                                                <input id="phone10" name="phone10" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter phone10" autocomplete="on"
+                                                       value="{{ prospect.phone10 | default_if_none:'' }}">
+                                                {% if form.phone10.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.phone10.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom1 }}</label>
+                                            <div>
+                                                <input name="custome1" type="text" class="form-control"
+                                                       placeholder="Enter test1"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome1 | default_if_none:'' }}">
+                                                {% if form.custome1.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome1.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom2 }}</label>
+                                            <div>
+                                                <input name="custome2" type="text" class="form-control"
+                                                       placeholder="Enter custom 2"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome2 | default_if_none:'' }}">
+                                                {% if form.custome2.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom3 }}</label>
+                                            <div>
+                                                <input name="custome3" type="text" class="form-control"
+                                                       placeholder="Enter custom 3"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome3 | default_if_none:'' }}">
+                                                {% if form.custome3.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome3.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom4 }}</label>
+                                            <div>
+                                                <input name="custome4" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 4"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome4 | default_if_none:'' }}">
+                                                {% if form.custome4.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome4.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom5 }}</label>
+                                            <div>
+                                                <input name="custome5" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 5"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome5 | default_if_none:'' }}">
+                                                {% if form.custome5.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome5.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom6 }}</label>
+                                            <div>
+                                                <input name="custome6" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 6"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome6 | default_if_none:'' }}">
+                                                {% if form.custome6.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome6.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom7 }}</label>
+                                            <div>
+                                                <input name="custome7" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 7"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome7 | default_if_none:'' }}">
+                                                {% if form.custome7.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome7.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom8 }}</label>
+                                            <div>
+                                                <input name="custome8" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 8"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome8 | default_if_none:'' }}">
+                                                {% if form.custome8.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome8.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom9 }}</label>
+                                            <div>
+                                                <input name="custome9" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 9"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome9 | default_if_none:'' }}">
+                                                {% if form.custome9.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome9.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ customfields.custom10 }}</label>
+                                            <div>
+                                                <input name="custome10" type="text"
+                                                       class="form-control"
+                                                       placeholder="Enter custom 10"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.custome10 | default_if_none:'' }}">
+                                                {% if form.custome10.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.custome10.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Vacancy</label>
+                                            <div>
+                                                <input name="vacant" type="text" class="form-control"
+                                                       placeholder="Enter vacancy"
+                                                       autocomplete="on"
+                                                       value="{{ prospect.vacant | default_if_none:'' }}">
+                                                {% if form.vacant.errors %}
+                                                    <div class="text-danger">
+                                                        {{ form.vacant.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <textarea id="notes" class="form-control" name="notes"></textarea>
+                                            {% if form.notes.errors %}
+                                                <div class="text-danger">
+                                                    {{ form.notes.errors | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                        <div class="form-group">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input name="opt_out" type="checkbox" class="custom-control-input"
+                                                           id="customCheck1" {% ifequal prospect.opt_out "yes" %}
+                                                           checked {% endifequal %}>
+                                                    <label class="custom-control-label" for="customCheck1">Opt
+                                                        Out</label>
+                                                    {% if form.opt_out.errors %}
+                                                        <div class="text-danger">
+                                                            {{ form.opt_out.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input name="donotcall" type="checkbox" class="custom-control-input"
+                                                           id="customCheck2" {% ifequal prospect.donotcall "yes" %}
+                                                           checked {% endifequal %}>
+                                                    <label class="custom-control-label" for="customCheck2">Dnc</label>
+                                                    {% if form.donotcall.errors %}
+                                                        <div class="text-danger">
+                                                            {{ form.donotcall.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                            Update Prospect
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+{% endblock %}
+{% block extrajs %}
+
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+    <script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+    <script>
+
+        $(document).ready(function () {
+            var encodedStr = cont;
+            var parser = new DOMParser;
+            var dom = parser.parseFromString(encodedStr, 'text/html');
+            var decodedString = dom.body.textContent;
+            $("#notes").val(decodedString);
+        });
+
+        var input = document.querySelector('#phone');
+        var errorMap = ["Invalid number", "Invalid country code", "Too short", "To long", "Invalid number"];
+        var intl = $('#phone').intlTelInput({
+            separateDialCode: true,
+            autoFormat: true,
+            defaultCountry: "auto",
+            utilsScript: "{% static 'assets/js/utils.js' %}"
+        });
+
+
+        $(document).ready(function () {
+            $('#phonelandline').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+            $('#phoneother').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+
+            $('#phone1, #phone2, #phone3, #phone4, #phone5, #phone6, #phone7, #phone8, #phone9, #phone10 ').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+
+            $('#phone').focus(function () {
+                var placeholder = $(this).attr('placeholder');
+                var mask = placeholder.replace(/[0-9]/g, "9");
+                $(this).inputmask({"mask": mask});
+            });
+
+            $('#mailingzip').focus(function () {
+                $(this).inputmask("99999", {"placeholder": ""});
+            });
+            $('#propertyzip').focus(function () {
+                $(this).inputmask("99999", {"placeholder": ""});
+            });
+        });
+
+
+        input.addEventListener("blur", function () {
+            $("#phonecell").val($("#phone").intlTelInput("getNumber"));
+            if (input.value.trim()) {
+                if ($(this).intlTelInput("isValidNumber")) {
+                    $('#is_validated').val('valid');
+                } else {
+                    $('#is_validated').val(errorMap[$(this).intlTelInput("getValidationError")]);
+                }
+            } else {
+                $('#is_validated').val('Invalid Number');
+            }
+        });
+    </script>
+{% endblock %}

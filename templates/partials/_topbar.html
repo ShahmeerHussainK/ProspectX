@@ -1,0 +1,157 @@
+{% load static %}
+<div class="topbar">
+
+    <!-- LOGO -->
+    <div class="topbar-left" >
+        <a href="{% url 'home' %}" class="logo">
+                <span class="logo-light">
+                    <!--<img src="{% static 'assets/images/Prospect-X-Logo.png' %}" alt="" height="60">-->
+                    <img src="{% static 'assets/images/prospectx-logo_white.png' %}" alt="" height="60">
+                </span>
+            <span class="logo-sm">
+                    <img src="{% static 'assets/images/prospectx-logo_small.png' %}" alt="" height="22">
+                </span>
+        </a>
+    </div>
+
+    <nav class="navbar-custom">
+        <ul class="navbar-right list-inline float-right mb-0">
+
+
+            <!-- full screen -->
+            <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
+                <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
+                    <i class="ion ion-md-qr-scanner noti-icon"></i>
+                </a>
+            </li>
+            <!-- Tasks -->
+            <li class="dropdown notification-list list-inline-item">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
+                   onclick="Reset_Task_Pill()"
+                   role="button" aria-haspopup="false" aria-expanded="false">
+                    <i class=" mdi mdi-calendar-month-outline noti-icon"></i>
+                    <span id="task_pill" class="badge badge-pill badge-primary noti-icon-badge">{{ pills.task_pill}}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
+                    <!-- item-->
+                    <h6 class="dropdown-item-text">
+                        Tasks
+                    </h6>
+                    <div class="slimscroll notification-item-list">
+                        <div class="task_item_list">
+                            <!-- item-->
+                            <a href="{% url 'all_tasks_calendar' %}" class="dropdown-item notify-item">
+                                    <span class="dropdown-item-text task_item_btn m-0 p-0">
+                                        <i class="mdi mdi-calendar-month-outline  "></i> Calendar
+                                    </span>
+                            </a>
+                            <!-- item-->
+                            <span id="add_task">
+                            <a href="javascript:void(0);" class="dropdown-item notify-item" data-toggle="modal"
+                               data-target=".bs-example-modal-center">
+                                    <span class="dropdown-item-text task_item_btn m-0 p-0">
+                                        <i class="mdi mdi-calendar-plus  "></i> Add a new task
+                                    </span>
+                            </a>
+                                </span>
+                            <!-- Upcoming Task -->
+                            {#                            <h6 class="dropdown-item-text text-primary task_item_heading">#}
+                            {#                                Upcoming Task#}
+                            {#                            </h6>#}
+                            <!-- item-->
+                            {#                            <a href="javascript:void(0);" class="dropdown-item notify-item">#}
+                            {#                                <p class=" m-0">You don't have any upcoming task. </p>#}
+                            {#                            </a>#}
+                            {#                            <!-- Overdue Task -->#}
+                            {#                            <h6 class="dropdown-item-text text-primary task_item_heading">#}
+                            {#                                Overdue Task#}
+                            {#                            </h6>#}
+                            {#                            <!-- item-->#}
+                            {#                            <a href="javascript:void(0);" class="dropdown-item notify-item">#}
+                            {#                                <p class=" m-0">You don't have any upcoming task. </p>#}
+                            {#                            </a>#}
+                            <!-- for new tasks-->
+
+                        </div>
+                    </div>
+                    <!-- All-->
+                    <a href="{% url 'all_tasks_calendar' %}" class="dropdown-item text-center notify-all text-primary">
+                        View all <i class="fi-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+
+            <!-- notification -->
+            <li class="dropdown notification-list list-inline-item">
+                <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#"
+                   onclick="Reset_Notification_Pill()"
+                   role="button" aria-haspopup="false" aria-expanded="false">
+                    <i class="ion ion-md-notifications noti-icon"></i>
+                    <span id="notification_pill" class="badge badge-pill badge-danger noti-icon-badge">{{ pills.notification_pill}}</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg">
+                    <!-- item-->
+                    <h6 class="dropdown-item-text">
+                        Notifications ( {{ notifications_count }} )
+                    </h6>
+                    <div class="slimscroll notification-item-list notifications">
+
+                        {% for notification in notifications4 %}
+                            <!-- item-->
+                            <a href="{% url 'notification_list' %}"  class="dropdown-item notify-item">
+                                <div class="notify-icon bg-danger"><i class="mdi mdi-message-text-outline"></i>
+                                </div>
+                                <p class="notify-details">{{ notification.title }}<span
+                                        class="text-muted">Date: {{ notification.created_at }}</span></p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <!-- All-->
+                    <a href="{% url 'notification_list' %}" class="dropdown-item text-center notify-all text-primary">
+                        View all <i class="fi-arrow-right"></i>
+                    </a>
+                </div>
+            </li>
+
+            <li class="dropdown notification-list list-inline-item">
+                <div class="dropdown notification-list nav-pro-img">
+                    <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#"
+                       role="button" aria-haspopup="false" aria-expanded="false">
+                        <!--<img src="{% static 'assets/images/users/user-4.jpg' %}" alt="user" class="rounded-circle">-->
+                        <img id="profile_image_4" src="{{ image }}" alt="user"
+                             class="rounded-circle">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        <!-- item-->
+                        <a class="dropdown-item d-block" href="{% url 'update_profile' %}">
+                            <i class="mdi mdi-settings"></i> Settings</a>
+                        <a id="affiliate4" class="dropdown-item" href="{% url 'affiliate_dashboard' %}">
+                            <i class="ion ion-md-heart"></i> Affiliate</a>
+                        <a id="payment4" class="dropdown-item" href="{% url 'packages' %}">
+                            <i class="fa fa-th"></i> Payments and Packages</a>
+                        <a id="notify_via_email" class="dropdown-item" href="{% url 'notification_status' %}">
+                            <i class="fa fa-bell"></i> Notifications</a>
+
+                        <a id="users4" class="dropdown-item" href="{% url 'users' %}">
+                            <i class="mdi mdi-settings"></i> Users</a>
+                        <div class="dropdown-divider"></div>
+                        <a id="logout" class="dropdown-item text-danger" href="#"><i
+                                class="mdi mdi-power text-danger"></i>
+                            Logout</a>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+        <ul class="list-inline menu-left mb-0">
+            <li class="float-left">
+                <button class="button-menu-mobile open-left waves-effect">
+                    <i class="mdi mdi-menu"></i>
+                </button>
+            </li>
+        </ul>
+
+    </nav>
+
+</div>

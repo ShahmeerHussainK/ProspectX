@@ -1,0 +1,171 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Facebook Pixels</h4>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-xl-2 col-md-2 col-lg-2 col-sm-3">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="table-responsive border">
+                                <table class="table mb-0 custom_sidbar">
+                                    <tbody>
+                                    <tr class="bg-white">
+                                        <td><a class="d-block" href="/xsite/dashboard/{{ site }}/">Leads</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/statistics/{{ site }}/">Statistics</a></td>
+                                    </tr>
+                                    {#                                    <tr>#}
+                                    {#                                        <td><a class="d-block" href="/xsite/website_logo/{{ site }}/">Favicon</a></td>#}
+                                    {#                                    </tr>#}
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/facebook_pixels/{{ site }}/">Facebook
+                                            Pixel</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><a class="d-block" href="/xsite/google_tag_manager/{{ site }}/">Google Tag
+                                            Manager</a></td>
+                                    </tr>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a class="d-block" style="color:white;"
+                                                                           href="#">Renew Domain</a></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-10 col-md-10 col-lg-10 col-sm-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mt-0 header-title mb-3">Renew Domain</h4>
+                            {% if renewal_allowed == True and maxed_out == False %}
+                                <small class="form-text text-muted mb-2">
+                                    Your domain expires on {{ renewal_data }}. Please renew it before than. <br>
+                                </small>
+                            {% elif maxed_out == True %}
+                                <small class="form-text text-muted mb-2">
+                                    You have selected maximun 10 years of duration for your domain.
+                                </small>
+                            {% else %}
+                                <small class="form-text text-muted mb-2">
+                                    Your domain has been expired.
+                                </small>
+                            {% endif %}
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="">Duration</span>
+                                </div>
+                                <select class="form-control" id="duration" name="duration" {% if maxed_out or renewal_allowed == False %}
+                                        disabled {% endif %}>
+                                    {% for duration in max_renewal_duration %}
+                                        <option {% if duration == 2 %} selected="selected" {% endif %}
+                                                                       value="{{ duration }}">{{ duration }}
+                                            {% if duration == 1 %} year {% else %} years {% endif %}</option>
+                                    {% endfor %}
+{#                                {% if maxed_out %}#}
+{#                                <option class="text-muted">Maximum 10 Year Duration Selected</option>#}
+{#                                {% endif %}#}
+                                </select>
+                            </div>
+                            <button class="btn btn-primary waves-effect waves-light float-right w-md mt-2"
+                                    type="submit" onclick="get_price()" {% if renewal_allowed == False or maxed_out %}
+                                    disabled {% endif %}>Renew
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stats page content -->
+            </div>
+        </div>
+        <!-- container-fluid -->
+    </div>
+
+    <div class="modal fade" id="domain_renewal_confirmation_modal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Confirm!
+                </div>
+                <div class="modal-body">
+                    Do you really want to renew this domain at <strong id="domain_price"></strong><strong> USD</strong>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark waves-effect waves-light"
+                            data-dismiss="modal">Cancel
+                    </button>
+                    <button id="renew_domain_btn" onclick="purchase()" type="button"
+                            class="btn btn-primary waves-effect waves-light">
+                        Renew
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content -->
+    <script>
+        var msg = "";
+        var site = '{{ site }}';
+    </script>
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                var msg = "{{ message }}";
+            </script>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+{% block extrajs %}
+    <script>
+        if (msg === "Domain renewed successfully!") {
+            toastr.success(msg);
+        } else if (msg) {
+            toastr.error(msg);
+        }
+
+        function get_price() {
+            $.ajax({
+                type: 'GET',
+                url: "/xsite/get_price/" + site + "/" + $('#duration').val() + "/",
+                success: function (data) { // on success..
+                    var link = "/xsite/renew_domain/" + site + "/" + $('#duration').val();
+                    $("#renew_domain_btn").attr("link", link);
+                    $("#domain_price").html(data['amount']);
+                    $("#domain_renewal_confirmation_modal").modal('show');
+                },
+                error: function (xhr, ajaxOptions, thrownError) { // on error..
+                    var err = JSON.parse(xhr.responseText);
+                    toastr.error(err.message);
+                },
+                statusCode: {
+                    404:
+                        function () {
+                            alert("page not found");
+                        }
+                }
+            });
+        }
+
+        function purchase() {
+            $("#renew_domain_btn").attr('disabled', true);
+            window.location.href = $("#renew_domain_btn").attr("link");
+        }
+    </script>
+{% endblock %}

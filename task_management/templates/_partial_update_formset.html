@@ -1,0 +1,76 @@
+<div> {{ updates_reminder_form.management_form }}</div>
+<label class="row col-sm-12 col-form-label">Reminders before task starts</label>
+{% for reminder in updates_reminder_form %}
+
+    <div id="update-link-formset" class="link-formset">
+        <div class="row mb-2">
+            <input type="hidden" name="{{ reminder.prefix }}{{ '-id' }}" value="{{ reminder.instance.pk }}">
+            <div class="col-sm-3">
+                <select name="{{ reminder.prefix }}{{ '-type_email' }}"
+                        class="form-control custom-select">
+                    <option value="1">Email</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <input name="{{ reminder.prefix }}{{ '-time_count' }}" min="0" type="number"
+                       class="form-control" required="" placeholder="15"
+                       autocomplete="on" value="{{ reminder.instance.time_count }}">
+            </div>
+            <div class="col-sm-3">
+                {% ifequal reminder.instance.time_type.time_name 'minutes' %}
+                    <select name="{{ reminder.prefix }}{{ '-time_type' }}"
+                            class="form-control custom-select">
+                        <option value="1" selected>minutes</option>
+                        <option value="2">hours</option>
+                        <option value="3">days</option>
+                    </select>
+                {% endifequal %}
+                {% ifequal reminder.instance.time_type.time_name 'hours' %}
+                    <select name="{{ reminder.prefix }}{{ '-time_type' }}"
+                            class="form-control custom-select">
+                        <option value="1">minutes</option>
+                        <option value="2" selected>hours</option>
+                        <option value="3">days</option>
+                    </select>
+                {% endifequal %}
+                {% ifequal reminder.instance.time_type.time_name 'days' %}
+                    <select name="{{ reminder.prefix }}{{ '-time_type' }}"
+                            class="form-control custom-select">
+                        <option value="1">minutes</option>
+                        <option value="2">hours</option>
+                        <option value="3" selected>days</option>
+                    </select>
+                {% endifequal %}
+
+            </div>
+        </div>
+     <a class="delete-row" href="javascript:void(0)">Remove Reminder</a>
+    </div>
+
+{% endfor %}
+
+<div> {{ reminder_form.management_form }}</div>
+{% for reminderr in reminder_form %}
+<div id="llink-formset" class="link-formset" style="display: none;">
+        <div class="row mb-2">
+            <div class="col-sm-3">
+                <select name="{{ reminderr.prefix }}{{ '-type_email' }}" class="form-control custom-select">
+                    <option value="1">Email</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <input name="{{ reminderr.prefix }}{{ '-time_count' }}" min="0" type="number" class="form-control"
+                       placeholder="15"
+                       autocomplete="on">
+            </div>
+            <div class="col-sm-3">
+                <select name="{{ reminderr.prefix }}{{ '-time_type' }}" class="form-control custom-select">
+                    <option value="1">minutes</option>
+                    <option value="2">hours</option>
+                    <option value="3">days</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}

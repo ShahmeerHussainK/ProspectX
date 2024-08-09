@@ -1,0 +1,372 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <!-- Start content -->
+
+    <div class="content ">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Websites</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="float-right">
+                            <button class="btn btn-outline-dark shadow-sm  waves-effect waves-light" data-toggle="modal"
+                                    data-target="#websiteDnsModal">
+                                Domain Forwarding Info
+                            </button>
+                            {% if user == "unlimited_sites@gmail.com" or user == "hussain14.cs@gmail.com" %}
+                                <a class="btn btn-outline-dark shadow-sm waves-effect waves-light"
+                                   href="{% url 'xsite_setup' %}">
+                                    Add Site
+                                </a>
+                            {% else %}
+                                <a class="btn btn-outline-dark shadow-sm waves-effect waves-light"
+                                        {% if allowed_sites > 0 %}
+                                   href="{% url 'xsite_setup' %}" {% elif site_count == 1 %}
+                                   href="upgrade_membership" {% else %} onclick="DisplayMessage()" {% endif %}>
+                                    Add Site
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <script>
+                var msg = "";
+                var allow_sites = "{{ allow_sites }}";
+                {#var allowed_sites = "{{ allowed_sites }}";#}
+            </script>
+            {% if messages %}
+                {% for message in messages %}
+                    <script>
+                        var msg = "{{ message }}";
+                    </script>
+                {% endfor %}
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body p-0 shadow-sm">
+                            <div class="table-responsive">
+                                <table class="table table-hover dt-responsive nowrap mb-0"
+                                       style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                    <thead class=" xsite_thead_background">
+                                    <tr>
+                                        <th>Domain</th>
+                                        <th>Site Design</th>
+                                        <th>Content Pack</th>
+                                        <th>Created</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if not websites %}
+                                        <tr class="bg-default">
+                                            <td colspan="5">
+                                                <div class="text-center">
+                                                    <h1>
+                                                        <i class="fas text-dark fa-frown"></i>
+                                                    </h1>
+                                                    <h5 class="font-weight-light text-dark">
+                                                        No sites available please add site.
+                                                    </h5>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    {% for site in websites %}
+                                        <tr>
+                                            <td>
+                                                <a target="_blank"
+                                                   href="http://{{ site.domain }}">http://{{ site.domain }} </a>
+                                            </td>
+                                            <td>
+                                                {{ site.site_design }}
+                                            </td>
+                                            <td>
+                                                {{ site.site_design.content_pack }}
+                                            </td>
+                                            <td>
+                                                {{ site.created_at }}
+                                            </td>
+
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-info btn-sm shadow-sm xsite_buton_responsive"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Preview"
+                                                        onclick="window.open('/xsite/{{ site.pk }}/', '_blank')"><i
+                                                        class="mdi mdi-eye"></i></button>
+                                                <button type="button"
+                                                        class="btn btn-primary btn-sm shadow-sm xsite_buton_responsive"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Edit"
+                                                        {% if site.is_expired %}
+                                                        onclick="toastr.info('Your domain has expired!');" {% else %}
+                                                        onclick="window.open('/xsite/get_edit_site/edited/{{ site.pk }}/', '_blank')" {% endif %}>
+                                                    <i class="mdi mdi-grease-pencil"></i></button>
+                                                <button mydata="{{ site.pk }}"
+                                                        class="btn btn-default border border-dark btn-sm shadow-sm email_popup_btn xsite_buton_responsive">
+                                                    <i
+                                                            class="mdi mdi-email"></i></button>
+                                                <button mydata="{{ site.pk }}"
+                                                        class="btn btn-danger btn-sm shadow-sm deletebtn xsite_buton_responsive">
+                                                    <i
+                                                            class="mdi mdi-trash-can-outline"></i></button>
+                                                <button data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Dashboard"
+                                                        onclick="window.location.href='/xsite/dashboard/{{ site.pk }}/'"
+                                                        class="btn btn-dark btn-sm shadow-sm xsite_buton_responsive"><i
+                                                        class="ti-home"></i></button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page-title -->
+                </div>
+            </div>
+            <!-- container-fluid -->
+
+            <!-- Delete popup -->
+            <div class="modal fade" id="deleteWebsiteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Confirm!
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to delete?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark waves-effect waves-light"
+                                    data-dismiss="modal">Cancel
+                            </button>
+                            <button id="btn_delete_site" type="button" class="btn btn-danger waves-effect waves-light">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete popup -->
+            <div class="modal fade" id="deleteWebsiteModalAjax" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Confirm!
+                        </div>
+                        <div class="modal-body">
+                            Do you really want to delete?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark waves-effect waves-light"
+                                    data-dismiss="modal">Cancel
+                            </button>
+                            <button id="btn_delete_site_ajax" type="button"
+                                    class="btn btn-danger waves-effect waves-light btn_delete_site_ajax">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- DNS Info -->
+            <div class="modal fade  " id="websiteDnsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="m-0 header-title">Domain Forwarding Information</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="header-title" style="color: #7367F0">Important:</h4>
+                            <p>If you have purchased your domain name from outside of the system, you will need to
+                                update
+                                your domain records with your third party provider to enable your website to go
+                                live.</p>
+                            <hr>
+                            <h4 class="header-title" style="color: #7367F0">Domain Redirecting:</h4>
+                            <p>In order for your site to go live you will need to redirect your domain to:</p>
+
+                            <p class="m-0"><strong>https://app.prospectx.com/xsite/your_site_id/</strong></p>
+                            <p class="mt-0"><strong>https://app.prospectx.com/xsite/your_domain_name/</strong></p>
+
+                            <p><strong>Note: </strong>Replace your_site_id with the id in your site
+                                preview url and your_site_domain with your domain name for e.g. google.com</p>
+
+                            <p class="mb-0">There are two ways you can do this:</p>
+                            <ol>
+                                <li>Contact your Domain Registrar (i.e. Godaddy, Namecheap, eNom, etc.) that you
+                                    purchased
+                                    the domain from and ask them to forward your domain to one of the above domains and
+                                    if your nameservers are pointed somewhere else, you will also need to update the
+                                    nameservers.
+                                </li>
+                                <li>You can go to your domain's management section and edit domain
+                                    redirecting/forwarding
+                                    section yourself. Below are a few helpful articles from the top domain registrars to
+                                    help you along the way.
+                                </li>
+                            </ol>
+                            <hr>
+                            <h4 class="header-title" style="color: #7367F0">Domain Registrar Support Information:</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Godaddy</strong>
+                                        <br>
+                                        Support: 480-505-8877
+                                        <br>
+                                        <a style="text-decoration: underline;color: #7367F0;"
+                                           href="https://pk.godaddy.com/help/forward-my-domain-12123"
+                                           target="_blank">Help Article</a>
+                                    </p>
+                                    <p>
+                                        <strong>eNom</strong>
+                                        <br>
+                                        Support: 425-274-4500
+                                        <br>
+                                        <a style="text-decoration: underline;color: #7367F0;"
+                                           href="https://www.enom.com/kb/kb/kb_1219-create-url-redirect.htm"
+                                           target="_blank">Help
+                                            Article</a>
+                                    </p>
+                                    <p>
+                                        <strong>Domain.com</strong>
+                                        <br>
+                                        Support: 1-800-403-3568
+                                        <br>
+                                        <a style="text-decoration: underline;color: #7367F0;"
+                                           href="https://www.domain.com/help/article/domain-management-how-to-update-domain-pointers"
+                                           target="_blank">Help Article</a>
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Namecheap</strong>
+                                        <br>
+                                        <a style="text-decoration: underline;color: #7367F0;"
+                                           href="https://www.namecheap.com/support/knowledgebase/article.aspx/385/2237/how-to-redirect-a-url-for-a-domain"
+                                           target="_blank">Help Article</a>
+                                    </p>
+                                    <p>
+                                        <strong>Register.com</strong>
+                                        <br>
+                                        <a style="text-decoration: underline;color: #7367F0;"
+                                           href="https://www.register.com/build-it/forwarding.jsp"
+                                           target="_blank">Help Article</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark waves-effect waves-light"
+                                    data-dismiss="modal">Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Email popup -->
+            <div class="modal fade" id="email_popup_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="m-0 header-title">Email</h4>
+                        </div>
+                        <form id="mail_form" method="post">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group mb-1">
+                                    <label class="mb-0 mt-1"> From </label>
+                                    <input id="email_from" name="from_email" type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label class="mb-0 mt-1"> Subject </label>
+                                    <input id="email_subject" name="subject" type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group mb-1">
+                                    <label class="mb-0 mt-1">Detail </label>
+                                    <textarea name="content" id="email_detail" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark waves-effect waves-light"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                                <button id="mail_submit_btn" type="submit"
+                                        class="btn btn-primary waves-effect waves-light">
+                                    Submit
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="force_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="m-0 header-title">Your Subscription has ended, Delete extra sites to
+                                continue. </h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-hover dt-responsive nowrap mb-0"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead class="xsite_thead_background">
+                                <tr>
+                                    <th>Domain</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody class="domain_data">
+                                {% for site in websites %}
+                                    <tr>
+                                        <td>
+                                            http://{{ site.domain }}
+                                        </td>
+                                        <td>
+
+                                            <button mydata="{{ site.pk }}"
+                                                    class="btn btn-danger btn-sm shadow-sm deletebtnajax"><i
+                                                    class="mdi mdi-trash-can-outline"></i></button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'assets/js/prospectx/xsite_sites.js' %}"></script>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+        let conf = {};
+        osites = new Sites(conf);
+    </script>
+{% endblock %}

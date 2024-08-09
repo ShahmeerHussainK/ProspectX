@@ -1,0 +1,218 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+<!-- Start content -->
+
+{% block content %}
+
+{% include '_task_list_partial.html' %}
+    <div class="content" id="calendar_view" style="overflow: auto;">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-12">
+                    </div>
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Tasks Calendar</h4>
+                        <script>
+                           var my_task =  "{{task|escapejs}}";
+                           var msg = "{{ message }}";
+                           var type = "{{ type }}";
+                        </script>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item">Tasks</li>
+                            <li class="breadcrumb-item active">Calendar</li>
+                        </ol>
+                    </div>
+                    <div class="col-sm-6">
+                        <button id="all" class="btn btn-primary waves-effect waves-light float-right sidebar_options"
+                                type="button">
+                            List View
+                        </button>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="btn-group btn-group-sm mb-2" role="group" aria-label="Basic example">
+                                        <button type="button" action="upcoming_task" class="btn btn-primary waves-effect waves-light cal-filter">Upcoming
+                                            Task
+                                        </button>
+                                        <button type="button" action="over_due" class="btn btn-primary  waves-effect waves-light cal-filter">
+                                            Overdue Task
+                                        </button>
+                                    </div>
+                                    <div id='calendar'></div>
+                                    <div style='clear:both'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+
+    <!--add modal-->
+    {% include 'partials/_taskmodal.html' %}
+<script src="{% static 'assets/js/prospectx/myCalendar.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/myList.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/Tasks.js' %}"></script>
+<!--<script src="{% static 'assets/js/prospectx/Task_Modals.js' %}"></script>-->
+
+{% endblock %}
+
+
+{% block extracss %}
+    .fc-scroller { overflow-x: visible !Important; }
+{% endblock %}
+<!-- content -->
+{% block extrajs %}
+    <script>
+         $(document).ready(function () {
+             if(type === "info")
+             {
+                 toastr.info(msg);
+             }
+             else if(type === "success")
+             {
+                 toastr.success(msg);
+             }
+             else if(type === "error")
+             {
+                 toastr.error(msg);
+             }
+             else if(type === "warning")
+             {
+                 toastr.warning(msg);
+             }
+
+             if (my_task && !msg) {
+
+                 $("#modaldeletetask").click(function() {
+                     $.ajax({
+                        type: 'GET',
+                        url: "/task/delete_task/" + my_task + "/",
+                        success: function (data) { // on success..
+                            $('#deleteModal').modal('hide');
+                            $('#savelinkModal').modal('hide');
+                            toastr.success("Task Deleted Successfully")
+                            if($("#calendar_view").is(":visible")){
+                                 _calendar.fullCalendar('refetchEvents');
+                             }
+                             else {
+                                 prospectxList.prototype.list_view_clicked("all");
+                             }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) { // on error..
+                            var err = JSON.parse(xhr.responseText);
+                            toastr.error(err.message);
+                        },
+                        statusCode: {
+                            404: function () {
+                                alert("page not found");
+                            }
+                        }
+                    });
+                 });
+
+                 $("#link_duplicate_task").click(function(e) {
+                     e.preventDefault();
+                     $.ajax({
+                        type: 'GET',
+                        url: "/task/duplicate_task/" + my_task + "/",
+                        success: function (data) { // on success..
+                            $('#savelinkModal').modal('hide');
+                            toastr.success("Task Duplicated Successfully")
+                            if($("#calendar_view").is(":visible")){
+                                 _calendar.fullCalendar('refetchEvents');
+                             }
+                             else {
+                                 prospectxList.prototype.list_view_clicked("all");
+                             }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) { // on error..
+                            var err = JSON.parse(xhr.responseText);
+                            toastr.error(err.message);
+                        },
+                        statusCode: {
+                            404: function () {
+                                alert("page not found");
+                            }
+                        }
+                    });
+                 });
+
+                 $.ajax({
+                     type: 'GET',
+                     url: '/task/get_linked_task/' + my_task + '/',
+                     success: function (data) { // on success..
+                         var task = data['task_obj'];
+                         $('#link_modal_id').val(my_task);
+                         $('#hidden_link').val(window.location.host+"/task/all_tasks_calendar/" + my_task + "/");
+
+                         $("#link_modal_title").val(task.title);
+                         $('#link_duplicate_task').attr("href", "/task/duplicate_task/" + my_task + "/");
+                         $('#link_description').val(task.description);
+
+                         var start_format_date = moment(task.start_date_time).format('MM/DD/YYYY h:mm A');
+                         var end_format_date = moment(task.end_date_time).format('MM/DD/YYYY h:mm A');
+
+                         $('#link_startdatetime').val(start_format_date);
+                         $('#link_enddatetime').val(end_format_date);
+                         if (task.is_all_day_task) {
+                             $('#link_is_all_day_task').prop("checked", true)
+                         } else {
+                             $('#link_is_all_day_task').prop("checked", false)
+                         }
+                         if (task.is_completed) {
+                             $('#link_is_completed').prop("checked", true)
+                         } else {
+                             $('#link_is_completed').prop("checked", false)
+                         }
+
+                         if (task.temperature === 2) {
+                             $("#link_radio2").prop("checked", true);
+                         } else if (task.temperature === 1) {
+                             $('#link_radio1').prop("checked", true);
+                         } else if (task.temperature === 3) {
+                             $('#link_radio3').prop("checked", true);
+                         }
+
+                         $("#link_partial_formsets").html(data['html_form']);
+                         $('#savelinkModal').modal('show');
+                         $('#link-formset').formset({
+                             addText: 'Add Reminder',
+                             deleteText: 'Remove Reminder'
+                         });
+
+                     },
+                     error: function (xhr, ajaxOptions, thrownError) { // on error..
+                         alert("error")
+
+                     },
+                     statusCode: {
+                         404: function () {
+                             alert("page not found");
+                         }
+                     }
+                 });
+                 $(document).on('click', '.delete-row', function () {
+                     $(this).parent().remove();
+                 });
+
+             }
+            });
+
+    </script>
+{% endblock %}

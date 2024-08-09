@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="author" content="SemiColonWeb"/>
+
+    <!-- Stylesheets
+    ============================================= -->
+    <link href="http://fonts.googleapis.com/css?family=Poppins:300,400,400i,600,700|Open+Sans:300,400,600,700,800,900"
+          rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="{% static 'xsite_template/css/bootstrap.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/style.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_six/business.css' %}"
+          type="text/css"/>
+
+    <link rel="stylesheet" href="{% static 'xsite_template/css/dark.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/swiper.css' %}" type="text/css"/>
+
+    <!-- Business Demo Specific Stylesheet -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_six/business.css' %}"
+          type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_six/css/fonts.css' %}"
+          type="text/css"/>
+    <!-- / -->
+    <link rel="stylesheet" href="{% static 'xsite_template/css/font-icons.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/animate.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/magnific-popup.css' %}" type="text/css"/>
+
+{#    <link rel="stylesheet" href="{% static 'xsite_template/one-page/css/et-line.css' %}" type="text/css"/>#}
+
+    <link rel="stylesheet" href="{% static 'xsite_template/css/responsive.css' %}" type="text/css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Theme Color
+    ============================================= -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_six/css/colors.css' %}"
+          type="text/css"/>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158292791-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-158292791-1');
+        gtag('send', 'pageview', location.pathname);
+    </script>
+
+    <!-- Document Title
+    ============================================= -->
+    <title>Xsite</title>
+
+    {% block extracss %}
+    {% endblock %}
+
+</head>
+
+<body class="stretched">
+
+<!-- Document Wrapper
+============================================= -->
+<div id="wrapper" class="clearfix">
+
+    {% block content %}
+    {% endblock %}
+
+</div><!-- #wrapper end -->
+
+<!-- Go To Top
+============================================= -->
+<div id="gotoTop" class="icon-angle-up"></div>
+
+<!-- External JavaScripts
+============================================= -->
+<script src="{% static 'xsite_template/js/jquery.js' %}"></script>
+<script src="{% static 'xsite_template/js/plugins.js' %}"></script>
+
+<!-- Footer Scripts
+============================================= -->
+<script src="{% static 'xsite_template/all_templates/xsite_template_six/js/functions.js' %}"></script>
+
+<script>
+    // Owl Carousel Scripts
+    $('#oc-features').owlCarousel({
+        items: 1,
+        margin: 60,
+        nav: true,
+        navText: ['<i class="icon-line-arrow-left"></i>', '<i class="icon-line-arrow-right"></i>'],
+        dots: false,
+        stagePadding: 30,
+        responsive: {
+            768: {items: 2},
+            1200: {stagePadding: 200}
+        },
+    });
+</script>
+
+{% block extrajs %}
+{% endblock %}
+
+</body>
+</html>

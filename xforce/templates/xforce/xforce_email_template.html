@@ -1,0 +1,23 @@
+{% extends 'layouts/authbasefile/auth_base.html' %}
+{% load static %}
+    {% block auth_content %}
+    <table style="color: black; width:45%; border:0; cellspacing:0; cellpadding:0;" >
+        <a href="http://{{ domain }}">
+            <img src="http://{{ domain }}/static/assets/images/Prospect-X-Logo.png" height="80" alt="logo">
+        </a><br>
+     <hr style="height:1px;border:none;color:lightgrey;background-color:lightgrey; border-color:lightgrey;" />
+        <p>
+        <h4>Dear {{ user.first_name}} {{ user.last_name}}, </h4>
+        {% if email_verification != 'None' %}
+            {{email_verification}}<br><br>
+            http://{{ domain }}{% url 'activate' uidb64=uid token=token %} <br> <br>
+        {% endif %}
+        {{content}}
+        <b>{{password}}</b><br><br>
+        Regards, <br>
+        ProspectX Team
+        </p>
+        <hr style="height:1px;border:none;color:lightgrey;background-color:lightgrey;border-color:lightgrey;" />
+        © 2020 ProspectX - All Rights Reserved
+    </table>
+{% endblock %}

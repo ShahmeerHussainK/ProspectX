@@ -1,0 +1,194 @@
+<div class="col-sm-6 col-md-4 col-xl-3">
+
+    <div id="savelinkModal" class="modal hide fade update-modal-center" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form id="link_save_task_form" method='post' class="form" role="form" action="{% url 'save_link_task' %}">
+                {% csrf_token %}
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input id="hidden_link" type="text"  value="Copy it" style="opacity: 0;">
+                        <h5 class="modal-title mt-0">Task</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <div>
+                                        <input id="link_modal_title" name="title" type="text" class="form-control"
+                                               required=""
+                                               placeholder="Enter a task title" autocomplete="on">
+                                        <input id="link_modal_id" name="id" type="hidden" class="form-control"
+                                               required=""
+                                               value="38" autocomplete="on">
+                                    </div>
+                                </div>
+                            </div>
+                            {% ifequal role "Admin User" %}
+                                <div class="col-sm-6">
+                                    <div class="">
+                                        <label class="control-label">Assign To</label>
+                                        <select name="assign_to" class="form-control select2">
+                                        <option value="">Select</option>
+                                        {% for usr in userData %}
+                                        <option value="{{usr.id}}">{{usr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    </div>
+                                </div>
+                            {% endifequal %}
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea id="link_description" name="description" required="" class="form-control"
+                                              rows="2" autocomplete="on"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Start Date/Time</label>
+                                    <div class="input-group datetime">
+                                        <input name="start_date_time" type="text" class="form-control"
+                                               id="link_startdatetime" required>
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">End Date/Time</label>
+                                    <div class="input-group datetime">
+                                        <input name="end_date_time" type="text" class="form-control" id="link_enddatetime" required>
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <div class="form-check-inline">
+                                        <input id="link_is_all_day_task" name="is_all_day_task" type="checkbox"
+                                               class="form-check-input" value="1">
+                                        <label for="link_is_all_day_task" class="form-check-label">
+                                            Full day task
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="">
+                                    <div class="form-check-inline">
+                                        <input id="link_is_completed" name="is_completed" type="checkbox"
+                                               class="form-check-input" value="1">
+                                        <label for="link_is_completed" class="form-check-label">
+                                            Mark as done
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% ifequal role "Admin User" %}
+                            <div id="link_partial_formsets"></div>
+                        {% endifequal %}
+
+                        <div id="moretasksdiv"></div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Temprature</label>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="link_radio1">
+                                            <input type="radio"
+                                                   class="form-check-input"
+                                                   id="link_radio1" name="temperature"
+                                                   value="2" checked>Cold
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label"
+                                               for="link_radio2">
+                                            <input type="radio"
+                                                   class="form-check-input"
+                                                   id="link_radio2" name="temperature"
+                                                   value="1">Warm
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label"
+                                               for="link_radio3">
+                                            <input type="radio"
+                                                   class="form-check-input"
+                                                   id="link_radio3" name="temperature"
+                                                   value="3">Hot
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label>Actions</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <a id ="link_duplicate_task"  style="text-decoration: underline" href="#">Duplicate this task</a>
+                            </div>
+                            <div class="col-sm-12">
+                                <a href="javascript:void(0)" id="link_task" style="text-decoration: underline">
+                                    Link this task
+                                </a>
+                            </div>
+                            <div class="col-sm-12">
+                                <a id="link_delete_task" style="text-decoration: underline" data-toggle="modal" href="#deleteModal">Delete this task</a>
+                            </div>
+
+                        </div>
+                    </div><!-- /.modal-content -->
+                    <div class="modal-footer">
+                        <div class="row">
+                            <div class="col-sm-12 ">
+                                <button id="link_task_button" class="btn btn-primary waves-effect waves-light" type="submit">
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="link_success_div" class="alert alert-success d-none"></div>
+                    <div id="link_error_div" class="alert alert-danger d-none"></div>
+
+                </div><!-- /.modal-dialog -->
+            </form>
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+<div class="modal hide fade" id="deleteModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm
+                    Delete</h5>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this task permanently?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close
+                </button>
+                <button id="modaldeletetask" type="button" class="btn btn-danger">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

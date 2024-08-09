@@ -1,0 +1,43 @@
+<div class="col-sm-3 col-md-3 col-lg-2 mt-4">
+    <div class="card mt-3">
+        <div class="card-body p-0 ">
+            <div class="list-group">
+                {% if page == 'update_profile' %}
+                    <a href="{% url 'update_profile' %}" class="list-group-item list-group-item-action p-2 active"><i class="dripicons-user "></i><span class="box_span_value_margin">  Profile</span></a>
+                {% else %}
+                    <a href="{% url 'update_profile' %}" class="list-group-item list-group-item-action p-2"><i class="dripicons-user "></i><span class="box_span_value_margin">  Profile</span></a>
+                {% endif %}
+
+                {% if role != "Super User" %}
+                    {% if page == 'list_management' %}
+                        {% if permissions.list_management %}
+                            <a id="update_list_href" href="{% url 'list_management' %}"
+                               class="list-group-item list-group-item-action p-2 active"><i class="mdi mdi-menu "></i><span class="box_span_value_margin">  List
+                                Management</span></a>
+                        {% endif %}
+                    {% else %}
+                        {% if permissions.list_management %}
+                            <a id="tag_href" href="{% url 'list_management' %}" class="list-group-item list-group-item-action p-2"><i class="mdi mdi-menu "></i><span class="box_span_value_margin">  List
+                                Management</span></a>
+                        {% endif %}
+                    {% endif %}
+
+                    <a id="market_href" href="{% url 'campaign_settings' %}" class="list-group-item list-group-item-action p-2"><i
+                        class="mdi mdi-bullhorn-outline "></i><span class="box_span_value_margin">  Campaigns </span></a>
+                    {% if permissions.skip_trace %}
+                        <a id="href_skiptrace_id" href="{% url 'skiptrace_settings' %}" class="list-group-item list-group-item-action p-2"><i
+                            class="mdi mdi-file-search-outline "></i><span class="box_span_value_margin">  SkipTrace </span></a>
+                    {% endif %}
+
+                    {% if permissions.marketing_plan %}
+                        <a id="href_xforce_id" href="{% url 'xforce_packages' %}" class="list-group-item list-group-item-action p-2"><i
+                            class="ti-user "></i><span class="box_span_value_margin">  X Force </span></a>
+                    {% endif %}
+                    {% if permissions.access_xsite %}
+                        <a id="href_xsite_id" href="/xsite/upgrade_membership" class="list-group-item list-group-item-action p-2"><i class="mdi mdi-web "></i><span class="box_span_value_margin">  X Site </span></a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

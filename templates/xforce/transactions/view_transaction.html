@@ -1,0 +1,698 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title"><a href="{% url 'transaction_list'%}">Transactions</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'x_force'%}"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">View Transactions</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        {% if data %}
+                        dsfsdf
+                        {% endif %}
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Property Address?</label>
+                                    <div>
+                                        <input readonly class="form-control"
+                                               value="{{ property_address|stringformat:'s' }}"
+                                               name="property_address" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <div>
+                                        <input readonly placeholder="" value="{{status|stringformat:'s'}}" required
+                                               class="form-control" name="status" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Potential</label>
+                                    <div>
+                                        <input readonly placeholder="" value="{{potential|stringformat:'s'}}"
+                                               required class="form-control" name="potential" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Seller</label>
+                                    <div>
+                                        <input readonly placeholder="" value="{{seller|stringformat:'s'}}" required
+                                               class="form-control" name="seller"
+                                               type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Transaction Manager</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               name="Tranasctionmanager"
+                                               value="{{transaction_manager|stringformat:'s'}}" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Wait For Refund</label>
+                                    <input  readonly class="form-control"  id="wait_for_refund" name="wait_for_refund" type="text"  value="{{ wait_for_refund |stringformat:'s' }}">
+
+
+
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Pending Stage</label>
+                                    <div>
+                                        <input readonly placeholder="" value="{{pending_stage|stringformat:'s'}}"
+                                               required class="form-control"
+                                               name="PendingStage" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="col-sm-6">
+                                <div class="form-group">
+                                     <label>Purchase Contract Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control"
+                                                   value="{{purchase_contract_ratification_date_start}}"
+                                                   name="purchase_contract_ratification_date_start" type="text">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Contract Close Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control"
+                                                   name="contract_date_start" value="{{contract_date_start}}"
+                                                   type="text" placeholder="" >
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Contract Price</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{contract_price}}" class="form-control" name="contract_price"
+                                               type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Original Purchase EMD Amount</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{original_purchase_emd_amount}}" class="form-control"
+                                               name="original_purchase_emd_amount" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{ company }}"
+                                               name="company" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Wired Confirmation Number</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{wire_confirmation_number}}" class="form-control"
+                                               name="wired_confirmation_number" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Title Actions</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{title_actions}}" name="Title-Actions" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Reason for Pending</label>
+                                    <div>
+                                        <input readonly class="form-control"
+                                               value="{{ reason_for_pending |stringformat:'s' }}"
+                                               name="reason_for_pending" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-6">
+                                <div>
+                                    <label>HOA</label>
+                                        <input  readonly class="form-control"  id="hoa" name="hoa" type="text"  value="{{ hoa |stringformat:'s' }}">
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 mt-6">
+                                 <div>
+                                    <label>Preliminary Received</label>
+                                        <input  readonly class="form-control"  id="preliminary_received" name="preliminary_received" type="text"  value="{{ preliminary_received |stringformat:'s' }}">
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Marketing Stage</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{marketing_Stage}}" name="MarketingStage" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Marketing Price</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{marketing_price}}" class="form-control"
+                                               name="marketing_price" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Website/Picture Address</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{website_picture}}" class="form-control" name="seller_name"
+                                               type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Showing Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control" name="showing_date"
+                                                   value="{{showing_date_start}}" type="text">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label> Accept Offer</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control"
+                                                   value="{{deadline_to_accept_offer_start}}"
+                                                   name="deadline_to_accept_offer_start" type="text">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>showing</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control" name="showing"
+                                               value="{{showing}}" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6 mt-6">
+                                <div>
+                                    <label>Get Pictures</label>
+                                        <input  readonly class="form-control"  id="marketing_needs" name="marketing_needs" type="text"  value="{{ marketing_needs |stringformat:'s' }}">
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <div>
+                                    <label>SEND TO SALES </label>
+                                        <input  readonly class="form-control"  id="pre_assigned_status" name="pre_assigned_status" type="text"  value="{{ pre_assigned_status |stringformat:'s' }}">
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Assigned Stage</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control" name="showing"
+                                               value="{{assignment_stage}}" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Final Gross Sales Price</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{final_gross_sales_price}}" class="form-control"
+                                               name="final_gross_sales_price" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Closing Date </label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control " name="closing_date"
+                                                   value="{{closing_date}}" type="text">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Finder's Fee</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{finder_fee}}" name="finder_fee" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Buyer Contact Info</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{buyer_contact_info}}" name="buyer_contact_info" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Buyer's Entity Name</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{buyer_entity_name}}" class="form-control"
+                                               name="buyer_entity_name" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Assignment EMD Amount</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{assignment_emd_amount}}" class="form-control"
+                                               name="assignment_emd_mount" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Non-refundable earnest money </label>
+                                    <div>
+                                        <input readonly
+                                               placeholder=""
+                                               value="{{non_refundable}}" required class="form-control"
+                                               name="non_refundable" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Located</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{location}}" name="located" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>EMD Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control" name="emd_date_start"
+                                                   value="{{emd_date_start}}" type="text">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Assignment Fee</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{assignment_fee}}" class="form-control" name="assignment_fee"
+                                               type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Contract Actions</label>
+                                    <div>
+                                        <input readonly required class="form-control" value="{{contract_action}}" name="contract_action" type="text">
+                                    </div>
+                                </div>
+                            </div>
+<!--                            <script>-->
+<!--                                var cont_other_terms = "{{ other_terms  | default_if_none:'' }}";-->
+<!--                            </script>-->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Other Terms</label>
+                                    <input readonly class="form-control"
+                                               value="{{other_terms}}" name="other_terms" type="text">
+
+<!--                                    <textarea readonly required="" id="other_terms" class="form-control"-->
+<!--                                              value="{{other_terms}}" name="other_terms"> </textarea>-->
+                                </div>
+                            </div>
+
+
+<!--                            <script>-->
+<!--                                var cont_notes = "{{ notes  | default_if_none:'' }}";-->
+<!--                            </script>-->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Notes</label>
+<!--                                    <textarea readonly required="" class="form-control summernote" id="notes"-->
+<!--                                              value="notes" name="notes"> </textarea>-->
+                                  <input readonly class="form-control"
+                                               value="{{notes}}" name="notes" type="text">
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Actual Closing Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input readonly class="form-control"
+                                                   value="{{actual_close_date}}" name="actual_closing_date"
+                                                   type="text">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Misc Expenses</label>
+                                    <div>
+                                        <input readonly placeholder="" required
+                                               value="{{misc_expenses}}" class="form-control" name="Misc Expenses"
+                                               type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Actual Profit</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{actual_profit}}" name="actual_profit" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Lead Source</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{lead_source}}" name="actual_profit" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Contract Delivery</label>
+                                    <div>
+                                        <input readonly placeholder="" required class="form-control"
+                                               value="{{contract_delivery}}" name="actual_profit" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Campaign</label>
+                                    <div>
+                                        <input readonly placeholder=""  class="form-control"
+                                               value="{{campaigns}}" name="campaigns" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+<!--                            <script>-->
+<!--                                var cont_explanation_of_misc_expense = "{{ explanation_of_misc_expense  | default_if_none:'' }}";-->
+<!--                            </script>-->
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Explanation of Misc Expenses</label>
+<!--                                    <textarea readonly required="" class="form-control summernote"-->
+<!--                                              id="explanation_of_misc_expense"-->
+<!--                                              value="{{explanation_of_misc_expense}}"-->
+<!--                                              name="explanation_of_misc_expenses"> </textarea>-->
+
+                                     <input readonly class="form-control"
+                                               value="{{explanation_of_misc_expense}}" name="explanation_of_misc_expense" type="text">
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+
+                                <div>
+                                    <label>Closing Stage</label>
+                                        <input  readonly class="form-control"  id="closing_stage" name="closing_stage" type="text"  value="{{ closing_stage |stringformat:'s' }}">
+                                </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-12">-->
+                                <!--<div>-->
+                                    <!--<label>uploaded img </label><br>-->
+                                    <!--<image  id="transaction_file" name="transaction_file" src="{{transaction_file}}" width="300" height="300">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-sm-12">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label>File</label><br>-->
+                                    <!--<input readonly  type="text" id="transaction_file" name="transaction_file" class="form-control" value="{{transaction_file}}">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+      integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous"/>
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+        integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            format: 'm/d/y H:m',
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $('#my_form').on('submit', function () {
+        $("#sub_btn").hide();
+        $('#sub_btn').delay(2000).show(0);
+    });
+
+    $(document).ready(function () {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    });
+
+    $('#planer').on('change', function () {
+        let plan = $('#planer').val();
+        if (plan !== "") {
+            $("#hsh_off").show();
+            $('#resp').show();
+            $('#tl_units').show();
+            $('#tch').show();
+        } else {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        }
+    });
+    var encodedStr = cont_other_terms;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#other_terms").summernote(
+        'code', decodedString,
+        // '100', height
+
+    );
+
+    var encodedStr = cont_notes;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#notes").summernote(
+        'code', decodedString,
+        // '100', height
+
+    );
+
+    var encodedStr = cont_explanation_of_misc_expense;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#explanation_of_misc_expense").summernote(
+        'code', decodedString,
+        // '100', height
+
+    );
+</script>
+{% endblock %}
+
+{% endblock %}

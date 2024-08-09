@@ -1,0 +1,107 @@
+<!-- Sve List Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade bs-modal-list" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Add To List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-primary btn-md" data-toggle="modal"
+                                    data-target=".existing-list-modal">Select Existing
+                                List
+                            </button>
+                            <button type="button" class="btn btn-primary btn-md" data-toggle="modal"
+                                    data-target=".create-list-modal"> Create New List
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+</div> <!-- end col -->
+<!-- Select Existing List Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade existing-list-modal" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Select List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12 text-center">
+                            <select class="form-control custom-select selected-value list-partial-select" id="select-existing-list">
+                                <option value="-1" selected="">Select Existing List</option>
+                                {% for list in lists %}
+                                    <option value="{{ list.pk }}">{{ list.list_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <button class="btn btn-primary waves-effect waves-light selected-action" action="create_list"
+                                    id="btn-save-list-old"
+                                    type="button" >
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+
+</div> <!-- end col -->
+
+<!-- Create New Modal Popup -->
+<div class="col-sm-6 col-md-4 col-xl-3">
+    <div class="modal fade create-list-modal" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mt-0">Create New List</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label class="control-label">List Name</label>
+                            <input id="input-new-list" class="form-control form-control-md selected-value"
+                                   type="text">
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <button class="btn btn-primary waves-effect waves-light selected-action" action="create_list"
+                                    id="btn-save-new-list"
+                                    type="button">
+                                Create List
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+</div> <!-- end col -->

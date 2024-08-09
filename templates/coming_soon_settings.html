@@ -1,0 +1,80 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Campaigns</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Settings</li>
+                    </ol>
+                </div>
+                <!-- <div class="col-sm-6">
+                    <button class="btn btn-primary waves-effect waves-light float-right" type="button"
+                        data-toggle="modal" data-target=".bs-example-modal-center">
+                        Create Task
+                    </button>
+                </div> -->
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+
+            {% include 'partials/settings_sidebar.html' %}
+            <div class="col-sm-9 col-md-9 col-lg-10">
+
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active"  href="{% url 'campaign_settings' %}">
+                            <i class="fas fa-bullhorn "></i> &nbsp;Campaigns
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="{% url 'major_markets' %}">
+                            <i class="fas fa-people-carry "></i> &nbsp;Major Markets
+                        </a>
+                    </li>
+                </ul>
+            <div class="card m-t-4">
+      <div class="card-body">
+    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <div class="home-wrapper m-t-4">
+            <div class="maintenance-img m-t-4">
+                <img src="/media/maintenance.png" alt="" class="img-fluid mx-auto d-block" width="62%">
+            </div>
+            <h3 class="m-t-30">Coming Soon</h3>
+            <p>Please check back in sometime.</p>
+
+        </div>
+    </div>
+</div>
+      </div>
+</div>
+        </div>
+    </div>
+</div>
+
+
+{% block extrajs %}
+
+
+<script type="text/javascript">
+$(window).on('load', function() {
+    let loc = window.location.href;
+    if (loc.indexOf("campaign_settings") >= 0) {
+        $('#market_href').addClass('active');
+    }
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

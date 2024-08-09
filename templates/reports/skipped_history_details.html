@@ -1,0 +1,90 @@
+{% extends 'layouts/basefile/base.html' %}
+
+{% block content %}
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Skipped History Details</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Skipped History Details</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-sm-12 col-xs-12 col-md-6 col-md-6">
+                                <ul class="list-group mb-3">
+                                    <li class="list-group-item p-2">Campaign Name <span
+                                            class="badge float-right m-1">{{ list_name }} </span></li>
+                                    <li class="list-group-item p-2">Import Option <span
+                                            class="badge float-right m-1">{{ import_option }} </span></li>
+                                    <li class="list-group-item p-2">Status <span
+                                            class="badge float-right m-1">Completed</span></li>
+                                    <li class="list-group-item p-2">History View <span
+                                            class="badge float-right m-1">Skipped</span></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-12">
+
+                                <div class="table-responsive">
+                                    <table id="skip_history_datatable" class="table table-hover dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0px; width: 100%;">
+                                        <thead class="xsite_thead_background">
+                                            <tr>
+                                                <th>Full Name</th>
+                                                <th>Mailing Address </th>
+                                                <th>Property Address</th>
+                                                <th>Fail Reason</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for skip in skipped_prospects %}
+                                            <tr>
+                                                <td> {{ skip.fullname }}</td>
+                                                <td>{{ skip.mailingaddress }} </td>
+                                                <td>
+                                                    {{ skip.propertyaddress }}
+                                                </td>
+                                                <td>
+                                                    {{ skip.api_response}}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> <!-- end row -->
+
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+</div>
+
+{% endblock %}
+{% block extrajs %}
+    <script>
+        $(document).ready( function () {
+          $('#skip_history_datatable').dataTable({
+              lengthChange: false,
+              bFilter: false
+          });
+        });
+    </script>
+{% endblock %}

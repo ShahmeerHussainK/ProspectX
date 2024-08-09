@@ -1,0 +1,846 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>Prospect</title>
+    <meta content="Responsive " name="description"/>
+    <meta content="Prospect" name="Prospect"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/favicon-96x96.png' %}">
+    <!-- Dropzone css -->
+    <link href="{% static 'plugins/dropzone/dist/dropzone.css' %}" rel="stylesheet" type="text/css">
+    <!-- DataTables -->
+    <link href="{% static 'plugins/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'plugins/datatables/buttons.bootstrap4.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!-- Responsive datatable examples -->
+    <link href="{% static 'plugins/datatables/responsive.bootstrap4.min.css' %}" rel="stylesheet" type="text/css"/>
+    <!--calendar css-->
+    <link href="{% static 'plugins/fullcalendar/css/fullcalendar.min.css' %}" rel="stylesheet">
+    <!--datepicker css-->
+    <link href="{% static 'plugins/Date-Time-Picker-Bootstrap/css/bootstrap-datetimepicker.min.css' %}"
+          rel="stylesheet">
+    <!--select2 css-->
+    <link href="{% static 'plugins/select2/css/select2.min.css' %}" rel="stylesheet" type="text/css"/>
+
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/metismenu.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!--summernote css-->
+    <link href="{% static 'plugins/summernote/summernote.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'plugins/summernote/summernote-bs4.css' %}" rel="stylesheet" type="text/css">
+
+    <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/../../../static/assets/css/style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/../../../static/assets/css/custom_style.css' %}" rel="stylesheet" type="text/css">
+
+    <link href="{% static 'assets/css/../../../static/assets/css/xforce_custom_style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/css/snackbar.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/custom_css/toastr.new.min.css' %}" rel="stylesheet" type="text/css"> 
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="{% static 'plugins/morris/morris.css' %}">
+    <!--Jquery steps CSS -->
+    <link rel="stylesheet" href="{% static 'plugins/jquery-steps/jquery.steps.css' %}"> 
+    <link href="{% static 'assets/css/custom_style.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!--<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">-->
+
+    <!-- XDSoft DateTimePicker -->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />-->
+
+
+    {% block extracss %}
+
+    {% endblock %}
+</head>
+
+<body onload="start();">
+
+
+<!--Subscription popup for New Admin User-->
+{% include 'partials/_subscription.html' %}
+
+
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Top Bar Start -->
+    {% include 'partials/_topbar.html' %}
+    <!-- Top Bar End -->
+
+    <!-- ========== Left Sidebar Start ========== -->
+    {% include 'partials/_sidebar.html' %}
+
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="content-page">
+        {% block content %}
+        {% endblock %}
+
+
+        {% include 'partials/_footer.html' %}
+
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Right content here -->
+    <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+
+<!-- Create Task Modal Popup -->
+{% include 'partials/_taskmodal.html' %}
+{% include 'partials/_updatetaskmodal.html' %}
+{% include 'partials/_savelinkmodal.html' %}
+
+<!-- jQuery  -->
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+
+ 
+<script src="{% static 'assets/custom_js/toastr.min.js' %}"></script>
+
+<script src="{% static 'plugins/ion-rangeslider/js/ion.rangeSlider.min.js' %}"></script>
+<script src="{% static 'assets/pages/rangeslider-init.js' %}"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        $('#startdatetime').datetimepicker();
+        $('#enddatetime').datetimepicker();
+        $('#startdatetime2').datetimepicker();
+        $('#enddatetime2').datetimepicker();
+        $('#link_enddatetime').datetimepicker();
+        $('#link_startdatetime').datetimepicker();
+
+        $(".addtask").click(function () {
+            $("#moretasksdiv").append('<div class="row mb-2"> <div class="col-sm-3"><select class="form-control custom-select"><option>Email</option></select></div><div class="col-sm-3"><input type="text" class="form-control" required="" placeholder="15" autocomplete="on"></div><div class="col-sm-3"><select class="form-control custom-select"><option>hours</option><option>minuties</option></select></div><div class="col-sm-3"><button class="btn btn-block remove_task btn-outline-danger waves-effect waves-light" type="button">Remove</button></div></div>');
+        });
+        // Remove parent of 'remove' link when link is clicked.
+        $('#moretasksdiv').on('click', '.remove_task', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().remove();
+        });
+    });
+</script>
+
+<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/metismenu.min.js' %}"></script>
+<script src="{% static 'assets/js/jquery.slimscroll.js' %}"></script>
+<script src="{% static 'assets/js/waves.min.js' %}"></script>
+<!-- Required datatable js -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/dataTables.bootstrap4.min.js' %}"></script>
+<!-- Buttons examples -->
+<script src="{% static 'plugins/datatables/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/jszip.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/pdfmake.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/vfs_fonts.js' %}"></script>
+<script src="{% static 'plugins/datatables/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/buttons.print.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/buttons.colVis.min.js' %}"></script>
+<!-- Responsive examples -->
+<script src="{% static 'plugins/datatables/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables/responsive.bootstrap4.min.js' %}"></script>
+
+<!-- Datatable init js -->
+<script src="{% static 'assets/pages/datatables.init.js' %}"></script>
+
+
+<!-- datetimepicker js -->
+<!-- <script src="plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>  -->
+<script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+
+<!-- select2 js -->
+<script src="{% static 'plugins/select2/js/select2.min.js' %}"></script>
+<script src="{% static 'assets/pages/form-advanced.init.js' %}"></script>
+
+
+<!-- Dropzone js -->
+<script src="{% static 'plugins/dropzone/dist/dropzone.js' %}"></script>
+<!-- App js -->
+<script src="{% static 'assets/js/app.js' %}"></script>
+<script src="{% static 'assets/js/jquery.formset.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/Prospectx.js' %}"></script>
+
+<script src="{% static 'assets/js/prospectx/Tasks.js' %}"></script>
+<!--Marketing js-->
+<!--<script src="{% static 'assets/js/prospectx/MarketingPlan.js' %}"></script>-->
+
+<!--summernote js file-->
+<script src="{% static 'plugins/summernote/summernote-bs4.js' %}"></script>
+
+<script src="{% static 'plugins/moment/moment.js' %}"></script>
+<script src="{% static 'plugins/Date-Time-Picker-Bootstrap/js/bootstrap-datetimepicker.min.js' %}"></script>
+
+<script src="{% static 'plugins/fullcalendar/js/fullcalendar.min.js' %}"></script>
+
+<script src="{% static 'plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js' %}"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#datepicker1').datetimepicker({
+            format: 'D-M-Y'
+        });
+
+        $('.summernote').summernote({
+            minHeight: 100,
+            placeholder: 'Write here ...',
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear', 'strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['height', ['height']],
+                ['color', ['color']],
+                ['table', ['table']],
+                ['view', ['fullscreen', 'help']],
+                ['misc', ['undo', 'redo', 'print']],
+                ['insert', ['link', 'hr']]
+            ]
+        });
+    });
+
+</script>
+<script src="{% static 'assets/js/jquery.inputmask.bundle.js' %}"></script>
+<script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/myCalendar.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/myList.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/Tasks.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/filters.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/filters_action.js' %}"></script>
+{#<script src="{% static 'assets/js/prospectx/reports.js' %}"></script>#}
+<script src="{% static 'assets/js/prospectx/Task_Modals.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/notifications.js' %}"></script>
+<script src="{% static 'assets/js/prospectx/xsite.js' %}"></script>
+{#<script src="{% static 'assets/js/prospectx/xsite_sites.js' %}"></script>#}
+{#<script src="{% static 'assets/js/prospectx/xsite_dashboard.js' %}"></script>#}
+{#<script src="{% static 'assets/js/prospectx/xsite_stats.js' %}"></script>#}
+<!-- form wizard -->
+<script src="{% static 'plugins/jquery-steps/jquery.steps.min.js' %}"></script>
+
+<!-- form wizard init -->
+<script src="{% static 'assets/pages/form-wizard.init.js' %}"></script>
+<!--Morris Chart-->
+<script src="{% static 'plugins/morris/morris.min.js' %}"></script>
+<script src="{% static 'plugins/raphael/raphael-min.js' %}"></script>
+<script src="{% static 'assets/pages/morris.init.js' %}"></script>
+
+<script src="{% static 'assets/js/prospectx/xforce.js' %}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+<script>
+    let conf2 = {};
+    otask_modals = new Task_Modals(conf2);
+</script>
+
+{# event stream libraries #}
+<script src="{% static 'django_eventstream/eventsource.min.js' %}"></script>
+<script src="{% static 'django_eventstream/reconnecting-eventsource.js' %}"></script>
+
+<!--//datetime picker new for market planer-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>-->
+<!--<script>-->
+<!--$(function () {-->
+<!--$(".datetimepicker").datetimepicker({-->
+<!--format: 'm/d/y H:m',-->
+<!--});-->
+
+<!--$("#datepicker1").datetimepicker({-->
+<!--format: 'm/d/y',-->
+<!--});-->
+<!--});-->
+<!--</script>-->
+
+
+<script>
+    function Reset_Task_Pill() {
+        $.ajax({
+            type: 'GET',
+            url: '/notification/reset_task_pill',
+            success: function (data) { // on success..
+                $("#task_pill").html(0);
+            },
+            error: function (xhr, ajaxOptions, thrownError) { // on error..
+                alert("error")
+            },
+            statusCode: {
+                404: function () {
+                    alert("page not found");
+                }
+            }
+        });
+    }
+
+    function Reset_Notification_Pill() {
+        $.ajax({
+            type: 'GET',
+            url: '/notification/reset_notification_pill',
+            success: function (data) { // on success..
+                $("#notification_pill").html(0);
+            },
+            error: function (xhr, ajaxOptions, thrownError) { // on error..
+                alert("error")
+            },
+            statusCode: {
+                404: function () {
+                    alert("page not found");
+                }
+            }
+        });
+
+    }
+
+    var facility_name = 'prospectx';
+    var user_id = {{ request.user.id }};
+
+    oevent_stream = new Event_Stream(conf2);
+</script>
+
+<script>
+    window.onload = function () {
+        let conf = {
+            isSuperuser: "{{user_role}}" == "Super User",
+            user_id: "{{user_id}}",
+            role: "{{role}}",
+            user_role: "{{user_role}}"
+
+        };
+        // Set Local storage
+        {% if user_role %}
+        localStorage.setItem("user_role", "{{user_role}}");
+        localStorage.setItem("user_id", "{{user_id}}");
+        {% endif %}
+
+        localStorage.setItem("role", "{{role}}");
+
+        // Initialization
+        oProspectx = new Prospectx(conf);
+
+        // Tasks
+        oTasks = new Tasks(conf);
+
+        // Calendar
+        oCalendar = new prospectxCalendar(conf)
+
+        // myList
+        omyList = new prospectxList(conf)
+
+
+    };
+</script>
+
+
+<!--for subscription modal-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var image = "{{user_profile}}"
+        image = "{{user_profile.url}}"
+        var new_check = image.includes("user_images/");
+        if (image != null) {
+            if (new_check) {
+                image = "{{user_profile.url}}"
+
+
+                localStorage.setItem("image_name", image)
+            }
+
+
+        }
+
+
+        <!--$('#profile_image_4').attr('src', localStorage.getItem("image_name"));-->
+
+
+        if ('{{ subscription.subscribed }}' == 'yes') {
+        } else {
+            $('#on_load_model').modal({backdrop: 'static', keyboard: false});
+        }
+    });
+
+
+
+    $(document).ready(function() {
+
+        //  tempmsg = tempmsg.replace("/</p>/gi, ''");
+        // $("#email_content").summernote('reset');
+        $("#email_content").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#email_content').summernote('isEmpty'))
+        {
+            // alert('editor content is empty');
+        }
+        else{
+            var encodedStremail = cont_email_content;
+            var parseremail = new DOMParser;
+            var domparseremail = parseremail.parseFromString(encodedStremail, 'text/html');
+            var decodedStringemail = domparseremail.body.textContent;
+            var email_content = $("#email_content").summernote('code', decodedStringemail);
+            // $('#email_content').val(email_content);
+
+        }
+
+        // });
+// used in add sales template in sales app
+        $("#notes").summernote('isEmpty');
+        if ($('#notes').summernote('isEmpty'))
+        {
+            // alert('editor content is empty');
+        }
+        else{
+            var encodedStrnotes = cont_notes;
+            var parsernotes = new DOMParser;
+            var domparsernotes = parsernotes.parseFromString(encodedStrnotes, 'text/html');
+            var decodedStringnotes = domparsernotes.body.textContent;
+            // alert(decodedStringemail)
+            var notes = $("#notes").summernote('code', decodedStringnotes);
+            // $('#notes').val(tempmsgnotes);
+
+        }
+        $("#comps").summernote('isEmpty');
+        if ($('#comps').summernote('isEmpty'))
+        {
+            // alert('editor content is empty');
+        }
+        else{
+            var encodedStrcomps = cont_comps;
+            var parsercomps = new DOMParser;
+            var domparsercomps = parsercomps.parseFromString(encodedStrcomps, 'text/html');
+            var decodedStringcomps = domparsercomps.body.textContent;
+            // alert(decodedStringemail)
+            var comps = $("#comps").summernote('code', decodedStringcomps);
+            // $('#comps').val(tempmsgcomps);
+
+        }
+        //  tempmsg = tempmsg.replace("/</p>/gi, ''");
+        // $("#email_content").summernote('reset');
+        $("#lockbox_acess_info").summernote('isEmpty');
+        if ($('#lockbox_acess_info').summernote('isEmpty'))
+        {
+            // alert('editor content is empty');
+        }
+        else{
+            var encodedStrlock = cont_lockbox_acess_info;
+            var parserlock = new DOMParser;
+            var domparserlock = parserlock.parseFromString(encodedStrlock, 'text/html');
+            var decodedStringlock = domparserlock.body.textContent;
+            // alert(decodedStringemail)
+            var lockbox_acess_info = $("#lockbox_acess_info").summernote('code', decodedStringlock);
+            // $('#lockbox_acess_info').val(tempmsglock);
+            //     console.log(tempmsglock)
+        }
+        $("#reason_for_pending").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#reason_for_pending').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        }
+        else
+        {
+            var encodedStrreason = cont_reason_for_pending;
+            var parserereason = new DOMParser;
+            var domparserereason = parserereason.parseFromString(encodedStrreason, 'text/html');
+            var decodedStringreason = domparserereason.body.textContent;
+            var reason_for_pending = $("#reason_for_pending").summernote('code', decodedStringreason);
+            // $('#email_content').val(email_content);
+        }
+        $("#info").summernote('isEmpty');
+
+        if ($('#info').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        } else {
+            var encodedStrinfo = cont_info;
+            var parsereinfo = new DOMParser;
+            var domparsereinfo = parsereinfo.parseFromString(encodedStrinfo, 'text/html');
+            var decodedStringinfo = domparsereinfo.body.textContent;
+            var info = $("#info").summernote('code', decodedStringinfo);
+            // $('#email_content').val(email_content);
+
+        }
+
+        $("#cont_miscellaneous_notes").summernote('isEmpty');
+
+        if ($('#cont_miscellaneous_notes').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        } else {
+            var encodedStrinfo1 = cont_info;
+            var parsereinfo1 = new DOMParser;
+            var domparsereinfo1 = parsereinfo1.parseFromString(encodedStrinfo1, 'text/html');
+            var decodedStringinfo = domparsereinfo1.body.textContent;
+            $("#cont_miscellaneous_notes").summernote('code', decodedStringinfo);
+
+        }
+
+         $("#cont_details").summernote('isEmpty');
+
+        if ($('#cont_details').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        } else {
+            var encodedStrinfo2 = cont_info;
+            var parsereinfo2 = new DOMParser;
+            var domparsereinfo2 = parsereinfo1.parseFromString(encodedStrinfo2, 'text/html');
+            var decodedStringinfo = domparsereinfo2.body.textContent;
+            $("#cont_details").summernote('code', decodedStringinfo);
+
+        }
+
+          $("#cont_mao_details").summernote('isEmpty');
+
+        if ($('#cont_mao_details').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        } else {
+            var encodedStrinfo3 = cont_info;
+            var parsereinfo3 = new DOMParser;
+            var domparsereinfo3 = parsereinfo1.parseFromString(encodedStrinfo3, 'text/html');
+            var decodedStringinfo = domparsereinfo3.body.textContent;
+            $("#cont_mao_details").summernote('code', decodedStringinfo);
+
+        }
+
+         $("#cont_other_terms").summernote('isEmpty');
+
+        if ($('#cont_other_terms').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        } else {
+            var encodedStrinfo3 = cont_info;
+            var parsereinfo3 = new DOMParser;
+            var domparsereinfo3 = parsereinfo1.parseFromString(encodedStrinfo3, 'text/html');
+            var decodedStringinfo = domparsereinfo3.body.textContent;
+            $("#cont_other_terms").summernote('code', decodedStringinfo);
+
+        }
+
+        $("#cont_deal_details").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#cont_deal_details').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        }
+        else
+        {
+            var encodedStrexpense = cont_misc_expense;
+            var parsereexpense = new DOMParser;
+            var domparsereexpense = parsereexpense.parseFromString(encodedStrexpense, 'text/html');
+            var decodedStringexpense = domparsereexpense.body.textContent;
+            $("#cont_deal_details").summernote('code', decodedStringexpense);
+        }
+
+        $("#cont_note_for_agent").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#cont_note_for_agent').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        }
+        else
+        {
+            var encodedStrterm = cont_term;
+            var parsereterm = new DOMParser;
+            var domparsereterm = parsereterm.parseFromString(encodedStrterm, 'text/html');
+            var decodedStringterm = domparsereterm.body.textContent;
+            $("#cont_note_for_agent").summernote('code', decodedStringterm);
+        }
+
+           $("#explanation_of_misc_expense").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#explanation_of_misc_expense').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        }
+        else
+        {
+            var encodedStrexpense = cont_misc_expense;
+            var parsereexpense = new DOMParser;
+            var domparsereexpense = parsereexpense.parseFromString(encodedStrexpense, 'text/html');
+            var decodedStringexpense = domparsereexpense.body.textContent;
+            $("#explanation_of_misc_expense").summernote('code', decodedStringexpense);
+        }
+
+        $("#note").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#note').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        }
+        else
+        {
+            var encodedStrnote = cont_note;
+            var parserenote = new DOMParser;
+            var domparserenote = parserenote.parseFromString(encodedStrnote, 'text/html');
+            var decodedStringnote = domparserenote.body.textContent;
+            var note = $("#note").summernote('code', decodedStringnote);
+            // $('#email_content').val(email_content);
+
+        }
+
+        $("#other_terms").summernote('isEmpty');
+        // $( "#Finish" ).click(function() {
+
+        if ($('#other_terms').summernote('isEmpty')) {
+            // alert('editor content is empty');
+        }
+        else
+        {
+            var encodedStrterm = cont_term;
+            var parsereterm = new DOMParser;
+            var domparsereterm = parsereterm.parseFromString(encodedStrterm, 'text/html');
+            var decodedStringterm = domparsereterm.body.textContent;
+            var other_terms = $("#other_terms").summernote('code', decodedStringterm);
+            // $('#email_content').val(email_content);
+
+        } 
+        // Xforce Settings attempts js
+        var count= 1; 
+        $(".xforce_settings_btn").click(function () { 
+            var html='<div class="row">  <div class="col-md-4"><label>Attempt Type '+count+'</label><div class="form-group"><select name="callandofferattempts_type'+count+'" id="callandofferattempts_type" class="form-control wizard_select2 ">{% if data.type %}<option value="{{ data.type|stringformat:"s" }}" selected>{{ data.type }}</option>{% endif %}{% for type in types %}<option value="{{ type }}">{{ type }}</option>{% endfor %}</select></div></div> <div class="col-md-4"><div class="form-group"><label>Attempt SMS '+count+'</label><div><input placeholder="Enter SMS"  class="form-control" id="callandofferattempts_sms" name="callandofferattempts_sms'+count+'" type="text"{% if data.callandofferattempts_sms != None %}value="{{ data.callandofferattempts_sms|stringformat:"s" }}"{% endif %}></div></div></div><div class="col-md-4"><div class="form-group"><label>Attempt Email Subject '+count+'</label><div><input placeholder="Enter Email Subject"  class="form-control" id="callandofferattempts_subject" name="callandofferattempts_subject'+count+'" type="text"{% if data.callandofferattempts_subject != None %}value="{{ data.callandofferattempts_subject|stringformat:"s" }}"{% endif %}></div></div></div><div class="col-md-4"><div class="form-group"><label>Attempt Email Body '+count+'</label><div><input placeholder="Enter Email Body" class="form-control" id="callandofferattempts_body" name="callandofferattempts_body'+count+'" type="text"{% if data.callandofferattempts_body != None %}value="{{ data.callandofferattempts_body|stringformat:"s" }}"{% endif %}></div></div></div><div class="col-md-4"><label>Attempt Actions '+count+'</label><div class="form-group"><select name="callandofferattempts_action'+count+'" id="callandofferattempts_action" class="form-control wizard_select2 ">{% if data.action %}<option value="{{ data.action|stringformat:"s" }}" selected>{{ data.action }}</option>{% endif %}{% for action in actions %}<option value="{{ action }}">{{ action }}</option>{% endfor %}</select></div></div>  <div class="border-top border col-12 my-3"></div> </div>'
+            $("#divcontainer").append(html); 
+            count++;
+        }); 
+    });
+</script>
+
+{% block extrajs %}
+
+{% endblock %} 
+<script src="{% static 'assets/js/flowchart.js' %}"></script>
+<script id="code">
+    function init() {
+      if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+      var $ = go.GraphObject.make;  // for conciseness in defining templates
+      myDiagram =
+        $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+          {
+            initialContentAlignment: go.Spot.Center,
+            allowDrop: true,  // must be true to accept drops from the Palette
+            "LinkDrawn": showLinkLabel,  // this DiagramEvent listener is defined below
+            "LinkRelinked": showLinkLabel,
+            "animationManager.duration": 800, // slightly longer than default (600ms) animation
+            "undoManager.isEnabled": true  // enable undo & redo
+          });
+      // when the document is modified, add a "*" to the title and enable the "Save" button
+      myDiagram.addDiagramListener("Modified", function(e) {
+        var button = document.getElementById("SaveButton");
+        if (button) button.disabled = !myDiagram.isModified;
+        var idx = document.title.indexOf("*");
+        if (myDiagram.isModified) {
+          if (idx < 0) document.title += "*";
+        } else {
+          if (idx >= 0) document.title = document.title.substr(0, idx);
+        }
+      });
+      // helper definitions for node templates
+      function nodeStyle() {
+        return [
+          // The Node.location comes from the "loc" property of the node data,
+          // converted by the Point.parse static method.
+          // If the Node.location is changed, it updates the "loc" property of the node data,
+          // converting back using the Point.stringify static method.
+          new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+          {
+            // the Node.location is at the center of each node
+            locationSpot: go.Spot.Center,
+            //isShadowed: true,
+            //shadowColor: "#888",
+            // handle mouse enter/leave events to show/hide the ports
+            mouseEnter: function (e, obj) { showPorts(obj.part, true); },
+            mouseLeave: function (e, obj) { showPorts(obj.part, false); }
+          }
+        ];
+      }
+      // Define a function for creating a "port" that is normally transparent.
+      // The "name" is used as the GraphObject.portId, the "spot" is used to control how links connect
+      // and where the port is positioned on the node, and the boolean "output" and "input" arguments
+      // control whether the user can draw links from or to the port.
+      function makePort(name, spot, output, input) {
+        // the port is basically just a small circle that has a white stroke when it is made visible
+        return $(go.Shape, "Circle",
+                 {
+                    fill: "transparent",
+                    stroke: null,  // this is changed to "white" in the showPorts function
+                    desiredSize: new go.Size(8, 8),
+                    alignment: spot, alignmentFocus: spot,  // align the port on the main Shape
+                    portId: name,  // declare this object to be a "port"
+                    fromSpot: spot, toSpot: spot,  // declare where links may connect at this port
+                    fromLinkable: output, toLinkable: input,  // declare whether the user may draw links to/from here
+                    cursor: "pointer"  // show a different cursor to indicate potential link point
+                 });
+      }
+      // define the Node templates for regular nodes
+      var lightText = 'whitesmoke';
+      myDiagram.nodeTemplateMap.add("",  // the default category
+        $(go.Node, "Spot", nodeStyle(),
+          // the main object is a Panel that surrounds a TextBlock with a rectangular Shape
+          $(go.Panel, "Auto",
+            $(go.Shape, "Rectangle",
+              { fill: "#00A9C9", stroke: null },
+              new go.Binding("figure", "figure")),
+            $(go.TextBlock,
+              {
+                font: "bold 11pt Helvetica, Arial, sans-serif",
+                stroke: lightText,
+                margin: 8,
+                maxSize: new go.Size(160, NaN),
+                wrap: go.TextBlock.WrapFit,
+                editable: true
+              },
+              new go.Binding("text").makeTwoWay())
+          ),
+          // four named ports, one on each side:
+          makePort("T", go.Spot.Top, false, true),
+          makePort("L", go.Spot.Left, true, true),
+          makePort("R", go.Spot.Right, true, true),
+          makePort("B", go.Spot.Bottom, true, false)
+        ));
+      myDiagram.nodeTemplateMap.add("Start",
+        $(go.Node, "Spot", nodeStyle(),
+          $(go.Panel, "Auto",
+            $(go.Shape, "Circle",
+              { minSize: new go.Size(40, 40), fill: "#79C900", stroke: null }),
+            $(go.TextBlock, "Start",
+              { font: "bold 11pt Helvetica, Arial, sans-serif", stroke: lightText },
+              new go.Binding("text"))
+          ),
+          // three named ports, one on each side except the top, all output only:
+          makePort("L", go.Spot.Left, true, false),
+          makePort("R", go.Spot.Right, true, false),
+          makePort("B", go.Spot.Bottom, true, false)
+        ));
+      myDiagram.nodeTemplateMap.add("End",
+        $(go.Node, "Spot", nodeStyle(),
+          $(go.Panel, "Auto",
+            $(go.Shape, "Circle",
+              { minSize: new go.Size(40, 40), fill: "#DC3C00", stroke: null }),
+            $(go.TextBlock, "End",
+              { font: "bold 11pt Helvetica, Arial, sans-serif", stroke: lightText },
+              new go.Binding("text"))
+          ),
+          // three named ports, one on each side except the bottom, all input only:
+          makePort("T", go.Spot.Top, false, true),
+          makePort("L", go.Spot.Left, false, true),
+          makePort("R", go.Spot.Right, false, true)
+        ));
+      myDiagram.nodeTemplateMap.add("Comment",
+        $(go.Node, "Auto", nodeStyle(),
+          $(go.Shape, "File",
+            { fill: "#EFFAB4", stroke: null }),
+          $(go.TextBlock,
+            {
+              margin: 5,
+              maxSize: new go.Size(200, NaN),
+              wrap: go.TextBlock.WrapFit,
+              textAlign: "center",
+              editable: true,
+              font: "bold 12pt Helvetica, Arial, sans-serif",
+              stroke: '#454545'
+            },
+            new go.Binding("text").makeTwoWay())
+          // no ports, because no links are allowed to connect with a comment
+        ));
+      // replace the default Link template in the linkTemplateMap
+      myDiagram.linkTemplate =
+        $(go.Link,  // the whole link panel
+          {
+            routing: go.Link.AvoidsNodes,
+            curve: go.Link.JumpOver,
+            corner: 5, toShortLength: 4,
+            relinkableFrom: true,
+            relinkableTo: true,
+            reshapable: true,
+            resegmentable: true,
+            // mouse-overs subtly highlight links:
+            mouseEnter: function(e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
+            mouseLeave: function(e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; }
+          },
+          new go.Binding("points").makeTwoWay(),
+          $(go.Shape,  // the highlight shape, normally transparent
+            { isPanelMain: true, strokeWidth: 8, stroke: "transparent", name: "HIGHLIGHT" }),
+          $(go.Shape,  // the link path shape
+            { isPanelMain: true, stroke: "gray", strokeWidth: 2 }),
+          $(go.Shape,  // the arrowhead
+            { toArrow: "standard", stroke: null, fill: "gray"}),
+          $(go.Panel, "Auto",  // the link label, normally not visible
+            { visible: false, name: "LABEL", segmentIndex: 2, segmentFraction: 0.5},
+            new go.Binding("visible", "visible").makeTwoWay(),
+            $(go.Shape, "RoundedRectangle",  // the label shape
+              { fill: "#F8F8F8", stroke: null }),
+            $(go.TextBlock, "Yes",  // the label
+              {
+                textAlign: "center",
+                font: "10pt helvetica, arial, sans-serif",
+                stroke: "#333333",
+                editable: true
+              },
+              new go.Binding("text").makeTwoWay())
+          )
+        );
+      // Make link labels visible if coming out of a "conditional" node.
+      // This listener is called by the "LinkDrawn" and "LinkRelinked" DiagramEvents.
+      function showLinkLabel(e) {
+        var label = e.subject.findObject("LABEL");
+        if (label !== null) label.visible = (e.subject.fromNode.data.figure === "Diamond");
+      }
+      // temporary links used by LinkingTool and RelinkingTool are also orthogonal:
+      myDiagram.toolManager.linkingTool.temporaryLink.routing = go.Link.Orthogonal;
+      myDiagram.toolManager.relinkingTool.temporaryLink.routing = go.Link.Orthogonal;
+      load();  // load an initial diagram from some JSON text
+      // initialize the Palette that is on the left side of the page
+      myPalette =
+        $(go.Palette, "myPaletteDiv",  // must name or refer to the DIV HTML element
+          {
+            "animationManager.duration": 800, // slightly longer than default (600ms) animation
+            nodeTemplateMap: myDiagram.nodeTemplateMap,  // share the templates used by myDiagram
+            model: new go.GraphLinksModel([  // specify the contents of the Palette
+              { category: "Start", text: "Start" },
+              { text: "Step" },
+              { text: "???", figure: "Diamond" },
+              { category: "End", text: "End" },
+              { category: "Comment", text: "Comment" }
+            ])
+          });
+    }
+    // Make all ports on a node visible when the mouse is over the node
+    function showPorts(node, show) {
+      var diagram = node.diagram;
+      if (!diagram || diagram.isReadOnly || !diagram.allowLink) return;
+      node.ports.each(function(port) {
+          port.stroke = (show ? "white" : null);
+        });
+    }
+    // Show the diagram's model in JSON format that the user may edit
+    function save() {
+      document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+      myDiagram.isModified = false;
+    }
+    function load() {
+      myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+    }
+    // add an SVG rendering of the diagram at the end of this page
+    function makeSVG() {
+      var svg = myDiagram.makeSvg({
+          scale: 0.5
+        });
+      svg.style.border = "1px solid b lack";
+      obj = document.getElementById("SVGArea");
+      obj.appendChild(svg);
+      if (obj.children.length > 0) {
+        obj.replaceChild(svg, obj.children[0]);
+      }
+    }
+  $(function(){
+      $('#sample').trigger('onload');
+  });
+</script>
+</body>
+
+</html>

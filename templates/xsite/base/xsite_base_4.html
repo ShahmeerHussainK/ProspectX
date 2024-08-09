@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="author" content="SemiColonWeb"/>
+
+    <!-- Stylesheets
+    ============================================= -->
+    <link href="http://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,900|Caveat+Brush" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/bootstrap.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/style.css' %}" type="text/css"/>
+
+    <link rel="stylesheet" href="{% static 'xsite_template/css/swiper.css' %}" type="text/css"/>
+
+    <link rel="stylesheet" href="{% static 'xsite_template/css/dark.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/font-icons.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/animate.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/magnific-popup.css' %}" type="text/css"/>
+
+    <link rel="stylesheet" href="{% static 'xsite_template/css/responsive.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'xsite_template/css/calendar.css' %}" type="text/css"/>
+
+    <!-- NonProfit Demo Specific Stylesheet -->
+    <link rel="stylesheet" href="{% static 'xsite_template/css/colors.php?color=C6C09C' %}" type="text/css"/>
+    <!-- Theme Color -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_four/css/fonts.css' %}"
+          type="text/css"/>
+    <link rel="stylesheet"
+          href="{% static 'xsite_template/all_templates/xsite_template_four/xsite_template_four.css' %}"
+          type="text/css"/>
+    <!-- / -->
+
+    <meta name='viewport' content='initial-scale=1, viewport-fit=cover'>
+    <!-- / -->
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158292791-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-158292791-1');
+        gtag('send', 'pageview', location.pathname);
+    </script>
+
+    {% block extracss %}
+    {% endblock %}
+
+    <!-- Document Title
+    ============================================= -->
+    <title>Xsite</title>
+
+</head>
+
+<body class="stretched">
+
+<!-- Document Wrapper
+============================================= -->
+<div id="wrapper" class="clearfix">
+
+    {% block content %}
+    {% endblock %}
+
+</div><!-- #wrapper end -->
+
+<!-- Go To Top
+============================================= -->
+<!-- Go To Top
+============================================= -->
+<div id="gotoTop" class="icon-angle-up"></div>
+
+<!-- External JavaScripts
+============================================= -->
+<script src="{% static 'xsite_template/js/jquery.js' %}"></script>
+<script src="{% static 'xsite_template/js/plugins.js' %}"></script>
+<script src="{% static 'xsite_template/js/jquery.calendario.js' %}"></script>
+<script src="{% static 'xsite_template/all_templates/xsite_template_four/js/events.js' %}"></script>
+
+<!-- Footer Scripts
+============================================= -->
+<script src="{% static 'xsite_template/js/functions.js' %}"></script>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $(".carousel-widget").owlCarousel({
+            loop: true,
+            items: 1
+        });
+        var elementParent = $('.floating-contact-wrap');
+        $('.floating-contact-btn').off('click').on('click', function () {
+            elementParent.toggleClass('active',);
+        });
+    });
+
+    var cal = $('#calendar').calendario({
+            onDayClick: function ($el, $contentEl, dateProperties) {
+
+                for (var key in dateProperties) {
+                    console.log(key + ' = ' + dateProperties[key]);
+                }
+
+            },
+            caldata: canvasEvents
+        }),
+        $month = $('#calendar-month').html(cal.getMonthName()),
+        $year = $('#calendar-year').html(cal.getYear());
+
+    $('#calendar-next').on('click', function () {
+        cal.gotoNextMonth(updateMonthYear);
+    });
+    $('#calendar-prev').on('click', function () {
+        cal.gotoPreviousMonth(updateMonthYear);
+    });
+    $('#calendar-current').on('click', function () {
+        cal.gotoNow(updateMonthYear);
+    });
+
+    function updateMonthYear() {
+        $month.html(cal.getMonthName());
+        $year.html(cal.getYear());
+    };
+
+</script>
+
+{% block extrajs %}
+{% endblock %}
+
+
+</body>
+</html>

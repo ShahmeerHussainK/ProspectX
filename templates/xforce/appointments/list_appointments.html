@@ -1,0 +1,145 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title"><a href="{% url 'appointment_list'%}">Appointments</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item "><a href="/x_force/">Xforce</a> </li>
+                        <li class="breadcrumb-item active">Appointments</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary waves-effect waves-light float-right" href="{% url 'appointment' %}">
+                        <i class="mdi mdi-plus mr-2"></i> Add Appointments
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-xl-2 col-md-3 col-lg-3 col-sm-3">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar">
+                                <tbody>
+                                    <tbody>
+                                    <tr class="bg-primary mb-0">
+                                        <td class="custom_sidbar_title"><a style="color:white;" href="">All Appointments</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Calender</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" ><a href="">Meetings</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Daily Appointments</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" ><a href="">Organiser</a></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;" ><a href="">Seller Contact</a></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" ><a href="">Size R</a></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Teresam Bunting</a></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" ><a href="">Tester</a></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">usa</a></td>
+
+                                    </tr>
+                                     <tr>
+                                        <td class="custom_sidbar_title" ><a href="">Appointment Status</a></td>
+
+                                    </tr>
+                                     <tr>
+                                        <td class="custom_sidbar_title" ><a href="">Offer Acceptance</a></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-md-9 col-lg-10 col-sm-9">
+                <!-- Nav tabs -->
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div id="appointment_calendar"></div>
+
+
+
+                    </div>
+                </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- content -->
+<!-- XDSoft DateTimePicker -->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />-->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        var usr_id = "{{ active_user_id | safe }}";
+        console.log(usr_id)
+        _calendar = $('#appointment_calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'agendaDay,agendaWeek,month'
+            },
+            //
+            // allDay: true,
+            // editable: false,
+            selectable: true,
+            events: '/appointment/calendar_appts/' + usr_id + '/',
+            eventClick: function (event) {
+                var url = window.location.host + "/appointment/edit_appointment/" + event["id"] + "/"
+                console.log(url)
+                window.location.href = "/appointment/edit_appointment/" + event["id"] + "/";
+
+            }
+
+        })
+    });
+</script>
+{% endblock %}
+
+
+
+
+
+
+
+{% endblock %}

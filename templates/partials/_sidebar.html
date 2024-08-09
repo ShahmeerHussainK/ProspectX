@@ -1,0 +1,146 @@
+{% load static %}
+
+<div class="left side-menu sidebar_background_menu">
+    <div class="slimscroll-menu" id="remove-scroll">
+
+        {% if request.user.is_superuser == True %}
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu" id="side-menu">
+                    <li>
+                        <a href="{% url 'profile' %}" class="waves-effect">
+                            <i class="mdi mdi-face"></i><span>Profile </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'sub-admin' %}" class="waves-effect">
+                            <i class="mdi mdi-account-multiple-outline"></i><span>Users </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'manage_dashboard' %}" class="waves-effect">
+                            <i class="ion ion-md-speedometer"></i><span>Manage Dashboard </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'manage_welcome_email' %}" class="waves-effect">
+                            <i class="mdi mdi-email"></i><span>Manage Welcome Email</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'revenue' %}" class="waves-effect"><i class="fas fa-money-bill"></i><span> Revenue </span></a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Sidebar -->
+        {% else %}
+
+            <!--- Sidemenu for admin and sub user-->
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu" id="side-menu">
+                    <!--<li class="menu-title">Overview</li>-->
+                    <li>
+                        <a href="{% url 'home' %}" class="waves-effect">
+                            <i class="ion ion-md-speedometer"></i> <span> Dashboard </span>
+                        </a>
+                    </li>
+
+                    {% if permissions.list_management %}
+<!--                        <li>-->
+<!--                            <a href="javascript:void(0);" class="waves-effect"><i-->
+<!--                                    class="ion ion-md-list "></i><span> List Management <span-->
+<!--                                    class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>-->
+<!--                        <ul class="submenu">-->
+<!--                            <li><a target="_blank" href="http://app.listiva.com/">Purchase List</a></li>-->
+<!--                            <li><a href="{% url 'prospects' %}">Import Prospect</a></li>-->
+                            <li>
+                            <a id="filter_href" href="{% url 'filter_page' %}"><i class="mdi mdi-menu"></i>
+                                <span> Prospects Management</span>
+                            </a>
+                            </li>
+<!--                        </ul>-->
+<!--                        </li>-->
+                    {% endif %}
+
+                    {% if permissions.skip_trace %}
+                        <li id="skiptrace_item">
+                            <a id="skiptrace_href" href="{% url 'skip_trace' 'list' %}" class="waves-effect"><i
+                                class="fa fa-search"></i><span>SkipTrace </span></a>
+                            <!-- <a href="javascript:void(0);" class="waves-effect"><i
+                                    class="fa fa-search"></i><span> SkipTrace <span
+                                    class="float-right menu-arrow"><i class="mdi mdi-chevron-right"></i></span> </span></a>
+                            <ul class="submenu">
+                            </ul> -->
+                        </li>
+                    {% endif %}
+
+                    {% if permissions.marketing_plan %}
+                        <li id="campaigns_item">
+                            <a id="campaign_href" href="{% url 'campaign_list' 'home' %}" class="waves-effect"><i
+                                    class="ion ion-md-business"></i><span> Campaigns </span></a>
+                            <!--<ul class="submenu">-->
+                                <!--<li><a href="{% url 'sequence_list' 'home' %}">Marketing Planner</a></li>-->
+                                <!--<li><a href="{% url 'campaign_list' 'home' %}">Marketing Campaigns</a></li>-->
+                                <!--&lt;!&ndash;<li><a href="{% url 'templates_list' 'home' %}">Marketing Templates</a></li>&ndash;&gt;-->
+                            <!--</ul>-->
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="{% url 'xsite_websites' %}" class="waves-effect"><i class="fa fa-globe"></i><span> X Site </span></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'x_force' %}" class="waves-effect"><i class="fa fa-users"></i><span> X Force </span></a>
+                    </li>
+                    {% if permissions.access_import_log or permissions.access_export_log %}
+
+                        <li>
+                            <a href="{% url 'report_history' %}" class="waves-effect"><i
+                                    class="ion ion-md-paper"></i><span> Reports
+                            </span></a>
+                        </li>
+                    {% endif %}
+
+                    <li id="back_to_admin" style="display: none">
+                        <a href="#" class="waves-effect">
+                            <i class="mdi mdi-application-import"></i><span>Back to Admin</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- Sidebar -->
+        {% endif %}
+
+        <div class="clearfix"></div>
+
+    </div>
+    <!-- Sidebar -left -->
+
+</div>
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+<script type="text/javascript">
+    $(window).on('load', function() {
+        let loc = window.location.href;
+        if (loc.indexOf("marketing") >= 0) {
+            $('#campaigns_item').addClass('mm-active');
+            $('#campaign_href').addClass('mm-active');
+        }
+        if (loc.indexOf("xsite") >= 0) {
+            $('#xsite_item').addClass('mm-active');
+            $('#xsite_href').addClass('mm-active');
+        }
+        if (loc.indexOf("xforce") >= 0) {
+            $('#xforce_item').addClass('mm-active');
+            $('#xforce_href').addClass('mm-active');
+        }
+        if (loc.indexOf("skiptrace") >= 0) {
+            $('#skiptrace_item').addClass('mm-active');
+            $('#skiptrace_href').addClass('mm-active');
+        }
+        else{
+        };
+    });
+</script>

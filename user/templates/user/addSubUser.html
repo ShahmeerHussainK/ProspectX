@@ -1,0 +1,544 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block extracss %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Create User</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Create User</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+            <div class="row">
+                <div class="col-md-2 col-sm-2"></div>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <!--progress bar start-->
+                            <section class="panel">
+                                <!-- <header class="panel-heading">
+                                    <span class="panel_title"><span class="display_none">Create User</span></span>
+                                    <span class="tools pull-right">
+                                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                                        <a href="javascript:;" class="fa fa-cog"></a>
+                                        <a href="javascript:;" class="fa fa-times"></a>
+                                    </span>
+                                </header> -->
+                                <div class="panel-body">
+
+                                    <div class="title_left">
+                                        <script>
+                                            $("span.display_none").appendTo(".panel-heading span.panel_title");
+                                            $(".back_link").appendTo(".buttons_group");
+                                        </script>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="row">
+                                        <!--<div class="col-md-2 col-sm-2">
+                                        </div>-->
+                                        <div class="col-md-12">
+                                            <div class="x_panel">
+                                                <div class="x_content">
+                                                    <form class="form-horizontal bucket-form"
+                                                          enctype="multipart/form-data"
+                                                          id="role-form" action="add_sub_user" method="post">
+                                                        {% csrf_token %}
+                                                        {% if message %}
+                                                            <div class="alert alert-success mt-4 mb-5 text-center"
+                                                                 role="alert">
+                                                                {{ message }}
+                                                            </div>
+                                                        {% endif %}
+                                                        <h6 class="note mt-0 text-dark">Fields with <span
+                                                                class="required">*</span> are
+                                                            required.
+                                                        </h6>
+
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="required" for="first_name">First
+                                                                            Name <span class="required">*</span></label>
+                                                                        <input class="form-control" type="text"
+                                                                               name="first_name" id="first_name"
+                                                                               maxlength="255"
+                                                                               placeholder="Enter first name"
+                                                                               value="{{ form.instance.first_name }}">
+                                                                        {% if form.first_name.errors %}
+                                                                            <div class="text-danger ">
+                                                                                {{ form.first_name.errors | striptags }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="required" for="last_name">Last
+                                                                            Name <span class="required">*</span></label>
+                                                                        <input class="form-control" name="last_name"
+                                                                               placeholder="Enter last name"
+                                                                               value="{{ form.instance.last_name }}"
+                                                                               id="last_name" type="text"
+                                                                               maxlength="255">
+                                                                        {% if form.last_name.errors %}
+                                                                            <div class="text-danger">
+                                                                                {{ form.last_name.errors | striptags }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label class="required" for="email">Email
+                                                                            <span class="required">*</span></label>
+                                                                        <input class="form-control" id="email"
+                                                                               type="text"
+                                                                               maxlength="255" name="email"
+                                                                               placeholder="Enter email"
+                                                                               value="{{ form.instance.email }}">
+                                                                        {% if form.email.errors %}
+                                                                            <div class="text-danger">
+                                                                                {{ form.email.errors | striptags }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group">
+                                                                        <label for="cell_phone">Phone <span
+                                                                                class="required">*</span></label>
+                                                                        <input class="form-control" type="tel"
+                                                                               placeholder="" id="phone" name="phone"
+                                                                               value="{{ profile_form.instance.cell_phone | default_if_none:'' }}">
+                                                                        <input type="hidden" placeholder=""
+                                                                               id="cell_phone"
+                                                                               name="cell_phone"
+                                                                               value="{{ profile_form.instance.cell_phone | default_if_none:'' }}">
+                                                                        <input type="hidden" placeholder=""
+                                                                               id="is_validated" name="is_validated"
+                                                                               value="valid">
+                                                                        {% if profile_form.cell_phone.errors %}
+                                                                            <div class="text-danger">
+                                                                                {{ profile_form.cell_phone.errors | striptags }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6">
+                                                                    <div class="skiptrace_check form-check-inline mb-2">
+                                                                        <input
+                                                                                class="set_password_or_not checkbox-custom check"
+                                                                                id="random_password" type="checkbox"
+                                                                                value="1"
+                                                                                name="random_password"
+                                                                                {% if permission_form.instance.random_password %}
+                                                                                checked {% endif %}>
+                                                                        <label for="random_password"
+                                                                               class="checkbox-custom-label mb-0 ml-1">Set
+                                                                            random
+                                                                            password</label>
+
+                                                                        {% if permission_form.random_password.errors %}
+                                                                            <div class="text-danger">
+                                                                                {{ permission_form.random_password.errors | striptags }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="skiptrace_check form-check-inline mb-2">
+                                                                        <input class="checkbox-custom"
+                                                                               id="activation_email"
+                                                                               type="checkbox" value="1"
+                                                                               name="activation_email"
+                                                                                {% if permission_form.instance.activation_email %}
+                                                                               checked {% endif %}>
+                                                                        <label for="activation_email"
+                                                                               class="checkbox-custom-label mb-0 ml-1">Send
+                                                                            activation email</label>
+                                                                        {% if permission_form.activation_email.errors %}
+                                                                            <div class="text-danger">
+                                                                                {{ permission_form.activation_email.errors | striptags }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                    <div class="mydiv">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="required"
+                                                                                           for="password1">Password
+                                                                                        <span
+                                                                                                class="required">*</span></label>
+                                                                                    <input value=""
+                                                                                           class="form-control password-input-1"
+                                                                                           name="password1"
+                                                                                           id="password1"
+                                                                                           type="password"
+                                                                                           maxlength="255">
+                                                                                    {% if form.password1.errors %}
+                                                                                        <div class="text-danger">
+                                                                                            {{ form.password1.errors | striptags }}
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-sm-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="required"
+                                                                                           for="password2">Confirm
+                                                                                        Password <span
+                                                                                                class="required">*</span></label>
+                                                                                    <input value=""
+                                                                                           class="form-control password-input-2"
+                                                                                           name="password2"
+                                                                                           id="password2"
+                                                                                           type="password">
+                                                                                    {% if form.password2.errors %}
+                                                                                        <div class="text-danger">
+                                                                                            {{ form.password2.errors | striptags }}
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <div class="form-check form-check-inline">
+                                                                            <label class="form-check-label"
+                                                                                   for="radio1">
+                                                                                {% if profile_form.instance.status %}
+                                                                                    <input type="radio"
+                                                                                           class="form-check-input"
+                                                                                           id="radio1" name="status"
+                                                                                           value="active"
+                                                                                            {% ifequal profile_form.instance.status "active" %}
+                                                                                           checked {% endifequal %}>
+                                                                                    Active
+                                                                                {% else %}
+                                                                                    <input type="radio"
+                                                                                           class="form-check-input"
+                                                                                           id="radio1" name="status"
+                                                                                           value="active"
+                                                                                           checked>Active
+                                                                                {% endif %}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-check form-check-inline">
+                                                                            <label class="form-check-label"
+                                                                                   for="radio2">
+                                                                                <input type="radio"
+                                                                                       class="form-check-input"
+                                                                                       id="radio2" name="status"
+                                                                                       value="inactive"
+                                                                                        {% ifequal profile_form.instance.status "inactive" %}
+                                                                                       checked {% endifequal %}>Inactive
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <label> <strong>Permissions</strong> </label>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12">
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="marketing_plan" value="1"
+                                                                                       type="checkbox"
+                                                                                       name="marketing_plan"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.marketing_plan %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="marketing_plan"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Marketing
+                                                                                    Machine</label>
+                                                                                {% if permission_form.marketing_plan.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.marketing_plan.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="skip_trace" value="2"
+                                                                                       type="checkbox"
+                                                                                       name="skip_trace"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.skip_trace %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="skip_trace"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Skip
+                                                                                    Tracing</label>
+                                                                                {% if permission_form.skip_trace.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.skip_trace.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="list_management" value="3"
+                                                                                       type="checkbox"
+                                                                                       name="list_management"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.list_management %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="list_management"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">List
+                                                                                    Management</label>
+                                                                                {% if permission_form.list_management.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.list_management.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="access_import_log" value="4"
+                                                                                       type="checkbox"
+                                                                                       name="access_import_log"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.access_import_log %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="access_import_log"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Access
+                                                                                    import logs</label>
+                                                                                {% if permission_form.access_import_log.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.access_import_log.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="access_export_log" value="5"
+                                                                                       type="checkbox"
+                                                                                       name="access_export_log"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.access_export_log %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="access_export_log"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Access
+                                                                                    export logs</label>
+                                                                                {% if permission_form.access_export_log.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.access_export_log.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="access_xsite" value="5"
+                                                                                       type="checkbox"
+                                                                                       name="access_xsite"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.access_xsite %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="access_xsite"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">
+                                                                                    Xsite</label>
+                                                                                {% if permission_form.access_xsite.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.access_xsite.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="access_xforce" value="5"
+                                                                                       type="checkbox"
+                                                                                       name="access_xforce"
+                                                                                       class="checkbox-custom xforce_permission_handler"
+                                                                                        {% if permission_form.instance.access_xforce %}
+                                                                                       checked {% endif %} onclick="xforce_permissions()">
+                                                                                <label for="access_xforce"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Xforce</label>
+                                                                                {% if permission_form.access_xforce.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.access_xforce.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <span class="xforce_section">
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="lead_manager" value="5"
+                                                                                       type="checkbox"
+                                                                                       name="lead_manager"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.lead_manager %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="lead_manager"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Lead Manager</label>
+                                                                                {% if permission_form.lead_manager.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.lead_manager.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="transaction_manager" value="5"
+                                                                                       type="checkbox"
+                                                                                       name="transaction_manager"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.transaction_manager %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="transaction_manager"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Transaction Manager</label>
+                                                                                {% if permission_form.transaction_manager.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.transaction_manager.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="skiptrace_check form-check-inline">
+                                                                                <input id="disposition_manager" value="5"
+                                                                                       type="checkbox"
+                                                                                       name="disposition_manager"
+                                                                                       class="checkbox-custom"
+                                                                                        {% if permission_form.instance.disposition_manager %}
+                                                                                       checked {% endif %}>
+                                                                                <label for="disposition_manager"
+                                                                                       class="checkbox-custom-label mb-0 ml-1">Disposition Manager</label>
+                                                                                {% if permission_form.disposition_manager.errors %}
+                                                                                    <div class="text-danger">
+                                                                                        {{ permission_form.disposition_manager.errors | striptags }}
+                                                                                    </div>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <input class="btn btn-primary w-md waves-effect waves-light"
+                                                                       type="submit" name="yt0"
+                                                                       value="Create">
+                                                            </div>
+                                                        </div>
+                                                </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+    <script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+    <script>
+
+        var input = document.querySelector('#phone');
+        var errorMap = ["Invalid number", "Invalid country code", "Too short", "To long", "Invalid number"];
+        var intl = $('#phone').intlTelInput({
+            separateDialCode: true,
+            autoFormat: true,
+            defaultCountry: "auto",
+            utilsScript: "{% static 'assets/js/utils.js' %}"
+        });
+
+        $(document).ready(function () {
+
+            var handler = $(".xforce_permission_handler")
+            if(handler.prop("checked")){
+                $(".xforce_section").removeClass("d-none")
+            }
+            else{
+
+                 $(".xforce_section").find('input[type=checkbox]').each(function () {
+
+                    this.checked = false;
+            });
+                 $(".xforce_section").addClass("d-none")
+            }
+
+            var check = $('.check')
+            if (check.is(":checked")) {
+
+                $('.password-input-1').val("prospectx")
+                $('.password-input-2').val("prospectx")
+                $('.mydiv').hide();
+
+
+            } else {
+
+                $('.password-input-1').val("")
+                $('.password-input-2').val("")
+                $('.mydiv').show();
+
+            }
+            $('.check').click(function () {
+
+
+                $('.mydiv').toggle();
+
+            });
+            $('.check').click(function () {
+                if ($(this).prop("checked") == true) {
+                    $('.password-input-1').val("prospectx")
+                    $('.password-input-2').val("prospectx")
+
+
+                } else if ($(this).prop("checked") == false) {
+
+                    $('.password-input-1').val("")
+                    $('.password-input-2').val("")
+
+                }
+            });
+
+
+            $('#phone').focus(function () {
+                var placeholder = $(this).attr('placeholder');
+                var mask = placeholder.replace(/[0-9]/g, "9");
+                $(this).inputmask({"mask": mask});
+            });
+        });
+
+        input.addEventListener("blur", function () {
+            $("#cell_phone").val($("#phone").intlTelInput("getNumber"));
+            console.log($("#cell_phone").val());
+            if (input.value.trim()) {
+                if ($(this).intlTelInput("isValidNumber")) {
+                    $('#is_validated').val('valid');
+                } else {
+                    $('#is_validated').val(errorMap[$(this).intlTelInput("getValidationError")]);
+                }
+            } else {
+                $('#is_validated').val('Invalid Number');
+            }
+        });
+
+           function xforce_permissions() {
+            var sec = $(".xforce_section");
+            $(".xforce_permission_handler").change(function () {
+                if (this.checked) {
+                    sec.removeClass("d-none")
+                } else {
+                    $(".xforce_section").find('input[type=checkbox]').each(function () {
+
+                        this.checked = false;
+                    });
+                    sec.addClass("d-none")
+                }
+            });
+        }
+    </script>
+{% endblock %}

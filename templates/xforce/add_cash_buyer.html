@@ -1,0 +1,595 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content xforce_steps">
+    <div id="loader_id" class="loading"></div>
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <!-- <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title"><a href="{% url 'buyerlist'%}">Cash Buyer</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/x_force/" ><i class="mdi mdi-home-outline"></i></a></li>
+                        {% if is_edit %}
+                        <li class="breadcrumb-item active">Edit Cash Buyer</li>
+                        {% else %}
+                        <li class="breadcrumb-item active">Add Cash Buyer</li>
+                        {% endif %}
+
+
+                    </ol>
+                </div>
+            </div> -->
+            <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="xforce_apps_headings">
+                                    <a href="{% url 'buyerlist' %}" class="btn btn-primary w-md">
+                                        <!-- <i class="mdi mdi-chevron-left"></i>  -->
+                                            Back</a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                {% if is_edit %}
+                                <h3 class="xforce-title text-center">Edit Cash Buyer</h3>
+                                {% else %}
+                                <h3 class="xforce-title text-center">Add New Cash Buyer</h3>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!--{% if errors %}-->
+                        <!--{% for error in errors %}-->
+                        <!--<div class="alert alert-danger">-->
+                            <!--<strong>{{ error|escape }}</strong>-->
+                        <!--</div>-->
+                        <!--{% endfor %}-->
+                        <!--{% endif %}-->
+                        <form id="cashbuyer_horizontal_form" enctype="multipart/form-data" method="post" action="">
+                            {% csrf_token %}
+                            <!--<div id="cashbuyer_horizontal_form">-->
+                                <h3>Buyer Details</h3>
+                                <fieldset>
+                                    <div class="row buyer_form">
+                                        
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Buyer Name</label>
+                                                            <input placeholder="Name" class="form-control"
+                                                                id="buyer_name" name="buyer_name" type="text"
+                                                                {% if data.buyer_name != None %}value="{{ data.buyer_name|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            {% if errors %}
+                                                            <div id="buyer_name_errors" class="text-danger">
+                                                                {{ errors.buyer_name | striptags }}
+                                                            </div>
+                                                            {% endif %}
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Buyer Entity Name </label>
+                                                            <input placeholder="Name" class="form-control"
+                                                                id="entity_name" name="entity_name" type="text"
+                                                                {% if data.entity_name != None %}value="{{ data.entity_name|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            {% if errors %}
+                                                            <div id="entity_name_errors" class="text-danger">
+                                                                {{ errors.entity_name | striptags }}
+                                                            </div>
+                                                            {% endif %}
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Buyer Phone Number </label>
+                                                            <input placeholder="Number" class="form-control"
+                                                                id="phone_number" name="phone_number" type="text"
+                                                                {% if data.phone_number != None %}value="{{ data.phone_number|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            {% if errors %}
+                                                            <div id="phone_number_errors" class="text-danger">
+                                                                {{ errors.phone_number | striptags }}
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Buyer Email</label>
+                                                            <input placeholder="Email" class="form-control" id="email"
+                                                                name="email" type="text"
+                                                                {% if data.email != None %}value="{{ data.email|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            {% if errors %}
+                                                            <div id="email_errors" class="text-danger">
+                                                                {{ errors.email | striptags }}
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Realtor Name </label>
+                                                            <input placeholder="Name" class="form-control"
+                                                                id="realtor_name" name="realtor_name" type="text"
+                                                                {% if data.realtor_name != None %}value="{{ data.realtor_name|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            {% if errors %}
+                                                            <div id="realtor_name_errors" class="text-danger">
+                                                                {{ errors.realtor_name | striptags }}
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-12">
+                                                    <div class="  mb-1">
+                                                        <div class="form-check-inline custom_checkbox_button">
+                                                            <input type="checkbox" class="form-check-input" name="VIP"
+                                                                id="VIP" {% if data.VIP %} checked {% endif %}>
+                                                            <label class="form-check-label mb-0" for="VIP"> VIP
+                                                                Buyer</label>
+                                                        </div>
+                                                        <div class="form-check-inline custom_checkbox_button">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                name="needs_updating" id="needs_updating"
+                                                                {% if data.needs_updating %} checked {% endif %}>
+                                                            <label class="form-check-label mb-0" for="needs_updating">
+                                                                Needs Update</label>
+                                                        </div>
+                                                        <div class="form-check-inline custom_checkbox_button">
+                                                            <input type="checkbox" class="form-check-input"
+                                                                name="active" id="active" {% if data.active %} checked
+                                                                {% endif %}>
+                                                            <label class="form-check-label mb-0"
+                                                                for="active">Active</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <h3>System Fields</h3>
+                                <fieldset>
+                                    <div class="row buyer_form">
+                                        
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Target Area(s)</label>
+                                                            <select name="target_area" id="target_area"
+                                                                class="form-control wizard_select2">
+                                                                <option value="" selected disabled>Select
+                                                                </option>
+
+
+                                                                {% if data.target_area %}
+                                                                <option value="{{ data.target_area|stringformat:'s' }}"
+                                                                    selected>
+                                                                    {{ data.target_area }}
+                                                                </option>
+                                                                {% endif %}
+                                                                {% for state in states %}
+                                                                <option value="{{ state }}">{{ state }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Asset Class</label>
+                                                            <select name="asset_class" id="asset_class"
+                                                                class="form-control wizard_select2">
+                                                                <option value="" selected>Select</option>
+                                                                    {% for asset in assets %}
+                                                                <option value="{{asset}}" {% if data.asset_class == asset %}selected{% endif %}>{{ asset }}</option>
+                                                                     {% endfor %}
+                                                                </select>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group invester_multiselect">
+                                                        <label>Investors  <span class="text-danger">*</span></label>
+                                                        <select multiple="multiple" name="type_of_investor"
+                                                            id="type_of_investor" class="form-control js-example-placeholder-multiple" onchange="investor_empty()">
+
+                                                                                                                <!--<option value="" disabled selected>Type Of Investor</option>-->
+                                                            <!--{% if data.type_of_investor %}-->
+                                                            <!--{% for investors in data.type_of_investor %}-->
+                                                            <!--<option value="{{ investor }}" selected>{{ investors }}-->
+                                                            <!--</option>-->
+                                                            <!--{% endfor %}-->
+                                                            <!--{% endif %}-->
+
+                                                            <!--<option value="" selected>Select</option>-->
+                                                                {% for investor in investors %}
+                                                                <option value="{{investor}}" {% if data.type_of_investor
+                                                                        {% for investors in data.type_of_investor %}
+                                                                        {%if investors ==  investor %}selected {% endif %}
+                                                                        {% endfor %}>{{ investor }}</option>
+                                                                {% endfor %}
+                                                        </select>
+
+
+
+
+                                                            <!--{% if data.type_of_investor %}-->
+                                                            <!--{% for investor in data.type_of_investor %}-->
+                                                           <!--<option value="{{ investor }}" selected>{{ investor }}-->
+                                                            <!--</option>-->
+                                                            <!--{% endfor %}-->
+                                                            <!--{% endif %}-->
+
+
+                                                            <!--{% for investor in investors %}-->
+                                                            <!--<option value="{{ investor }}">{{ investor }}</option>-->
+                                                            <!--{% endfor %}-->
+
+                                                        <!--</select>-->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Price Point</label>
+                                                        <select name="price_point" id="price_point"
+                                                            class="form-control wizard_select2">
+
+                                                            <option value="" selected>Select</option>
+                                                                    {% for pricepoint in pricepoints %}
+                                                                <option value="{{pricepoint}}" {% if data.price_point == pricepoint %}selected{% endif %}>{{ pricepoint }}</option>
+                                                                     {% endfor %}
+
+
+
+
+
+
+                                                            <!--<option value="" selected disabled>Selact</option>-->
+                                                            <!--{% if data.price_point %}-->
+                                                            <!--<option value="{{ data.price_point|stringformat:'s' }}"-->
+                                                                <!--selected>-->
+                                                                <!--{{ data.price_point }}</option>-->
+                                                            <!--{% endif %}-->
+                                                            <!--{% for pricepoint in pricepoints %}-->
+                                                            <!--<option value="{{ pricepoint }}">{{ pricepoint }}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+
+                                                
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Minimum Return Requirement</label>
+                                                            <input placeholder="Enter Minimum Return Requirement"
+                                                                class="form-control" id="minimum_return_requirement"
+                                                                name="minimum_return_requirement" type="text"
+                                                                {% if data.minimum_return_requirement != None %}value="{{ data.minimum_return_requirement|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            {% if errors %}
+                                                            <div id="minimum_return_requirement_errors"
+                                                                class="text-danger">
+                                                                {{ errors.minimum_return_requirement | striptags }}
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Annual Volume</label>
+                                                        <select name="annual_volume" id="annual_volume"
+                                                            class="form-control wizard_select2">
+                                                            <option value="" selected>Select</option>
+                                                                    {% for annualvolume in annualvolumes %}
+                                                                <option value="{{annualvolume}}" {% if data.annual_volume == annualvolume %}selected{% endif %}>{{ annualvolume }}</option>
+                                                                     {% endfor %}
+
+
+
+
+
+                                                            <!--<option value="" selected disabled>Annual Volume</option>-->
+                                                            <!--{% if data.annual_volume %}-->
+                                                            <!--<option value="{{ data.annual_volume|stringformat:'s' }}"-->
+                                                                <!--selected>-->
+                                                                <!--{{ data.annual_volume }}</option>-->
+                                                            <!--{% endif %}-->
+                                                            <!--{% for annualvolume in annualvolumes %}-->
+                                                            <!--<option value="{{ annualvolume }}">{{ annualvolume }}-->
+                                                            <!--</option>-->
+                                                            <!--{% endfor %}-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6  col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Financing Type</label>
+                                                        <select name="financing_type" id="financing_type"
+                                                            class="form-control wizard_select2">
+
+                                                            <option value="" selected>Select</option>
+                                                                    {% for financingtype in financingtypes %}
+                                                                <option value="{{financingtype}}" {% if data.financing_type == financingtype %}selected{% endif %}>{{ financingtype }}</option>
+                                                                     {% endfor %}
+
+
+
+
+
+                                                            <!--<option value="" selected disabled>Slect Type</option>-->
+                                                            <!--{% if data.financing_type %}-->
+                                                            <!--<option value="{{ data.financing_type|stringformat:'s' }}"-->
+                                                                <!--selected>-->
+                                                                <!--{{ data.financing_type }}</option>-->
+                                                            <!--{% endif %}-->
+                                                            <!--{% for financingtype in financingtypes %}-->
+                                                            <!--<option value="{{ financingtype }}">{{ financingtype }}-->
+                                                            <!--</option>-->
+                                                            <!--{% endfor %}-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Office Address</label>
+                                                            <input placeholder="Address" class="form-control"
+                                                                id="office_address" name="office_address" type="text"
+                                                                {% if data.office_address != None %}value="{{ data.office_address|stringformat:'s' }}"
+                                                                {% endif %}>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <label>Upload File: </label>
+                                                            <input id="file" name="file" type="file"
+                                                                class="with-border xforce_filestyle"
+                                                                data-buttonname="btn-primary"
+                                                                accept="image/x-png,image/gif,image/jpeg,image/png,image/PNG"
+                                                                {% if data.file != None %}value="{{ data.file}}"
+                                                                {% endif %}>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row"> 
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="form-group">
+                                                        <div>
+                                                            <script>
+                                                                var cont_additional_notes = "{{ data.additional_notes  | default_if_none:'' }}";
+                                                            </script>
+                                                            <label>Additional Notes</label>
+                                                            <textarea class="form-control" name="additional_notes" id="additional_notes"
+                                                                {% if data.additional_notes != None %}value="{{ data.additional_notes|stringformat:'s' }}"
+                                                                {% endif %}>
+                                                            </textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                            <!--<div class="row">-->
+
+                                                <!--<div class="col-sm-12">-->
+                                                    <!--<input id="sub_btn"-->
+                                                        <!--class="btn btn-primary float-right waves-effect waves-light"-->
+                                                        <!--type="submit">-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </div>
+                                </fieldset>
+                             <div class="row">
+                                <div class="col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        <div>
+                                            <script>
+                                                var cont_notes = "{{ data.notes  | default_if_none:'' }}";
+                                            </script>
+                                            <label>Notes</label>
+                                            <textarea class="form-control"
+                                                name="notes" id="notes" {% if data.notes != None %}value="{{ data.notes|stringformat:'s' }}" {% endif %}>
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+    integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+
+<script  type="text/javascript">
+     $(document).ready(function () {
+
+
+        if ($("#type_of_investor").val().length !== 0 ){
+
+            $('#Save').parent().removeClass('disabled');
+            $('#Save').attr('href', '#finish');
+        }else {
+            $('#Save').parent().addClass('disabled');
+            $('#Save').removeAttr('href');
+        }
+
+
+
+
+
+    });
+
+
+     function investor_empty() {
+
+          if ($("#type_of_investor").val().length > 0){
+
+
+              $('#Save').parent().removeClass('disabled');
+              $('#Save').attr('href', '#finish');
+
+
+
+          }else if ($("#type_of_investor").val().length == 0){
+              $('#Save').parent().addClass('disabled');
+              $('#Save').removeAttr('href');
+          }
+
+     }
+
+
+
+</script>
+
+<script  type="text/javascript">
+
+
+
+
+
+
+    // var encodedStr = cont_additional_notes;
+    // var parser = new DOMParser;
+    // var dom = parser.parseFromString(encodedStr, 'text/html');
+    // var decodedString = dom.body.textContent;
+    // $("#additional_notes").summernote(
+    //     'code', decodedString,
+    //     // '100', height
+    //
+    // );
+    //
+    //
+    // var encodedStr2 = cont_notes;
+    // var parser = new DOMParser;
+    // var dom2 = parser.parseFromString(encodedStr2, 'text/html');
+    // var decodedString2 = dom2.body.textContent;
+    // $("#notes").summernote(
+    //     'code', decodedString2
+    //     // '100', height,
+    // );
+
+
+
+
+
+
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            format: 'm/d/y H:m',
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+
+
+
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+    $('#my_form').on('submit', function () {
+        $("#sub_btn").hide();
+        $('#sub_btn').delay(2000).show(0);
+    });
+
+    $(document).ready(function () {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    });
+
+    $('#planer').on('change', function () {
+        let plan = $('#planer').val();
+        if (plan !== "") {
+            $("#hsh_off").show();
+            $('#resp').show();
+            $('#tl_units').show();
+            $('#tch').show();
+        } else {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        }
+    });
+//     $(".js-example-placeholder-multiple").select2({
+//     placeholder: "Type Of Investor"
+// });
+
+</script>
+{% endblock %}
+
+{% endblock %}

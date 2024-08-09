@@ -1,0 +1,109 @@
+{% load static %}
+<div class="col-sm-6">
+    <div class="float-right d-none d-md-block">
+
+        <div id="on_load_model" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"
+             aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div style="background-color:blue;" class="modal-header">
+                        <h5 style="color:white;" class="modal-title" id="exampleModalLabel">Your Free 7 days trial has
+                            been started!</h5>
+                        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+                        <!--<span aria-hidden="true">&times;</span>-->
+
+                        <!--</button>-->
+                        <!--href="{% url 'logout' %}"  -->
+                        {% if enable_back == True %}
+                            <a id="to_admin" href="#" class="btn btn-outline-danger waves-effect waves-light btn-ok">
+                                <i class="mdi mdi-application-import"></i><span>Back to Admin</span>
+                            </a>
+                        {% else %}
+                            <a class="btn btn-outline-danger waves-effect waves-light btn-ok" onclick="logout()" href="{% url 'logout' %}">LogOut {{ user_role }}</a>
+                        {% endif %}
+                    </div>
+                    <div class="container">
+                        <div style="margin:40px;" class="row">
+                            <div class="col-md-6">
+                                <div class="card plan-box text-center">
+                                    <div style="background-color:#e3f2fa;" class="card-body">
+                                        <div class="py-3">
+                                            <h2 class="mt-0">Monthly</h2>
+                                            <div class="py-4">
+                                                <h3><sup><small>$</small></sup>397.00/<span class="font-14">Month</span>
+                                                </h3>
+                                            </div>
+                                            <div class="plan-icon py-3">
+                                                <i class="ti-cup h2 px-4 position-relative bg-white"></i>
+                                            </div>
+                                        </div>
+                                        <div class="plan-features mb-4">
+                                            <p>Unlimited User</p>
+                                            <p>No Time Tracking</p>
+                                            <p>Month To Month Flexibility</p>
+                                        </div>
+
+                                        <div class="pt-3">
+
+                                            <form action="{% url 'home' %}" method="post">{% csrf_token %}
+                                                <input hidden id="monthly" name="monthly" value="monthly">
+                                                <script src="https://checkout.stripe.com/checkout.js"
+                                                        class="stripe-button"
+                                                        data-key="{{ context_key.key }}"
+                                                        data-description="Monthly Subscription"
+                                                        data-label="Subscribe Monthly"
+                                                        data-amount="39700"
+                                                        data-locale="auto"
+                                                        data-email="{{ user }}"
+                                                        data-allow-remember-me="false">
+                                                </script>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card plan-box text-center">
+                                    <div style="background-color:#e3f2fa;" class="card-body">
+                                        <div class="py-3">
+                                            <h2 class="mt-0">Yearly</h2>
+                                            <div class="py-4">
+                                                <h3><sup><small>$</small></sup>3997.00/<span class="font-14">Year</span>
+                                                </h3>
+                                            </div>
+                                            <div class="plan-icon py-3">
+                                                <i class="ti-shield h2 px-4 position-relative bg-white"></i>
+                                            </div>
+                                        </div>
+                                        <div class="plan-features mb-4">
+                                            <p>Unlimited User</p>
+                                            <p>No Time Tracking</p>
+                                            <p>2 Months Extra Benefits</p>
+                                        </div>
+
+                                        <div class="pt-3">
+                                            <form action="{% url 'home' %}" method="post">{% csrf_token %}
+                                                <input hidden id="yearly" name="yearly" value="yearly">
+                                                <script src="https://checkout.stripe.com/checkout.js"
+                                                        class="stripe-button"
+                                                        data-key="{{ context_key.key }}"
+                                                        data-description="Yearly Subscription"
+                                                        data-label="Subscribe Yearly"
+                                                        data-amount="399700"
+                                                        data-locale="auto"
+                                                        data-email="{{ user }}"
+                                                        data-allow-remember-me="false">
+                                                </script>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

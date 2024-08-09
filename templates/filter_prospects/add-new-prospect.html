@@ -1,0 +1,749 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block extracss %}
+    <link rel="stylesheet" href="{% static 'assets/css/intlTelInput.css' %}">
+{% endblock %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Add Single Prospect</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <!--<li class="breadcrumb-item">Prospect</li>-->
+                            <li class="breadcrumb-item active">Add Prospect</li>
+                        </ol>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <a target="_blank" class="btn btn-primary waves-effect waves-light float-right ml-1 add_single_prospect_media"
+                           href="http://app.listiva.com/">
+                            <i class="ion ion-md-cash"></i> &nbsp; Purchase List
+                        </a>
+                        <a class="btn btn-primary waves-effect waves-light float-right ml-1 add_single_prospect_media"
+                           href="{% url 'prospects' %}">
+                            <i class="ion ion-md-cloud-upload"></i>&nbsp; Import Prospects
+                        </a>
+                        <a class="btn btn-primary waves-effect waves-light float-right add_single_prospect_media"
+                           href="{% url 'add_new_prospect' %}">
+                            <i class="ion ion-md-add"></i> &nbsp; Add Single Prospect
+                        </a>
+                    </div>
+
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post" action="{% url 'add_new_prospect' %}">
+                                {% csrf_token %}
+                                {% if message %}
+                                    <div class="alert alert-danger mt-4 mb-5 text-center" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+
+                                <div id="append_fields" class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Select List</label>
+                                            <select name="list_obj" class="form-control select2" required>
+                                                <option value="" {% if list_obj == list.pk %}
+                                                        selected {% endif %}>Select List
+                                                </option>
+                                                {% for list in lists %}
+                                                    <option value="{{ list.pk }}"
+                                                            {% if list_obj == list.pk %}
+                                                            selected {% endif %}>{{ list }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Full Name</label>
+                                            <div>
+                                                <input name="fullname" type="text" class="form-control"
+                                                       placeholder="Enter your full name"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.fullname | default_if_none:"" }}">
+                                                {% if form.fullname.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.fullname.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <div>
+                                                <input name="firstname" type="text" class="form-control"
+                                                       placeholder="Enter your first  name"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.firstname | default_if_none:"" }}">
+                                                {% if form.firstname.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.firstname.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <div>
+                                                <input name="lastname" type="text" class="form-control"
+                                                       placeholder="Enter your last name"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.lastname | default_if_none:"" }}">
+                                                {% if form.lastname.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.lastname.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> Mailing Address </label>
+                                            <div>
+                                                <input name="mailingaddress" type="text" class="form-control"
+                                                       placeholder="Enter address"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.mailingaddress | default_if_none:"" }}">
+                                                {% if form.mailingaddress.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.mailingaddress.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Mailing Address 2</label>
+                                            <div>
+                                                <input name="mailingaddress2" type="text" class="form-control"
+                                                       placeholder="Enter address"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.mailingaddress2 | default_if_none:"" }}">
+                                                {% if form.mailingaddress2.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.mailingaddress2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Mailing City</label>
+                                            <div>
+                                                <input name="mailingcity" type="text" class="form-control"
+                                                       placeholder="Enter city"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.mailingcity | default_if_none:"" }}">
+                                                {% if form.mailingcity.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.mailingcity.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Mailing State</label>
+                                            <div>
+                                                <input name="mailingstate" type="text" maxlength="2"
+                                                       class="form-control" placeholder="Enter state"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.mailingstate | default_if_none:"" }}">
+                                                {% if form.mailingstate.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.mailingstate.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Mailing Zip</label>
+                                            <div>
+                                                <input id="mailingzip" name="mailingzip" type="text"
+                                                       class="form-control" placeholder="Enter zip"
+                                                       autocomplete="on"
+                                                       value="{{ form.instance.mailingzip | default_if_none:"" }}">
+                                                {% if form.mailingzip.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.mailingzip.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label> Property Address </label>
+                                            <div>
+                                                <input name="propertyaddress" type="text" class="form-control"
+                                                       required=""
+                                                       placeholder="Enter property address" autocomplete="on"
+                                                       value="{{ form.instance.propertyaddress | default_if_none:"" }}">
+                                                {% if form.propertyaddress.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.propertyaddress.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Property Address 2</label>
+                                            <div>
+                                                <input name="propertyaddress2" type="text" class="form-control"
+                                                       placeholder="Enter property address" autocomplete="on"
+                                                       value="{{ form.instance.propertyaddress2 | default_if_none:"" }}">
+                                                {% if form.propertyaddress2.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.propertyaddress2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Property City</label>
+                                            <div>
+                                                <input name="propertycity" type="text" class="form-control" required=""
+                                                       placeholder="Enter property city" autocomplete="on"
+                                                       value="{{ form.instance.propertycity | default_if_none:"" }}">
+                                                {% if form.propertycity.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.propertycity.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Property State</label>
+                                            <div>
+                                                <input name="propertystate" maxlength="2" type="text"
+                                                       class="form-control" required=""
+                                                       value="{{ form.instance.propertystate | default_if_none:"" }}"
+                                                       placeholder="Enter property state" autocomplete="on">
+                                                {% if form.propertystate.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.propertystate.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>Property Zip</label>
+                                            <div>
+                                                <input id="propertyzip" name="propertyzip" type="text"
+                                                       class="form-control" required=""
+                                                       value="{{ form.instance.propertyzip | default_if_none:"" }}"
+                                                       placeholder="Enter property zip" autocomplete="on">
+                                                {% if form.propertyzip.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.propertyzip.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <div>
+                                                <input name="email" type="text" class="form-control"
+                                                       placeholder="Enter email"
+                                                       value="{{ form.instance.email | default_if_none:"" }}"
+                                                       autocomplete="on">
+                                                {% if form.email.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.email.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Email 2</label>
+                                            <div>
+                                                <input name="email2" type="text" class="form-control"
+                                                       placeholder="Enter email"
+                                                       value="{{ form.instance.email2 | default_if_none:"" }}"
+                                                       autocomplete="on">
+                                                {% if form.email2.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.email2.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Phone Landline</label>
+                                            <div>
+                                                <input id="phonelandline" name="phonelandline" type="text"
+                                                       class="form-control"
+                                                       value="{{ form.instance.phonelandline | default_if_none:"" }}"
+                                                       placeholder="Enter phone landline" autocomplete="on">
+                                                {% if form.phonelandline.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.phonelandline.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Cell Phone Number</label>
+                                            <div>
+                                                <input class="form-control" type="tel" placeholder=""
+                                                       id="phone" name="phone"
+                                                       value="{{ form.instance.phone | default_if_none:"" }}">
+                                                <input type="hidden" placeholder="" id="phonecell"
+                                                       name="phonecell">
+                                                <input type="hidden" placeholder="" id="is_validated"
+                                                       name="is_validated" value="valid">
+                                                {% if form.phonecell.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.phonecell.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Other Phone Number</label>
+                                            <div>
+                                                <input id="phoneother" name="phoneother" type="text"
+                                                       class="form-control"
+                                                       value="{{ form.instance.phoneother | default_if_none:"" }}"
+                                                       placeholder="Enter other phone number" autocomplete="on">
+                                                {% if form.phoneother.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.phoneother.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Vacancy</label>
+                                            <div>
+                                                <input name="vacant" type="text" class="form-control"
+                                                       placeholder="Enter vacancy"
+                                                       value="{{ form.instance.vacant | default_if_none:"" }}"
+                                                       autocomplete="on">
+                                                {% if form.vacant.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {{ form.vacant.errors | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div id="new_phone_field" class="row">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div id="new_custom_field" class="row">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div>
+                                                <button type="button"
+                                                        class="addphone btn btn-primary waves-effect waves-light">
+                                                    Add
+                                                    Phone Field
+                                                </button>
+                                                <button type="button" style="display:none;"
+                                                        class="removephone btn btn-primary waves-effect waves-light">
+                                                    Remove Phone Field
+                                                </button>
+                                                <input type="hidden" value="0" name="total_phone_fields"
+                                                       id="total_phone_fields">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        var phone_fields = "{{ total_phone_fields }}";
+                                        var custom_fields = "{{ total_custom_fields }}";
+                                    </script>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div>
+                                                <button type="button"
+                                                        class="addcustom btn btn-primary waves-effect waves-light">
+                                                    Add
+                                                    Custom Field
+                                                </button>
+                                                <button type="button" style="display:none;"
+                                                        class="removecustom btn btn-primary waves-effect waves-light">
+                                                    Remove Custom Field
+                                                </button>
+                                                <input type="hidden" value="0" name="total_custom_fields"
+                                                       id="total_custom_fields">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <textarea class="form-control" name="notes"></textarea>
+                                            {% if form.notes.errors %}
+                                                <div class="alert alert-danger">
+                                                    {{ form.notes.errors | striptags }}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+
+                                        <div class="form-group">
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input name="opt_out" type="checkbox" class="custom-control-input"
+                                                           id="customCheck1" {% if form.instance.opt_out %}
+                                                           checked {% endif %}>
+                                                    <label class="custom-control-label" for="customCheck1">Opt
+                                                        Out</label>
+                                                    {% if form.opt_out.errors %}
+                                                        <div class="alert alert-danger">
+                                                            {{ form.opt_out.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-check-inline">
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input name="donotcall" type="checkbox" class="custom-control-input"
+                                                           id="customCheck2" {% if form.instance.donotcall %}
+                                                           checked {% endif %}>
+                                                    <label class="custom-control-label" for="customCheck2">Dnc</label>
+                                                    {% if form.donotcall.errors %}
+                                                        <div class="alert alert-danger">
+                                                            {{ form.donotcall.errors | striptags }}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                            Create Prospect
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+{% endblock %}
+{% block extrajs %}
+
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
+    <script src="{% static 'assets/js/intlTelInput-jquery.min.js' %}"></script>
+    <script>
+
+        var input = document.querySelector('#phone');
+        var errorMap = ["Invalid number", "Invalid country code", "Too short", "To long", "Invalid number"];
+        var intl = $('#phone').intlTelInput({
+            separateDialCode: true,
+            autoFormat: true,
+            defaultCountry: "auto",
+            utilsScript: "{% static 'assets/js/utils.js' %}"
+        });
+
+
+        $(document).ready(function () {
+            $('#phonelandline').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+            $('#phoneother').focus(function () {
+                var mask = "999-999-9999";
+                $(this).inputmask(mask, {"placeholder": ""});
+            });
+
+
+            $('#phone').focus(function () {
+                var placeholder = $(this).attr('placeholder');
+                var mask = placeholder.replace(/[0-9]/g, "9");
+                $(this).inputmask({"mask": mask});
+            });
+
+            $('#mailingzip').focus(function () {
+                $(this).inputmask("99999", {"placeholder": ""});
+            });
+            $('#propertyzip').focus(function () {
+                $(this).inputmask("99999", {"placeholder": ""});
+            });
+
+            $('.addphone').on('click', function () {
+                var new_phone_field_no = parseInt($('#total_phone_fields').val()) + 1;
+
+                var value = "";
+                var error = "";
+                if (new_phone_field_no === 1) {
+                    value = "{{ form.instance.phone1 | default_if_none:"" }}";
+                    error = "{{ form.phone1.errors | striptags }}"
+                } else if (new_phone_field_no === 2) {
+                    value = "{{ form.instance.phone2 | default_if_none:"" }}";
+                    error = "{{ form.phone2.errors | striptags }}"
+                } else if (new_phone_field_no === 3) {
+                    value = "{{ form.instance.phone3 | default_if_none:"" }}";
+                    error = "{{ form.phone3.errors | striptags }}"
+                } else if (new_phone_field_no === 4) {
+                    value = "{{ form.instance.phone4 | default_if_none:"" }}";
+                    error = "{{ form.phone4.errors | striptags }}"
+                } else if (new_phone_field_no === 5) {
+                    value = "{{ form.instance.phone5 | default_if_none:"" }}";
+                    error = "{{ form.phone5.errors | striptags }}"
+                } else if (new_phone_field_no === 6) {
+                    value = "{{ form.instance.phone6 | default_if_none:"" }}";
+                    error = "{{ form.phone6.errors | striptags }}"
+                } else if (new_phone_field_no === 7) {
+                    value = "{{ form.instance.phone7 | default_if_none:"" }}";
+                    error = "{{ form.phone7.errors | striptags }}"
+                } else if (new_phone_field_no === 8) {
+                    value = "{{ form.instance.phone8 | default_if_none:"" }}";
+                    error = "{{ form.phone8.errors | striptags }}"
+                } else if (new_phone_field_no === 9) {
+                    value = "{{ form.instance.phone9 | default_if_none:"" }}";
+                    error = "{{ form.phone9.errors | striptags }}"
+                } else if (new_phone_field_no === 10) {
+                    value = "{{ form.instance.phone10 | default_if_none:"" }}";
+                    error = "{{ form.phone10.errors | striptags }}"
+                }
+
+                if (error) {
+                    var new_input = "<div class=\"col-sm-6\">\n" +
+                        "                <div class=\"form-group\">\n" +
+                        "                    <label>Phone " + new_phone_field_no + ":</label>\n" +
+                        "                    <div>\n" +
+                        "                         <input id=\"phone" + new_phone_field_no + "\" value=\"" + value + "\" name=\"phone" + new_phone_field_no + "\" type=\"text\"\n" +
+                        "                                class=\"form-control\"\n" +
+                        "                                placeholder=\"Enter phone " + new_phone_field_no + "\" autocomplete=\"on\">\n" +
+                        "                         <div class=\"alert alert-danger\">\n" +
+                        "                                   " + error + "\n" +
+                        "                          </div>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>";
+                } else {
+                    var new_input = "<div class=\"col-sm-6\">\n" +
+                        "                <div class=\"form-group\">\n" +
+                        "                    <label>Phone " + new_phone_field_no + ":</label>\n" +
+                        "                    <div>\n" +
+                        "                         <input id=\"phone" + new_phone_field_no + "\" value=\"" + value + "\" name=\"phone" + new_phone_field_no + "\" type=\"text\"\n" +
+                        "                                class=\"form-control\"\n" +
+                        "                                placeholder=\"Enter phone " + new_phone_field_no + "\" autocomplete=\"on\">\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>";
+                }
+
+
+                $('#new_phone_field').append(new_input);
+                $('#phone' + new_phone_field_no).focus(function () {
+                    var mask = "999-999-9999";
+                    $(this).inputmask(mask, {"placeholder": ""});
+                });
+
+                $('#total_phone_fields').val(new_phone_field_no);
+                if (new_phone_field_no === 10) {
+                    $('.addphone').hide()
+                }
+                $('.removephone').show()
+            });
+
+            $('.removephone').on('click', function () {
+                var last_phone_field_no = $('#total_phone_fields').val();
+
+                if (last_phone_field_no > 0) {
+                    if (last_phone_field_no < 11) {
+                        $('.addphone').show()
+                    }
+                    $('#phone' + last_phone_field_no).parents('div')[2].remove();
+                    $('#total_phone_fields').val(last_phone_field_no - 1);
+                    if (last_phone_field_no - 1 === 0) {
+                        $('.removephone').hide();
+                    }
+                }
+            });
+
+            $('.addcustom').on('click', function () {
+                var new_custom_field_no = parseInt($('#total_custom_fields').val()) + 1;
+
+                var value = "";
+                var error = "";
+                var name = "";
+                if (new_custom_field_no === 1) {
+                    value = "{{ form.instance.custome1 | default_if_none:"" }}";
+                    error = "{{ form.custome1.errors | striptags }}";
+                    name = "{{ customfields.custom1 }}";
+                } else if (new_custom_field_no === 2) {
+                    value = "{{ form.instance.custome2 | default_if_none:"" }}";
+                    error = "{{ form.custome2.errors | striptags }}";
+                    name = "{{ customfields.custom2 }}";
+                } else if (new_custom_field_no === 3) {
+                    value = "{{ form.instance.custome3 | default_if_none:"" }}";
+                    error = "{{ form.custome3.errors | striptags }}";
+                    name = "{{ customfields.custom3 }}";
+                } else if (new_custom_field_no === 4) {
+                    value = "{{ form.instance.custome4 | default_if_none:"" }}";
+                    error = "{{ form.custome4.errors | striptags }}";
+                    name = "{{ customfields.custom4 }}";
+                } else if (new_custom_field_no === 5) {
+                    value = "{{ form.instance.custome5 | default_if_none:"" }}";
+                    error = "{{ form.custome5.errors | striptags }}";
+                    name = "{{ customfields.custom5 }}";
+                } else if (new_custom_field_no === 6) {
+                    value = "{{ form.instance.custome6 | default_if_none:"" }}";
+                    error = "{{ form.custome6.errors | striptags }}";
+                    name = "{{ customfields.custom6 }}";
+                } else if (new_custom_field_no === 7) {
+                    value = "{{ form.instance.custome7 | default_if_none:"" }}";
+                    error = "{{ form.custome7.errors | striptags }}";
+                    name = "{{ customfields.custom7 }}";
+                } else if (new_custom_field_no === 8) {
+                    value = "{{ form.instance.custome8 | default_if_none:"" }}";
+                    error = "{{ form.custome8.errors | striptags }}";
+                    name = "{{ customfields.custom8 }}";
+                } else if (new_custom_field_no === 9) {
+                    value = "{{ form.instance.custome9 | default_if_none:"" }}";
+                    error = "{{ form.custome9.errors | striptags }}";
+                    name = "{{ customfields.custom9 }}";
+                } else if (new_custom_field_no === 10) {
+                    value = "{{ form.instance.custome10 | default_if_none:"" }}";
+                    error = "{{ form.custome10.errors | striptags }}";
+                    name = "{{ customfields.custom10 }}";
+                }
+                if (error) {
+                    var new_input = "<div class=\"col-sm-6\">\n" +
+                        "                <div class=\"form-group\">\n" +
+                        "                    <label>" + name + ":</label>\n" +
+                        "                    <div>\n" +
+                        "                         <input id=\"custome" + new_custom_field_no + "\" value=\"" + value + "\" name=\"custome" + new_custom_field_no + "\" type=\"text\"\n" +
+                        "                                class=\"form-control\"\n" +
+                        "                                placeholder=\"Enter " + name + "\" autocomplete=\"on\">\n" +
+                        "                         <div class=\"alert alert-danger\">\n" +
+                        "                                   " + error + "\n" +
+                        "                          </div>\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>";
+                } else {
+                    var new_input = "<div class=\"col-sm-6\">\n" +
+                        "                <div class=\"form-group\">\n" +
+                        "                    <label>" + name + ":</label>\n" +
+                        "                    <div>\n" +
+                        "                         <input id=\"custome" + new_custom_field_no + "\" value=\"" + value + "\" name=\"custome" + new_custom_field_no + "\" type=\"text\"\n" +
+                        "                                class=\"form-control\"\n" +
+                        "                                placeholder=\"Enter " + name + "\" autocomplete=\"on\">\n" +
+                        "                    </div>\n" +
+                        "                </div>\n" +
+                        "            </div>";
+                }
+
+                $('#new_custom_field').append(new_input);
+
+                $('#total_custom_fields').val(new_custom_field_no);
+                if (new_custom_field_no === 10) {
+                    $('.addcustom').hide()
+                }
+                $('.removecustom').show()
+            });
+
+
+            $('.removecustom').on('click', function () {
+                var last_custom_field_no = $('#total_custom_fields').val();
+
+                if (last_custom_field_no > 0) {
+                    if (last_custom_field_no < 11) {
+                        $('.addcustom').show()
+                    }
+                    $('#custome' + last_custom_field_no).parents('div')[2].remove();
+                    $('#total_custom_fields').val(last_custom_field_no - 1);
+                    if (last_custom_field_no - 1 === 0) {
+                        $('.removecustom').hide();
+                    }
+                }
+            });
+
+            if (phone_fields > 0) {
+                for (var i = 0; i < phone_fields; i++) {
+                    $('.addphone').click();
+                }
+            }
+
+            if (custom_fields > 0) {
+                for (var i = 0; i < custom_fields; i++) {
+                    $('.addcustom').click();
+                }
+            }
+
+        });
+
+
+        input.addEventListener("blur", function () {
+            $("#phonecell").val($("#phone").intlTelInput("getNumber"));
+            if (input.value.trim()) {
+                if ($(this).intlTelInput("isValidNumber")) {
+                    $('#is_validated').val('valid');
+                } else {
+                    $('#is_validated').val(errorMap[$(this).intlTelInput("getValidationError")]);
+                }
+            } else {
+                $('#is_validated').val('Invalid Number');
+            }
+        });
+
+
+    </script>
+{% endblock %}

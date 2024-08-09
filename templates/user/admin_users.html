@@ -1,0 +1,181 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">Users</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Users</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Single SkipTrace Price</th>
+                                    <th>Bulk SkipTrace Price</th>
+                                    <th>Status</th>
+                                    <th>Login using user</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for admin_user in admin_users %}
+                                    <tr>
+                                        <td>{{ admin_user.first_name }} </td>
+                                        <td>{{ admin_user.last_name }}</td>
+                                        <td>{{ admin_user.email }}</td>
+                                        <td>${{ admin_user.skiptrace_price }}</td>
+                                        <td>${{ admin_user.bulk_skiptrace_price }}</td>
+                                        <td>{{admin_user.status}}</td>
+                                        <td>
+                                            <a href="{% url 'login-user' admin_user.user_id %}"
+                                               class="btn btn-sm btn-primary waves-effect waves-light">Login</a>
+                                        </td>
+                                        <td>
+                                            <div class=" " role="group" aria-label="Basic example">
+                                                <a href="{% url 'update-user-profile' admin_user.user_id %}">
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Edit"><i
+                                                            class="mdi mdi-pencil-outline"></i></button>
+                                                </a>
+
+                                                <a class="btn btn-info btn-sm"
+                                                   href="{% url 'change-user-password' admin_user.user_id %}"
+                                                   data-toggle="tooltip" data-placement="top" title=""
+                                                   data-original-title="Change Password"><i
+                                                        class="mdi mdi-shield-key-outline"></i></a>
+
+                                                <button mydata="{{ admin_user.user_id }}" type="button"
+                                                        class="btn btn-danger btn-sm deletebtn">
+                                                    <i class="mdi mdi-trash-can-outline"></i>
+                                                </button>
+
+                                                <a class="btn btn-dark btn-sm"
+                                                   href="{% url 'skip_trace_price' admin_user.user_id %}"
+                                                   data-toggle="tooltip" data-placement="top" title=""
+                                                   data-original-title="Skip Trace Pricing"><i
+                                                        class="mdi mdi-cash"></i></a>
+                                                <script>
+                                                    var next = "{{  request.get_full_path }}";
+                                                </script>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+            <script>
+                var msg = "";
+            </script>
+            {% if messages %}
+                {% for message in messages %}
+                    <script>
+                        var msg = "{{ message }}";
+                    </script>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+    <div class="modal fade" id="admin_user_delete_modal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm
+                        Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this user permanently?
+                    <div class="form-group mt-2 ">
+                        <input type="text" class="form-control" id="confirmation" name="confirmation"
+                               placeholder="Enter Yes/No" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Close
+                    </button>
+                    <button id="btn_delete_user" type="button" class="btn btn-danger">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+
+        $(document).ready(function () {
+            if (msg === "User has been deleted successfully") {
+                toastr.success(msg);
+            } else if (msg) {
+                toastr.info("Enter yes to delete a user");
+                var oTable = $('#datatable-buttons').dataTable();
+                oTable.fnPageChange(parseInt(msg));
+            }
+        });
+
+
+        $(document).on('click', '.deletebtn', function () {
+            var user = $(this).attr("mydata");
+            var link = "window.location.href='" + '/user/delete/' + user + '/'; // + "'";
+            $('#btn_delete_user').attr("mylink", link);
+            $('#admin_user_delete_modal').modal('show');
+        });
+
+        $(document).on('blur', '.modal-body input[name=confirmation]', function () {
+            info = $('#datatable-buttons').DataTable().page.info().page;
+            console.log(info);
+            var oldlink = $("#btn_delete_user").attr("mylink");
+            var input_str = $(this).val();
+            if(!input_str)
+            {
+                input_str = "no";
+            }
+            var link = oldlink + input_str + "/" + info + "?next=" + next + "'";
+            $('#btn_delete_user').attr("onClick", link);
+        });
+
+        $('#admin_user_delete_modal').on('hidden.bs.modal', function (e) {
+            $(this).find("input").val('');
+            $(this).find("#btn_delete_user").removeAttr("mylink");
+            $(this).find("#btn_delete_user").removeAttr("onclick");
+        });
+    </script>
+{% endblock %}

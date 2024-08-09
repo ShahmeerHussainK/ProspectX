@@ -1,0 +1,404 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Skip Trace</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Single Skip Trace</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row mt-2">
+                            <div class="col-sm-3">
+                                <label>Name</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input id="first_name" name="first_name" type="text"
+                                                    class="form-control" value="" placeholder="Enter First Name">
+                                                <label class="mb-0"><small class="text-muted">(Optional)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input id="last_name" name="last_name" type="text" class="form-control"
+                                                    value="" placeholder="Enter Last Name">
+                                                <label class="mb-0"><small class="text-muted">(Optional)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label>Property Address</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input id="address" name="address" type="text" class="form-control"
+                                                    required="" placeholder="Address*">
+                                                <label class="mb-0"><small class="text-muted">(Required)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input name="city" id="city" type="text" class="form-control" required=""
+                                                    placeholder="City">
+                                                <label class="mb-0"><small class="text-muted">(Required)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input name="state" id="state" type="text" class="form-control" required=""
+                                                    placeholder="State">
+                                                <label class="mb-0"><small class="text-muted">(Required)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input name="zip" id="zip" type="text" class="form-control" required=""
+                                                    placeholder="Zip">
+                                                <label class="mb-0"><small class="text-muted">(Required)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label>Mailing Address</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input id="mailing_address" name="mailing_address" type="text" class="form-control"
+                                                    required="" placeholder="Address">
+                                                <label class="mb-0"><small class="text-muted">(Optional)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input name="mailing_city" id="mailing_city" type="text" class="form-control" required=""
+                                                    placeholder="City">
+                                                <label class="mb-0"><small class="text-muted">(Optional)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input name="mailing_state" id="mailing_state" type="text" class="form-control" required=""
+                                                    placeholder="State">
+                                                <label class="mb-0"><small class="text-muted">(Optional)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group mb-1">
+                                            <div>
+                                                <input name="mailing_zip" id="mailing_zip" type="text" class="form-control" required=""
+                                                    placeholder="Zip">
+                                                <label class="mb-0"><small class="text-muted">(Optional)</small></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-sm-12 text-center">
+                                <a class="btn btn-primary w-md waves-effect waves-light"
+                                    href="{% url 'skip_trace' 'single' %}">
+                                    <i class="fa fa-arrow-left mr-1"></i> Back
+                                </a>
+                                <button id="sub_btn" class="btn w-md btn-primary waves-effect waves-light"
+                                    type="submit">
+                                    <i class="fa fa-search"></i> Skip Trace
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+        <div id="loader_id" class=""></div>
+
+        <div class="modal" id="exampleModalScrollable" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title page-title" id="heading_id"></h4>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <div>
+                                    <input readonly class="form-control" id="full_name" name="full_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <div>
+                                    <input readonly class="form-control" id="title" name="title">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <div>
+                                    <input readonly class="form-control" type="text" id="data_last_name"
+                                        name="data_last_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Property Address</label>
+                                <textarea rows="1" readonly id="full_address" class="form-control"
+                                    name="full_address"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Property City</label>
+                                <textarea rows="1" readonly id="pro_city" class="form-control"
+                                    name="pro_city"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Property State</label>
+                                <textarea rows="1" readonly id="pro_state" class="form-control"
+                                    name="pro_state"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Property Zip</label>
+                                <textarea rows="1" readonly id="pro_zip" class="form-control"
+                                    name="pro_zip"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Mailing Address</label>
+                                <textarea rows="1" readonly id="mail_address" class="form-control"
+                                    name="mail_address"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Mailing City</label>
+                                <textarea rows="1" readonly id="mail_city" class="form-control"
+                                    name="mail_city"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Mailing State</label>
+                                <textarea rows="1" readonly id="mail_state" class="form-control"
+                                    name="mail_state"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Mailing Zip</label>
+                                <textarea rows="1" readonly id="mail_zip" class="form-control"
+                                    name="mail_zip"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Addresses Traced</label>
+                                <textarea rows="5" readonly id="addresses" class="form-control" name="addresses"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Emails Traced</label>
+                                <textarea rows="5" readonly id="email" class="form-control" name="email"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Phones Traced</label>
+                                <textarea rows="5" readonly id="phone" class="form-control" name="phone"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <a id="links" href="#" type="button" class="btn btn-secondary">Export to Word Document</a>
+                        <button id="closing_modal" type="button" class="btn btn-danger"
+                            data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div> <!-- end row -->
+</div>
+<!-- container-fluid -->
+<!-- content -->
+
+{% block extrajs %}
+
+<script type="text/javascript">
+    toastr.options = {
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+    };
+
+    $('#closing_modal').on('click', function (event) {
+        window.location.href = "/skiptrace/skip_trace/single"
+    });
+
+    $('#sub_btn').on('click', function (event) {
+        let st = $('#state').val();
+        let address = $('#address').val();
+        let zp = $('#zip').val();
+        if (address === "" | address === " " | address === "undefined") {
+            toastr.error('Property Address is required!', 'Error');
+            event.preventDefault();
+        } else {
+            $("#sub_btn").hide();
+            $('#sub_btn').delay(2000).show(0);
+            $('#loader_id').addClass('loading');
+            var data = {
+                user: '{{ user }}',
+                address: $("#address").val(),
+                first_name: $("#first_name").val(),
+                last_name: $("#last_name").val(),
+
+                city: $("#city").val(),
+                state: $("#state").val(),
+                zip: $("#zip").val(),
+                mailing_address: $("#mailing_address").val(),
+                mailing_city: $("#mailing_city").val(),
+                mailing_state: $("#mailing_state").val(),
+                mailing_zip: $("#mailing_zip").val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: window.location.origin + "/skiptrace/single_skip_show",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.status == 200) {
+                        $("#heading_id").text('Skip Trace Results');
+                        $("#title").val(result.market_data.first_name);
+                        $("#full_name").val(result.market_data.name);
+                        $("#data_last_name").val(result.market_data.last_name);
+                        $("#full_address").val(result.market_data.full_address);
+                        $("#pro_city").val($("#city").val());
+                        $("#pro_state").val($("#state").val());
+                        $("#pro_zip").val($("#zip").val());
+                        $("#mail_address").val($("#mailing_address").val());
+                        $("#mail_city").val($("#mailing_city").val());
+                        $("#mail_state").val($("#mailing_state").val());
+                        $("#mail_zip").val($("#mailing_zip").val());
+                        $("#addresses").val(result.market_data.address);
+                        $("#email").val(result.market_data.email);
+                        $("#phone").val(result.market_data.phone);
+                        $('#links').attr("href", result.market_data.file_name);
+                        $('#loader_id').removeClass('loading');
+                        $('#exampleModalScrollable').modal('show');
+                    }
+                    else {
+                        $('#loader_id').removeClass('loading');
+                        toastr.error('Address not Found/Valid!', 'Error');
+
+                    }
+                }
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        $('#zip').focus(function () {
+            $(this).inputmask("99999", { "placeholder": "" });
+        });
+    });
+
+</script>
+{% endblock %}
+
+
+
+{% endblock %}

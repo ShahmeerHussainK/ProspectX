@@ -1,0 +1,438 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title"><a href="{% url 'transaction_list'%}">Transactions</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/home"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item "><a href="/x_force/">Xforce</a> </li>
+                        <li class="breadcrumb-item active">Transactions</li>
+                    </ol>
+                </div>
+                <div class="col-sm-6">
+                    <a class="btn btn-primary waves-effect waves-light float-right"
+                       href="{% url 'new_transaction' %}">
+                        <i class="mdi mdi-plus mr-2"></i> Add Transactions
+                    </a>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-xl-2 col-md-3 col-lg-3 col-sm-3">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="table-responsive border">
+                            <table class="table table-striped mb-0 custom_sidbar">
+                                <tbody>
+                                <tbody>
+                                <tr class="bg-primary mb-0">
+                                    <td class="custom_sidbar_title"><a style="color:white;" href="">All Transactions</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Active, Not Closed</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title" ><a  href="">Offer Accepted</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Refund Pending</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title"><a href="">Status</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Of Contracts For The Month</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title"><a href="">Deal Closed This Month</a></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="custom_sidbar_title" style="padding-top: 2px;padding-bottom: 8px;"><a href="">Deal Closed Last Month</a></td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-10 col-md-9 col-lg-10 col-sm-9">
+                <!-- Nav tabs -->
+
+                <div class="card">
+                    <div class="card-body">
+                            {% if messages %}
+                            {% for message in messages %}
+                            <script>
+                              var trans_message = "{{ message  | default_if_none:'' }}" ;
+                            </script>
+                            {% endfor %}
+                            {% endif %}
+                        <div class="table-responsive">
+
+
+                            <table id="datatable-buttons" class="table table-hover dt-responsive nowrap"
+                                   style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                <thead class="xsite_thead_background">
+                                <tr>
+                                    <th>Count</th>
+                                    <th>Property Address</th>
+                                    <th>Status</th>
+                                    <th>Potential</th>
+                                    <th>Contract Start Date</th>
+                                    <th>Contract Price</th>
+                                    <th>Marketing Stage</th>
+                                    <th>Pre-Assigned Status</th>
+                                    <th>Closing Date</th>
+                                    <th>Assignment Fee</th>
+                                    <th>Actual Profit</th>
+                                    <th>Lead Source</th>
+                                    <th>Actions</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for transaction in transactions %}
+
+                                <tr class='clickable-row' data-href='#'>
+
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >{{forloop.counter}}</a></td>
+                                    <!--<td><a href="{% url 'edit_transaction' transaction.id %}" >{{transaction.id}}</a></td>-->
+                                    <td id="address"><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.property_address}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.status}}</a>
+
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.potential}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.contract_date_start}}</a>
+
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.contract_price}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.marketing_Stage}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.pre_assigned_status}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.closing_date}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.assignment_fee}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.actual_profit}}</a>
+                                    </td>
+                                    <td><a href="{% url 'edit_transaction' transaction.id %}" >
+                                        {{transaction.lead_source}}</a>
+                                    </td>
+
+                                    <td>
+
+                                        <!--<a href="{% url 'view_transaction' transaction.id %}" type="button"-->
+                                           <!--class="btn btn-primary btn-sm btn-info" data-toggle="tooltip"-->
+                                           <!--data-placement="top" title=""-->
+                                           <!--data-original-title="View Transaction ">-->
+                                            <!--<i class="mdi mdi-eye"></i>-->
+                                        <!--</a>-->
+                                        <a href="{% url 'edit_transaction' transaction.id %}" type="button"
+                                           class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                           data-placement="top" title="" data-original-title="Edit Transaction">
+                                            <i class="mdi mdi-grease-pencil"></i></a>
+                                        <!--<a title="Click to delete" class="btn btn-danger btn-sm "-->
+                                           <!--href="{% url 'delete_transaction' transaction.id %}"><i-->
+                                                <!--class="mdi mdi-trash-can-outline"></i></a>-->
+
+                                        <!--<a href="#" class="btn btn-danger btn-sm delete_lead_btn" lead-id = {{transaction.id}}><i class="mdi mdi-trash-can-outline"></i></a>-->
+
+
+                                        <!--<a href="" type="button" class="btn btn-danger btn-sm delete_trans_btn" trans-id = {{transaction.id}}><i class="mdi mdi-trash-can-outline"></i></a>-->
+
+                                         <a type="button" data-original-title="Delete Transaction" data-toggle="tooltip" trans-id = "{{ transaction.id }}" class="btn btn-danger btn-sm delete-trans-btn" href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+
+
+
+
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                <div class="modal" id="exampleModalScrollable">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title page-title" id="heading_id"></h4>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Name</label>
+                                                        <div>
+                                                            <input readonly class="form-control" id="title"
+                                                                   name="title">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Marketing Sequence</label>
+                                                        <div>
+                                                            <input readonly class="form-control" type="text"
+                                                                   id="created_by" name="created_by">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Plan</label>
+                                                        <div>
+                                                            <input readonly class="form-control" type="text" id="plan"
+                                                                   name="plan">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Hash Off</label>
+                                                        <div>
+                                                            <input readonly class="form-control" id="hash_off"
+                                                                   name="hash_off" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Temperature</label>
+                                                        <div>
+                                                            <input id="temperature" name="temperature" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Distribution Status</label>
+                                                        <textarea readonly id="distribution_status" class="form-control"
+                                                                  name="distribution_status"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Approval</label>
+                                                        <div>
+                                                            <input id="approval" name="approval" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Scheduled Plan For</label>
+                                                        <div>
+                                                            <input id="scheduled_plan_for" name="scheduled_plan_for"
+                                                                   readonly class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Break Into</label>
+                                                        <div>
+                                                            <input id="break_into" name="break_into" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Send On</label>
+                                                        <div>
+                                                            <input id="send_on" name="send_on" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Major Market</label>
+                                                        <div>
+                                                            <input id="maj_market" name="maj_market" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Responsible</label>
+                                                        <div>
+                                                            <input id="responsible" name="responsible" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Notes</label>
+                                                        <div>
+                                                            <input id="notes" name="notes" readonly class="form-control"
+                                                                   type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Detail</label>
+                                                        <div>
+                                                            <input id="detail" name="detail" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Created At</label>
+                                                        <div>
+                                                            <input id="created_at" name="created_at" readonly
+                                                                   class="form-control" type="text">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary waves-effect waves-light"
+                                                        data-dismiss="modal">Close
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<div class="modal fade" id="transdeletemodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                Confirm!
+            </div>
+            <div class="modal-body">
+
+                Do you really want to delete this Transaction?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark waves-effect waves-light"
+                        data-dismiss="modal">No</button>
+                <a id="delete-trans" class="btn btn-danger waves-effect waves-light btn-ok">Yes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- content -->
+<!-- XDSoft DateTimePicker -->
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />-->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    $(document).on('click', '.delete-trans-btn', function(){
+        var trans = $(this).attr('trans-id');
+
+        var url = window.location.origin + '/xforce_transactions/delete_transaction/' + trans;
+        $('#delete-trans').attr("href", url);
+
+        $('#transdeletemodel').modal('show');
+    });
+
+    // if (trans_message) {
+    //          toastr.warning(trans_message);
+    //      }
+
+ });
+
+
+
+    </script>
+
+
+
+
+
+
+
+<!--<script type="text/javascript">-->
+
+    <!--$(document).ready(function () {-->
+
+    <!--(document).on("click", '.delete_trans_btn', function () {-->
+        <!--var trans_id = $(this).attr('trans-id');-->
+        <!--var url = window.location.origin + 'xforce_transactions/transaction/' + trans_id;-->
+        <!--$('#btnmodaldeletetrans').attr("href", url);-->
+        <!--$('#trans_delete_model').modal('show');-->
+
+
+
+     <!--});-->
+<!--});-->
+
+</script>
+{% endblock %}

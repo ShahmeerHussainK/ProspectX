@@ -1,0 +1,535 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    {% load static %}
+
+    <!-- Start content -->
+    <div class="content xforce_steps"> 
+    <div id="loader_id" class="loading"></div>
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <!-- <div class="row align-items-center">
+                    <div class="col-sm-12">
+                        <div class="pt-3">
+                            <h4 class="page-title">Settings</h4></div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href=""><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">Add Settings</li>
+                        </ol>
+                    </div>
+                </div>  -->
+                <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <!-- <div class="col-md-2"></div> -->
+                <div class="col-md-2">
+                    <div class="card">
+                        <div class="card-body p-0 ">
+                            <div class="list-group">
+                                
+                                    <a href="#" class="list-group-item list-group-item-action p-2 active"><span class="box_span_value_margin">  Setting</span></a>
+                                     <a href="{% url 'company_list' %}" class="list-group-item list-group-item-action p-2"><span class="box_span_value_margin">  Title Company</span></a>    
+                                            <!-- <a id="tag_href" href="/list_management" class="list-group-item list-group-item-action p-2"><i class="mdi mdi-menu "></i><span class="box_span_value_margin">  List
+                                                Management</span></a> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <div class="card">
+                        <div class="card-body buyer_form settings_app">
+                            <h3 class="xforce-title text-center">Add Your Settings</h3>
+                            {% if errors %}
+                                {% for error in errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            <form method="post" action="" enctype="multipart/form-data">  
+                                {% csrf_token %}
+                                 <div id="sales-form-horizontal" class="form-horizontal form-wizard-wrapper">
+                                    <h3>General Settings</h3>
+                                    <fieldset>      
+                                    <div class="row">
+                                         
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Setting Name</label>
+                                                <div>
+                                                    <input placeholder="Name"  class="form-control" id="setting_name" name="setting_name" type="text"
+                                                        {% if data.setting_name != None %}value="{{ data.setting_name|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Entity Name / Email Sender Name</label>
+                                                <div>
+                                                    <input placeholder="Name" class="form-control" id="entity_name"  name="entity_name" type="text"
+                                                        {% if data.entity_name != None %}value="{{ data.entity_name|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Disposition (Sales) Company Name</label>
+                                                <div>
+                                                    <input placeholder="Company Name" class="form-control" id="disposition_company_name" name="disposition_company_name" type="text"
+                                                        {% if data.disposition_company_name != None %}value="{{ data.disposition_company_name|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Email Subject from Comment</label>
+                                                <div>
+                                                    <input placeholder="Enter Email Subject from Comment"  class="form-control" id="email_subject_for_comment" name="email_subject_for_comment" type="text"
+                                                        {% if data.email_subject_for_comment != None %}value="{{ data.email_subject_for_comment|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>SMS Phone Number</label>
+                                                <div>
+                                                    <input placeholder="Phone Number"  class="form-control" id="sms_phone_number" name="sms_phone_number" type="text"
+                                                        {% if data.sms_phone_number != None %}value="{{ data.sms_phone_number|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Phone Number</label>
+                                                <div>
+                                                    <input placeholder="Phone Number"  class="form-control" id="phone_number" name="phone_number" type="text"
+                                                        {% if data.phone_number != None %}value="{{ data.phone_number|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Sender Email</label>
+                                                <div>
+                                                    <input placeholder="Email"  class="form-control" id="email" name="email" type="text"
+                                                        {% if data.email != None %}value="{{ data.email|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label> Website</label>
+                                                <div>
+                                                    <input placeholder="Url"  class="form-control" id="website" name="website" type="text"
+                                                        {% if data.website != None %}value="{{ data.website|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Logo</label><br>
+                                                <input id="" name="logo" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg,,image/png,image/PNG">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label> Seller Missed Call Text</label>
+                                                <div>
+                                                    <input placeholder="Text"  class="form-control" id="seller_missed_call_text" name="seller_missed_call_text" type="text"
+                                                        {% if data.seller_missed_call_text != None %}value="{{ data.seller_missed_call_text|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12"> 
+                                            <div class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input class="form-check-input" id="missed_call_trigger"  name="missed_call_trigger" type="checkbox"
+                                                        {% if data.missed_call_trigger %}checked{% endif %}>
+                                                        Missed Call Trigger
+                                                </label>
+                                            </div> 
+                                        </div>
+
+                                    </div>
+                                    </fieldset>
+                                    <h3>Attempt SMS/Email</h3>
+                                    <fieldset>      
+                                    <div class="row">  
+                                         
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <label>Attempt Type</label>
+                                            <div class="form-group">
+                                                <select name="callandofferattempts_type" id="callandofferattempts_type" class="form-control wizard_select2 ">
+                                                    {% if data.type %}
+                                                        <option value="{{ data.type|stringformat:'s' }}" selected>{{ data.type }}</option>
+                                                    {% endif %}
+                                                    {% for type in types %}
+                                                        <option value="{{ type }}">{{ type }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Attempt SMS</label>
+                                                <div>
+                                                    <input placeholder="SMS"  class="form-control" id="callandofferattempts_sms" name="callandofferattempts_sms" type="text"
+                                                        {% if data.callandofferattempts_sms != None %}value="{{ data.callandofferattempts_sms|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Attempt Email Subject</label>
+                                                <div>
+                                                    <input placeholder="Subject"  class="form-control" id="callandofferattempts_subject" name="callandofferattempts_subject" type="text"
+                                                        {% if data.callandofferattempts_subject != None %}value="{{ data.callandofferattempts_subject|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Attempt Email Body</label>
+                                                <div>
+                                                    <input placeholder="Email Body" class="form-control" id="callandofferattempts_body" name="callandofferattempts_body" type="text"
+                                                        {% if data.callandofferattempts_body != None %}value="{{ data.callandofferattempts_body|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <label>Attempt Actions</label>
+                                            <div class="form-group">
+                                                <select name="callandofferattempts_action" id="callandofferattempts_action" class="form-control wizard_select2 ">
+                                                    {% if data.action %}
+                                                        <option value="{{ data.action|stringformat:'s' }}" selected>{{ data.action }}</option>
+                                                    {% endif %}
+                                                    {% for action in actions %}
+                                                        <option value="{{ action }}">{{ action }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-12 mb-2">
+                                            <button class="xforce_settings_btn btn btn-outline-primary waves-effect waves-light" type="button">Add Attempts</button>
+                                        </div>
+                                    </div>
+                                    <div id="divcontainer">
+                                        <div class="appendme"></div>
+                                    </div>
+                                    </fieldset>
+                                    <h3>CallRail</h3>
+                                    <fieldset> 
+                                        <div class="row">
+                                             
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Best and Highest Email Template</label>
+                                                    <div>
+                                                        <input placeholder="Email Template" class="form-control" id="best_and_highest_email_template" name="best_and_highest_email_template" type="text"
+                                                            {% if data.best_and_highest_email_template != None %}value="{{ data.best_and_highest_email_template|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Pending Property Email Template</label>
+                                                    <div>
+                                                        <input placeholder="Email Template"  class="form-control" id="pending_property_email_template" name="pending_property_email_template" type="text"
+                                                            {% if data.pending_property_email_template != None %}value="{{ data.pending_property_email_template|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Sold Property Email Template</label>
+                                                    <div>
+                                                        <input placeholder="Email Template"  class="form-control" id="sold_property_email_template" name="sold_property_email_template" type="text"
+                                                            {% if data.sold_property_email_template != None %}value="{{ data.sold_property_email_template |stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Callrail API</label>
+                                                <div>
+                                                    <input placeholder="API"  class="form-control" id="api" name="api" type="text"
+                                                        {% if data.api != None %}value="{{ data.api|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Callrail Account Number</label>
+                                                <div>
+                                                    <input placeholder="Number"class="form-control" id="account_number" name="account_number" type="text"
+                                                        {% if data.account_number != None %}value="{{ data.account_number|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                            <div class="form-group">
+                                                <label>Callrail Company Id</label>
+                                                <div>
+                                                    <input placeholder="Id" class="form-control" id="company_id"  name="company_id" type="text"
+                                                        {% if data.company_id != None %}value="{{ data.company_id|stringformat:'s' }}"{% endif %}>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        </div>
+                                    </fieldset>
+                                    <h3>Purchase Contract</h3>
+                                    <fieldset> 
+                                        <div class="row">
+                                            <!-- <div class="col-md-12">
+                                                <label class="required_info"><span class="text-danger font-16">*</span> These fields are required.</label>
+                                            </div> -->
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <label>Purchase Contract Type</label>
+                                                <div class="form-group">
+                                                    <select name="contract_type" id="contract_type" class="form-control wizard_select2 ">
+                                                        {% if data.purchase_type %}
+                                                            <option value="{{ data.purchase_type|stringformat:'s' }}" selected>{{ data.purchase_type }}</option>
+                                                        {% endif %}
+                                                        {% for purchase_type in purchase_types %}
+                                                            <option value="{{ purchase_type }}">{{ purchase_type }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Contract Email Subject</label>
+                                                    <div>
+                                                        <input placeholder="Subject"  class="form-control" id="contract_email_subject" name="contract_email_subject" type="text"
+                                                            {% if data.contract_email_subject != None %}value="{{ data.contract_email_subject|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Contract Email Body</label>
+                                                    <div>
+                                                        <input placeholder="Email Body" class="form-control" id="contract_email_body" name="contract_email_body" type="text"
+                                                            {% if data.contract_email_body != None %}value="{{ data.contract_email_body|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <hr>
+                                            </div>
+                                        </div>
+                                            
+                                            
+                                            <div class="row">
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Title</label>
+                                                    <div>
+                                                        <input placeholder="Title"  class="form-control" id="title" name="title" type="text"
+                                                            {% if data.title != None %}value="{{ data.title|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Message</label>
+                                                    <div>
+                                                        <input placeholder="Enter Message"  class="form-control" id="message" name="message" type="text"
+                                                            {% if data.message != None %}value="{{ data.message|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Requester Name</label>
+                                                    <div>
+                                                        <input placeholder="Name" class="form-control"id="requester_name" name="requester_name" type="text"
+                                                            {% if data.requester_name != None %}value="{{ data.requester_name|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Requester Email</label>
+                                                    <div>
+                                                        <input placeholder="Email"  class="form-control" id="requester_email"  name="requester_email" type="text"
+                                                            {% if data.requester_email != None %}value="{{ data.requester_email|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Reminder</label>
+                                                    <div>
+                                                        <input placeholder="Reminder"  class="form-control" id="reminders" name="reminders" type="text"
+                                                            {% if data.reminders != None %}value="{{ data.reminders|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Subject</label>
+                                                    <div>
+                                                        <input placeholder="Enter Title Company Email Subject"  class="form-control" id="email_subject" name="email_subject" type="text"
+                                                            {% if data.email_subject != None %}value="{{ data.email_subject|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                <div class="form-group">
+                                                    <label>Title Company Email Body</label>
+                                                    <div>
+                                                        <input placeholder="Email Body"  class="form-control" id="email_body" name="email_body" type="text"
+                                                            {% if data.email_body != None %}value="{{ data.email_body|stringformat:'s' }}"{% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <div class="col-md-4 col-lg-4 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label>File</label><br>
+                                                        <input  id="setting_file" name="setting_file" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg,image/png,image/PNG">
+    
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>Contract Text</label>
+                                                        <textarea   class="form-control summernote" id="contract_text" name="contract_text">
+                                                            {% if data.contract_text != None %}value="{{ data.contract_email_body|stringformat:'s' }}"{% endif %}
+                                                    </textarea>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-sm-12">
+                                                    <input id="sub_btn" class="btn btn-outline-primary waves-effect waves-light" type="submit">
+    
+                                                </div>
+
+                                        </div> 
+                                    </fieldset>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+                <div class="col-md-2"></div>
+            </div> <!-- end row -->
+
+        </div>
+        <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+    <!-- content -->
+    <!--datetime picker css-->
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+    {% block extrajs %}
+        <!--//datetime picker new for market planer-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+        <script>
+            $(function () {
+                $(".datetimepicker").datetimepicker({
+                    format: 'm/d/y H:m',
+                });
+
+                $("#datepicker1").datetimepicker({
+                    format: 'm/d/y',
+                });
+            });
+        </script>
+        <script type="text/javascript">
+            $('#my_form').on('submit', function(){
+                $("#sub_btn").hide();
+                $('#sub_btn').delay(2000).show(0);
+            });
+
+            $(document).ready(function() {
+                $("#hsh_off").hide();
+                $('#resp').hide();
+                $('#tl_units').hide();
+                $('#tch').hide();
+            });
+
+            $('#planer').on('change', function(){
+                let plan = $('#planer').val();
+                if (plan !== "") {
+                    $("#hsh_off").show();
+                    $('#resp').show();
+                    $('#tl_units').show();
+                    $('#tch').show();
+                } else {
+                    $("#hsh_off").hide();
+                    $('#resp').hide();
+                    $('#tl_units').hide();
+                    $('#tch').hide();
+                }
+            });
+
+        </script><script type="text/javascript">
+        $('#my_form').on('submit', function(){
+            $("#sub_btn").hide();
+            $('#sub_btn').delay(2000).show(0);
+        });
+
+        $(document).ready(function() {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        });
+
+        $('#planer').on('change', function(){
+            let plan = $('#planer').val();
+            if (plan !== "") {
+                $("#hsh_off").show();
+                $('#resp').show();
+                $('#tl_units').show();
+                $('#tch').show();
+            } else {
+                $("#hsh_off").hide();
+                $('#resp').hide();
+                $('#tl_units').hide();
+                $('#tch').hide();
+            }
+        });
+
+    </script>
+
+
+
+    {% endblock %}
+
+{% endblock %}

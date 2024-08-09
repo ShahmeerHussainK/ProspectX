@@ -1,0 +1,153 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Create Sequence</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item">Sequences</li>
+                        <li class="breadcrumb-item active">Create Sequence</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+                <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="my_form" action="{% url 'create_sequence' %}" method="post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Sequence Name</label>
+                                    <div>
+                                        <input id="title" name="title" type="text" class="form-control" required=""
+                                            placeholder="Enter a task title" autocomplete="on">
+                                        <input value="" id="time_dif" name="time_dif" type="hidden">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">List</label>
+                                    <select required id="lists" name="lists" class="form-control select2">
+                                        {% for lis in list_data %}
+                                            <option value="{{ lis.lis_id }}">{{ lis.lis_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                           
+
+
+                        <div class="row"> 
+                            <section id="a" class="col-sm-6">
+                            <div id="1">
+                                <label class="control-label">Temperature</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input checked type="radio" id="customRadio1" name="customRadio" value="Cold"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio1">Cold </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio2" name="customRadio" value="Warm"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio2">Warm</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="customRadio3" name="customRadio" value="Hot"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="customRadio3">Hot</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </section>
+                            <section  class="col-sm-6" id="b">
+                            <div id="2">
+                                <label class="control-label">Status</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input checked type="radio" id="pending" name="customRadio8" value="Pending"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="pending">Pending </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="active" name="customRadio8" value="Active"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="active">Active</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="inactive" name="customRadio8" value="InActive"
+                                                class="custom-control-input">
+                                            <label class="custom-control-label" for="inactive">Inactive</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </section>
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Details</label>
+                                    <textarea required="" placeholder="Enter some details" id="text_area" class="form-control summernote" name="text_area"> </textarea>
+                                    <!--<textarea required="" id="text_area" name="text_area" class="form-control summernote" rows="2" autocomplete="on"></textarea>-->
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <button id="sub_btn" class="btn btn-primary waves-effect waves-light" type="submit">
+                                    Create Sequence
+                                </button>
+                            </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- content -->
+
+{% block extrajs %}
+
+<script type="text/javascript">
+var off = (new Date().getTimezoneOffset()/60).toString();
+$('#time_dif').val(off);
+$('#my_form').on('submit', function(event){
+       $("#sub_btn").attr('disabled', true);
+});
+
+</script>
+{% endblock %}
+
+
+
+{% endblock %}

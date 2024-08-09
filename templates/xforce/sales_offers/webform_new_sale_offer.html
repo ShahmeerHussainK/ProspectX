@@ -1,0 +1,350 @@
+{% load static %}
+<html>
+
+<head>
+    <title>ProspectX</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+   <style>
+        .main_body_podio {
+            font-family: arial, helvetica, sans-serif;
+            font-size: 12px;
+            line-height: 1.428571429;
+            color: #333;
+            background-color: #F6F6F6;
+        }
+
+        .container_style {
+            background: #fff;
+            margin-bottom: 50px;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .container_style {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            padding: 35px 30px;
+            max-width: 540px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .webforms {
+            width: auto;
+        }
+
+        .webforms__heading {
+            color: #444;
+            font-weight: 700;
+            font-size: 14px;
+            font-family: inherit;
+            line-height: 1.1;
+        }
+
+        .webforms .webforms__description {
+            margin-bottom: 42px !important;
+        }
+
+        .paragraph {
+            margin: 0 0 8.5px;
+            font-size: 12px;
+        }
+
+        .webforms__label {
+            font-weight: bold;
+            display: block;
+            max-width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .webforms__field {
+            margin-bottom: 1.5em;
+        }
+
+        .webforms .email-field .input-group .input-group-addon {
+            padding: 4px 18px;
+            background-color: #F6F6F6;
+            border: 1px solid #ced4da;
+        }
+
+        .webforms__select {
+            margin-top: 5px;
+        }
+
+        .webforms .text-field__large {
+            resize: none;
+        }
+
+        .powered-by-podio {
+            text-align: center;
+            margin: 50px 0;
+            font-size: 11px;
+        }
+
+        .powered-by-podio__image {
+            /* background: url(https://cdn.shortpixel.ai/client/to_webp,q_glossy,ret_img/https://www.argonteq.com/wp-content/uploads/2018/06/logo2.png); */
+            background-repeat: no-repeat;
+            width: 235px;
+            height: 47px;
+            margin: 0 auto 20px
+        }
+        .add_button:hover {
+    color: black;
+    background-color: white;
+    border-color: white;
+}
+.btn-light:not(:disabled):not(.disabled).active, .btn-light:not(:disabled):not(.disabled):active, .show > .btn-light.dropdown-toggle {
+    color: black;
+    background-color: white;
+    border-color: white;
+}
+/* .custom-select-shadow{
+    box-shadow: 1px 2px 6px 0px #D3D9DE;
+}
+.form-control-shadow{
+    box-shadow: 1px 2px 6px 0px #D3D9DE;
+}
+.span_shadow_form{
+    box-shadow: 1px 2px 6px 0px #D3D9DE;
+} */
+    </style>
+</head>
+
+<body class="main_body_podio">
+
+    <div class="container_style">
+        <form class="webforms" method="post">
+                {% csrf_token %}
+            <h1 class="webforms__heading">
+                <p class="mb-2">OFFERS</p>
+            </h1>
+            <div class="webforms__description">
+                <p class="paragraph">Make an Offer on one of our Properties</p>
+
+                <p class="paragraph">Please submit your BEST and Highest offer as we often get Over-Asking price on most
+                    of our
+                    properties. We value our buyers so no bidding wars are made here</p>
+
+                <p class="paragraph">All offers will get reviewed within 24-48 hours of submitting.
+                </p>
+            </div>
+            <div class="form_podio">
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Property? <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="first_field">
+                         <select required name="property" id="property" class="form-control select2">
+                                <option value="" selected>Select</option>
+                                    {% for pro in all_sales %}
+                                            <option value="{{ pro.id }}" {% if select_property == pro %}selected{% endif %}>{{ pro.deals.property_address }}</option>
+                                    {% endfor %}
+                            </select>
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">LLC Purchase Name <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="first_field">
+                       <input required class="form-control"  id="llc_purchase_name"  name="llc_purchase_name" type="text"
+                                                   {% if data.llc_purchase_name != None %}value="{{ data.llc_purchase_name|stringformat:'s' }}"{% endif %}>
+                            {% if errors %}
+                                <div id="llc" class="text-danger">
+                                    {{ errors.llc_purchase_name }}
+                                </div>
+                            {% endif %}
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Personal Full Name <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="first_field">
+                         <input required class="form-control"  id="full_name"  name="full_name" type="text"
+                                                   {% if data.full_name != None %}value="{{ data.full_name|stringformat:'s' }}"{% endif %}>
+                            {% if errors %}
+                                <div id="" class="text-danger">
+                                    {{ errors.full_name }}
+                                </div>
+                            {% endif %}
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Email <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="email-field form-group validation-group">
+                        <div class="form-group has-error input_fields_wrap">
+                            <div class="input-group ">
+                                <input required name="email" class="form-control" type="text"
+                                       {% if data.email != None %}value="{{ data.email|stringformat:'s' }}" {% endif %}>
+
+                            </div>
+                            <div class="form_lable mt-1">
+                                {% if errors %}
+                                <div class="text-danger">
+                                    {{ errors.email }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+<!--                        <div class="form-group">-->
+<!--                            &lt;!&ndash; <button type="button" class="btn btn-success btn-xs field-add-another">Add another</button> &ndash;&gt;-->
+<!--                            <button type="button" class="btn btn-light btn-sm add_button add_field_button"-->
+<!--                                style="box-shadow: 3px 2px 6px 2px #CED4DA;">Add Another</button>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Phone # <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="email-field form-group validation-group">
+                        <div class="form-group has-error input_fields_wrap_two">
+                            <div class="input-group">
+                                 <input id="phone_number" name="phone_number" class="form-control" required type="text"
+                                                   {% if data.phone_number != None %}value="{{ data.phone_number|stringformat:'s' }}"{% endif %}>
+
+                            </div>
+                             <div class="form_lable mt-1">
+                               {% if errors %}
+                                <div  class="text-danger">
+                                    {{ errors.phone_number }}
+                                </div>
+                                {% endif %}
+                            </div>
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Soonest Close Date <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="first_field">
+                        <input required class="form-control datetimepicker_offers"  name="close_date" id="close_date" type="text" autocomplete="off"
+                                                 {% if data.close_date   != None %}value="{{ data.close_date |stringformat:'s' }}"{% endif %}>
+                                {% if errors %}
+                                <div  class="text-danger">
+                                    {{ errors.close_date }}
+                                </div>
+                                {% endif %}
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Offer Amount <span class="text-danger">*</span></label>
+                    </div>
+                    <div class="first_field">
+                        <input required id="offer_amount" name="offer_amount" class="form-control"  type="text"
+                                                   {% if data.offer_amount != None %}value="{{ data.offer_amount|stringformat:'s' }}"{% endif %}>
+                            {% if errors %}
+                                <div  class="text-danger">
+                                    {{ errors.offer_amount }}
+                                </div>
+                                {% endif %}
+                    </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">EMD (Earnest Money Deposit) Amount <span class="text-danger">*</span></label>
+                    </div>
+                     <div class="first_field">
+                    <input required class="form-control"  name="earnest_money_deposit" id="earnest_money_deposit" type="text"
+                       {% if data.earnest_money_deposit   != None %}value="{{ data.earnest_money_deposit |stringformat:'s' }}"{% endif %}>
+                            {% if errors %}
+                            <div  class="text-danger">
+                                {{ errors.earnest_money_deposit }}
+                            </div>
+                            {% endif %}
+                </div>
+                </div>
+                <div class="webforms__field">
+                    <div class="form_lable">
+                        <label class="webforms__label">Additional Details</label>
+                    </div>
+                    <div class="text-field form-group validation-group"><textarea  rows="7"
+                            class="text-field__large form-control form-control-shadow" name="additional_details"></textarea></div>
+                </div>
+                <div class="webforms__submit-box form-group">
+                    <button name="button" type="submit" class="btn btn-primary " style="background-color: #337AB7;">Make
+                        Informal Offer</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+<!--    <div id="webforms__footer">-->
+<!--        <div class="powered-by-podio"><a class="powered-by-podio__link" target="_blank" href="#">-->
+<!--            <div class="powered-by-podio__image">-->
+<!--                <img src="xforce/Prospect-X-Logo.png" style="width: 238px;-->
+<!--                height: 79px;">-->
+<!--            </div>-->
+<!--            </a><br><span><a href="#">Powered by Podio</a><span class="link-separator"> | </span><a target="_blank"-->
+<!--                    href="#">Report Abuse</a><span class="link-separator"> | </span><a target="_blank" href="#">Terms of-->
+<!--                    Service</a></span></div>-->
+<!--    </div>-->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+        <script>
+        $(document).ready(function() {
+            var max_fields      = 10; //maximum input boxes allowed
+            var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+            var add_button      = $(".add_field_button"); //Add button ID
+        
+            var x = 1; //initlal text box count
+            $(add_button).click(function(e){ //on add input button click
+                e.preventDefault();
+                if(x < max_fields){ //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div class="form-group has-error mt-3"> <div class="input-group"><span class="input-group-addon span_shadow_form"><select class="webforms__select"name="">  <option selected="" value="other">Other</option>    <option value="home">Home</option><option value="work">Work</option></select></span><input type="email" value="" required="" class="form-control form-control-shadow"name=""><a href="#" class="remove_field ml-3 mr-3 mt-2" style="color:#0C0C0D;"><strong>X</strong></a></div></div>'); //add input box
+                }
+            });
+        
+            $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+                e.preventDefault(); $(this).parent('div').remove(); x--;
+            })
+        });
+        $(document).ready(function() {
+            var max_fields      = 10; //maximum input boxes allowed
+            var wrapper         = $(".input_fields_wrap_two"); //Fields wrapper
+            var add_button      = $(".add_field_button_two"); //Add button ID
+        
+            var x = 1; //initlal text box count
+            $(add_button).click(function(e){ //on add input button click
+                e.preventDefault();
+                if(x < max_fields){ //max input box allowed
+                    x++; //text box increment
+                    $(wrapper).append('<div class="input-group mt-3"><span class="input-group-addon span_shadow_form"><select class="webforms__select"   name=""> <option selected="" value="other">Other</option>   <option value="home">Home</option><option value="work">Work</option> </select></span><input type="email" value="" required="" class="form-control form-control-shadow"  name=""><a href="#" class="remove_field ml-3 mr-3 mt-2" style="color:#0C0C0D;"><strong>X</strong></a></div>'); //add input box
+                }
+            });
+        
+            $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+                e.preventDefault(); $(this).parent('div').remove(); x--;
+            })
+        });
+         $(function () {
+        $(".datetimepicker_offers").datetimepicker({
+            format: 'm/d/y H:m',
+            minDate: 0,
+
+        });
+    });
+        </script>
+</body>
+
+</html>

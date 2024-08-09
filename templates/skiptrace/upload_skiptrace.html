@@ -1,0 +1,659 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Skiptrace</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Upload Skiptrace</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="manage-list" role="tabpanel">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-primary waves-effect waves-light" href="{% url 'skip_trace' 'list' %}">
+                                        <i class="fa fa-arrow-left mr-1"></i> Back
+                                    </a>
+
+                                </div>
+                                        </div>
+                                    <div id="accordion">
+                                        <!--Upload file Start -->
+                                        <div class="card mb-1 mt-3">
+                                            <div class="card-header p-3" id="headingOne">
+
+                                                <a href="#" id="hit_api" class="text-dark" data-toggle="collapse"
+                                                    aria-expanded="true" aria-controls="collapseOne">
+                                                    <strong class="mt-1 header-title">Upload Your File</strong>
+                                                </a>
+
+                                            </div>
+
+                                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                                data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <p class="mb-1">
+                                                                <strong> Select a file containing your address to
+                                                                    import. </strong>
+                                                            </p>
+                                                            <div>
+                                                                <form action="{% url 'skip_trace_upload' %}"
+                                                                    id="upload-widget" class="dropzone"
+                                                                    enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="fallback">
+                                                                        <input name="file" id="file" type="file">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+
+                                                            <div class=" mt-4" id="hide_accrod_1_button_group"
+                                                                style="display: none">
+                                                                <button type="button"
+                                                                    class="btn btn-outline-dark waves-effect waves-light"
+                                                                    onclick="clear_data()">Clear
+                                                                </button>
+                                                                <button type="button"
+                                                                    class="btn btn-primary waves-effect waves-light"
+                                                                    id="open_accord_2">Next
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Upload file Start-->
+                                        <div class="card mb-1">
+                                            <div class="card-header p-3" id="headingTwo">
+
+                                                <a href="#" class="text-dark collapsed" data-toggle="collapse"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    <h4 class="mt-0 mb-0 header-title"> Mapping data </h4>
+                                                </a>
+
+                                            </div>
+                                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                                data-parent="#accordion">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="form-group">
+                                                                <p class="mb-1">
+                                                                    <strong>Select Spreadsheet Tab</strong>
+                                                                </p>
+                                                                <select multiple="" class="form-control"
+                                                                    id="exampleFormControlSelect2" autocomplete="on">
+
+
+                                                                </select>
+
+                                                            </div>
+                                                        <h4><span style="float:left;" id="row_count_id"></span></h4><br>
+                                                        <h4><span style="float:left;" id="total_price_id"></span></h4><br>
+                                                        <h6><span style="float:left;" id="price_tag_id"></span></h6>
+                                                        </div>
+                                                        <div class="col-4" id="append_source">
+                                                            <p class="mb-1">
+                                                                <strong>Source Fields</strong>
+                                                            </p>
+                                                            <div class="source-field">
+
+                                                                <input class="form-control form-control-sm mb-1"
+                                                                    type="text" placeholder="Website urls"
+                                                                    readonly="readonly">
+                                                                <span
+                                                                    class="float-right text-success source-field-icon"><i
+                                                                        class="mdi mdi-check-outline"></i> </span>
+                                                            </div>
+                                                            <div class="source-field">
+                                                                <input class="form-control form-control-sm mb-1"
+                                                                    type="text" placeholder="Website urls"
+                                                                    readonly="readonly">
+                                                                <span
+                                                                    class="float-right text-success source-field-icon"><i
+                                                                        class="mdi mdi-check-outline"></i> </span>
+                                                            </div>
+                                                            <div class="source-field">
+                                                                <input class="form-control form-control-sm mb-1"
+                                                                    type="text" placeholder="Website urls"
+                                                                    readonly="readonly">
+                                                                <span
+                                                                    class="float-right text-success source-field-icon"><i
+                                                                        class="mdi mdi-check-outline"></i> </span>
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div class="col-4" id="load_destination_field">
+
+
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <div class=" mt-4">
+                                                                <button type="button"
+                                                                    class="btn btn-outline-dark waves-effect waves-light"
+                                                                    id="back_accord_1">Back
+                                                                </button>
+                                                                <button type="button"
+                                                                    class="btn btn-primary waves-effect waves-light"
+                                                                    id="submit_data">Submit
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end row -->
+
+    </div>
+</div>
+<!-- container-fluid -->
+<!-- content -->
+
+{% endblock %}
+
+{% block extrajs %}
+<link href="{% static 'assets/custom_css/toastr.new.min.css' %}" rel="stylesheet" type="text/css">
+<script src="{% static 'assets/custom_js/toastr.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script type="text/javascript">
+
+    toastr.options = {
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+    };
+
+</script>
+<script>
+    var form_dictionary = {};
+    var address_city_state_array = 0
+    var mapping_array = [
+        "firstname",
+        "lastname",
+        "propertyaddress",
+        "propertyaddress2",
+        "propertycity",
+        "propertystate",
+        "propertyzip",
+        "mailingaddress",
+        "mailingaddress2",
+        "mailingcity",
+        "mailingstate",
+        "mailingzip",
+    ];
+    Dropzone.options.uploadWidget = {
+        url: window.location.origin + "/skiptrace/skip_trace_upload",
+        acceptedFiles: '.csv,.xlsx,.xls,.xlsm',
+        maxFilesize: 10, // MB
+        init: function (file) {
+            this.on("addedfile", function () {
+                $(".dz-message").css("display", "none")
+                console.log(this.files.length)
+                var index = this.files.length
+                var new_index = index - 2
+                if (this.files.length > 1) {
+                    console.log(this.files)
+                    console.log("index ", new_index)
+                    console.log(this.files[new_index])
+                    this.removeFile(this.files[new_index]);
+                    console.log(this.files)
+                }
+                //if ( this.files[1] != null ){
+                //this.removeFile( this.files[0] );
+                //}
+                //});
+            });
+        },
+        success: function (file, response) {
+            if (response.row_count === false){
+                toastr.error('File is Corrupt, try uploading some other File!', 'Error');
+            }
+            else if (response.row_count < 50){
+                toastr.error('Please Upload a File having at least 50 records!', 'Error');
+            } else {
+            $("#row_count_id").text('Total Records: '+response.row_count);
+            $("#total_price_id").text('Total Price: $'+response.total_price);
+            $("#price_tag_id").text('Price/record: $0.15');
+            if (response.acc_balance === false){
+                toastr.error('You have $'+response.balance+' in your account and you need $'+response.total_price+' to Skip Trace records in this file!', 'Error');
+            } else {
+            $("#hide_accrod_1_button_group").show()
+            address_city_state_array = response.header.length
+            load_sheet_name(response)
+            load_destination_field(response);
+            load_source_field(response);
+
+            form_dictionary['file_name'] = response.file_name;
+            if (file.previewElement) {
+                console.log("ener in preview element")
+                //file.previewElement.innerHTML = "";
+                return file.previewElement.classList.add("dz-success");
+            }
+            }
+            }
+        },
+        error: function (file, message) {
+            console.log("enter in error file.php ", this.files.length)
+            var node, _i, _len, _ref, _results;
+            if (file.previewElement) {
+                file.previewElement.classList.add("dz-error");
+                if (typeof message !== "String" && message.error) {
+                    message = message.error;
+                }
+                _ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
+                _results = [];
+                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                    node = _ref[_i];
+                    _results.push(node.textContent = message);
+                }
+                return _results;
+            }
+        },
+        removedfile: function (file) {
+            $("#hide_accrod_1_button_group").hide()
+
+            console.log("enter in remove file import prospect.html")
+            var _ref;
+            if (file.previewElement) {
+                if ((_ref = file.previewElement) != null) {
+                    _ref.parentNode.removeChild(file.previewElement);
+                }
+            }
+            return this._updateMaxFilesReachedClass();
+        },
+    };
+
+    function load_sheet_name(response) {
+        var html = "";
+        if (response.sheet_name.length == 1) {
+            console.log("======laoded sheet name is =========", response.sheet_name[0])
+            form_dictionary['sheet_name'] = response.sheet_name[0]
+            for (var i = 0; i < response.sheet_name.length; i++) {
+                html += '<option  selected="selected"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+            }
+            $("#exampleFormControlSelect2").html(html)
+        } else {
+            for (var i = 0; i < response.sheet_name.length; i++) {
+                if (i == 0) {
+                    form_dictionary['sheet_name'] = response.sheet_name[i]
+                    html += '<option selected="selected" onclick="select_sheet_name(\'' + response.file_name + '\',\'' + response.sheet_name[i] + '\')"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                } else {
+                    html += '<option onclick="select_sheet_name(\'' + response.file_name + '\',\'' + response.sheet_name[i] + '\')"  value=' + response.sheet_name[i] + '>' + response.sheet_name[i] + '</option>'
+                }
+
+            }
+            $("#exampleFormControlSelect2").html(html)
+        }
+
+    }
+
+    function select_sheet_name(file_name, sheet_name) {
+        form_dictionary['sheet_name'] = sheet_name
+        $.ajax
+            ({
+                url: window.location.origin + "/skiptrace/get_col_skip_trace",
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    'file_name': file_name,
+                    'sheet_name': sheet_name
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    $("#load_destination_field").empty()
+                    $("#append_source").empty()
+                    address_city_state_array = data.header.length
+                    load_destination_field(data);
+                    load_source_field(data);
+                }
+            });
+    }
+    function load_destination_field(response) {
+
+        var html = "";
+        html += '<p class="mb-1"><strong>Destination Fields</strong></p>'
+        console.log("enter in sucess php.js,", response)
+        for (var i = 0; i < response.header.length; i++) {
+            console.log(i)
+            var id = "match_selected_tick_" + i
+            html += '<select id=' + id + ' onclick="get_old_value(this)" onchange="select_call(\'' + i + '\',\'' + id + '\',\'' + this + '\' )" class="form-control form-control-sm mb-1">\n' +
+                '                                                            <option value="not_import">Do not Import</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="firstname" style="font-weight: bold;"> First Name</option>\n' +
+                '                                                            <option value="lastname" style="font-weight: bold;"> Last Name</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="propertyaddress" style="font-weight: bold;">Prospect Address</option>\n' +
+                '                                                            <option value="propertyaddress2"> &nbsp; Prospect Address 2</option>\n' +
+                '                                                            <option value="propertycity" style="font-weight: bold;">Prospect City</option>\n' +
+                '                                                            <option value="propertystate" style="font-weight: bold;">Prospect State</option>\n' +
+                '                                                            <option value="propertyzip" style="font-weight: bold;">Prospect Zip</option>\n' +
+                '                                                            <option disabled="">──────────</option>\n' +
+                '                                                            <option value="mailingaddress"> Mailing Address</option>\n' +
+                '                                                            <option value="mailingaddress2"> Mailing Address 2</option>\n' +
+                '                                                            <option value="mailingcity"> &nbsp;Mailing City</option>\n' +
+                '                                                            <option value="mailingstate"> &nbsp;Mailing State</option>\n' +
+                '                                                            <option value="mailingzip"> &nbsp;Mailing Zip</option>\n' +
+                '                                                        </select>';
+        }
+        $("#load_destination_field").html(html);
+    }
+
+    function load_source_field(response) {
+        var html = "";
+        html += '<p class="mb-1"><strong>Source Fields</strong></p>'
+        for (var i = 0; i < response.header.length; i++) {
+            var value = response.header[i]
+            var new_value = value.replace(/\s/g, '');
+            var show = mapping_array.indexOf(new_value.toLowerCase())
+            // str.replace(/\s/g, '');
+            var tick = ""
+            if (show > -1) {
+                var tick_id = "tick_match_id_" + i
+                tick = '<i id=' + tick_id + ' class="mdi mdi-check-outline"></i>'
+                $('#match_selected_tick_' + i).val(mapping_array[show])
+            } else {
+                var tick_id = "tick_match_id_" + i
+                tick = '<i id=' + tick_id + ' style="display:none;" class="mdi mdi-check-outline"></i>'
+            }
+            console.log("-------------------    ")
+            html += '<div class="source-field">' +
+                '<input class="form-control form-control-sm mb-1" type="text"placeholder="' + response.header[i] + '" readonly="readonly">' +
+                '<span class="float-right text-success source-field-icon">' + tick + '</span></div>';
+            // $('#element option[value="no"]').attr("selected", "selected");
+
+
+        }
+        $("#append_source").html(html);
+    }
+
+    var html = "";
+    html += '<p class="mb-1"><strong>Source Fields</strong></p>'
+    function clear_data() {
+
+        $(".dz-complete").hide()
+        $("#hide_accrod_1_button_group").hide()
+        html = "<span>Drop files here to upload</span>"
+        $(".dz-message").html(html)
+        $(".dz-message").css("display", "block")
+    }
+
+    function mapping() {
+        var mapping_array = [
+            "Full Name",
+            "First Name",
+            "Last Name",
+            "Property Address",
+            "Property Address 2",
+            "Property City",
+            "Property State",
+            "Property Zip",
+            "Mailing Address",
+            "Mailing Address 2",
+            "Mailing City",
+            "Mailing State",
+            "Mailing Zip",
+            "Email1",
+            "Email2",
+            "phone_other",
+            "phone cell",
+            "Phone Landline",
+            "Notes",
+            "Deceased",
+            "Year Built",
+            "Do Not Call",
+            "phone_other",
+            "status",
+            "custom 1",
+            "custom 2",
+            "custom 3",
+        ];
+        return mapping_array
+    }
+
+
+    function get_old_value(e) {
+    }
+
+    function select_call(index, id, e) {
+        var e = document.getElementById(id);
+        var value = e.options[e.selectedIndex].value;
+        console.log("next", value)
+        var match = "#tick_match_id_" + index
+        if (value == "not_import") {
+            $(match).hide()
+        } else {
+            $(match).show()
+        }
+        for (var i = 0; i < address_city_state_array; i++) {
+            if (i == index)
+                continue
+            var id = "match_selected_tick_" + i
+            var e = document.getElementById(id);
+            console.log("==============event value is ==============", e.selectedIndex)
+            var select_value = e.options[e.selectedIndex].value;
+            console.log("selected all values ", select_value)
+            if (value !== "not_import") {
+                if (value == select_value) {
+                    var selected_index = "#match_selected_tick_" + index
+                    $(selected_index).val("not_import");
+                    var new_match_id = "#tick_match_id_" + index
+                    console.log("========tick match id  is ", new_match_id)
+
+                    toastr.error('Field already mapped', 'Error');
+
+                    // $(new_match_id).addClass( "d-none" );
+                    $(new_match_id).hide()
+
+                }
+            }
+
+        }
+
+        console.log(value)
+
+
+    }
+
+    $("#open_accord_2").click(function () {
+        $("#collapseTwo").collapse().show()
+        $("#collapseOne").collapse().hide()
+    });
+    $("#back_accord_1").click(function () {
+        $("#collapseTwo").collapse().hide()
+        $("#collapseOne").collapse().show()
+    });
+
+    $("#ggsubmit_data222").click(function () {
+        var address_city_state_array_array = []
+        var count_size = 0
+        for (var i = 0; i < address_city_state_array; i++) {
+            var id = "match_selected_tick_" + i
+            var e = document.getElementById(id);
+            var value = e.options[e.selectedIndex].value;
+            console.log("selected all values ", value)
+            count_size++;
+            address_city_state_array_array.push(value)
+        }
+        console.log("========count size======", count_size)
+        console.log(address_city_state_array_array)
+        var valid = true
+
+        if (count_size == 1) {
+            toastr.error('It is required to have the mapping for Prospect city and state or zip code. ', 'Error');
+            valid = false
+        } else {
+            for (var x = 0; x < address_city_state_array_array.length; x++) {
+                if (address_city_state_array_array.indexOf("propertyaddress") < 0) {
+                    toastr.error('Prospect address field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_city_state_array_array.indexOf("propertycity") < 0) {
+                    toastr.error('Prospect city field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_city_state_array_array.indexOf("propertystate") < 0) {
+                    if (address_city_state_array_array.indexOf("propertyzip") > 0) {
+
+                    } else {
+                        toastr.error('Prospect state or zip field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+
+                }
+            }
+        }
+        if (valid) {
+            $("#collapseTwo").collapse().hide()
+            $("#collapseThree").collapse().show()
+        }
+    });
+    $("#back_accord_2").click(function () {
+        $("#collapseTwo").collapse().show()
+        $("#collapseThree").collapse().hide()
+    });
+
+    $("#submit_data").click(function () {
+        var address_array = []
+        var count_size = 0
+        for (var i = 0; i < address_city_state_array; i++) {
+            var id = "match_selected_tick_" + i
+            var e = document.getElementById(id);
+            var value = e.options[e.selectedIndex].value;
+            console.log("selected all values ", value)
+            count_size++;
+            address_array.push(value)
+        }
+        var valid = true
+
+        if (count_size == 1) {
+            toastr.error('It is required to have the mapping for Prospect city and state or zip code. ', 'Error');
+            valid = false
+        } else {
+            for (var x = 0; x < address_array.length; x++) {
+                if (address_array.indexOf("firstname") < 0) {
+                    toastr.error('First Name is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_array.indexOf("lastname") < 0) {
+                    toastr.error('Last Name is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_array.indexOf("propertyaddress") < 0) {
+                    toastr.error('Prospect address field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_array.indexOf("propertycity") < 0) {
+                    toastr.error('Prospect city field is mandatory to map.', 'Error');
+                    valid = false
+                    break
+                }
+                if (address_array.indexOf("propertystate") < 0) {
+                    if (address_array.indexOf("propertyzip") > 0) {
+
+                    } else {
+                        toastr.error('Prospect state or zip field is mandatory to map.', 'Error');
+                        valid = false
+                        break
+                    }
+
+                }
+            }
+
+            var ref_this = $("ul.nav-tabs li a.active").attr("href");
+            console.log(ref_this)
+            var check = true
+
+            var address_city_state_array_array = []
+            var count_size = 0
+            for (var i = 0; i < address_city_state_array; i++) {
+                var id = "match_selected_tick_" + i
+                var e = document.getElementById(id);
+                var value = e.options[e.selectedIndex].value;
+                console.log("selected all values ", value)
+                count_size++;
+                address_city_state_array_array.push(value)
+            }
+            $.ajax({
+                type: 'POST',
+                url: window.location.origin + "/skiptrace/add_skip_trace",
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    'sheet_name': form_dictionary['sheet_name'],
+                    'file_name': form_dictionary['file_name'],
+                    'source_field': address_city_state_array_array.toString()
+                },
+                dataType: 'json',
+                success: function (json) {
+                    if (json.status == 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'List has been submitted successfully!',
+                            allowOutsideClick: false
+                        }
+                        )
+                        $(".swal2-confirm").click(function () {
+
+                            window.location.href = "/skiptrace/skip_trace/list"
+                        })
+
+                    }
+                    if (json.status == 500) {
+                        toastr.error('There is some error', 'Error');
+                    }
+                    if (json.status == 202) {
+                        toastr.error('List Already Exists!', 'Error');
+                    }
+
+                },
+                error: function (xhr, errmsg, err) {
+                alert("error");
+                }
+            });
+        }
+
+    });
+
+
+
+</script>
+{% endblock %}

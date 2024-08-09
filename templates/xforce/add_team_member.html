@@ -1,0 +1,237 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-12">
+                    <h4 class="page-title">Add Team Member</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Add Team Member</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'add_team_member' %}" >
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <div>
+                                            <input placeholder="Enter Name" required class="form-control"  name="name" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label>Contact</label>
+                                    <div class="form-group">
+                                        <select name="contact"  class="form-control select2">
+                                            <option value="" selected></option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <div>
+                                            <input placeholder="Enter Phone Number" required class="form-control"  name="phone_number" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <div>
+                                            <input placeholder="Enter Email" required class="form-control"  name="email" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Hire Date</label>
+                                        <div class="input-group">
+                                            <div class="input-group date" data-target-input="nearest">
+                                                <input  class="form-control datetimepicker"  name="hire_date" type="text">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+                                <div class="col-sm-6">
+                                    <label>Status</label>
+                                    <div class="form-group">
+                                        <select name="status"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Active</option>
+                                            <option value="" >Terminated</option>
+                                            <option value="" >Pending</option>
+                                            </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label>Department</label>
+                                    <div class="form-group">
+                                        <select name="department"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >Lead Assignee</option>
+                                            <option value="" >Transaction</option>
+                                            <option value="" >Disposition</option>
+                                            <option value="" >Admin & Reporting</option>
+                                            <option value="" >Skip Trace</option>
+                                            <option value="" >Cold Caller</option>
+                                            <option value="" >RVM / SMS Individual</option>
+                                            <option value="" >Book Keeper</option>
+                                            <option value="" >Other</option>
+                                            </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>CAllrail Phone Number</label>
+                                        <div>
+                                            <input placeholder="Enter Callrail Phone Number" required class="form-control"  name="callrail_phone_number" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-6">
+                                    <label>Member Type</label>
+                                    <div class="form-group">
+                                        <select name="member_type"  class="form-control select2">
+                                            <option value="" selected></option>
+                                            <option value="" >In House</option>
+                                            <option value="" >VA</option>
+                                            </select>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>File</label><br>
+                                        <input id="image" name="image" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg">
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-12">
+                                    <input id="sub_btn" class="btn btn-outline-primary waves-effect waves-light" type="submit">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'm/d/y H:m',
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+  </script>
+
+
+
+<script type="text/javascript">
+$('#my_form').on('submit', function(){
+       $("#sub_btn").hide();
+       $('#sub_btn').delay(2000).show(0);
+});
+
+$(document).ready(function() {
+    $("#hsh_off").hide();
+    $('#resp').hide();
+    $('#tl_units').hide();
+    $('#tch').hide();
+});
+
+$('#planer').on('change', function(){
+    let plan = $('#planer').val();
+    if (plan !== "") {
+        $("#hsh_off").show();
+        $('#resp').show();
+        $('#tl_units').show();
+        $('#tch').show();
+    } else {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    }
+});
+
+</script>
+{% endblock %}
+
+{% endblock %}

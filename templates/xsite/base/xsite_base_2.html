@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noarchive">
+    <title>Xsite</title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/bootstrap.min.css' %}">
+{#    assets/css/bootstrap.min.css">#}
+    <!-- icofont -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/fontawesome.5.7.2.css' %}">
+    <!-- flaticon -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/flaticon.css' %}">
+    <!-- animate.css -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/animate.css' %}">
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/owl.carousel.min.css' %}">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/magnific-popup.css' %}">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/style.css' %}">
+    <!-- responsive -->
+    <link rel="stylesheet" href="{% static 'xsite_template/all_templates/xsite_template_two/assets/css/responsive.css' %}">
+
+    <link href="{% static 'assets/custom_css/toastr.new.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158292791-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-158292791-1');
+      gtag('send', 'pageview', location.pathname);
+    </script>
+
+    {% block extracss %}
+    {% endblock %}
+
+</head>
+
+<body>
+
+
+		{% block content %}
+		{% endblock %}
+
+ <!-- jquery -->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/jquery.js' %}"></script>
+    <!-- popper -->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/popper.min.js' %}"></script>
+    <!-- bootstrap -->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/bootstrap.min.js' %}"></script>
+    <!-- owl carousel -->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/owl.carousel.min.js' %}"></script>
+    <!-- magnific popup -->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/jquery.magnific-popup.js' %}"></script>
+    <!-- contact js-->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/contact.js' %}"></script>
+    <!-- wow js-->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/wow.min.js' %}"></script>
+    <!-- way points js-->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/waypoints.min.js' %}"></script>
+    <!-- counterup js-->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/jquery.counterup.min.js' %}"></script>
+    <!-- main -->
+    <script src="{% static 'xsite_template/all_templates/xsite_template_two/assets/js/main.js' %}"></script>
+
+    <script src="{% static 'assets/custom_js/toastr.min.js' %}"></script>
+
+    {% block extrajs %}
+    {% endblock %}
+</body>
+
+</html>

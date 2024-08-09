@@ -1,0 +1,170 @@
+{% extends 'layouts/basefile/base.html' %}
+{% load static %}
+{% block extracss %}
+    <style>
+        [type=radio] {
+          position: absolute;
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        /* IMAGE STYLES */
+        [type=radio] + img {
+          cursor: pointer;
+        }
+
+        /* CHECKED STYLES */
+        [type=radio]:checked + img {
+          outline: 2px solid #f00;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+                        <h4 class="page-title">Update Block</h4>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+            <div class="row">
+                <div class="col-md-2"></div><!-- end col -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                    <script >
+                                        var cont = "{{ block_content }}";
+                                    </script>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="block_title" class=" col-form-label">Block Title</label>
+                                            <input class="form-control" required type="text" placeholder="Block Title"
+                                            id="block_title" name="block_title" value="{{ block_title }}">
+                                            {% if form.block_title.errors %}
+                                            <div class="text-danger">
+                                              {{ form.block_title.errors | striptags }}
+                                            </div>
+                                             {% endif %}
+                                        </div>
+                                    </div> 
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="block_width" class=" col-form-label">Block Width</label>
+                                            <select class="form-control" name="block_width" id="block_width">
+                                                <option value="16.67%" {% if block_width == '16.67%' %}selected{% endif %}>16.67%</option>
+                                                <option value="25%" {% if block_width == '25%' %}selected{% endif %}>25%</option>
+                                                <option value="33.33%" {% if block_width == '33.33%' %}selected{% endif %}>33.33%</option>
+                                                <option value="41.67%" {% if block_width == '41.67%' %}selected{% endif %}>41.67%</option>
+                                                <option value="50%" {% if block_width == '50%' %}selected{% endif %}>50%</option>
+                                                <option value="58.33%" {% if block_width == '50.33%' %}selected{% endif %}>58.33%</option>
+                                                <option value="66.67%" {% if block_width == '66.67%' %}selected{% endif %}>66.67%</option>
+                                                <option value="75%" {% if block_width == '75%' %}selected{% endif %}>75%</option>
+                                                <option value="83.33%" {% if block_width == '83.33%' %}selected{% endif %}>83.33%</option>
+                                                <option value="91.67%" {% if block_width == '91.67%' %}selected{% endif %}>91.67%</option>
+                                                <option value="100%" {% if block_width == '100%' %}selected{% endif %}>100%</option>
+                                            </select>
+                                        {% if form.block_width.errors %}
+                                            <div class="text-danger">
+                                              {{ form.block_width.errors | striptags }}
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                        <label for="block_image" class=" col-form-label">Block Image</label> </br>
+                                            <label>
+                                              <input id="block_image" type="radio" name="block_image" value="1" {% if block_image == '1' %}checked{% endif %}>
+                                              <img src="{{ MEDIA_URL }}/dashboard_images/01.png" class="img-thumbnail" width="80">
+                                            </label>
+                                            &nbsp; &nbsp;
+                                            <label>
+                                              <input type="radio" name="block_image" value="2" {% if block_image == '2' %}checked{% endif %}>
+                                              <img src="{{ MEDIA_URL }}/dashboard_images/02.png" class="img-thumbnail" width="80">
+                                            </label>
+                                            &nbsp; &nbsp;
+                                            <label>
+                                              <input type="radio" name="block_image" value="3" {% if block_image == '3' %}checked{% endif %}>
+                                              <img src="{{ MEDIA_URL }}/dashboard_images/03.png" class="img-thumbnail" width="80">
+                                            </label>
+                                            &nbsp; &nbsp;
+                                            <label>
+                                              <input type="radio" name="block_image" value="4" {% if block_image == '4' %}checked{% endif %}>
+                                              <img src="{{ MEDIA_URL }}/dashboard_images/04.png" class="img-thumbnail" width="80">
+                                            </label>
+                                            {% if form.block_image.errors %}
+                                            <div class="text-danger">
+                                              {{ form.block_image.errors | striptags }}
+                                            </div>
+                                             {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="my-summernote" class=" col-form-label">Block Content</label>
+                                            <textarea id="my-summernote" class="summernote" name="block_content" required></textarea>
+                                            {% if form.block_content.errors %}
+                                            <div class="text-danger">
+                                              {{ form.block_content.errors | striptags }}
+                                            </div>
+                                             {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label class=" col-form-label">Notes:</label>
+                                                Add Following text in block content for dynamic details. <br/>
+
+                                                (1) %prospects% : For total prospects.<br/>
+
+                                                (2) %vacants% : For total vacants prospects.<br/>
+
+                                                (3) %opted_out% : For total opted out prospects.<br/>
+
+                                                (4) %absentee% : For total absentee's.<br/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn  btn-primary waves-effect waves-light">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block extrajs %}
+<script>
+$(document).ready(function () {
+    var encodedStr = cont;
+    var parser = new DOMParser;
+    var dom = parser.parseFromString(encodedStr, 'text/html');
+    var decodedString = dom.body.textContent;
+    $("#my-summernote").summernote('code', decodedString);
+});
+</script>
+
+{% endblock  %}
+

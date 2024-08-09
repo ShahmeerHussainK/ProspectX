@@ -1,0 +1,464 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+    {% load static %}
+
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-12">
+                        <h4 class="page-title">View Sales</h4>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/sales/View_Sales/"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                            <li class="breadcrumb-item active">View Sales</li>
+                        </ol>
+                    </div>
+                </div> <!-- end row -->
+            </div>
+            <!-- end page-title -->
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="my_form" enctype="multipart/form-data" action="" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Deals</label>
+                                            <div>
+                                                <input readonly value="{{ data.deals|stringformat:'s' }}" class="form-control"
+                                                       name="deals" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Disposition Manager</label>
+                                            <div>
+                                                <input readonly value="{{ data.disposition_manager|stringformat:'s' }}"
+                                                       class="form-control" name="disposition_manager" id=disposition_manager"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Deadline To ASSIGN!</label>
+                                            <div class="">
+                                                <div>
+                                                    <input readonly  value="{{ data.deadline_to_assign|stringformat:'s' }}" class="form-control" name="deadline_to_assign",id="deadline_to_assign" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Status</label>
+                                        <div class="form-group">
+                                            <div>
+                                                <input readonly value="{{ data.status|stringformat:'s' }}" class="form-control"
+                                                       name="Status" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Marketing Price</label>
+                                            <div>
+                                                <input readonly value="{{ data.marketing_price |stringformat:'s' }}"
+                                                       class="form-control" name="marketing_price" id="marketing_price"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Buy NOW Price</label>
+                                            <div>
+                                                <input readonly placeholder="Enter Buy Now Price" id="buy_now_price"
+                                                       class="form-control" name="buy_now_price" type="text"
+                                                       value="{{ data.buy_now_price |stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>MLS Price</label>
+                                            <div>
+                                                <input readonly placeholder="Enter MLS Price" id="mls_price"
+                                                       class="form-control" name="mls_price" type="text"
+                                                       value="{{ data.mls_price |stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>ARV</label>
+                                            <div>
+                                                <input readonly placeholder="Enter ARV" required class="form-control"
+                                                       id="arv" name="arv" type="text" value="{{ data.arv |stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Website / Pictures</label>
+                                            <div>
+                                                <input readonly placeholder="Type Or Paste Web Address" required
+                                                       class="form-control" name="website_pictures" id="website_pictures"
+                                                       type="text" value="{{ data.website_pictures|stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="col-sm-12">
+                                        <label>Marketing Check List</label>
+                                        <div class="form-group">
+                                            <div>
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                    <input disabled class="form-check-input" type="checkbox" id="email_blast" name="email_blast"
+                                                    {% if data.email_blast %}checked{% endif %} readonly>
+                                                <label class="form-check-label" for="email_blast">Email Blast</label>
+                                                </div>
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                        <input disabled class="form-check-input" type="checkbox" id="facebook_groups" name="facebook_groups"
+                                                        {% if data.facebook_groups %}checked{% endif %} readonly>
+                                                    <label class="form-check-label" for="facebook_groups">Facebook Groups</label>
+                                                </div>
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                        <input disabled class="form-check-input" type="checkbox" id="call_vips" name="call_vips"
+                                                        {% if data.call_vips %}checked{% endif %} readonly>
+                                                    <label class="form-check-label" for="call_vips">Call Vips</label>
+                                                </div>
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                        <input disabled class="form-check-input" type="checkbox" id="mls_cash_buyer" name="mls_cash_buyer"
+                                                        {% if data.mls_cash_buyer %}checked{% endif %} readonly>
+                                                    <label class="form-check-label" for="mls_cash_buyer">MLS Cash Buyer/Realtor</label>
+                                                </div>
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                        <input disabled class="form-check-input" type="checkbox" id="text_vip_buyers" name="text_vip_buyers"
+                                                        {% if data.text_vip_buyers %}checked{% endif %} readonly>
+                                                    <label class="form-check-label" for="text_vip_buyers">Text VIP Buyers</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>COMPS</label>
+                                            <div>
+                                                <input readonly value="{{ data.comps |stringformat:'s' }}" class="form-control"
+                                                       name="comps" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Lockbox/Access Info</label>
+                                            <div>
+                                                <input readonly value="{{ data.lockbox_acess_info |stringformat:'s' }}"
+                                                       class="form-control" name="lockbox_acess_info" id=""
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Currently Interested</label>
+                                        <div>
+                                            <input readonly value="{{ data.current_interest|stringformat:'s' }}"
+                                                   class="form-control" name="current_interest" id="current_interest"
+                                                   type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Showing Date</label>
+                                            <div class="input-group">
+                                                <div  class="input-group date" data-target-input="nearest">
+                                                    <input readonly  class="form-control " name="showing_date" id="showing_date" type="text"
+                                                           value="{{ data.showing_date|stringformat:'s' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Assigned</label>
+                                        <div class="checkbox">
+                                            <div>
+                                                <input readonly value="{{ data.assigned|stringformat:'s' }}" class="form-control"
+                                                       name="assigned" id="assigned" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label>Attending Showing</label>
+                                        <div>
+                                            <input readonly class="form-control" name="attending_showing"
+                                                   id="attending_showing" type="text"
+                                                   value="{{ data.attending_showing|stringformat:'s' }}">
+                                        </div>
+                                    </div>
+                                <div class="col-sm-6">
+                                            <label class="d-block">Submitted Offers</label>
+                                            <div class="form-group">
+                                                <button type="button" class="btn btn-info" id="offer-btn">Show submitted offers</button>
+                                            </div>
+
+                                            <div class="modal fade" id="offerModal">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Submitted Offers</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">×</button>
+                                                        </div>
+
+                                                        {% if sales_offers %}<!-- Modal body -->
+                                                            <div class="modal-body">
+                                                                {% for sales in sales_offers %}
+                                                                    <div class="mb-2">
+                                                                        <input readonly class="form-control"
+                                                                               id="submitted_offers" type="text" value="{{ sales.full_name }}">
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="modal-body">
+                                                                No Offer!!!!
+                                                            </div>
+
+                                                        {% endif %}
+
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                      <div class="col-sm-6">
+                                        <label>Showing</label>
+                                        <div class="form-group">
+                                            <div>
+                                                <input readonly value="{{ data.showing|stringformat:'s' }}" class="form-control"
+                                                       name="showing" id="showing" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>Accepted Buyers</label>
+                                        <div>
+                                            <div>
+                                                <input readonly value="{{ data.accepted_buyers|stringformat:'s' }}"
+                                                       class="form-control" name="accepted_buyers" id="accepted_buyers"
+                                                       type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Final Gross Price</label>
+                                            <div>
+                                                <input readonly placeholder="" required class="form-control"
+                                                       name="final_gross_sales_price" id="final_gross_sales_price" type="text"
+                                                       value="{{data.final_gross_sales_price|stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Buyer Entity Name</label>
+                                            <div>
+                                                <input readonly placeholder="Type Or Paste Web Address" required
+                                                       class="form-control" name="buyer_entity_name" id="buyer_entity_name"
+                                                       type="text" value="{{data.buyer_entity_name|stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Closing date</label>
+                                            <div class="input-group">
+                                                <div class="input-group date" data-target-input="nearest">
+                                                    <input readonly value="{{data.closing_date|stringformat:'s' }}" class="form-control " id="closing_date" name="closing_date" type="text">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Finder's Fee</label>
+                                            <div>
+                                                <input readonly placeholder="Enter Finder's Fee" required
+                                                       class="form-control" id="finders_fee" name="finders_fee" type="text"
+                                                       value="{{ data.finders_fee|stringformat:'s' }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Email Subject</label>
+                                                <div>
+                                                    <input readonly placeholder="Enter Email Subject" required
+                                                           class="form-control" id="email_subject" name="email_subject" type="text"
+                                                           value="{{ data.email_subject|stringformat:'s' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <label>Email Send</label>
+                                            <div class="form-group">
+                                                <div>
+                                                    <input readonly  class="form-control" name="send_email" id="send_email" type="text"
+                                                           value="{{ data.send_email|stringformat:'s' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group mt-4">
+                                            <div >
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                    <input disabled class="form-check-input" type="checkbox" id="set_showing" name="set_showing"
+                                                           {% if data.set_showing %}checked{% endif %} readonly>
+                                                    <label class="form-check-label" for="marketing_done">Set Showing</label>
+                                                </div>
+                                            <div class="form-check-inline custom_checkbox_button">
+                                                        <input disabled class="form-check-input" type="checkbox" id="marketing_done" name="marketing_done"
+                                                               {% if data.marketing_done %}checked{% endif %} readonly>
+                                                        <label class="form-check-label" for="marketing_done">Marketing Done</label>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Notes</label>
+                                            <div>
+                                                <input readonly value="{{ data.notes|stringformat:'s' }}" class="form-control"
+                                                       name="notes"  type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Email Content</label>
+                                                <input readonly placeholder="" required class="form-control"
+                                                       name="email_content" type="text"
+                                                       value="{{data.email_content|stringformat:'s'  }}">
+                                            </div>
+                                        </div>
+                               <!-- {% if data.files %}
+                                        <div class="col-sm-6">
+                                            <label>Uploaded File</label>
+                                            <div class="form-group">
+                                                <div>
+{#                                                   <a href="{{ data.files }}" target="_blank" ><image  id="files" name="files" src="{% static 'images/uploaded.png' %}" width="40" height="40"></image></a>#}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                {% endif %}-->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+    </div>
+    <!-- content -->
+
+    <!-- content -->
+    <!--datetime picker css-->
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+    <!-- XDSoft DateTimePicker -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+    {% block extrajs %}
+        <!--//datetime picker new for market planer-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+                integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+        <script>
+            $(document).ready(function(){
+                $("#offer-btn").click(function(){
+                    $("#offerModal").modal();
+                });
+            });
+        </script>
+
+
+
+
+
+        <script>
+            $(function () {
+                $(".datetimepicker").datetimepicker({
+                    format: 'm/d/y H:m',
+                });
+
+                $("#datepicker1").datetimepicker({
+                    format: 'm/d/y',
+                });
+            });
+        </script>
+
+
+
+        <script type="text/javascript">
+            $('#my_form').on('submit', function () {
+                $("#sub_btn").hide();
+                $('#sub_btn').delay(2000).show(0);
+            });
+
+            $(document).ready(function () {
+                $("#hsh_off").hide();
+                $('#resp').hide();
+                $('#tl_units').hide();
+                $('#tch').hide();
+            });
+
+            $('#planer').on('change', function () {
+                let plan = $('#planer').val();
+                if (plan !== "") {
+                    $("#hsh_off").show();
+                    $('#resp').show();
+                    $('#tl_units').show();
+                    $('#tch').show();
+                } else {
+                    $("#hsh_off").hide();
+                    $('#resp').hide();
+                    $('#tl_units').hide();
+                    $('#tch').hide();
+                }
+            });
+
+        </script>
+    {% endblock %}
+
+{% endblock %}

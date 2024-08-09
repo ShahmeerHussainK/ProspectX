@@ -1,0 +1,62 @@
+{% load static %}
+<html>
+  <head>
+    <script src="{% static 'django_eventstream/json2.js' %}"></script>
+    <script src="{% static 'django_eventstream/eventsource.min.js' %}"></script>
+    <script src="{% static 'django_eventstream/reconnecting-eventsource.js' %}"></script>
+    <script>
+      var logMessage = function (s) {
+        var outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = outputDiv.innerHTML+'<br><br>'+ s;
+      };
+
+      var start = function () {
+
+        logMessage('connecting...');
+        var facility_name = 'prospectx';
+        var user_id = '1';
+        {#alert({{ user.id }})#}
+
+          var uri = '/events/'+ facility_name + '/' + user_id;
+          alert(uri)
+
+
+
+        var es = new ReconnectingEventSource(uri);
+
+
+        es.onopen = function () {
+          logMessage('connected nayab');
+        };
+
+        es.onerror = function () {
+          logMessage('connection error');
+        };
+
+        es.addEventListener('stream-reset', function (e) {
+          e = JSON.parse(e.data);
+          logMessage('stream reset: ' + JSON.stringify(e.channels));
+        }, false);
+
+        es.addEventListener('stream-error', function (e) {
+          // hard stop
+          es.close();
+          e = JSON.parse(e.data);
+          logMessage('stream error: ' + e.condition + ': ' + e.text);
+        }, false);
+
+        es.addEventListener('message', function (e) {
+            alert("event occur");
+            alert(e.data)
+
+        }, false)
+      };
+    </script>
+  </head>
+  <body onload="start();">
+
+  <div id="output">{{ stocks}}</div>
+<h1>hello</h1>
+
+  </body>
+</html>

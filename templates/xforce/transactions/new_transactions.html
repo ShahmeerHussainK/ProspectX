@@ -1,0 +1,1484 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content xforce_steps">
+    <div id="loader_id" class="loading"></div>
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <!-- <div class="row align-items-center">
+                <div class="col-md-12">
+                    <h4 class="page-title"><a href="{% url 'transaction_list' %}">Transactions</a></h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'x_force' %}"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        {% if is_edit %}
+                        <li class="breadcrumb-item active">Edit Transaction</li>
+                        {% else %}
+                        <li class="breadcrumb-item active">New Transaction</li>
+                        {% endif %}
+                    </ol>
+                </div>
+            </div> -->
+             <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body buyer_form">
+                        <div class="row">
+                            <div class="col-md-4">
+                               <div class="xforce_apps_headings">
+                                   <a href="{% url 'transaction_list' %}" class="btn btn-primary w-md">
+                                       <!-- <i class="mdi mdi-chevron-left"></i>  -->
+                                       Back</a>
+                               </div>
+                            </div>
+                            <div class="col-md-4">
+                                {% if is_edit %}
+                                <h3 class="xforce-title text-center">Edit Transaction</h3>
+                                {% else %}
+                                <h3 class="xforce-title text-center">Add New Transactions</h3>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+
+                        <form id="transactions_horizontal_form" enctype="multipart/form-data" action="" method="post">
+                            {% csrf_token %}
+                            <!--{#                                <div id="transactions_horizontal_form" class="form-horizontal form-wizard-wrapper">#}-->
+                            <h3>General Information</h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <!-- <div class="col-md-12">
+                                                <label class="required_info"><span class="text-danger font-16">*</span> These fields are required.</label>
+                                            </div> -->
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Property Address</label>
+                                                    <div>
+                                                        <input readonly placeholder="Property Address" class="form-control"
+                                                            id="property_address" name="property_address" type="text"
+                                                            {% if data.property_address != None %}
+                                                            value="{{ data.property_address|stringformat:'s' }}"
+                                                            {% endif %}>
+                                                        {% if errors %}
+                                                            <div id="property_address_errors" class="text-danger">
+                                                                {{ errors.property_address | striptags }}
+                                                            </div>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Status</label>
+                                                <div class="form-group">
+                                                    <select name="status" id="status"
+                                                        class="form-control wizard_select2">
+
+                                                    {% for status in status_opt %}
+                                                    <option value="{{ status }}" {% if data.status == status %}selected{% endif %}>{{ status }}</option>
+                                                    {% endfor %}
+
+
+                                                    </select>
+                                                    {% if errors %}
+                                                            <div id="status_errors" class="text-danger">
+                                                                {{ errors.status | striptags }}
+                                                            </div>
+                                                     {% endif %}
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Potential </label>
+                                                <div class="form-group">
+                                                    <select name="potential" id="potential" required
+                                                        class="form-control wizard_select2">
+                                                    <option value="" selected>Select</option>
+
+                                                        {% for potential in potential_opt %}
+                                                    <option value="{{ potential }}" {% if data.potential == potential %}selected{% endif %}>{{ potential }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    {% if errors %}
+                                                            <div id="potential_errors" class="text-danger">
+                                                                {{ errors.potential | striptags }}
+                                                            </div>
+                                                     {% endif %}
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Seller <span class="text-danger">*</span></label>
+                                                <div class="form-group  input-group custom_select_button">
+                                                    <select {% if data.from_lead %} disabled {% endif %} name="seller" id="seller"  onchange="seller_empty()"
+
+                                                        class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+                                                    {% for sellers in seller_leads %}
+                                                    <option seller_property = "{{ sellers.property_address_map }}" value="{{ sellers.id }}" {% if seller == sellers %}selected{% endif %}>{{ sellers.seller_name }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                     <a href="javascript:view_profile()" class="btn btn-primary" id="profile" >view seller</a>
+
+                                                    {% if errors %}
+                                                            <div id="seller_errors" class="text-danger">
+                                                                {{ errors.seller | striptags }}
+                                                            </div>
+                                                     {% endif %}
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            {% if is_edit %}
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Transaction Manager </label>
+                                                <div class="form-group">
+<!--                                                     {% for transaction_manager in transaction_managers %}-->
+<!--                                                    {{transaction_manager.first_name}}-->
+<!--                                                        {% endfor %}-->
+                                                    <select name="transaction_manager"  class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+                                                    {% for transaction_manager in transaction_managers %}
+
+                                                    <option value="{{ transaction_manager.user.id }}" {% if manager == transaction_manager %}selected{% endif %}>{{ transaction_manager.user.first_name }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                    {% if errors %}
+                                                            <div id="transaction_manager_errors" class="text-danger">
+                                                                {{ errors.transaction_manager | striptags }}
+                                                            </div>
+                                                     {% endif %}
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                <div class="form-check-inline custom_checkbox_button">
+                                                    <input type="checkbox" class="form-check-input" name="wait_for_refund" id="wait_for_refund" {% if data.wait_for_refund %} checked
+                                                    {% endif %}>
+                                                    <label class="form-check-label mb-0" for="wait_for_refund"> Refund Pending</label>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5 class="mt-2 mb-4 ml-0 pl-2">Pending Stage</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Pending Stage</label>
+                                                <div class="form-group">
+                                                    <select name="pending_stage" class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+
+                                                    {% for pending_stage in pending_stage_opt %}
+                                                    <option value="{{ pending_stage }}" {% if data.pending_stage == pending_stage %}selected{% endif %}>{{ pending_stage }}</option>
+                                                    {% endfor %}
+
+                                                    </select>
+                                                    {% if errors %}
+                                                            <div id="pending_stage_errors" class="text-danger">
+                                                                {{ errors.pending_stage | striptags }}
+                                                            </div>
+                                                     {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Purchase Contract Date</label>
+                                                    <!-- <label>Purchase Contract Ratification Date</label> -->
+                                                    <div class="input-group">
+                                                        <div class="input-group date" data-target-input="nearest">
+                                                            <input class="form-control datetimepicker_transaction"
+                                                                id="purchase_contract_ratification_date_start"
+                                                                name="purchase_contract_ratification_date_start"
+                                                                type="text" autocomplete="off"
+                                                                value="{{ data.purchase_contract_ratification_date_start }}">
+                                                            {% if errors %}
+                                                            <div id="purchase_contract_ratification_date_start_errors" class="text-danger">
+                                                                {{ errors.purchase_contract_ratification_date_start | striptags }}
+                                                            </div>
+                                                            {% endif %}
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Contract Close Date <span class="text-danger">*</span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group date" data-target-input="nearest">
+                                                            <input  class="form-control datetimepicker_transaction"
+                                                        name="contract_date_start" id="contract_date_start"
+                                                        value="{{ data.contract_date_start }}" type="text"
+                                                        autocomplete="off" onchange="start_date_isemtty()" >
+                                                        {% if errors %}
+                                                            <div id="contract_date_start_errors" class="text-danger">
+                                                                {{ errors.contract_date_start | striptags }}
+                                                            </div>
+                                                         {% endif %}
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Contract Price</label>
+                                                    <div>
+                                                        <input placeholder="Price" class="form-control"
+                                                            name="contract_price" id="contract_price" type="number" min="0"
+                                                            {% if data.contract_price != None %}
+                                                            value="{{ data.contract_price }}" {% endif %}>
+                                                        {% if errors %}
+                                                            <div id="contract_price_errors" class="text-danger">
+                                                                {{ errors.contract_price | striptags }}
+                                                            </div>
+                                                         {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                             
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Original Purchase EMD Amount</label>
+                                                    <div>
+                                                        <input placeholder="Amount"
+                                                            class="form-control" name="original_purchase_emd_amount"
+                                                            id="original_purchase_emd_amount" type="number" min="0"
+                                                            {% if data.original_purchase_emd_amount != None %}
+                                                            value="{{ data.original_purchase_emd_amount }}" {% endif %}>
+                                                        {% if errors %}
+                                                            <div id="original_purchase_emd_amount_errors" class="text-danger">
+                                                                {{ errors.original_purchase_emd_amount | striptags }}
+                                                            </div>
+                                                         {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Company</label>
+                                                <div class="form-group input-group custom_select_button">
+                                                    <select name="company" id="company"
+                                                        class="form-control wizard_select2" onchange="company_empty()">
+                                                        <option value="" selected>Select</option>
+                                                        {% for compan in companies %}
+                                                                <option value="{{ compan.id }}" {% if company == compan %}selected{% endif %}>{{ compan }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <a href="javascript:profile_comp()" class="btn btn-primary" id="company_profile" >View Company</a>
+                                                    {% if errors %}
+                                                            <div id="company_errors" class="text-danger">
+                                                                {{ errors.company | striptags }}
+                                                            </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Wired Confirmation Number</label>
+                                                    <div>
+                                                        <input placeholder="Confirmation Number"
+                                                            class="form-control" name="wire_confirmation_number"
+                                                            id="wire_confirmation_number" type="text"
+                                                            {% if data.wire_confirmation_number != None %}
+                                                            value="{{ data.wire_confirmation_number }}" {% endif %}>
+                                                        {% if errors %}
+                                                            <div id="wire_confirmation_number_errors" class="text-danger">
+                                                                {{ errors.wire_confirmation_number | striptags }}
+                                                            </div>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 ">
+                                                <div class="form-check-inline ">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            data-toggle="toggle" id="hoa" name="hoa"
+                                                            {% if data.hoa %}checked{% endif %}>
+                                                        HOA
+                                                    </label>
+                                                </div>
+                                                <div class="form-check-inline ">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox"
+                                                            data-toggle="toggle" id="preliminary_received"
+                                                            name="preliminary_received"
+                                                            {% if data.preliminary_received %}checked{% endif %}>
+                                                        Preliminary Received
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label>Title Actions</label>
+                                                <div class="form-group xforce_radio_btn"> 
+                                                    <!-- Default inline 1-->
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        {% if data.title_actions == "Email Contract To Title" %}
+                                                        <input type="radio" class="custom-control-input" id="email_contract_title" name="title_actions" value="Email Contract To Title" checked>
+                                                        <label class="custom-control-label" for="email_contract_title">Email Contract To Title</label>
+                                                        {% else %}
+                                                        <input type="radio" class="custom-control-input" id="email_contract_title" name="title_actions" value="Email Contract To Title" >
+                                                        <label class="custom-control-label" for="email_contract_title">Email Contract To Title</label>
+                                                        {% endif %}
+                                                    </div>`
+                                                    
+                                                    <!-- Default inline 2-->
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        {% if data.title_actions == "Email Wire Number To Title" %}
+                                                        <input type="radio" class="custom-control-input" id="email_wire_number" value="Email Wire Number To Title" name="title_actions" checked
+                                                        >
+                                                        <label class="custom-control-label" for="email_wire_number">Email Wire Number To Title</label>
+                                                        {% else %}
+                                                        <input type="radio" class="custom-control-input" id="email_wire_number" value="Email Wire Number To Title" name="title_actions">
+                                                        <label class="custom-control-label" for="email_wire_number">Email Wire Number To Title</label>
+                                                        {% endif %}
+                                                    </div>
+
+                                                </div>
+                                                <!-- <div class="form-group">
+                                                    <select name="title_actions" id="title_actions"
+                                                        class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+                                                    {% for title_actions in title_actions_opt %}
+                                                    <option value="{{title_actions}}" {% if data.title_actions == title_actions %}selected{% endif %}>{{ title_actions }}</option>
+                                                    {% endfor %}
+
+
+                                                    </select>
+                                                    {% if errors %}
+                                                            <div id="title_actions_errors" class="text-danger">
+                                                                {{ errors.title_actions | striptags }}
+                                                            </div>
+                                                    {% endif %}
+                                                </div> -->
+                                            </div>
+                                        </div> 
+
+                                        <div class="row">
+                                            <!-- <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <script>
+                                                        var cont_reason_for_pending = "{{ data.reason_for_pending  | default_if_none:'' }}";
+                                                    </script>
+                                                    <label>Reason For Pending</label>
+                                                    <textarea class="form-control" id="reason_for_pending"
+                                                        name="reason_for_pending">
+                                                        {{ data.reason_for_pending|stringformat:'s' }}
+                                                    </textarea>
+                                                </div>
+                                            </div> -->
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+                            <h3>Marketing Sales</h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                              
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Marketing Stage </label>
+                                                <div class="form-group">
+                                                    <select name="marketing_Stage" id="marketing_Stage"
+                                                        class="form-control wizard_select2">
+                                                     <option value="" selected>Select</option>
+                                                    {% for marketing_stages in marketing_stage_opt %}
+                                                        <option value="{{ marketing_stages }}" {% if data.marketing_Stage == marketing_stages %}selected{% endif %}>{{ marketing_stages }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                    {% if errors %}
+                                                            <div id="marketing_Stage_errors" class="text-danger">
+                                                                {{ errors.marketing_Stage | striptags }}
+                                                            </div>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Marketing Price</label>
+                                                    <div>
+                                                        <input placeholder="Price" class="form-control"
+                                                            name="marketing_price" id="marketing_price" type="number" min="0"
+                                                            {% if data.marketing_price != None %}
+                                                            value="{{ data.marketing_price }}" {% endif %}>
+                                                        {% if errors %}
+                                                            <div id="marketing_price_errors" class="text-danger">
+                                                                {{ errors.marketing_price | striptags }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Website/Picture Address</label>
+                                                    <div>
+                                                        <input class="form-control" name="website_picture" id="website_picture"
+                                                            placeholder="Enter Valid Url" type="text" {% if data.website_picture != None %}
+                                                            value="{{ data.website_picture }}" {% endif %} onfocusout="validURL(this)">
+                                                            <span class="error"><p id="url_error"></p></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Showing Date</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group date" data-target-input="nearest">
+                                                            <input class="form-control datetimepicker_transaction" id="showing_date_start"
+                                                                name="showing_date_start" type="text" autocomplete="off"
+                                                                value="{{ data.showing_date_start }}">
+                                                            {% if errors %}
+                                                            <div id="showing_date_start_errors" class="text-danger">
+                                                                {{ errors.showing_date_start | striptags }}
+                                                            </div>
+                                                            {% endif %}
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Accept Offer</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group date" data-target-input="nearest">
+                                                            <input class="form-control datetimepicker_transaction" autocomplete="off"
+                                                                name="deadline_to_accept_offer_start"
+                                                                id="deadline_to_accept_offer_start" type="text"
+                                                                value="{{ data.deadline_to_accept_offer_start }}">
+
+                                                            {% if errors %}
+                                                            <div id="deadline_to_accept_offer_start_errors" class="text-danger">
+                                                                {{ errors.deadline_to_accept_offer_start | striptags }}
+                                                            </div>
+                                                            {% endif %}
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Showing</label>
+                                                <div class="form-group">
+
+
+
+
+
+
+
+                                                    <select name="showing" id="showing" class="form-control wizard_select2">
+                                                     <option value="" selected>Select</option>
+                                                    {% for showing in showing_opt %}
+                                                        <option value="{{ showing }}" {% if data.showing  == showing %}selected{% endif %}>{{ showing }}</option>
+                                                    {% endfor %}
+
+
+
+
+
+                                                        <!--{% if data.showing %}-->
+                                                        <!--<option value="{{ data.showing }}" selected>-->
+                                                            <!--{{ data.showing }}-->
+                                                        <!--</option>-->
+                                                        <!--{% endif %}-->
+                                                        <!--{% for showing in showing_opt %}-->
+                                                        <!--<option value="{{ showing }}">{{ showing }}</option>-->
+                                                        <!--{% endfor %}-->
+
+                                                    </select>
+                                                    {% if errors %}
+                                                    <div id="showing_errors" class="text-danger">
+                                                            {{ errors.showing | striptags }}
+                                                    </div>
+                                                     {% endif %}
+
+
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                        <div class="row">
+                                            {% if is_edit %}
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+
+                                                    <div class="form-check-inline custom_checkbox_button mt-1">
+                                                        <input type="checkbox" class="form-check-input" name="pre_assigned_status"
+                                                               id="pre_assigned_status" {% if data.pre_assigned_status %} checked
+                                                               {% endif %}>
+                                                        <label class="form-check-label" for="pre_assigned_status"> Send To Sales
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <!-- <label>Marketing Needs</label> -->
+                                                <div class="checkbox">
+                                                    <label class="mt-2">
+                                                        <input name="marketing_needs" id="marketing_needs" type="checkbox"
+                                                            data-toggle="toggle"
+                                                            {% if data.marketing_needs %}checked{% endif %}>
+                                                        Get Pictures
+                                                    </label>
+                                                </div>
+                                            </div> 
+
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+
+                            </fieldset>
+                            <h3>Assignment Stage</h3>
+                            <fieldset>
+                                <div class="row">
+                                     
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <label>Assigned Stage </label>
+                                        <div class="form-group">
+                                            <select name="assignment_stage" id="assignment_stage"
+                                                class="form-control wizard_select2">
+                                                <option value="" selected>Select</option>
+                                                    {% for assigned_stage in assigned_stage_opt %}
+                                                    <option value="{{assigned_stage}}" {% if data.assignment_stage == assigned_stage %}selected{% endif %}>{{ assigned_stage }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                            {% if errors %}
+                                                    <div id="assignment_stage_errors" class="text-danger">
+                                                            {{ errors.assignment_stage | striptags }}
+                                                    </div>
+                                            {% endif %}
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Final Gross Sales Price</label>
+                                            <div>
+                                                <input placeholder="Gross Price" class="form-control"
+                                                    name="final_gross_sales_price" id="final_gross_sales_price" min="0"
+                                                    type="number" {% if data.final_gross_sales_price != None %}
+                                                    value="{{ data.final_gross_sales_price }}" {% endif %} onchange="myFunction()">
+                                                {% if errors %}
+                                                    <div id="final_gross_sales_price_errors" class="text-danger">
+                                                            {{ errors.final_gross_sales_price | striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Closing Date </label>
+                                            <div class="input-group">
+                                                <div class="input-group date" data-target-input="nearest">
+                                                    <input class="form-control datetimepicker_transaction_date" name="closing_date"
+                                                        id="closing_date" value="{{ data.closing_date }}" type="text"
+                                                        autocomplete="off">
+                                                    {% if errors %}
+                                                    <div id="closing_date_errors" class="text-danger">
+                                                            {{ errors.closing_date| striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Finder's Fee</label>
+                                            <div>
+                                                <input placeholder="Fee" class="form-control"
+                                                    name="finder_fee" id="finder_fee" type="number" min="0"
+                                                    value="{{ data.finder_fee }}">
+                                                {% if errors %}
+                                                    <div id="finder_fee_errors" class="text-danger">
+                                                            {{ errors.finder_fee| striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <label>Buyer Contact Info</label>
+                                        <div class="form-group input-group custom_select_button">
+                                            <select name="buyer_contact_info" id="buyer_contact_info"
+                                                class="form-control wizard_select2" onchange="buyer_empty()">
+
+                                                <option value="" selected>Select</option>
+                                                    {% for cash_buyer in cash_buyers %}
+                                                    <option value="{{cash_buyer.id}}" {% if buyer  == cash_buyer  %}selected{% endif %}>{{  cash_buyer }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                            <div>
+                                            <a href="javascript:buyers_profile()" class="btn btn-primary" id="buyer_profile">View Buyer</a>
+                                            </div>
+                                            {% if errors %}
+                                                    <div id="buyer_contact_info_errors" class="text-danger">
+                                                            {{ errors.buyer_contact_info| striptags }}
+                                                    </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Buyer's Entity Name</label>
+                                            <div>
+                                                <input placeholder="Name" class="form-control"
+                                                    value="{{ data.buyer_entity_name }}" name="buyer_entity_name"
+                                                    id="buyer_entity_name" type="text">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Assignment EMD Amount</label>
+                                            <div>
+                                                <input placeholder="Amount"
+                                                    value="{{ data.assignment_emd_amount }}" class="form-control"
+                                                    name="assignment_emd_amount" id="assignment_emd_amount"
+                                                    type="number">
+                                                {% if errors %}
+                                                    <div id="assignment_emd_amount_errors" class="text-danger">
+                                                            {{ errors.assignment_emd_amount| striptags }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Non-refundable earnest money</label>
+                                            <div>
+                                                <input
+                                                    placeholder="Money deposited at"
+                                                    class="form-control" name="non_refundable" id="non_refundable"
+                                                    type="text" value="{{ data.non_refundable }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Located</label>
+                                            <div>
+                                                <input placeholder="Location" class="form-control"
+                                                    value="{{ data.location }}" name="location" id="location"
+                                                    type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>EMD Date</label>
+                                            <div class="input-group">
+                                                <div class="input-group date" data-target-input="nearest">
+                                                    <input class="form-control datetimepicker_transaction" autocomplete="off"
+                                                        name="emd_date_start" id="emd_date_start" type="text"
+                                                        value="{{ data.emd_date_start }}">
+                                                    {% if errors %}
+                                                    <div id="emd_date_start_errors" class="text-danger">
+                                                            {{ errors.emd_date_start| striptags }}
+                                                    </div>
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-4 col-md-4">
+                                        <div class="form-group">
+                                            <label>Assignment Fee</label>
+                                            <div>
+                                                <input placeholder="Fee Amount" class="form-control"
+                                                    name="assignment_fee" id="assignment_fee" type="number" min="0" readonly
+                                                    value="{{ data.assignment_fee }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>Contract Actions</label>
+                                        <div class="form-group xforce_radio_btn"> 
+                                            <!-- Default inline 1-->
+
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                {% if data.contract_action == "Generate Assignment Contract" %}
+                                                <input type="radio" class="custom-control-input" id="generate_assignment_contract" name="contract_action" value="Generate Assignment Contract" checked >
+                                                <label class="custom-control-label" for="generate_assignment_contract">Generate Assignment Contract</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" id="generate_assignment_contract" name="contract_action" value="Generate Assignment Contract">
+                                                <label class="custom-control-label" for="generate_assignment_contract">Generate Assignment Contract</label>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Default inline 2-->
+
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                {% if data.contract_action == "Email Assignment Contract" %}
+                                                <input type="radio" class="custom-control-input" id="email_assignment_contract" value="Email Assignment Contract" name="contract_action" checked>
+                                                <label class="custom-control-label" for="email_assignment_contract">Email Assignment Contract</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" id="email_assignment_contract" name="contract_action" value="Email Assignment Contract">
+                                                <label class="custom-control-label" for="email_assignment_contract">Email Assignment Contract</label>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <!-- Default inline 3-->
+
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                {% if data.contract_action == "Email Assignment Contract To Title" %}
+                                                <input type="radio" class="custom-control-input" id="email_assignment_contract_title" value="Email Assignment Contract To Title" name="contract_action" checked >
+                                                <label class="custom-control-label" for="email_assignment_contract_title">Email Assignment Contract To Title</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" id="email_assignment_contract_title" name="contract_action" value="Email Assignment Contract To Title" >
+                                                <label class="custom-control-label" for="email_assignment_contract_title">Email Assignment Contract To Title</label>
+                                                {% endif %}
+                                            </div> 
+                                            <!-- Default inline 4-->
+                                            <div class="custom-control custom-radio custom-control-inline">
+                                                {% if data.contract_action == "Send Assignment Contract via esignature" %}
+                                                <input type="radio" class="custom-control-input" id="send_assignment_contract" name="contract_action" value="Email Assignment Contract To Title" checked>
+                                                <label class="custom-control-label" for="send_assignment_contract">Send Assignment Contract via esignature</label>
+                                                {% else %}
+                                                <input type="radio" class="custom-control-input" id="send_assignment_contract" name="contract_action" value="Email Assignment Contract To Title">
+                                                <label class="custom-control-label" for="send_assignment_contract">Send Assignment Contract via esignature</label>
+                                                {% endif %}
+                                            </div>  
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <select name="contract_action" id="contract_action"
+                                                class="form-control wizard_select2">
+                                                <option value="" selected>Select</option>
+                                                    {% for contract_actions in contract_actions %}
+                                                    <option value="{{contract_actions}}" {% if data.contract_action == contract_actions %}selected{% endif %}>{{ contract_actions }}</option>
+                                                    {% endfor %}
+                                            </select>
+                                            {% if errors %}
+                                                    <div id="contract_action_errors" class="text-danger">
+                                                            {{ errors.contract_action| striptags }}
+                                                    </div>
+                                            {% endif %}
+
+                                        </div> -->
+                                    </div>
+
+                                    <!-- <div class="col-md-6">
+                                        <div class="form-group">
+                                            <script>
+                                                var cont_term = "{{ data.other_terms  | default_if_none:'' }}";
+                                            </script>
+                                            <label>Other Terms</label>
+                                            <textarea id="other_terms" class="form-control " name="other_terms">
+                                                    {{ data.other_terms |stringformat:'s' }}
+                                                </textarea>
+                                        </div>
+                                    </div> -->
+
+
+
+
+                                </div>
+                            </fieldset>
+                            <h3>Closing Stage</h3>
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                           
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Actual Closing Date</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group date" data-target-input="nearest">
+                                                            <input class="form-control datetimepicker_transaction_date" autocomplete="off"
+                                                                name="actual_close_date" id="actual_close_date"
+                                                                value="{{ data.actual_close_date }}" type="text">
+                                                            {% if errors %}
+                                                                <div id="actual_close_date_errors" class="text-danger">
+                                                                    {{ errors.actual_close_date| striptags }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Misc Expenses</label>
+                                                    <div>
+                                                        <input placeholder="Enter Misc Expenses" class="form-control" onchange="mis_exp()"
+                                                            value="{{ data.misc_expenses }}" name="misc_expenses"
+                                                            id="misc_expenses" type="number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>Actual Profit</label>
+                                                    <div>
+                                                        <input placeholder="" class="form-control" name="actual_profit" readonly
+                                                            id="actual_profit"  type="number"
+                                                        {% if data.actual_profit != None %}
+                                                            value="{{ data.actual_profit }}" {% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Lead Source</label>
+                                                <div class="form-group">
+                                                    <select name="lead_source" id="lead_source"
+                                                        class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+                                                    {% for lead_sources in lead_sources %}
+                                                    <option value="{{lead_sources}}" {% if data.lead_source == lead_sources %}selected{% endif %}>{{ lead_sources }}</option>
+                                                    {% endfor %}
+
+                                                    </select>
+                                                    {% if errors %}
+                                                    <div id="lead_source_errors" class="text-danger">
+                                                        {{ errors.lead_source| striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+
+                                            
+
+
+                                           
+
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <label>Campaign</label>
+                                                <div class="form-group">
+                                                    <select name="campaigns" id="campaigns" class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+                                                    {% for campaig in campaigns %}
+                                                    <option value="{{ campaig.id}}" {% if campaign == campaig %}selected{% endif %}>{{ campaig }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                    {% if errors %}
+                                                    <div id="campaigns_errors" class="text-danger">
+                                                        {{ errors.campaigns| striptags }}
+                                                    </div>
+                                                    {% endif %}
+
+
+
+
+
+                                            <!--<select name="campaigns" id="campaigns" class="form-control ">-->
+                                                <!--{% if cam %}-->
+                                                <!--<option value="{{ cam.id }}" selected>-->
+                                                    <!--{{ cam.title }}-->
+                                                <!--</option>-->
+                                                <!--{% endif %}-->
+                                                <!--{% for campaign in campaigns %}-->
+                                                <!--<option value="{{ campaign.id }}">{{ campaign }}</option>-->
+                                                <!--{% endfor %}-->
+                                            <!--</select>-->
+                                                </div>
+                                            </div>
+ 
+                                            <div class="col-xl-3 col-lg-4 col-md-4">
+                                                <div class="form-group">
+                                                    <label>File</label><br>
+                                                    <input type="file" id="transaction_file" name="transaction_file" class="with-border xforce_filestyle" data-buttonname="btn-primary">
+
+
+                                                    <!--<input id="transaction_file" name="transaction_file" type="file"-->
+                                                        <!--class="with-border filestyle" data-buttonname="btn-secondary"-->
+                                                        <!--accept="image/x-png,image/gif,image/jpeg">-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Contract Delivery</label>
+                                                <div class="form-group xforce_radio_btn"> 
+                                                    <!-- Default inline 1-->
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        {% if data.contract_delivery == "eSignature" %}
+                                                        <input type="radio" class="custom-control-input" id="eSignature" name="contract_delivery" value="eSignature" checked >
+                                                        <label class="custom-control-label" for="eSignature">E Signature</label>
+                                                        {% else %}
+                                                        <input type="radio" class="custom-control-input" id="eSignature" name="contract_delivery" value="eSignature">
+                                                        <label class="custom-control-label" for="eSignature">E Signature</label>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <!-- Default inline 2-->
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        {% if data.contract_delivery == 'Email' %}
+                                                        <input type="radio" class="custom-control-input" id="email_contract_delivery" name="contract_delivery" value="Email" checked>
+                                                        <label class="custom-control-label" for="email_contract_delivery">Email</label>
+                                                        {% else %}
+                                                        <input type="radio" class="custom-control-input" id="email_contract_delivery" name="contract_delivery" value="Email">
+                                                        <label class="custom-control-label" for="email_contract_delivery">Email</label>
+                                                        {% endif %}
+
+                                                    </div>
+                                                    
+                                                    <!-- Default inline 3-->
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        {% if data.contract_delivery == 'In Person' %}
+                                                        <input type="radio" class="custom-control-input" id="inperson_contract_delivery" name="contract_delivery" value="In Person" checked>
+                                                        <label class="custom-control-label" for="inperson_contract_delivery">In Person</label>
+                                                        {% else %}
+                                                        <input type="radio" class="custom-control-input" id="inperson_contract_delivery" name="contract_delivery" value="In Person">
+                                                        <label class="custom-control-label" for="inperson_contract_delivery">In Person</label>
+                                                        {% endif %}
+                                                    </div>  
+                                                </div>
+                                                <!-- <div class="form-group">
+                                                    <select name="contract_delivery" id="contract_delivery"
+                                                        class="form-control wizard_select2">
+                                                        <option value="" selected>Select</option>
+                                                    {% for contract_deliver in contract_delivery_opt %}
+                                                    <option value="{{contract_deliver}}" {% if data.contract_delivery == contract_deliver %}selected{% endif %}>{{ contract_deliver }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                    {% if errors %}
+                                                    <div id="contract_delivery_errors" class="text-danger">
+                                                        {{ errors.contract_delivery| striptags }}
+                                                    </div>
+                                                    {% endif %}
+                                                </div> -->
+                                            </div>
+                                            <!--<div class="col-md-12">-->
+                                            <!--<input id="sub_btn" class="btn btn-outline-primary waves-effect waves-light"-->
+                                            <!--type="submit">-->
+
+                                            <!--</div>-->
+                                        </div>
+                                        <div class="row">
+                                            <!-- <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <script>
+                                                        var cont_misc_expense = "{{ data.explanation_of_misc_expense  | default_if_none:'' }}";
+                                                    </script>
+                                                    <label>Explanation of misc expense</label>
+                                                    <textarea id="explanation_of_misc_expense" class="form-control "
+                                                        name="explanation_of_misc_expense">
+                                                            {{ data.explanation_of_misc_expense |stringformat:'s' }}
+                                                        </textarea>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="col-md-12">
+                                                <div class="form-check-inline  ">
+                                                    <label class="form-check-label">
+                                                        <input class="form-check-input" type="checkbox" data-toggle="toggle"
+                                                            name="closing_stage" id="closing_stage"
+                                                            {% if data.closing_stage %}checked{% endif %}>
+                                                        Closing Stage
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
+
+
+                            </fieldset>
+                            <!--{#                                </div>#}-->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <script>
+                                            var cont_note = "{{ data.notes  | default_if_none:'' }}";
+                                        </script>
+                                        <label>Notes</label>
+                                        <textarea id="note" class="form-control " name="notes">
+                                                {{ data.notes |stringformat:'s' }}
+                                            </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+    integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+<script>
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            format: 'm/d/y H:m',
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y',
+        });
+
+        $(".datepicker2").datetimepicker({
+            format: 'm/d/y',
+            timepicker: false
+        });
+
+        $(".datepicker3").datetimepicker({
+            format: 'm/d/y',
+            timepicker: false
+        });
+    });
+
+    $(function () {
+        $(".datetimepicker_transaction").datetimepicker({
+            format: 'm/d/y H:m',
+            minDate: 0,
+
+        });
+
+        $("#datepicker1").datetimepicker({
+            format: 'm/d/y ',
+        });
+    });
+
+    $(function () {
+        $(".datetimepicker_transaction_date").datetimepicker({
+            format: 'm/d/y',
+            minDate: 0,
+
+        });
+
+        $("#datepicker3").datetimepicker({
+            format: 'm/d/y',
+        });
+    });
+
+
+</script>
+
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+     if ($("#seller").val() == "" && $("#seller").val().trim() == "") {
+         $("#profile").hide();
+     }else {
+         $("profile").show();
+     }
+     if ($("#company").val() == "" && $("#company").val().trim() == "") {
+         $("#company_profile").hide();
+     }else {
+         $("company_profile").show();
+     }
+     if ($("#buyer_contact_info").val() == "" && $("#buyer_contact_info").val().trim() == "") {
+         $("#buyer_profile").hide();
+     }else {
+         $("#buyer_profile").show();
+     }
+
+
+
+
+    var final_gros_price = document.getElementById("final_gross_sales_price").value;
+    var con_price = document.getElementById("contract_price").value;
+    if (parseInt(final_gros_price) > parseInt(con_price)) {
+
+                    var result = final_gros_price - con_price;
+                    document.getElementById("assignment_fee").value = result;
+                    document.getElementById("actual_profit").value = result;
+                }
+    else  {
+
+                    document.getElementById("assignment_fee").value = 0;
+                    document.getElementById("actual_profit").value = 0;
+
+                }
+
+    var mis_exp = document.getElementById("misc_expenses").value;
+
+    var actual_p = document.getElementById("actual_profit").value;
+    if (parseInt(actual_p) > parseInt(mis_exp)) {
+
+        var result = actual_p - mis_exp;
+
+        document.getElementById("actual_profit").value = result;
+    }
+    else  {
+        var final_gros_price = document.getElementById("final_gross_sales_price").value;
+        var con_price = document.getElementById("contract_price").value;
+        if (parseInt(final_gros_price) > parseInt(con_price)) {
+
+            var result = final_gros_price - con_price;
+            document.getElementById("actual_profit").value = result;
+        }else{
+            document.getElementById("actual_profit").value = 0;
+
+        }
+
+
+    }
+
+
+});
+            function view_profile() {
+                if ($("#seller").val() !== "" && $("#seller").val().trim() !== "") {
+                    var loc = window.location.origin + "/seller/edit_seller_lead/";
+                    var seller_id = $("#seller").val();
+                    var url = loc + seller_id + "/";
+                    window.open(url, '_blank');
+                }
+            }
+            function profile_comp() {
+                var company_loc = window.location.origin + "/xforce_settings/edit_company/";
+                var comp_id = $("#company").val();
+                var company_url = company_loc + comp_id + "/" ;
+                window.open(company_url, '_blank');
+            }
+            function buyers_profile() {
+                var buyer_loc = window.location.origin + "/cash_buyer/edit_cashbuyer/";
+                var buyer_id = $("#buyer_contact_info").val();
+                var buyer_url = buyer_loc + buyer_id + "/" ;
+                window.open(buyer_url, '_blank');
+            }
+
+
+            function myFunction() {
+
+                var final_gros_price = document.getElementById("final_gross_sales_price").value;
+
+                var con_price = document.getElementById("contract_price").value;
+                if (parseInt(final_gros_price) > parseInt(con_price)) {
+
+                    var result = final_gros_price - con_price;
+                    document.getElementById("assignment_fee").value = result;
+                    document.getElementById("actual_profit").value = result;
+                }
+                else  {
+
+                    document.getElementById("assignment_fee").value = 0;
+                    document.getElementById("actual_profit").value = 0;
+
+                }
+
+            }
+
+            function mis_exp() {
+
+
+                var mis_exp = document.getElementById("misc_expenses").value;
+
+                var actual_p = document.getElementById("actual_profit").value;
+                if (parseInt(actual_p) > parseInt(mis_exp)) {
+
+                    var result = actual_p - mis_exp;
+
+                    document.getElementById("actual_profit").value = result;
+                }
+                else  {
+                    var final_gros_price = document.getElementById("final_gross_sales_price").value;
+                    var con_price = document.getElementById("contract_price").value;
+                    if (parseInt(final_gros_price) > parseInt(con_price)) {
+
+                        var result = final_gros_price - con_price;
+                        document.getElementById("actual_profit").value = result;
+                    }else{
+                        document.getElementById("actual_profit").value = 0;
+
+                    }
+
+
+                }
+
+            }
+
+
+
+
+            function start_date_isemtty() {
+
+                if ($("#contract_date_start").val() !== "" && $("#contract_date_start").val().trim() !== ""){
+                     if ($("#seller").val() !== "" && $("#seller").val().trim() !== "") {
+
+                         $('#Save').parent().removeClass('disabled');
+                         $('#Save').attr('href', '#finish');
+                     }
+
+
+
+                }
+
+            }
+             function seller_empty() {
+                $('#property_address').val($("#seller").find(':selected').attr('seller_property'));
+                if ($("#seller").val() !== "" && $("#seller").val().trim() !== ""){
+                    $("#profile").show();
+                    if ($("#contract_date_start").val() !== "" && $("#contract_date_start").val().trim() !== "") {
+
+                        $('#Save').parent().removeClass('disabled');
+                        $('#Save').attr('href', '#finish');
+                    }
+
+                }else{
+                    $("#profile").hide();
+                }
+            }
+            function company_empty() {
+                if ($("#company").val() !== "" && $("#company").val().trim() !== "") {
+                    $("#company_profile").show();
+                } else {
+                    $("#company_profile").hide();
+                }
+            }
+            function buyer_empty() {
+                if ($("#buyer_contact_info").val() !== "" && $("#buyer_contact_info").val().trim() !== "") {
+                    $("#buyer_profile").show();
+                } else {
+                    $("#buyer_profile").hide();
+                }
+            }
+
+
+
+
+
+            function validURL(myURL) {
+            var value = myURL.value;
+
+
+            var regexp = /((https?\:\/\/)|(www\.))(\S+)(\w{2,4})(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/g;
+
+            if(value.match(regexp)){
+                $('#Save').parent().removeClass('disabled');
+                $('#Save').attr('href', '#finish');
+             }else if(value == '')
+             {
+                 // document.getElementById('url_error').innerHTML = 'Enter a valid url';
+
+                 document.getElementById('url_error').innerHTML = '';
+                 $('#Save').parent().removeClass('disabled');
+                $('#Save').attr('href', '#finish');
+
+            }else{
+
+                 document.getElementById('url_error').innerHTML = 'Enter a valid url';
+                 $('#Save').parent().addClass('disabled');
+                $('#Save').removeAttr('href');
+
+
+            }
+
+            return pattern.test(value);
+
+         }
+
+
+
+
+
+            $(document).ready(function () {
+                if ($("#contract_date_start").val() === "None") {
+                    $('#Save').parent().addClass('disabled');
+                    $('#Save').removeAttr('href');
+
+                }
+
+                if ($("#contract_date_start").val() !== "" && $("#contract_date_start").val().trim() !== ""){
+                    if ($("#contract_date_start").val() !== "None"){
+
+
+                        $('#Save').parent().removeClass('disabled');
+                        $('#Save').attr('href', '#finish');
+                    }
+
+                }else {
+
+                    $('#Save').parent().addClass('disabled');
+                    $('#Save').removeAttr('href');
+                }
+
+                 $("#contract_date_start").keyup(function () {
+                    if ($(this).val() == "" && $(this).val().trim() == ""){
+
+                            $('#Save').parent().addClass('disabled');
+                             $('#Save').removeAttr('href');
+
+                }
+
+
+
+            });
+            //     $("#website_picture").keyup(function () {
+            //     if ($(this).val() == "" && $(this).val().trim() == ""){
+            //         document.getElementById('url_error').innerHTML = '';
+            //
+            //            $('#Save').parent().removeClass('disabled');
+            //          $('#Save').attr('href', '#finish');
+            //
+            //
+            //
+            //         }
+            //
+            //
+            //
+            // });
+
+
+
+            });
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //     if ($("#contract_date_start").val() !== "" && $("#contract_date_start").val().trim() !== "") {
+    //         if ($("#contract_date_end").val() !== "" && $("#contract_date_end").val().trim() !== "") {
+    //             $('#Next').parent().removeClass('disabled');
+    //             $('#Next').attr('href', '#next');
+    //         }
+    //     } else {
+    //         $('#Next').parent().addClass('disabled');
+    //         $('#Next').removeAttr('href');
+    //     }
+    //
+    //              $("#contract_date_start").keyup(function () {
+    //                 if ($(this).val() == "" && $(this).val().trim() == ""){
+    //
+    //                         $('#Next').parent().addClass('disabled');
+    //                         $('#Next').removeAttr('href');
+    //
+    //
+    //
+    //             }
+    //
+    //
+    //
+    //         });
+    //
+    //         });
+
+</script>
+
+
+<script type="text/javascript">
+    $('#my_form').on('submit', function () {
+        $("#sub_btn").hide();
+        $('#sub_btn').delay(2000).show(0);
+    });
+
+    $(document).ready(function () {
+        $("#hsh_off").hide();
+        $('#resp').hide();
+        $('#tl_units').hide();
+        $('#tch').hide();
+    });
+
+    $('#planer').on('change', function () {
+        let plan = $('#planer').val();
+        if (plan !== "") {
+            $("#hsh_off").show();
+            $('#resp').show();
+            $('#tl_units').show();
+            $('#tch').show();
+        } else {
+            $("#hsh_off").hide();
+            $('#resp').hide();
+            $('#tl_units').hide();
+            $('#tch').hide();
+        }
+    });
+
+
+</script>
+{% endblock %}
+{% endblock %}

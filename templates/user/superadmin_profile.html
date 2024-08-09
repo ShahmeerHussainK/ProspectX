@@ -1,0 +1,82 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div class="col-sm-6">
+                    <h4 class="page-title">Profile</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ol>
+                </div>
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div><!-- end col -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class=" col-form-label">First Name</label>
+                                    <input class="form-control" required type="text" value="{{first_name}}" placeholder="First Name"
+                                        id="example-text-input" name="first_name">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class=" col-form-label">Last Name</label>
+                                    <input class="form-control" required type="text" value="{{last_name}}" placeholder="Last Name" name="last_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group ">
+                                    <label for="example-email-input" class="col-form-label">Email</label>
+                                    <input class="form-control" required type="email" value="{{email}}" placeholder="name@example.com"
+                                        id="example-email-input" name="email">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="example-password-input" class="col-form-label">Password</label>
+                                    <input class="form-control" required type="password" placeholder="Password"
+                                        id="example-password-input" name="password">
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn  btn-primary waves-effect waves-light">Submit</button>
+                                </div>
+                            </div>
+                            
+                    </form>
+                    </div>
+                </div>
+                {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+            </div> <!-- end col -->
+            <div class="col-md-2"></div><!-- end col -->
+        </div>
+        <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+{% endblock %}

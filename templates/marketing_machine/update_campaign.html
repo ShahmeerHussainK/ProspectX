@@ -1,0 +1,299 @@
+{% extends 'layouts/basefile/base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- Start content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title-box">
+            <div class="row align-items-center">
+                <div {% if campaign_data.dist_status == 'Pending' %} class="bg-primary col-sm-12" {% endif %}
+                        {% if campaign_data.dist_status == 'Untouched' %} class="bg-danger col-sm-12" {% endif %}
+                        {% if campaign_data.dist_status == 'Completed' %} class="bg-success col-sm-12" {% endif %}>
+                    <h4 class="page-title text-white">Update Marketing Campain</h4>
+                    <ol class="breadcrumb marketing_plan_breadcrunb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"><i
+                                    class="mdi mdi-home-outline"></i></a></li>
+                        <li class="breadcrumb-item active">Update Marketing Campain</li>
+                    </ol>
+
+
+                </div> 
+            </div> <!-- end row -->
+        </div>
+        <!-- end page-title -->
+
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <div>
+                                        <input readonly class="form-control" id="title" name="title" value="{{ campaign_data.title }}" >
+                                        <input type="hidden" value="{{ campaign_data.id }}" id="camp_id" name="camp_id">
+                                        <input value="" id="time_dif" name="time_dif" type="hidden">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Planner</label>
+                                <div class="form-group">
+                                <select name="seq_id" id="seq_id" class="form-control select2">
+                                    <option value="None" selected>Select Marketing Planner</option>
+                                    {% for sequence in sequences %}
+                                        <option value="{{ sequence.id }}" {% if sequence.name == campaign_data.planer %} selected {% endif %}>{{ sequence.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-sm-6">-->
+                                <!--<label>Planner Name</label>-->
+                                <!--<div class="form-group">-->
+                                <!--<div>-->
+                                    <!--<input readonly class="form-control" id="planer" name="planer" value="{{ campaign_data.planer }}" >-->
+                                    <!--<input hidden class="form-control" id="seq_id" name="seq_id" value="{{ campaign_data.seq_id }}" >-->
+                                <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Hash Off</label>
+                                    <div>
+                                        <input readonly value="{{ campaign_data.hash_off }}" class="form-control" id="hash_off" name="hash_off" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Temperature</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="cold" name="temperature" value="Cold"
+                                                class="custom-control-input" {% if campaign_data.temperature == 'Cold' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="cold">Cold</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="warm" name="temperature" value="Warm"
+                                                class="custom-control-input" {% if campaign_data.temperature == 'Warm' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="warm">Warm</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="hot" name="temperature" value="Hot"
+                                                class="custom-control-input" {% if campaign_data.temperature == 'Hot' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="hot">Hot </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <label>Major Market</label>
+                                <div class="form-group">
+                                <select name="maj_market" id="maj_market" required class="form-control select2">
+                                    <option value="" disabled selected hidden>Select Major Market</option>
+                                    {% for major in major_market_query %}
+                                        <option value="{{ major.id }}" {% if campaign_data.major_market == major.id %} selected {% endif %}>{{ major.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label>Responsible</label>
+                                <div class="form-group">
+                                <select name="responsible" id="responsible" class="form-control select2">
+                                    <option value="" selected>Select Responsible User</option>
+                                    {% for responsible in responsible_users_query %}
+                                        <option value="{{ responsible.user.username }}" {% if campaign_data.responsible == responsible.user.username %} selected {% endif %}>{{ responsible.user.username }}</option>
+                                    {% endfor %}
+                                </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <label>Send Via</label>
+                                <div class="form-group">
+                                <div>
+                                    <input readonly value="{{ campaign_data.send_via }}" class="form-control" id="send_via" name="send_via" type="text">
+                                    <input hidden value="{{ campaign_data.send_via }}" class="form-control" id="send_via2" name="send_via2" type="text">
+                                    <input hidden value="{{ campaign_data.plan_id }}" class="form-control" id="plan_id" name="plan_id" type="text">
+                                </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <label>Distribution Status</label>
+                                <div class=" optional-filter-radio-btn-circles" role="group" data-toggle="buttons">
+                                    <label for="pending_dist_status" class="btn btn-sm btn-outline-primary waves-effect btn-circle  {% if campaign_data.dist_status == 'Pending' %} active {% endif %}  waves-light w-xs">
+                                        <input type="radio" id="pending_dist_status" name="dist_status" value="Pending"
+                                        class="custom-control-input" {% if campaign_data.dist_status == 'Pending' %} checked {% endif %}>Pending
+                                    </label>
+
+                                    <label for="untouched_dist_status" class="btn btn-sm btn-outline-danger waves-effect btn-circle  {% if campaign_data.dist_status == 'Untouched' %} active {% endif %}  waves-light w-xs">
+                                        <input type="radio" id="untouched_dist_status" name="dist_status" value="Untouched"
+                                        class="custom-control-input" {% if campaign_data.dist_status == 'Untouched' %} checked {% endif %}>Untouched
+                                    </label>
+                                    <label for="completed_dist_status" class="btn btn-sm btn-outline-success waves-effect btn-circle {% if campaign_data.dist_status == 'Completed' %} active {% endif %}  waves-light w-xs">
+                                        <input type="radio" id="completed_dist_status" name="dist_status" value="Completed"
+                                                class="custom-control-input" {% if campaign_data.dist_status == 'Completed' %} checked {% endif %}>Completed
+                                    </label>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-6">
+                                <label>Approval</label>
+                                <div class="form-group">
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio  ">
+                                            <input type="radio" id="pending_approval" name="approval" value="Pending"
+                                                class="custom-control-input" {% if campaign_data.approval == 'Pending' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="pending_approval">Pending </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="approved_to_merchant_approval" name="approval" value="Approved to Merchant"
+                                                class="custom-control-input" {% if campaign_data.approval == 'Approved to Merchant' %} checked {% endif %}>
+                                            <label class="custom-control-label" for="approved_to_merchant_approval">Approved to Merchant</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Total Units</label>
+                                    <div>
+                                        <input id="total_units" name="total_units" value="{{ campaign_data.units }}" readonly class="form-control" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Touch</label>
+                                    <div>
+                                        <input name="touch" id="touch" value="{{ campaign_data.touch }}" readonly class="form-control" type="text">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-6">
+                                <label>Scheduled For</label>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group date" data-target-input="nearest">
+                                            <input value="{{ campaign_data.scheduled_plan_for }}"
+                                                   class="form-control datetimepicker" required id="scheduled_for"
+                                                   name="scheduled_for" type="text" autocomplete="off">
+                                        </div>
+                                    </div>
+                                <!--<div>-->
+                                    <!--<input class="form-control" type="date" value="{{ campaign_data.scheduled_plan_for }}" id="scheduled_for" name="scheduled_for">-->
+                                <!--</div>-->
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Notes</label>
+                                    <textarea id="notes" class="form-control summernote" name="notes">{{ campaign_data.notes }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Marketing Template</label><br>
+                                    {% if campaign_data.template_name %}
+                                        <a style="color:skyblue;" target="_blank" href="{% url 'marketing_template' campaign_data.template %}" class="btn btn-link p-0  waves-effect">
+                                        {{ campaign_data.template_name }}</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <input hidden class="form-control" type="text" value="{{ campaign_data.template }}" id="temp_id" name="temp_id">
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label>Marketing Details</label>
+                                    <textarea id="mark_details" class="form-control summernote" name="mark_details">{{ campaign_data.mark_details }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label>File</label><br>
+                                    <input id="image" name="image" type="file" class="with-border filestyle" data-buttonname="btn-secondary" accept="image/x-png,image/gif,image/jpeg"> 
+                                    {% if campaign_data.image %}
+                                        <!-- Current: <a href="{{ campaign_data.image }}"><i class="fa fa-paperclip fa-1x" aria-hidden="true"></i></a> -->
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <input class="btn btn-primary waves-effect waves-light" type="submit">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-md-2"></div>
+        </div> <!-- end row -->
+
+    </div>
+    <!-- container-fluid -->
+
+</div>
+<!-- content -->
+<!--datetime picker css-->
+<link rel="stylesheet" href="{% static 'plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css' %}">
+
+<!-- XDSoft DateTimePicker -->
+<link rel="stylesheet" href="{% static 'assets/css/datetime_library.css' %}">
+
+{% block extrajs %}
+<!--//datetime picker new for market planer-->
+<script src="{% static 'assets/js/prospectx/datetime_library.js' %}"></script>
+<script>
+    $(function () {
+      $(".datetimepicker").datetimepicker({
+        format: 'Y/m/d H:m',
+      });
+
+      $("#datepicker1").datetimepicker({
+        format: 'm/d/y',
+      });
+    });
+  </script>
+<script type="text/javascript">
+var off = (new Date().getTimezoneOffset()/60).toString();
+$('#time_dif').val(off);
+
+</script>
+{% endblock %}
+
+{% endblock %}
