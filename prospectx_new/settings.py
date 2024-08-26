@@ -20,7 +20,7 @@ auth_token_twilio = ''
 twilio_api_key = ''
 twilio_service = ''
 
-BASE_API_URL = 'http://127.0.0.1:8000/'
+BASE_API_URL = 'http://127.0.0.1:8888/'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
